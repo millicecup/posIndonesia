@@ -1,0 +1,55 @@
+# pubspec.yaml
+name: jejakpos
+description: "JejakPOS - aplikasi pendamping Museum POS Indonesia (Explore, Discover, Collect)."
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+  flutter: ">=3.24.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management & routing
+  flutter_riverpod: ^2.6.1
+  go_router: ^14.8.1
+
+  # Lokasi & izin
+  geolocator: ^13.0.2
+  permission_handler: ^11.4.0
+
+  # Peta denah 2D (CrsSimple + gambar overlay)
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+
+  # QR scanner (kamera)
+  mobile_scanner: ^6.0.2
+
+  # Audio narasi & Mars Pos Indonesia
+  just_audio: ^0.9.42
+
+  # Penyimpanan lokal progres
+  shared_preferences: ^2.3.3
+
+  # --- Disiapkan untuk sprint berikutnya (sengaja di-comment agar build Sprint 1 ringan) ---
+  # camera: ^0.11.0+2                       # Postman Photo Studio (F08)
+  # google_mlkit_barcode_scanning: ^0.13.0  # alternatif mobile_scanner
+  # flutter_blue_plus: ^1.35.3              # PoC BLE beacon (PB05) - hanya perangkat fisik
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/data/
+    - assets/images/
+    - assets/images/pois/
+    - assets/images/stamps/
+    - assets/audio/
+    - assets/map/
