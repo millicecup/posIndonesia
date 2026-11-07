@@ -18,10 +18,14 @@ class PoiRepositoryImpl implements PoiRepository {
   PoiRepositoryImpl(
     this._dataSource, {
     AssetExistsChecker? assetExists,
+    this.remoteMediaEnabled = false,
   }) : _assetExists = assetExists ?? _defaultAssetExists;
 
   final PoiLocalDataSource _dataSource;
   final AssetExistsChecker _assetExists;
+
+  /// true = audio & foto POI boleh tidak ada di APK karena diunduh dari Hosting.
+  final bool remoteMediaEnabled;
 
   List<Poi>? _cache;
   Future<List<Poi>>? _loading;
@@ -207,8 +211,7 @@ class PoiRepositoryImpl implements PoiRepository {
 
       // Path aset harus ada di bundle.
       final assetPaths = <String>[
-        ...p.images,
-        if (p.audio != null) p.audio!,
+        if (!remoteMediaEnabled) ...p.mediaPaths,
         if (p.stamp.image != null) p.stamp.image!,
       ];
       for (final path in assetPaths) {

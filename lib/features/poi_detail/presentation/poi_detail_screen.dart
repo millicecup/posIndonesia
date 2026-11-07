@@ -14,6 +14,7 @@ import '../../../data/models/models.dart';
 import '../../../providers/providers.dart';
 import '../../../shared/widgets/async_value_view.dart';
 import '../../../shared/widgets/category_chip.dart';
+import '../../../shared/widgets/media_image.dart';
 import '../state/poi_detail_state.dart';
 
 class PoiDetailScreen extends ConsumerStatefulWidget {
@@ -86,7 +87,7 @@ class _PoiDetailBody extends ConsumerWidget {
         if (poi.coverImage != null)
           AspectRatio(
             aspectRatio: 3 / 2,
-            child: Image.asset(poi.coverImage!, fit: BoxFit.cover),
+            child: MediaImage(poi.coverImage!),
           ),
         Padding(
           padding: const EdgeInsets.all(16),

@@ -9,6 +9,7 @@ import '../../../app/theme.dart';
 import '../../../data/models/models.dart';
 import '../../../providers/providers.dart';
 import '../../../services/audio_service.dart';
+import '../../../shared/widgets/media_image.dart';
 import '../../../shared/widgets/async_value_view.dart';
 import '../state/audio_player_state.dart';
 
@@ -79,7 +80,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
                 if (poi.coverImage != null)
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(poi.coverImage!, height: 200, fit: BoxFit.cover),
+                    child: MediaImage(poi.coverImage!, height: 200),
                   ),
                 const SizedBox(height: 16),
                 Text(poi.name,

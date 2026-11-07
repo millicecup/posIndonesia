@@ -23,6 +23,11 @@ android/app/release/
 *.jks
 *.keystore
 
+# Firebase
+.firebase/
+firebase-debug.log
+
 # OS
 .DS_Store
 Thumbs.db
+docs/

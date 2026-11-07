@@ -19,6 +19,7 @@ import '../data/repositories/progress_repository_impl.dart';
 import '../services/audio_service.dart';
 import '../services/beacon_service.dart';
 import '../services/location_service.dart';
+import '../services/media_service.dart';
 import '../services/permission_service.dart';
 import '../services/qr_service.dart';
 import '../services/simulation_service.dart';
@@ -39,7 +40,10 @@ final poiLocalDataSourceProvider =
     Provider<PoiLocalDataSource>((ref) => PoiLocalDataSource());
 
 final poiRepositoryProvider = Provider<PoiRepository>(
-  (ref) => PoiRepositoryImpl(ref.watch(poiLocalDataSourceProvider)),
+  (ref) => PoiRepositoryImpl(
+    ref.watch(poiLocalDataSourceProvider),
+    remoteMediaEnabled: ref.watch(mediaServiceProvider).isRemoteEnabled,
+  ),
 );
 
 /// Semua POI (urut tourOrder).
@@ -117,8 +121,22 @@ final permissionServiceProvider =
 final locationServiceProvider =
     Provider<LocationService>((ref) => LocationService());
 
+final mediaServiceProvider = Provider<MediaService>((ref) {
+  final service = MediaService(baseUrl: ref.watch(appConfigProvider).mediaBaseUrl);
+  ref.onDispose(service.dispose);
+  return service;
+});
+
+/// Lokasi audio/foto. `download: false` hanya memeriksa APK dan cache.
+final mediaSourceProvider = FutureProvider.autoDispose
+    .family<MediaSource?, ({String path, bool download})>(
+  (ref, media) => ref
+      .watch(mediaServiceProvider)
+      .resolve(media.path, download: media.download),
+);
+
 final audioServiceProvider = Provider<AudioService>((ref) {
-  final service = AudioService();
+  final service = AudioService(media: ref.watch(mediaServiceProvider));
   ref.onDispose(service.dispose);
   return service;
 });

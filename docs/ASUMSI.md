@@ -33,6 +33,7 @@ Arti status:
 | A19 | Notifikasi saat trigger | 🟡 |
 | A20 | Library audio | 🟡 |
 | A21 | Nama paket Android dan versi package | ❌ |
+| A22 | Penyajian audio dan foto POI lewat internet | ❌ |
 
 ## 2. Rincian
 
@@ -157,10 +158,16 @@ Catatan: PB05 tidak bisa diselesaikan hanya dengan emulator. Panel simulasi berg
 - Tidak dibahas di PRD. Nama paket `id.jejakpos.jejakpos` (dari `flutter create --org id.jejakpos`).
 - Versi package di `pubspec.yaml` adalah versi stabil yang dikenal saat fondasi dibuat. Jangan menjalankan `flutter pub upgrade --major-versions` tanpa mengujinya dulu.
 
+### A22. Penyajian audio dan foto POI lewat internet: ❌
+- **PRD:** Tabel 8.1 hanya menyebut "JSON lokal" untuk data. NG05 mengecualikan sinkronisasi perangko lintas perangkat, bukan penyajian media.
+- **Di kode:** audio dan foto POI dicari di APK, lalu di cache HP, lalu diunduh dari Firebase Hosting. `pois.json`, denah, perangko, dan onboarding tetap di APK. Firebase Storage tidak dipakai karena mewajibkan paket berbayar Blaze.
+- **Tindak lanjut:** aktifkan setelah Project ID tersedia, lihat [MEDIA_HOSTING.md](MEDIA_HOSTING.md). Kuota transfer gratis sekitar 10 GB per bulan cukup untuk demo, bukan untuk operasional museum harian. Izin penggunaan foto dan audio (R3, PB06) perlu ada sebelum diunggah karena file di Hosting bersifat publik.
+
 ## 3. Usulan entri Change Log PRD (Bagian 10)
 
 | Version | Requirement / Backlog | Change | Reason |
 |---|---|---|---|
 | 1.1 | Tabel 4 (Trigger Rule) | Radius 5 m → 10 m | Konsisten dengan PB08, UI06, dan tabel state 5.2 |
 | 1.1 | 4.2 / Tabel 8.1 | Identifikasi POI: BLE beacon (utama) + QR (fallback); computer vision opsional | Konsisten dengan PB05, PB08, R1, dan wireframe. Final setelah hasil PoC PB05. |
+| 1.1 | Tabel 8.1 | Audio dan foto POI disajikan lewat Firebase Hosting dengan cache lokal; data POI tetap JSON lokal | Mengurangi ukuran APK saat konten asli masuk |
 | 1.1 | 2.1 Skenario | Perangko diperoleh lewat "Selesai & ambil perangko" setelah aktivitas POI | Konsisten dengan F08, PB13, dan UI10/UI13 |

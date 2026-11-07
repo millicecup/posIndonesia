@@ -7,14 +7,21 @@ import 'package:just_audio/just_audio.dart';
 
 import '../core/errors/app_exception.dart';
 import '../core/utils/app_logger.dart';
+import 'media_service.dart';
 
 enum AudioPlaybackStatus { idle, loading, playing, paused, completed }
 
 class AudioService {
-  AudioService({AudioPlayer? player}) : _player = player ?? AudioPlayer();
+  AudioService({required MediaService media, AudioPlayer? player})
+      : _media = media,
+        _player = player ?? AudioPlayer();
 
+  final MediaService _media;
   final AudioPlayer _player;
   String? _currentAsset;
+
+  // Naik saat stop(): unduhan yang selesai setelah layar ditutup tidak diputar.
+  int _loadGeneration = 0;
   static const _tag = 'AUDIO';
 
   String? get currentAsset => _currentAsset;
@@ -41,11 +48,23 @@ class AudioService {
         }
       });
 
-  /// Muat file audio dari assets (tidak dimuat ulang jika sama).
+  /// Muat audio dari aset, cache, atau Hosting (tidak dimuat ulang jika sama).
   Future<void> load(String assetPath) async {
     if (_currentAsset == assetPath) return;
+    final generation = _loadGeneration;
+    final source = await _media.resolve(assetPath);
+    if (generation != _loadGeneration) return;
+    if (source == null) {
+      throw const AudioException(
+          'Audio belum tersedia. Periksa koneksi internet, lalu coba lagi.');
+    }
     try {
-      await _player.setAsset(assetPath);
+      switch (source) {
+        case BundledMedia(assetPath: final bundledPath):
+          await _player.setAsset(bundledPath);
+        case CachedMedia(:final file):
+          await _player.setFilePath(file.path);
+      }
       _currentAsset = assetPath;
       AppLogger.info(_tag, 'Audio dimuat: $assetPath');
     } catch (e) {
@@ -58,6 +77,7 @@ class AudioService {
   /// jadi sengaja tidak di-await.
   Future<void> play(String assetPath) async {
     await load(assetPath);
+    if (_currentAsset != assetPath) return;
     if (_player.processingState == ProcessingState.completed) {
       await _player.seek(Duration.zero);
     }
@@ -72,6 +92,7 @@ class AudioService {
   }
 
   Future<void> stop() async {
+    _loadGeneration++;
     await _player.stop();
     _currentAsset = null;
   }

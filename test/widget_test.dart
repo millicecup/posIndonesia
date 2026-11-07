@@ -3,6 +3,7 @@
 // membuat widget_test.dart default yang mereferensikan MyApp.)
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jejakpos/shared/widgets/category_chip.dart';
 import 'package:jejakpos/shared/widgets/poi_card.dart';
@@ -14,8 +15,10 @@ void main() {
   testWidgets('PoiCard menampilkan id, nama, dan kategori', (tester) async {
     final poi = loadDataset().first;
     var tapped = false;
-    await tester.pumpWidget(MaterialApp(
-      home: Scaffold(body: PoiCard(poi: poi, onTap: () => tapped = true)),
+    await tester.pumpWidget(ProviderScope(
+      child: MaterialApp(
+        home: Scaffold(body: PoiCard(poi: poi, onTap: () => tapped = true)),
+      ),
     ));
     expect(find.textContaining(poi.name), findsOneWidget);
     expect(find.text(poi.category.label), findsOneWidget);

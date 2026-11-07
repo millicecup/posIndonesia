@@ -37,6 +37,7 @@ flutter build apk --debug
 | [docs/ARSITEKTUR.md](docs/ARSITEKTUR.md) | Pilihan teknologi, diagram lapisan, alur data dan trigger, pohon folder + PIC, peta rute |
 | [docs/PANDUAN_EMULATOR.md](docs/PANDUAN_EMULATOR.md) | AVD, izin, simulasi lokasi/GPX, keterbatasan emulator, membaca log, build APK |
 | [docs/TUGAS_SPRINT1.md](docs/TUGAS_SPRINT1.md) | Tugas per anggota, git workflow, urutan kerja, checklist PB01–PB05 |
+| [docs/MEDIA_HOSTING.md](docs/MEDIA_HOSTING.md) | Audio dan foto POI di Firebase Hosting: cara mengaktifkan, mengganti file, dan batas kuota |
 | [docs/ASUMSI.md](docs/ASUMSI.md) | Asumsi yang sudah ditelaah terhadap PRD: terjawab, sebagian, belum, atau tidak konsisten |
 | [docs/ASUMSI.md](docs/ASUMSI.md) bagian 3 | Usulan entri Change Log PRD |
 | [docs/gpx/jalan_masuk_p12_p02_p01.gpx](docs/gpx/jalan_masuk_p12_p02_p01.gpx) | Rute uji emulator |

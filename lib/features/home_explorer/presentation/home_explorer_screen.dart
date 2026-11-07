@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/routes.dart';
 import '../../../app/theme.dart';
+import '../../media_download/presentation/media_download_card.dart';
 import '../../../providers/providers.dart';
 import '../../../shared/widgets/async_value_view.dart';
 import '../../../shared/widgets/poi_card.dart';
@@ -96,6 +97,7 @@ class HomeExplorerScreen extends ConsumerWidget {
                   ],
                 ),
               ),
+              const MediaDownloadCard(),
               if (recommended != null)
                 Card(
                   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

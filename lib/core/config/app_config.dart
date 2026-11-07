@@ -14,6 +14,7 @@ class AppConfig {
     this.beaconRssiThreshold = -75,
     this.simulationModeDefault = false,
     this.simulationTickInterval = const Duration(seconds: 1),
+    this.mediaBaseUrl = '',
   });
 
   /// Radius trigger default. PRD tabel POI = 5 m, Sprint 2/wireframe = 10 m.
@@ -46,9 +47,14 @@ class AppConfig {
   final bool simulationModeDefault;
   final Duration simulationTickInterval;
 
+  /// Alamat Firebase Hosting untuk audio & foto POI. Kosong = hanya aset APK.
+  /// Diisi lewat `--dart-define=MEDIA_BASE_URL=https://<project-id>.web.app`.
+  final String mediaBaseUrl;
+
   /// Konfigurasi default membaca flag --dart-define.
   factory AppConfig.fromEnvironment() {
     const sim = bool.fromEnvironment('SIMULATION', defaultValue: false);
-    return const AppConfig(simulationModeDefault: sim);
+    const mediaUrl = String.fromEnvironment('MEDIA_BASE_URL');
+    return const AppConfig(simulationModeDefault: sim, mediaBaseUrl: mediaUrl);
   }
 }

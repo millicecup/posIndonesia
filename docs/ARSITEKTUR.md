@@ -13,7 +13,8 @@
 | Peta | `flutter_map` + `latlong2` | ^7.0.2, ^0.9.1 | Mendukung `CrsSimple`, jadi denah bisa berupa gambar biasa tanpa koordinat asli. |
 | QR | `mobile_scanner` | ^6.0.2 | Kamera + decode QR dalam satu widget (ML Kit di Android). |
 | Audio | `just_audio` | ^0.9.42 | Stream posisi, durasi, dan status yang rapi untuk play, pause, lanjut, dan seek. Di Android memakai ExoPlayer/Media3 (PRD 8.1 menyebut "Android Media3/audioplayers", lihat ASUMSI A20). |
-| Penyimpanan | `shared_preferences` | ^2.3.3 | Cukup untuk list id kunjungan dan perangko. Tidak ada cloud (non-goal). |
+| Penyimpanan | `shared_preferences` | ^2.3.3 | Cukup untuk list id kunjungan dan perangko. Tidak ada sinkronisasi cloud (NG05). |
+| Media POI | Firebase Hosting (Spark) + `path_provider` | ^2.1.6 | Audio dan foto bisa dikeluarkan dari APK tanpa SDK Firebase dan tanpa biaya. Lihat [MEDIA_HOSTING.md](MEDIA_HOSTING.md). |
 | Data POI | JSON lokal di `assets/data/pois.json` | – | Mudah diedit tim konten tanpa mengubah kode. |
 | BLE | `flutter_blue_plus` | ^1.35.3 (di-comment) | Hanya untuk PoC PB05 di perangkat fisik. Di emulator memakai simulasi. |
 | Kamera (Photo Studio) | `camera` | ^0.11.0+2 (di-comment) | Disiapkan untuk Sprint berikutnya. |

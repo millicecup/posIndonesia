@@ -90,6 +90,9 @@ class Poi {
   bool get hasCoordinates => latitude != null && longitude != null;
   String? get coverImage => images.isEmpty ? null : images.first;
 
+  /// File yang boleh disajikan dari Firebase Hosting, bukan dari APK.
+  List<String> get mediaPaths => [...images, if (hasAudio) audio!];
+
   factory Poi.fromJson(Map<String, dynamic> json) {
     final ctx = 'POI ${json['id'] ?? '(tanpa id)'}';
     return Poi(

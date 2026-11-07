@@ -37,4 +37,5 @@ class AppConstants {
   static const String logTagData = 'DATA';
   static const String logTagQr = 'QR';
   static const String logTagBeacon = 'BEACON';
+  static const String logTagMedia = 'MEDIA';
 }

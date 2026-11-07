@@ -12,6 +12,7 @@ import '../../../app/theme.dart';
 import '../../../data/models/models.dart';
 import '../../../providers/providers.dart';
 import '../../../shared/widgets/async_value_view.dart';
+import '../../../shared/widgets/media_image.dart';
 
 class TriggerAlertScreen extends ConsumerWidget {
   const TriggerAlertScreen({super.key, required this.poiId});
@@ -52,7 +53,7 @@ class TriggerAlertScreen extends ConsumerWidget {
                     if (p.coverImage != null)
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: Image.asset(p.coverImage!, height: 180, fit: BoxFit.cover),
+                        child: MediaImage(p.coverImage!, height: 180),
                       ),
                     const SizedBox(height: 16),
                     Text(p.systemResponse, textAlign: TextAlign.center),

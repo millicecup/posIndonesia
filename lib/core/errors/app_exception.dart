@@ -31,3 +31,8 @@ class LocationException extends AppException {
 class AudioException extends AppException {
   const AudioException(super.message, {super.cause});
 }
+
+/// Gagal mengunduh audio/foto dari Firebase Hosting.
+class MediaException extends AppException {
+  const MediaException(super.message, {super.cause});
+}

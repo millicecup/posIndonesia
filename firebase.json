@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "public": "assets",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "data/**",
+      "map/**",
+      "images/stamps/**",
+      "images/onboarding.png"
+    ]
+  }
+}

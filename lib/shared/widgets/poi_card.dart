@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../../app/theme.dart';
 import '../../data/models/poi.dart';
 import 'category_chip.dart';
+import 'media_image.dart';
 
 class PoiCard extends StatelessWidget {
   const PoiCard({
@@ -44,14 +45,7 @@ class PoiCard extends StatelessWidget {
                           color: AppColors.lightGrey,
                           child: Icon(Icons.image_not_supported),
                         )
-                      : Image.asset(
-                          cover,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => const ColoredBox(
-                            color: AppColors.lightGrey,
-                            child: Icon(Icons.broken_image),
-                          ),
-                        ),
+                      : MediaImage(cover, download: false),
                 ),
               ),
               const SizedBox(width: 12),
