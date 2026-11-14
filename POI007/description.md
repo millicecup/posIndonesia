@@ -26,3 +26,9 @@ Seri Prangko Cerita Rakyat tahun 1999 dengan nominal 500 menampilkan berbagai ki
 - Prangko Emas peringatan satu abad kelahiran Mohammad Hatta diproduksi terbatas sebanyak 500 lembar, dengan berat 3 gram dan ketebalan 0,1 milimeter.
 
 ## Gambar
+1. Sir Rowland Hill
+2. Penny Black
+3. Prangko Geser
+4. Prangko Emas
+5. Prangko Cerita Rakyat 1
+6. Prangko Cerita Rakyat 2
