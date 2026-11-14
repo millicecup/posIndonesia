@@ -1,0 +1,66 @@
+{
+  "poi_id": "POI002",
+  "quiz_title": "Kuis Sejarah Pos di Indonesia",
+  "questions": [
+    {
+      "id": "Q001",
+      "question": "Bagaimana cara penyampaian pesan jarak jauh yang digunakan oleh para caraka pada masa kerajaan di Nusantara?",
+      "options": [
+        {"id": "A", "text": "Menggunakan burung merpati pos dan kapal cepat"},
+        {"id": "B", "text": "Melalui pos teriak, sinyal asap, hingga naskah lontar"},
+        {"id": "C", "text": "Menggunakan telegraf nirkabel dan kurir berkuda khusus"},
+        {"id": "D", "text": "Menyebarkan selebaran kurir tiap desa"}
+      ],
+      "correct_answer": "B",
+      "explanation": "Sebelum adanya sistem pos modern, komunikasi jarak jauh pada masa kerajaan masih bergantung pada metode tradisional dan utusan khusus (caraka) yang menyampaikan pesan secara berantai lewat suara (pos teriak), tanda visual (sinyal asap), maupun tulisan di atas daun lontar."
+    },
+    {
+      "id": "Q002",
+      "question": "Pada masa VOC, di manakan surat-surat yang dikirim lewat kapal dagang biasanga dipajang?",
+      "options": [
+        {"id": "A", "text": "Di pelabuhan utama Belanda"},
+        {"id": "B", "text": "Di balai kota kolonial"},
+        {"id": "C", "text": "Di penginapan kota (Stadsherberg)"},
+        {"id": "D", "text": "Di kantor dagang pusat VOC"}
+      ],
+      "correct_answer": "C",
+      "explanation": "Pada era VOC, belum ada kantor pos resmi ataupun layanan antar ke alamat rumah. Karena pengiriman lewat kapal dagang memakan waktu berbulan-bulan, surat-surat yang tiba dikumpulkan dan dipajang di Stadsherberg (penginapan kota) yang menjadi titik kumpul warga dan pedagang agar penerima bisa mengecek dan mengambil suratnya sendiri."
+    },
+    {
+       "id": "Q003",
+      "question": "Infrastruktur apa yang dibangun pada era Daendels yang berhasil memangkas waktu pengiriman surat dari 2 minggu menjadi 3-4 hari?",
+      "options": [
+        {"id": "A", "text": "Jalur kereta api trans-Jawa"},
+        {"id": "B", "text": "Jalan Raya Pos Anyer-Panarukan"},
+        {"id": "C", "text": "Pelabuhan transit Nusantara"},
+        {"id": "D", "text": "Jaringan telegraf darat pertama"}
+      ],
+      "correct_answer": "B",
+      "explanation": "Gubernur Jenderal Herman Willem Daendels membangun jalur darat De Grote Postweg (Jalan Raya Pos) yang membentang dari Anyer hingga Panarukan pada 1808–1811. Keberadaan jalur ini mempercepat lalu lintas kurir berkuda secara drastis, memangkas waktu pengiriman surat lintas Jawa dari sekitar 2 minggu menjadi hanya 3–4 hari."
+    }.
+    {
+    "id": "Q004",
+      "question": "Siapakah arsitektur perancang Gedung PTT di Sayap Timur Gedung Sate?",
+      "options": [
+        {"id": "A", "text": "H. Maclaine Pont"},
+        {"id": "B", "text": "Thomas Karsten"},
+        {"id": "C", "text": "J. Herberg"},
+        {"id": "D", "text": "C.P. Wolff Schoemaker"}
+      ],
+      "correct_answer": "C",
+      "explanation": "Gedung PTT di sayap timur kompleks Gedung Sate dirancang oleh arsitek J. Herberg dengan peletakan batu pertama pada 27 Juli 1920. Ciri khas arsitekturnya adalah orientasi bangunan yang diposisikan miring 45° terhadap Gedung Sate."
+      }.
+    {
+    "id": "Q005",
+      "question": "Peristiwa penting apa yang terjadi pada tanggal 27 September 1945 sehingga diperingati sebagai Hari Bakti Postel?",
+      "options": [
+        {"id": "A", "text": "Peresmian Gedung Sate sebagai pusat telekomunikasi"},
+        {"id": "B", "text": "Pengambilalihan Gedung PTT dari tangan Jepang oleh Angkatan Muda PTT"},
+        {"id": "C", "text": "Penandatanganan traktat pos internasional pertama oleh Indonesia Merdeka"},
+        {"id": "D", "text": "Surat emas yang berkembang menjadi layanan pos dan telegraaf"}
+      ],
+      "correct_answer": "B",
+      "explanation": "Pada 27 September 1945, para pemuda yang tergabung dalam Angkatan Muda PTT (AMPTT) berhasil merebut dan mengambil alih pengelolaan Kantor Pos Besar / Gedung PTT dari kekuasaan Jepang. Peristiwa bersejarah ini menjadi tonggak kedaulatan komunikasi Indonesia dan diperingati setiap tahun sebagai Hari Bakti Postel."
+    }
+  ]
+}
