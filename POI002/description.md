@@ -1,7 +1,7 @@
 # POI 002 - Sejarah Pos Indonesia
 
 ## Ringkasan
-### Sejarah Pos NUsantara
+### Sejarah Pos Nusantara
 Sejarah Perposan di Nusantara berkembang dari tradisi lisan hingga menjadi urat nadi komunikasi bangsa. Di era kerajaan, pesan jarak jauh disampaikan lewat pos teriak, sinyal asap, hingga naskah lontar oleh para caraka. 
 
 Pada masa VOC, pengiriman surat bergantung pada kapal dagang yang memakan waktu berbulan-bulan dan dipajang di penginapan kota (Stadsherberg). 
