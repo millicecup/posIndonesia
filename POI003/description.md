@@ -1,10 +1,18 @@
 ## Ringkasan
-Perjalanan kepemimpinan Pos Indonesia dimulai pada masa kolonial Belanda melalui Post, Telegraaf en Telefoondienst (PTT), lembaga yang mengelola layanan pos, telegraf, dan telepon. Setelah Indonesia merdeka pada 1945, pemerintah Indonesia mengambil alih pengelolaan layanan tersebut melalui Jawatan Pos, Telegraf dan Telepon.
-Seiring perkembangannya, lembaga ini beberapa kali berganti nama dan bentuk organisasi. Pada 1961, Jawatan Pos, Telegraf dan Telepon menjadi PN Pos dan Telekomunikasi. Empat tahun kemudian, pada 1965, layanan pos dipisahkan dari telekomunikasi dan mulai dikelola oleh PN Pos dan Giro. Organisasi ini kemudian menjadi Perum Pos dan Giro pada 1978, sebelum akhirnya resmi menjadi PT Pos Indonesia (Persero) pada 1995.
-Sepanjang perubahan tersebut, para pimpinan dari berbagai masa berperan dalam mengelola, mengembangkan, dan menyesuaikan layanan pos dengan kebutuhan masyarakat. Perjalanan ini memperlihatkan bagaimana Pos Indonesia, yang berawal dari lembaga pengelola layanan komunikasi, berkembang menjadi perusahaan yang menyediakan layanan pos, kurir, logistik, dan jasa keuangan.
+Sejarah kepemimpinan Pos Indonesia mengikuti perubahan organisasi yang mengelola layanan pos. Pada masa Hindia Belanda, layanan pos, telegraf, dan telepon dikelola oleh *Post, Telegraaf en Telefoondienst* (PTT). Setelah kemerdekaan, pengelolaannya beralih ke pemerintah Indonesia. Dalam perkembangannya, layanan pos dipisahkan dari telekomunikasi, dan Pos Indonesia kemudian memperluas layanannya hingga mencakup kurir, logistik, dan jasa keuangan.
 
-## Fakta Unik
-Layanan surat, telegram, dan telepon dulu berada di bawah satu lembaga. Pada 1965, layanan pos dan telekomunikasi dipisahkan, dan layanan pos mulai dikelola oleh PN Pos dan Giro.
+Di Museum Pos Indonesia, perjalanan kepemimpinan ini juga didokumentasikan melalui koleksi tera tangan direksi. Tera tangan adalah cap atau cetakan tangan dari pimpinan yang pernah menjabat. Setiap cetakan mewakili seorang tokoh pada masa jabatannya dan membantu pengunjung mengenal para pimpinan yang berperan dalam perkembangan layanan pos di Indonesia.
+
+## Linimasa Pos Indonesia
+
+- **Masa Hindia Belanda** — PTT mengelola layanan pos, telegraf, dan telepon.
+- **1945** — Setelah kemerdekaan, pemerintah Indonesia mengambil alih pengelolaan layanan melalui Jawatan Pos, Telegraf dan Telepon.
+- **1961** — Jawatan tersebut berubah menjadi PN Pos dan Telekomunikasi.
+- **1965** — Layanan pos dipisahkan dari telekomunikasi dan mulai dikelola oleh PN Pos dan Giro.
+- **1978** — PN Pos dan Giro berubah menjadi Perum Pos dan Giro.
+- **1995** — Perum Pos dan Giro resmi menjadi PT Pos Indonesia (Persero).
 
 ## Gambar
-1. Pajangan sejarah kepemimpinan Pos Indonesia
+
+1. Pajangan sejarah kepemimpinan Pos Indonesia.
+2. Koleksi tera tangan direksi Pos Indonesia.
