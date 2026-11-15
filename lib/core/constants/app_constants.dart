@@ -9,7 +9,7 @@ class AppConstants {
 
   // Path aset
   static const String poiDatasetPath = 'assets/data/pois.json';
-  static const String museumMapImage = 'assets/map/museum_floor_plan.png';
+  static const String museumMapImage = 'assets/map/Denah2D_Real.jpg';
   static const String onboardingImage = 'assets/images/onboarding.png';
 
   // Ukuran gambar denah (dipakai untuk konversi mapPosition 0-1 ke koordinat peta)
