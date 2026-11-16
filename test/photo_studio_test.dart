@@ -140,6 +140,19 @@ void main() {
     expect(find.text('Tersimpan'), findsOneWidget);
     expect(find.text('Buka galeri'), findsOneWidget);
     expect(gallery.saved!.take(8), [137, 80, 78, 71, 13, 10, 26, 10]);
+    await tester.pump(const Duration(seconds: 5));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Ulangi'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Lihat hasil'));
+    await tester.pumpAndSettle();
+    for (var i = 0; i < 20 && find.text('Hasil Foto').evaluate().isEmpty; i++) {
+      await tester.runAsync(
+          () => Future<void>.delayed(const Duration(milliseconds: 20)));
+      await tester.pump();
+    }
+    expect(find.text('Simpan ke galeri'), findsOneWidget);
+    expect(find.text('Tersimpan'), findsNothing);
   });
 
   test('every colour has matching original PNG assets and aspect ratios', () {

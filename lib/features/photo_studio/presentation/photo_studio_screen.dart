@@ -182,7 +182,10 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
       try {
         final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
         if (!mounted || bytes == null) return;
-        setState(() => _result = bytes.buffer.asUint8List());
+        setState(() {
+          _result = bytes.buffer.asUint8List();
+          _saved = false;
+        });
       } finally {
         image.dispose();
       }
