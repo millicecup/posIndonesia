@@ -37,10 +37,10 @@ class RouteGuidanceScreen extends ConsumerWidget {
         data: (poi) {
           if (poi == null) return const Center(child: Text('POI tidak ditemukan'));
 
-          // Titik awal di denah: POI terakhir dikunjungi, atau pintu masuk (P12).
+          // Titik awal di denah: POI terakhir dikunjungi, atau pintu masuk (P11 Stempel Museum; PRD v1: P12).
           final lastId = (progress?.visitedPoiIds.isNotEmpty ?? false)
               ? progress!.visitedPoiIds.last
-              : 'P12';
+              : 'P11';
           Poi? from;
           for (final p in pois) {
             if (p.id == lastId) from = p;

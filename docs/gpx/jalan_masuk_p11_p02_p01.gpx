@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- docs/gpx/jalan_masuk_p12_p02_p01.gpx
-     Rute uji emulator: mulai di luar pintu masuk, berjalan ke P12 (stempel, pintu masuk),
+<!-- docs/gpx/jalan_masuk_p11_p02_p01.gpx (PRD v2; dulu jalan_masuk_p12_p02_p01.gpx)
+     Rute uji emulator: mulai di luar pintu masuk, berjalan ke P11 (stempel, pintu masuk; PRD v1: P12),
      P02 (lorong pintu masuk), lalu P01 (ruang awal). Langkah +-5 m tiap 3 detik.
      Koordinat PLACEHOLDER (sama dengan pois.json), bukan lokasi asli ruang museum. -->
 <gpx version="1.1" creator="JejakPOS" xmlns="http://www.topografix.com/GPX/1/1">
   <trk>
-    <name>JejakPOS - pintu masuk ke P12, P02, P01</name>
+    <name>JejakPOS - pintu masuk ke P11 (Stempel; PRD v1 P12), P02, P01</name>
     <trkseg>
       <trkpt lat="-6.903390" lon="107.619750"><time>2026-11-03T08:00:00Z</time></trkpt>
       <trkpt lat="-6.903350" lon="107.619750"><time>2026-11-03T08:00:03Z</time></trkpt>

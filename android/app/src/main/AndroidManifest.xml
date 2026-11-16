@@ -7,6 +7,8 @@
 
     <!-- Kamera: QR fallback (UI12) & Photo Studio (sprint berikutnya) -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Photo Studio (F08): simpan foto ke galeri. Android 10+ tidak butuh izin ini (paket gal). -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <!-- Notifikasi POI (Android 13+) -->
@@ -24,6 +26,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:requestLegacyExternalStorage="true"
         android:label="JejakPOS"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
@@ -54,6 +57,10 @@
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
+        </intent>
+        <!-- Pemandu suara (Text-to-Speech bawaan Android, flutter_tts) di Android 11+ -->
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE"/>
         </intent>
     </queries>
 </manifest>

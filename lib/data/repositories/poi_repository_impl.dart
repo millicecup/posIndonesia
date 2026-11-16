@@ -19,6 +19,7 @@ class PoiRepositoryImpl implements PoiRepository {
     this._dataSource, {
     AssetExistsChecker? assetExists,
     this.remoteMediaEnabled = false,
+    this.includeBacklog = false,
   }) : _assetExists = assetExists ?? _defaultAssetExists;
 
   final PoiLocalDataSource _dataSource;
@@ -26,6 +27,10 @@ class PoiRepositoryImpl implements PoiRepository {
 
   /// true = audio & foto POI boleh tidak ada di APK karena diunduh dari Hosting.
   final bool remoteMediaEnabled;
+
+  /// false (default) = POI kandidat/backlog (baseline=false, mis. P12-P13) tidak
+  /// ditampilkan di aplikasi dan tidak bisa terpicu. Datanya tetap ada di pois.json.
+  final bool includeBacklog;
 
   List<Poi>? _cache;
   Future<List<Poi>>? _loading;
@@ -47,6 +52,13 @@ class PoiRepositoryImpl implements PoiRepository {
 
   @override
   Future<List<Poi>> getAllPois() async {
+    final all = await getAllPoisIncludingBacklog();
+    if (includeBacklog) return all;
+    return List.unmodifiable(all.where((p) => p.isBaseline));
+  }
+
+  /// Seluruh isi dataset, termasuk POI kandidat/backlog (untuk validasi).
+  Future<List<Poi>> getAllPoisIncludingBacklog() async {
     final cached = _cache;
     if (cached != null) return cached;
     // Hindari load ganda jika dipanggil bersamaan.
@@ -159,7 +171,7 @@ class PoiRepositoryImpl implements PoiRepository {
     final warnings = <String>[];
     List<Poi> pois;
     try {
-      pois = await getAllPois();
+      pois = await getAllPoisIncludingBacklog();
     } catch (e) {
       return DatasetValidationReport(
           poiCount: 0, errors: ['Dataset gagal dimuat: $e'], warnings: const []);
@@ -168,6 +180,12 @@ class PoiRepositoryImpl implements PoiRepository {
     if (pois.length < AppConstants.minimumPoiCount) {
       errors.add(
           'Jumlah POI ${pois.length}, minimal ${AppConstants.minimumPoiCount}');
+    }
+    // G08/F03: minimal 10 POI baseline (PRD v2 Tabel 4), kandidat tambahan tidak dihitung.
+    final baselineCount = pois.where((p) => p.isBaseline).length;
+    if (baselineCount < AppConstants.minimumPoiCount) {
+      errors.add('Jumlah POI baseline $baselineCount, '
+          'minimal ${AppConstants.minimumPoiCount}');
     }
 
     final ids = <String>{};
@@ -225,13 +243,19 @@ class PoiRepositoryImpl implements PoiRepository {
         warnings.add('$tag: koordinat masih PLACEHOLDER');
       }
       if (!p.contentValidated) warnings.add('$tag: konten PERLU VALIDASI MUSEUM');
+      if (!p.isBaseline) {
+        warnings.add('$tag: kandidat tambahan, tidak ada di PRD v2 Tabel 4 (NG08)');
+      }
       if (p.triggerRule.radiusNeedsConfirmation) {
-        warnings.add('$tag: radius trigger perlu konfirmasi (5 m vs 10 m)');
+        warnings.add('$tag: radius trigger perlu konfirmasi (PRD v2 PB08: 5 m, kode: 10 m)');
       }
     }
 
+    // poiCount = POI yang tampil di aplikasi (baseline), kandidat dicatat di warnings.
     final report = DatasetValidationReport(
-        poiCount: pois.length, errors: errors, warnings: warnings);
+        poiCount: includeBacklog ? pois.length : baselineCount,
+        errors: errors,
+        warnings: warnings);
     AppLogger.info(AppConstants.logTagData, report.toString());
     for (final e in errors) {
       AppLogger.error(AppConstants.logTagData, e);

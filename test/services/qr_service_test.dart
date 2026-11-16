@@ -17,8 +17,8 @@ void main() {
 
   test('QR huruf kecil / berupa URL tetap dikenali', () async {
     expect(await qr.validate(' qr-p02 '), isA<QrValid>());
-    final fromUrl = await qr.validate('https://jejakpos.example/scan/QR-P12');
-    expect((fromUrl as QrValid).poi.id, 'P12');
+    final fromUrl = await qr.validate('https://jejakpos.example/scan/QR-P11');
+    expect((fromUrl as QrValid).poi.id, 'P11');
   });
 
   test('format salah -> QrInvalidFormat', () async {

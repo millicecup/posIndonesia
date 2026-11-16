@@ -1,6 +1,6 @@
 // lib/features/map_navigation/presentation/map_screen.dart
 // UI05 Explore Map state 1 (di luar area POI) & UI06 state 2 (mendekati POI ±15 m).
-// Denah 2D (gambar overlay) + marker 13 POI (F01, F06). Wireframe: PRD Gambar 5.3.
+// Denah 2D (gambar overlay) + marker 13 POI (11 baseline PRD v2 + 2 kandidat) (F01, F06). Wireframe: PRD Gambar 5.3.
 // Marker oranye = sedang didekati/terpicu (status dari TriggerEngine).
 // TODO(Farella/Firda): banner "Memindai beacon..." (state 1) / "Mendekati: <POI> ≈ 15 m" (state 2),
 //   kartu "POI terdekat", lingkaran radius trigger 10 m, titik "Kamu".

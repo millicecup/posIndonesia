@@ -47,30 +47,32 @@ Buka **⋯ (Extended Controls) → Location** di panel emulator.
 
 **a. Titik tunggal**: pada tab *Single points*, cari atau klik peta, lalu tekan **Set Location**. Koordinat placeholder POI (diturunkan dari posisi denah wireframe PRD, skala fiktif 200 m × 160 m):
 
-| POI | Latitude | Longitude | Posisi denah (x, y) | Ruang (denah ilustratif) |
-|---|---|---|---|---|
-| P01 | -6.902882 | 107.619134 | 0.16, 0.80 | Ruang Awal |
-| P02 | -6.902867 | 107.619750 | 0.50, 0.79 | Ruang Awal (lorong pintu masuk) |
-| P03 | -6.902436 | 107.619080 | 0.13, 0.49 | Ruang 2 |
-| P04 | -6.901932 | 107.620167 | 0.73, 0.14 | Ruang 4 |
-| P05 | -6.902364 | 107.619750 | 0.50, 0.44 | Lorong |
-| P06 | -6.902522 | 107.619297 | 0.25, 0.55 | Ruang 2 |
-| P07 | -6.902565 | 107.620058 | 0.67, 0.58 | Ruang 3 |
-| P08 | -6.902306 | 107.619496 | 0.36, 0.40 | Ruang 2 |
-| P09 | -6.902321 | 107.620348 | 0.83, 0.41 | Ruang 3 |
-| P10 | -6.901932 | 107.619388 | 0.30, 0.14 | Ruang 4 |
-| P11 | -6.902882 | 107.620348 | 0.83, 0.80 | Ruang Awal |
-| P12 | -6.903069 | 107.619750 | 0.50, 0.93 | Pintu masuk |
-| P13 | -6.902608 | 107.619750 | 0.50, 0.61 | Lorong |
-| *Luar pintu masuk* | -6.903390 | 107.619750 | – | titik awal uji |
+Penomoran mengikuti **PRD v2 Tabel 4** (P01–P11 baseline, P12–P13 kandidat tambahan). Kolom *Nomor PRD v1* menunjukkan nomor lama. Koordinat tidak berubah, hanya nomornya.
 
-Jarak antar-POI minimal ±22 m (P02–P12), sehingga radius trigger 10 m tidak tumpang tindih (diuji di `poi_parsing_test.dart`). **Semua koordinat ini PLACEHOLDER.**
+| POI (PRD v2) | Nama | Nomor PRD v1 | Latitude | Longitude | Posisi denah (x, y) | Ruang (denah ilustratif) |
+|---|---|---|---|---|---|---|
+| P01 | Sejarah Komunikasi Tertulis di Nusantara | P01 | -6.902882 | 107.619134 | 0.16, 0.80 | Ruang Awal |
+| P02 | Sejarah Pos Indonesia | P02 | -6.902867 | 107.619750 | 0.50, 0.79 | Ruang Awal (lorong pintu masuk) |
+| P03 | Sejarah Kepemimpinan Pos Indonesia | P04 | -6.901932 | 107.620167 | 0.73, 0.14 | Ruang 4 |
+| P04 | Sejarah Seragam Petugas Pos | P06 | -6.902522 | 107.619297 | 0.25, 0.55 | Ruang 2 |
+| P05 | Proses Pembuatan Prangko | P07 | -6.902565 | 107.620058 | 0.67, 0.58 | Ruang 3 |
+| P06 | Kode Pos di Indonesia | P08 | -6.902306 | 107.619496 | 0.36, 0.40 | Ruang 2 |
+| P07 | Koleksi Prangko Lemari Geser | P09 | -6.902321 | 107.620348 | 0.83, 0.41 | Ruang 3 |
+| P08 | Tokoh Mas Soeharto | P10 | -6.901932 | 107.619388 | 0.30, 0.14 | Ruang 4 |
+| P09 | Koleksi Kotak Pos | P11 | -6.902882 | 107.620348 | 0.83, 0.80 | Ruang Awal |
+| P10 | Mars Pos Indonesia | P05 | -6.902364 | 107.619750 | 0.50, 0.44 | Lorong |
+| P11 | Stempel Museum | P12 | -6.903069 | 107.619750 | 0.50, 0.93 | Pintu masuk |
+| P12 *(kandidat)* | Koleksi Peralatan Pos | P03 | -6.902436 | 107.619080 | 0.13, 0.49 | Ruang 2 |
+| P13 *(kandidat)* | Tempat Pos Kereta Api | P13 | -6.902608 | 107.619750 | 0.50, 0.61 | Lorong |
+| *Luar pintu masuk* | – | – | -6.903390 | 107.619750 | – | titik awal uji |
 
-**b. Rute / GPX**: pada tab *Routes*, tekan **Import GPX/KML**, pilih [docs/gpx/jalan_masuk_p12_p02_p01.gpx](gpx/jalan_masuk_p12_p02_p01.gpx), lalu **Play Route** (kecepatan 1x–4x). Rute dimulai di luar pintu masuk, berjalan ke P12 (stempel), P02 (lorong pintu masuk), lalu P01 (ruang awal), dengan jeda singkat di tiap POI. Hasil yang diharapkan:
+Jarak antar-POI minimal ±22 m (P02–P11; PRD v1: P02–P12), sehingga radius trigger 10 m tidak tumpang tindih (diuji di `poi_parsing_test.dart`). **Semua koordinat ini PLACEHOLDER.**
+
+**b. Rute / GPX**: pada tab *Routes*, tekan **Import GPX/KML**, pilih [docs/gpx/jalan_masuk_p11_p02_p01.gpx](gpx/jalan_masuk_p11_p02_p01.gpx) (dulu `jalan_masuk_p12_p02_p01.gpx`), lalu **Play Route** (kecepatan 1x–4x). Rute dimulai di luar pintu masuk, berjalan ke P11 (stempel; PRD v1: P12), P02 (lorong pintu masuk), lalu P01 (ruang awal), dengan jeda singkat di tiap POI. Hasil yang diharapkan:
 - Log `Masuk area museum`.
-- Log `approaching` P12 saat jarak ±15 m (state 2 / UI06).
-- Log `triggered` P12 **satu kali**, disertai SnackBar "Kamu berada di zona P12 …" dan tombol **LIHAT** ke UI08.
-- Berjalan ke P02: `triggered` P02, lalu `exited` P12. Kemudian ke P01: `triggered` P01.
+- Log `approaching` P11 saat jarak ±15 m (state 2 / UI06).
+- Log `triggered` P11 **satu kali**, disertai SnackBar "Kamu berada di zona P11 …" dan tombol **LIHAT** ke UI08.
+- Berjalan ke P02: `triggered` P02, lalu `exited` P11. Kemudian ke P01: `triggered` P01.
 - Putar ulang rute: **tidak ada** `triggered` lagi ("sudah terpicu sesi ini"), walaupun aplikasi ditutup dan dibuka ulang. Tekan **Akhiri kunjungan** di tab Progres untuk memulai kunjungan baru.
 
 Cuplikan format GPX:
@@ -107,9 +109,9 @@ Cuplikan format GPX:
 - Format log:
   ```
   JejakPOS [08:00:30][LOKASI] Lokasi terbaca: -6.903206, 107.619750 (±5.0 m, gps)
-  JejakPOS [08:00:30][TRIGGER] TriggerEvent(P12, approaching, gps, 15.0 m)
-  JejakPOS [08:00:36][TRIGGER] TriggerEvent(P12, triggered, gps, 9.8 m)
-  JejakPOS [08:01:40][TRIGGER] P12 dimasuki lagi, sudah terpicu sesi ini (tidak diulang)
+  JejakPOS [08:00:30][TRIGGER] TriggerEvent(P11, approaching, gps, 15.0 m)
+  JejakPOS [08:00:36][TRIGGER] TriggerEvent(P11, triggered, gps, 9.8 m)
+  JejakPOS [08:01:40][TRIGGER] P11 dimasuki lagi, sudah terpicu sesi ini (tidak diulang)
   JejakPOS [08:00:01][DATA] 13 POI dimuat dari assets/data/pois.json
   ```
 - Log yang sama tampil di **UI02 → Log Deteksi**. Rekam layar bagian ini untuk evidence PB02.

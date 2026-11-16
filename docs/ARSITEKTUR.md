@@ -104,6 +104,7 @@ posIndonesia/
 ├── android/app/src/main/AndroidManifest.xml  # izin lokasi/kamera/notif/BLE      [Matilda]
 ├── assets/                                                       ── BACKEND/DATA ──
 │   ├── data/pois.json                   # dataset 13 POI (placeholder konten)    [Matilda]
+│   │                                    # PRD v2: P01-P11 baseline, P12-P13 kandidat (field baseline, prdV1Id)
 │   ├── images/pois/                     # foto POI placeholder pNN_1.png          [Matilda]
 │   ├── images/stamps/                   # gambar perangko stamp_pNN.png           [Matilda]
 │   ├── images/onboarding.png            # ilustrasi onboarding                    [Farella]

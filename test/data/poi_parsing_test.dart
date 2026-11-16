@@ -2,6 +2,7 @@
 // Uji parsing JSON dataset POI.
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jejakpos/core/errors/app_exception.dart';
@@ -20,6 +21,33 @@ void main() {
       expect(pois.last.id, 'P13');
     });
 
+    test('PRD v2 Tabel 4: P01-P11 baseline, P12-P13 kandidat tambahan', () {
+      final pois = loadDataset();
+      final baseline = pois.where((p) => p.isBaseline).map((p) => p.id).toList();
+      expect(baseline, [for (var i = 1; i <= 11; i++) 'P${i.toString().padLeft(2, '0')}']);
+      expect(pois.where((p) => !p.isBaseline).map((p) => p.id), ['P12', 'P13']);
+      for (final p in pois) {
+        expect(p.tourOrder, int.parse(p.id.substring(1)), reason: p.id);
+        expect(p.zone.code, p.id);
+        expect(p.stamp.id, 'STP-${p.id}');
+      }
+    });
+
+    test('nama POI sesuai urutan PRD v2 Tabel 4', () {
+      final names = {for (final p in loadDataset()) p.id: p.name};
+      expect(names['P03'], contains('Kepemimpinan'));
+      expect(names['P04'], contains('Seragam'));
+      expect(names['P05'], contains('Pembuatan Prangko'));
+      expect(names['P06'], contains('Kode Pos'));
+      expect(names['P07'], contains('Lemari Geser'));
+      expect(names['P08'], contains('Mas Soeharto'));
+      expect(names['P09'], contains('Kotak Pos'));
+      expect(names['P10'], contains('Mars Pos'));
+      expect(names['P11'], contains('Stempel'));
+      expect(names['P12'], contains('Peralatan Pos'));
+      expect(names['P13'], contains('Kereta Api'));
+    });
+
     test('field wajib terisi dan format kode konsisten', () {
       for (final p in loadDataset()) {
         expect(p.beaconId, 'BCN-${p.id}');
@@ -28,34 +56,76 @@ void main() {
         expect(p.images, isNotEmpty);
         expect(p.mapPosition.isValid, isTrue);
         expect(p.triggerRule.triggerRadiusMeters, 10);
-        expect(p.contentValidated, isFalse);
       }
     });
 
-    test('sesuai PRD Tabel 4: P05 audio, P06 Photo Studio, P07 lima tahap', () {
+    test('sesuai PRD v2 Tabel 4: P10 audio, P04 Photo Studio, P05 lima tahap', () {
       final pois = loadDataset();
       Poi byId(String id) => pois.firstWhere((p) => p.id == id);
-      expect(byId('P05').contentTypes, contains(PoiContentType.audio));
-      expect(byId('P05').hasAudio, isTrue);
-      expect(byId('P06').activities, contains(PoiActivity.photoStudio));
-      expect(byId('P07').keyFacts, hasLength(5));
-      expect(byId('P07').activities, contains(PoiActivity.stampVisualization));
-      expect(byId('P03').activities,
+      expect(byId('P10').contentTypes, contains(PoiContentType.audio));
+      expect(byId('P10').hasAudio, isTrue);
+      expect(byId('P04').activities, contains(PoiActivity.photoStudio));
+      expect(byId('P05').keyFacts, hasLength(5));
+      expect(byId('P05').activities, contains(PoiActivity.stampVisualization));
+      expect(byId('P06').activities, contains(PoiActivity.minigame));
+      expect(byId('P08').activities, contains(PoiActivity.mystery));
+      expect(byId('P11').activities, contains(PoiActivity.postmark));
+      expect(byId('P12').activities,
           containsAll([PoiActivity.gallery, PoiActivity.quiz, PoiActivity.mission]));
-      expect(byId('P12').zone.description, contains('pintu masuk'));
+      expect(byId('P11').zone.description, contains('pintu masuk'));
     });
 
-    test('F03: minimal 10 POI punya narasi audio', () {
-      final withAudio = loadDataset().where((p) => p.hasAudio).length;
+    test('konten PB06 (Dokumen Sprint 2 tab revisi): P01-P09 tervalidasi', () {
+      final pois = loadDataset();
+      Poi byId(String id) => pois.firstWhere((p) => p.id == id);
+      for (var i = 1; i <= 9; i++) {
+        final p = byId('P${i.toString().padLeft(2, '0')}');
+        expect(p.contentValidated, isTrue, reason: p.id);
+        expect(p.sections, isNotEmpty, reason: p.id);
+        expect(p.shortDescription, isNot(contains('PERLU VALIDASI')), reason: p.id);
+        expect(p.keyFacts.join(), isNot(contains('PERLU VALIDASI')), reason: p.id);
+        expect(p.images.first, endsWith('.jpg'), reason: p.id);
+      }
+      // P10 hanya foto (teks di dokumen salah tempel), P11 belum ada materi, P12-P13 backlog.
+      for (final id in ['P10', 'P11', 'P12', 'P13']) {
+        expect(byId(id).contentValidated, isFalse, reason: id);
+      }
+      expect(byId('P04').sections.map((s) => s.title), ['Seragam Petugas Pos', 'Lencana']);
+      expect(byId('P06').sections.single.body, isNot(contains('nanti aku tambahin')));
+    });
+
+    test('semua gambar (termasuk gambar per bagian cerita) ada di assets', () {
+      for (final p in loadDataset()) {
+        for (final path in p.mediaPaths) {
+          expect(File(path).existsSync(), isTrue, reason: '${p.id}: $path');
+        }
+      }
+    });
+
+    test('soal tervalidasi: jawaban sesuai materi', () {
+      final pois = loadDataset();
+      final p08 = pois.firstWhere((p) => p.id == 'P08');
+      expect(p08.mysteryClues, hasLength(3));
+      expect(p08.curatedQuiz.map((q) => q.options[q.answerIndex]),
+          ['Semarang', 'Boedi Oetomo', 'R. Dijar dan para pemuda PTT']);
+      final p06 = pois.firstWhere((p) => p.id == 'P06');
+      final q1 = p06.curatedQuiz.first;
+      expect(q1.question, contains('angka 1'));
+      expect(q1.options[q1.answerIndex], 'Jakarta dan sekitarnya');
+    });
+
+    test('F03: minimal 10 POI baseline punya narasi audio', () {
+      final withAudio =
+          loadDataset().where((p) => p.isBaseline && p.hasAudio).length;
       expect(withAudio, greaterThanOrEqualTo(10));
     });
 
     test('audio dan activities boleh kosong', () {
       final pois = loadDataset();
-      final p11 = pois.firstWhere((p) => p.id == 'P11');
-      expect(p11.audio, isNull);
-      expect(p11.hasAudio, isFalse);
-      expect(pois.firstWhere((p) => p.id == 'P02').activities, isEmpty);
+      final p09 = pois.firstWhere((p) => p.id == 'P09');
+      expect(p09.audio, isNull);
+      expect(p09.hasAudio, isFalse);
+      expect(pois.firstWhere((p) => p.id == 'P03').activities, isEmpty);
     });
 
     test('jarak antar-POI (placeholder) > 20 m agar radius 10 m tidak tumpang tindih', () {

@@ -5,6 +5,7 @@ import '../../core/errors/app_exception.dart';
 import '../../core/utils/json_utils.dart';
 import 'map_position.dart';
 import 'poi_category.dart';
+import 'poi_content.dart';
 import 'poi_zone.dart';
 import 'stamp.dart';
 import 'trigger_rule.dart';
@@ -16,14 +17,14 @@ enum PoiContentType { text, image, audio, timeline, illustration, animation, sim
 /// Sebagian besar dikerjakan sprint berikutnya (A01-A07, F08).
 enum PoiActivity {
   timeline, // P01 timeline interaktif
-  gallery, // P03, P09, P11 galeri
-  quiz, // A01 (wireframe UI17: kuis P03)
-  mission, // A02 Jejak Misi (wireframe UI20: P03)
-  minigame, // P08 cocokkan wilayah & kode pos
-  mystery, // A05 Mystery Clue P10
-  photoStudio, // F08 Photo Studio P06
-  stampVisualization, // A04 lima tahap pembuatan prangko P07
-  postmark, // A06 Digital Postmark P12
+  gallery, // P07, P09, P12 galeri (PRD v1: P03, P09, P11)
+  quiz, // A01 (wireframe UI17: kuis Peralatan Pos, kini kandidat P12)
+  mission, // A02 Jejak Misi (wireframe UI20: P03 v1, kini kandidat P12)
+  minigame, // P06 cocokkan wilayah & kode pos (PRD v1: P08)
+  mystery, // A05 Mystery Clue P08 (PRD v1 & teks A05: P10)
+  photoStudio, // F08 Photo Studio P04 (PRD v1: P06)
+  stampVisualization, // A04 lima tahap pembuatan prangko P05 (PRD v1 & teks A04: P07)
+  postmark, // A06 Digital Postmark P11 (PRD v1: P12)
 }
 
 T _enumFromName<T extends Enum>(List<T> values, String name, String field) {
@@ -56,6 +57,12 @@ class Poi {
     required this.coordinatesArePlaceholder,
     required this.activities,
     required this.contentValidated,
+    this.isBaseline = true,
+    this.sections = const [],
+    this.mysteryClues = const [],
+    this.curatedQuiz = const [],
+    this.contentSource,
+    this.audioPlaceholder = false,
   });
 
   final String id;
@@ -86,12 +93,38 @@ class Poi {
   /// false = konten masih [PERLU VALIDASI MUSEUM].
   final bool contentValidated;
 
+  /// true = POI ada di PRD v2 Tabel 4 (P01-P11).
+  /// false = kandidat tambahan (NG08), dikerjakan setelah kebutuhan minimum terpenuhi.
+  final bool isBaseline;
+
+  /// Cerita lengkap per bagian (PB06). Kosong = belum ada materi tervalidasi.
+  final List<PoiSection> sections;
+
+  /// Petunjuk "Siapa aku?" untuk Mystery Clue (A05). Hanya dari materi tervalidasi.
+  final List<String> mysteryClues;
+
+  /// Soal kuis dari materi museum (dipakai lebih dulu daripada soal otomatis).
+  final List<PoiQuizItem> curatedQuiz;
+
+  /// Asal konten, misal "Dokumen Sprint 2 (PB06), tab revisi".
+  final String? contentSource;
+
+  /// true = file audio hanya nada placeholder; narasi dibacakan pemandu suara (TTS).
+  final bool audioPlaceholder;
+
   bool get hasAudio => audio != null && audio!.isNotEmpty;
+
+  /// Rekaman asli (mis. Mars Pos Indonesia), bukan placeholder.
+  bool get hasRealAudio => hasAudio && !audioPlaceholder;
   bool get hasCoordinates => latitude != null && longitude != null;
   String? get coverImage => images.isEmpty ? null : images.first;
 
   /// File yang boleh disajikan dari Firebase Hosting, bukan dari APK.
-  List<String> get mediaPaths => [...images, if (hasAudio) audio!];
+  List<String> get mediaPaths => {
+        ...images,
+        for (final s in sections) ...s.images,
+        if (hasAudio) audio!,
+      }.toList();
 
   factory Poi.fromJson(Map<String, dynamic> json) {
     final ctx = 'POI ${json['id'] ?? '(tanpa id)'}';
@@ -128,6 +161,16 @@ class Poi {
           .map((e) => _enumFromName(PoiActivity.values, e.toString(), 'activities'))
           .toList(growable: false),
       contentValidated: (json['contentValidated'] as bool?) ?? false,
+      isBaseline: (json['baseline'] as bool?) ?? true,
+      sections: ((json['sections'] as List?) ?? const [])
+          .map((e) => PoiSection.fromJson(e as Map<String, dynamic>))
+          .toList(growable: false),
+      mysteryClues: ((json['mysteryClues'] as List?) ?? const []).cast<String>(),
+      curatedQuiz: ((json['quiz'] as List?) ?? const [])
+          .map((e) => PoiQuizItem.fromJson(e as Map<String, dynamic>))
+          .toList(growable: false),
+      contentSource: json['contentSource'] as String?,
+      audioPlaceholder: (json['audioPlaceholder'] as bool?) ?? false,
     );
   }
 
@@ -153,6 +196,12 @@ class Poi {
         'coordinatesArePlaceholder': coordinatesArePlaceholder,
         'activities': activities.map((e) => e.name).toList(),
         'contentValidated': contentValidated,
+        'baseline': isBaseline,
+        'sections': sections.map((e) => e.toJson()).toList(),
+        'mysteryClues': mysteryClues,
+        'quiz': curatedQuiz.map((e) => e.toJson()).toList(),
+        'contentSource': contentSource,
+        'audioPlaceholder': audioPlaceholder,
       };
 
   Poi copyWith({
@@ -177,6 +226,7 @@ class Poi {
     bool? coordinatesArePlaceholder,
     List<PoiActivity>? activities,
     bool? contentValidated,
+    bool? isBaseline,
   }) =>
       Poi(
         id: id ?? this.id,
@@ -201,6 +251,12 @@ class Poi {
             coordinatesArePlaceholder ?? this.coordinatesArePlaceholder,
         activities: activities ?? this.activities,
         contentValidated: contentValidated ?? this.contentValidated,
+        isBaseline: isBaseline ?? this.isBaseline,
+        sections: sections,
+        mysteryClues: mysteryClues,
+        curatedQuiz: curatedQuiz,
+        contentSource: contentSource,
+        audioPlaceholder: audioPlaceholder,
       );
 
   /// POI dianggap sama jika id sama (id unik di dataset).

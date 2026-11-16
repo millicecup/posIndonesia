@@ -13,6 +13,9 @@ import '../../../data/models/models.dart';
 import '../../../providers/providers.dart';
 import '../../../shared/widgets/async_value_view.dart';
 import '../../../shared/widgets/media_image.dart';
+import '../../../shared/widgets/postman_guide.dart';
+import '../../voice_guide/presentation/listen_to_poi.dart';
+import '../../voice_guide/presentation/voice_guide_bar.dart';
 
 class TriggerAlertScreen extends ConsumerWidget {
   const TriggerAlertScreen({super.key, required this.poiId});
@@ -32,15 +35,19 @@ class TriggerAlertScreen extends ConsumerWidget {
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   children: [
+                    const PostmanGuide(size: 80),
+                    const SizedBox(height: 8),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 2),
                       decoration: BoxDecoration(
                         color: AppColors.orange,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: const Text('TRIGGER AKTIF',
                           style: TextStyle(
-                              color: AppColors.white, fontWeight: FontWeight.bold)),
+                              color: AppColors.white,
+                              fontWeight: FontWeight.bold)),
                     ),
                     const SizedBox(height: 8),
                     Text('Kamu berada di zona ${p.zone.code}',
@@ -48,12 +55,13 @@ class TriggerAlertScreen extends ConsumerWidget {
                     Text(p.name,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleLarge),
-                    Text(p.zone.label, style: const TextStyle(color: AppColors.grey)),
+                    Text(p.zone.label,
+                        style: const TextStyle(color: AppColors.grey)),
                     const SizedBox(height: 16),
                     if (p.coverImage != null)
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: MediaImage(p.coverImage!, height: 180),
+                        child: MediaImage(p.coverImage!, height: 140),
                       ),
                     const SizedBox(height: 16),
                     Text(p.systemResponse, textAlign: TextAlign.center),
@@ -61,7 +69,8 @@ class TriggerAlertScreen extends ConsumerWidget {
                         style: TextStyle(fontSize: 12, color: AppColors.grey)),
                     const Spacer(),
                     ElevatedButton(
-                      onPressed: () => context.pushReplacement(AppRoutes.poiDetail(p.id)),
+                      onPressed: () =>
+                          context.pushReplacement(AppRoutes.tourFor(p.id)),
                       child: const Text('Lihat Info'),
                     ),
                     const SizedBox(height: 8),
@@ -69,9 +78,8 @@ class TriggerAlertScreen extends ConsumerWidget {
                       children: [
                         Expanded(
                           child: OutlinedButton.icon(
-                            onPressed: p.hasAudio
-                                ? () => context.pushReplacement(AppRoutes.audioPlayer(p.id))
-                                : null,
+                            onPressed: () =>
+                                listenToPoi(context, ref, p, replace: true),
                             icon: const Icon(Icons.play_arrow),
                             label: const Text('Dengarkan'),
                           ),
@@ -89,6 +97,7 @@ class TriggerAlertScreen extends ConsumerWidget {
                 ),
               ),
       ),
+      bottomNavigationBar: const SafeArea(child: VoiceGuideBar()),
     );
   }
 }

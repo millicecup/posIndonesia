@@ -31,3 +31,5 @@ firebase-debug.log
 .DS_Store
 Thumbs.db
 docs/
+# Log error Kotlin Gradle
+android/.kotlin/

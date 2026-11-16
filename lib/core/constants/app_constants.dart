@@ -30,6 +30,14 @@ class AppConstants {
   static const String prefOnboardingSeen = 'jejakpos.onboarding_seen';
   // Sesi kunjungan: POI yang sudah terpicu (reset saat "Akhiri kunjungan").
   static const String prefSessionTriggeredIds = 'jejakpos.session_triggered_ids';
+  // Statistik ringkasan kunjungan (UI22) dan cap kunjungan digital (A06).
+  static const String prefQuizCompleted = 'jejakpos.quiz_completed';
+  static const String prefPhotoCount = 'jejakpos.photo_count';
+  static const String prefPostmarks = 'jejakpos.postmarks';
+  // Seed desain perangko digital acak P11 (tetap sama setelah diambil).
+  static const String prefRandomStampSeed = 'jejakpos.random_stamp_seed';
+  // Pemandu suara otomatis nyala/mati (default nyala).
+  static const String prefVoiceGuideEnabled = 'jejakpos.voice_guide_enabled';
 
   // Tag log untuk bukti PB02 / trigger
   static const String logTagLocation = 'LOKASI';

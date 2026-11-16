@@ -15,16 +15,17 @@ void main() {
   group('searchPois', () {
     test('case-insensitive berdasarkan nama', () async {
       final result = await repo.searchPois('PRANGKO');
-      expect(result.map((p) => p.id), containsAll(['P07', 'P09']));
+      expect(result.map((p) => p.id), containsAll(['P05', 'P07']));
     });
 
     test('berdasarkan kategori', () async {
       final result = await repo.searchPois('koleksi museum');
-      expect(result.map((p) => p.id).toSet(), {'P03', 'P11'});
+      // P12 (Peralatan Pos) = backlog, tidak ditampilkan.
+      expect(result.map((p) => p.id).toSet(), {'P09'});
     });
 
-    test('query kosong mengembalikan semua POI', () async {
-      expect((await repo.searchPois('  ')).length, 13);
+    test('query kosong mengembalikan semua POI baseline (11)', () async {
+      expect((await repo.searchPois('  ')).length, 11);
     });
 
     test('tidak ada hasil', () async {
@@ -57,11 +58,11 @@ void main() {
   test('filterByCategory', () async {
     final result = await repo.filterByCategory(
         const PoiCategory(id: 'koleksi_museum', label: 'Koleksi Museum'));
-    expect(result.map((p) => p.id), ['P03', 'P11']);
+    expect(result.map((p) => p.id), ['P09']);
   });
 
   test('getPoiById', () async {
-    expect((await repo.getPoiById('p04'))?.name, contains('Kepemimpinan'));
+    expect((await repo.getPoiById('p03'))?.name, contains('Kepemimpinan'));
     expect(await repo.getPoiById('X'), isNull);
   });
 
@@ -90,6 +91,31 @@ void main() {
     test('semua dikunjungi -> null', () async {
       final all = (await repo.getAllPois()).map((p) => p.id).toList();
       expect(await repo.getRecommendedNextPoi(all), isNull);
+    });
+  });
+
+  group('POI backlog (P12-P13) disembunyikan', () {
+    test('getAllPois hanya baseline P01-P11', () async {
+      final ids = (await repo.getAllPois()).map((p) => p.id).toList();
+      expect(ids, hasLength(11));
+      expect(ids, isNot(contains('P12')));
+      expect(ids, isNot(contains('P13')));
+    });
+
+    test('backlog tidak bisa dibuka lewat id, QR, atau pencarian', () async {
+      expect(await repo.getPoiById('P12'), isNull);
+      expect(await repo.getPoiByBeaconOrQr('QR-P13'), isNull);
+      expect(await repo.searchPois('kereta'), isEmpty);
+    });
+
+    test('data backlog tetap ada di dataset', () async {
+      final all = await repo.getAllPoisIncludingBacklog();
+      expect(all.map((p) => p.id), containsAll(['P12', 'P13']));
+    });
+
+    test('includeBacklog=true menampilkan semua', () async {
+      final full = PoiRepositoryImpl(FileDataSource(), includeBacklog: true);
+      expect(await full.getAllPois(), hasLength(13));
     });
   });
 

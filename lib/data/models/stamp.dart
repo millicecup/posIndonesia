@@ -9,6 +9,7 @@ class Stamp {
     required this.title,
     required this.trivia,
     this.image,
+    this.isRandom = false,
   });
 
   final String id;
@@ -16,11 +17,15 @@ class Stamp {
   final String trivia;
   final String? image;
 
+  /// true = desain perangko diacak saat diambil (P11 Stempel Museum).
+  final bool isRandom;
+
   factory Stamp.fromJson(Map<String, dynamic> json) => Stamp(
         id: readRequired<String>(json, 'id', context: 'stamp'),
         title: readRequired<String>(json, 'title', context: 'stamp'),
         trivia: readRequired<String>(json, 'trivia', context: 'stamp'),
         image: json['image'] as String?,
+        isRandom: (json['random'] as bool?) ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -28,6 +33,7 @@ class Stamp {
         'title': title,
         'trivia': trivia,
         'image': image,
+        'random': isRandom,
       };
 
   Stamp copyWith({String? id, String? title, String? trivia, String? image}) =>
@@ -36,6 +42,7 @@ class Stamp {
         title: title ?? this.title,
         trivia: trivia ?? this.trivia,
         image: image ?? this.image,
+        isRandom: isRandom,
       );
 
   @override

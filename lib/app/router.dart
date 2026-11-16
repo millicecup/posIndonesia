@@ -1,5 +1,7 @@
 // lib/app/router.dart
 // go_router: UI01-UI12 (Sprint 1, PB04) + tab Album (UI14) & Progres (UI21) (PIC: Farella).
+// Ditambah: UI09 kontekstual, UI15-UI16 Photo Studio, UI17 Kuis, UI19 Pembuatan Perangko,
+// UI22 Ringkasan Kunjungan + Postmark.
 // Penomoran UI mengikuti PRD Bagian 5.1.
 
 import 'package:flutter/material.dart';
@@ -15,11 +17,16 @@ import '../features/map_navigation/presentation/trigger_alert_screen.dart';
 import '../features/onboarding/presentation/onboarding_screen.dart';
 import '../features/onboarding/state/onboarding_state.dart';
 import '../features/permission/presentation/permission_screen.dart';
+import '../features/photo_studio/presentation/photo_studio_screen.dart';
 import '../features/poi_detail/presentation/poi_detail_screen.dart';
 import '../features/poi_list_search/presentation/poi_list_screen.dart';
 import '../features/progress/presentation/progress_screen.dart';
 import '../features/qr_scanner/presentation/qr_scanner_screen.dart';
+import '../features/quiz/presentation/quiz_screen.dart';
+import '../features/mystery_clue/presentation/mystery_clue_screen.dart';
 import '../features/simulation_debug/presentation/simulation_panel_screen.dart';
+import '../features/stamp_making/presentation/stamp_making_screen.dart';
+import '../features/visit_summary/presentation/visit_summary_screen.dart';
 import '../features/visual_tour_guide/presentation/visual_tour_guide_screen.dart';
 import 'main_shell.dart';
 import 'routes.dart';
@@ -95,7 +102,31 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.tour,
-        builder: (context, state) => const VisualTourGuideScreen(),
+        builder: (context, state) =>
+            VisualTourGuideScreen(poiId: state.uri.queryParameters['poi']),
+      ),
+      GoRoute(
+        path: '/photo-studio',
+        builder: (context, state) =>
+            PhotoStudioScreen(poiId: state.uri.queryParameters['poi']),
+      ),
+      GoRoute(
+        path: '/quiz/:poiId',
+        builder: (context, state) => QuizScreen(poiId: state.pathParameters['poiId']!),
+      ),
+      GoRoute(
+        path: '/mystery/:poiId',
+        builder: (context, state) =>
+            MysteryClueScreen(poiId: state.pathParameters['poiId']!),
+      ),
+      GoRoute(
+        path: '/stamp-making/:poiId',
+        builder: (context, state) =>
+            StampMakingScreen(poiId: state.pathParameters['poiId']!),
+      ),
+      GoRoute(
+        path: AppRoutes.summary,
+        builder: (context, state) => const VisitSummaryScreen(),
       ),
       GoRoute(
         path: '/poi/:poiId',

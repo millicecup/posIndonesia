@@ -48,9 +48,9 @@ void main() {
   test('getProgressSummary menghitung persentase', () async {
     await repo.markVisited('P01');
     final summary = await repo.getProgressSummary();
-    expect(summary.totalPois, 13);
+    expect(summary.totalPois, 11); // hanya POI baseline PRD v2 (P12-P13 backlog)
     expect(summary.visitedCount, 1);
-    expect(summary.completionPercent, 8);
+    expect(summary.completionPercent, 9); // 1 dari 11
     expect(summary.lastVisitedAt, isNotNull);
   });
 

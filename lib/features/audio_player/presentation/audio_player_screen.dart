@@ -86,7 +86,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
                 Text(poi.name,
                     style: Theme.of(context).textTheme.titleLarge,
                     textAlign: TextAlign.center),
-                Text(poi.id == 'P05' ? 'Mars Pos Indonesia' : 'Narasi ${poi.id}',
+                Text(poi.id == 'P10' ? 'Mars Pos Indonesia' : 'Narasi ${poi.id}',
                     style: const TextStyle(color: AppColors.grey)),
                 const SizedBox(height: 24),
                 Slider(

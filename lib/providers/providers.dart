@@ -3,6 +3,7 @@
 // Frontend cukup: `import 'package:jejakpos/providers/providers.dart';`
 
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -251,16 +252,88 @@ final triggerCoordinatorProvider = Provider<void>((ref) {
   });
 });
 
+// ================= Statistik aktivitas & postmark =================
+
+/// Jumlah kuis selesai (A01), foto Photo Studio (F08), dan cap kunjungan (A06).
+class ActivityStats {
+  const ActivityStats({
+    required this.quizCompleted,
+    required this.photoCount,
+    required this.postmarks,
+    this.randomStampSeed,
+  });
+
+  final int quizCompleted;
+
+  /// Seed desain perangko acak P11; null = belum diambil.
+  final int? randomStampSeed;
+  final int photoCount;
+
+  /// Tanggal tiap kunjungan yang sudah diakhiri, urut dari yang terlama.
+  final List<DateTime> postmarks;
+
+  DateTime? get lastPostmark => postmarks.isEmpty ? null : postmarks.last;
+}
+
+class ActivityStatsController extends Notifier<ActivityStats> {
+  ProgressLocalDataSource get _local => ref.read(progressLocalDataSourceProvider);
+
+  @override
+  ActivityStats build() {
+    final local = ref.watch(progressLocalDataSourceProvider);
+    return ActivityStats(
+      quizCompleted: local.readQuizCompleted(),
+      photoCount: local.readPhotoCount(),
+      postmarks: local.readPostmarks(),
+      randomStampSeed: local.readRandomStampSeed(),
+    );
+  }
+
+  /// Acak desain perangko P11 sekali saja; pengambilan berikutnya memakai desain yang sama.
+  Future<int> ensureRandomStampSeed() async {
+    final existing = state.randomStampSeed;
+    if (existing != null) return existing;
+    final seed = math.Random().nextInt(1 << 31);
+    await _local.writeRandomStampSeed(seed);
+    ref.invalidateSelf();
+    return seed;
+  }
+
+  Future<void> addQuizCompleted() async {
+    await _local.writeQuizCompleted(state.quizCompleted + 1);
+    ref.invalidateSelf();
+  }
+
+  Future<void> addPhoto() async {
+    await _local.writePhotoCount(state.photoCount + 1);
+    ref.invalidateSelf();
+  }
+
+  Future<DateTime> addPostmark([DateTime? at]) async {
+    final date = at ?? DateTime.now();
+    await _local.writePostmarks([...state.postmarks, date]);
+    ref.invalidateSelf();
+    return date;
+  }
+}
+
+final activityStatsProvider =
+    NotifierProvider<ActivityStatsController, ActivityStats>(
+        ActivityStatsController.new);
+
 /// Mengakhiri sesi kunjungan (tombol "Akhiri kunjungan" di UI21).
 /// Progres & perangko TETAP tersimpan; hanya status "sudah terpicu" yang direset.
+/// Setiap kunjungan yang diakhiri mendapat cap kunjungan digital (A06).
 class VisitSessionController {
   VisitSessionController(this._ref);
   final Ref _ref;
 
-  Future<void> endVisit() async {
+  Future<DateTime> endVisit() async {
     _ref.read(triggerEngineProvider).resetSession();
     await _ref.read(progressLocalDataSourceProvider).clearSession();
-    AppLogger.info('SESI', 'Kunjungan diakhiri');
+    final date = await _ref.read(activityStatsProvider.notifier).addPostmark();
+    AppLogger.info('SESI', 'Kunjungan diakhiri, postmark $date');
+    return date;
   }
 }
 

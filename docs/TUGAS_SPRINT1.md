@@ -44,7 +44,7 @@ class ContohScreen extends ConsumerWidget {
 **Tugas:**
 1. Membuat repo GitHub, branch `main` dan `develop`, proteksi branch (wajib PR dan 1 approval).
 2. Push fondasi ini ke `develop` **paling lambat hari pertama sprint** (frontend butuh model dan provider).
-3. Melengkapi dataset 13 POI (minimal 10 lengkap) dan menjaga `validateDataset()` tanpa error.
+3. Melengkapi dataset 13 POI (minimal 10 lengkap; PRD v2: 11 baseline P01–P11 + 2 kandidat P12–P13) dan menjaga `validateDataset()` tanpa error.
 4. Memastikan `flutter analyze` dan `flutter test` hijau.
 5. Membantu anggota lain menyambungkan provider. Jika ada kebutuhan data baru, Matilda yang menambah method di repository.
 
@@ -104,7 +104,7 @@ final kategori = ref.watch(poiCategoriesProvider);
 context.push(AppRoutes.poiDetail(poi.id));
 ```
 
-**Definition of Done:** mengetik "prangko" menampilkan P07 dan P09; memilih chip "Koleksi Museum" menampilkan P03 dan P11; tap kartu membuka detail.
+**Definition of Done:** mengetik "prangko" menampilkan P05 dan P07 (PRD v1: P07 dan P09); memilih chip "Koleksi Museum" menampilkan P09 dan P12 (PRD v1: P03 dan P11); tap kartu membuka detail.
 
 **Evidence:** rekaman layar pencarian dan filter, screenshot hasil.
 
@@ -116,7 +116,7 @@ context.push(AppRoutes.poiDetail(poi.id));
 
 **Wireframe PRD:** Gambar 5.4 tengah dan kanan (UI10, UI11).
 
-**Tugas:** UI10 (ringkasan, 3–5 fakta bernomor, gambar utama, baris tombol Audio/Galeri/Foto, tombol **"Selesai & ambil perangko"**) dan UI11 (play, pause, lanjut, seek, durasi, tombol **"Tampilkan teks"**). P05 menampilkan "Mars Pos Indonesia".
+**Tugas:** UI10 (ringkasan, 3–5 fakta bernomor, gambar utama, baris tombol Audio/Galeri/Foto, tombol **"Selesai & ambil perangko"**) dan UI11 (play, pause, lanjut, seek, durasi, tombol **"Tampilkan teks"**). P10 menampilkan "Mars Pos Indonesia" (PRD v1: P05).
 
 **Yang dipelajari:** `FutureProvider.family`, `StreamProvider` (posisi audio), `AudioService` (just_audio), PageView untuk galeri.
 
@@ -131,7 +131,7 @@ await audio.seek(const Duration(seconds: 30));
 final pos = ref.watch(audioPositionProvider);
 ```
 
-**Definition of Done:** semua 13 POI bisa dibuka; audio P01 bisa diputar, dijeda, dan dilanjutkan; POI tanpa audio (saat ini P11) menampilkan pesan yang benar; minimal 10 POI punya audio (F03).
+**Definition of Done:** semua 13 POI bisa dibuka; audio P01 bisa diputar, dijeda, dan dilanjutkan; POI tanpa audio (saat ini P09 Kotak Pos; PRD v1: P11) menampilkan pesan yang benar; minimal 10 POI baseline punya audio (F03).
 
 **Evidence:** rekaman layar membuka detail dan memutar audio, screenshot UI10 dan UI11.
 
@@ -162,7 +162,7 @@ ref.listen(triggerEventsProvider, (_, e) { /* ... */ });
 await ref.read(qrScannerControllerProvider.notifier).submit('QR-P03');
 ```
 
-**Definition of Done:** UI02 menampilkan status izin yang benar untuk diizinkan/ditolak/ditolak permanen; posisi terbaca saat Set Location; GPX `jalan_masuk_p12_p02_p01.gpx` memicu P12, P02, dan P01 masing-masing satu kali, dan tidak memicu ulang setelah app dibuka lagi sebelum "Akhiri kunjungan"; QR manual `QR-P03` membuka detail P03.
+**Definition of Done:** UI02 menampilkan status izin yang benar untuk diizinkan/ditolak/ditolak permanen; posisi terbaca saat Set Location; GPX `jalan_masuk_p11_p02_p01.gpx` (dulu `jalan_masuk_p12_p02_p01.gpx`) memicu P11, P02, dan P01 (PRD v1: P12, P02, P01) masing-masing satu kali, dan tidak memicu ulang setelah app dibuka lagi sebelum "Akhiri kunjungan"; QR manual `QR-P03` membuka detail P03.
 
 **Evidence:** rekaman layar UI02 + log deteksi (PB02), rekaman GPX trigger, dokumen PoC PB05 (1–2 halaman: temuan, keterbatasan emulator, rencana uji HP fisik).
 
