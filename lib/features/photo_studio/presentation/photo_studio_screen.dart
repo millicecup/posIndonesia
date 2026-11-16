@@ -1,18 +1,19 @@
 // lib/features/photo_studio/presentation/photo_studio_screen.dart
 // UI15 Photo Studio + UI16 Hasil Foto (F08, PB14). Wireframe: PRD Gambar 5.5 kanan & 5.6 kiri.
-// Versi minimum sesuai NG04: ambil foto (kamera) atau unggah (galeri), pilih template seragam
+// Versi minimum sesuai NG04: ambil foto dari kamera, pilih template seragam
 // 2D, geser/cubit overlay agar pas, lalu simpan ke galeri HP. Tanpa AR body tracking / AI.
 // Overlay seragam & topi: PNG dari repo content/poi-dataset (POI004), 3 warna.
 
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gal/gal.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../app/theme.dart';
 import '../../../core/utils/app_logger.dart';
@@ -47,33 +48,97 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
   Uint8List? _result; // UI16
   bool _saving = false;
   bool _saved = false;
+  bool _takingPhoto = false;
+  bool _rendering = false;
+  bool _photoReady = false;
 
-  Future<void> _pick(ImageSource source) async {
+  @override
+  void initState() {
+    super.initState();
+    if (Platform.isAndroid) _recoverPhoto();
+  }
+
+  void _setPhoto(XFile file) {
+    if (!mounted) return;
+    setState(() {
+      _photo = File(file.path);
+      _photoReady = false;
+      _result = null;
+      _saved = false;
+    });
+  }
+
+  Future<void> _recoverPhoto() async {
     try {
+      final response = await _picker.retrieveLostData();
+      if (!mounted || response.isEmpty) return;
+      if (response.files?.isNotEmpty ?? false) {
+        _setPhoto(response.files!.first);
+      } else if (response.exception != null) {
+        _snack(
+            'Foto sebelumnya tidak berhasil dipulihkan. Coba ambil foto lagi.');
+      }
+    } catch (e) {
+      AppLogger.error('PHOTO', 'Gagal memulihkan foto: $e');
+    }
+  }
+
+  Future<void> _takePhoto() async {
+    if (_takingPhoto) return;
+    setState(() => _takingPhoto = true);
+    try {
+      final permission = await Permission.camera.request();
+      if (!mounted) return;
+      if (!permission.isGranted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: const Text('Izinkan akses kamera untuk mengambil foto.'),
+          action: permission.isPermanentlyDenied
+              ? const SnackBarAction(
+                  label: 'Pengaturan', onPressed: openAppSettings)
+              : null,
+        ));
+        return;
+      }
       final file = await _picker.pickImage(
-          source: source,
+          source: ImageSource.camera,
           maxWidth: 1600,
           preferredCameraDevice: CameraDevice.front);
-      if (file == null) return;
-      setState(() {
-        _photo = File(file.path);
-        _result = null;
-        _saved = false;
-      });
+      if (file != null) _setPhoto(file);
+    } on PlatformException catch (e) {
+      AppLogger.error('PHOTO', 'Kamera gagal (${e.code}): ${e.message}');
+      _snack('Kamera tidak bisa dibuka (${e.code}). '
+          '${e.message ?? 'Tutup aplikasi kamera lain, lalu coba lagi.'}');
     } catch (e) {
       AppLogger.error('PHOTO', 'Gagal mengambil foto: $e');
-      _snack('Kamera/galeri tidak bisa dibuka. Pastikan izin kamera diberikan.');
+      _snack('Gagal mengambil foto. Coba buka kamera lagi.');
+    } finally {
+      if (mounted) setState(() => _takingPhoto = false);
     }
   }
 
   Future<void> _capture() async {
-    final boundary =
-        _boundaryKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
-    if (boundary == null) return;
-    final image = await boundary.toImage(pixelRatio: 3);
-    final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
-    if (bytes == null) return;
-    setState(() => _result = bytes.buffer.asUint8List());
+    if (_rendering || !_photoReady) return;
+    setState(() => _rendering = true);
+    try {
+      await WidgetsBinding.instance.endOfFrame;
+      if (!mounted) return;
+      final boundary = _boundaryKey.currentContext?.findRenderObject()
+          as RenderRepaintBoundary?;
+      if (boundary == null) return;
+      final image = await boundary.toImage(pixelRatio: 3);
+      try {
+        final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
+        if (!mounted || bytes == null) return;
+        setState(() => _result = bytes.buffer.asUint8List());
+      } finally {
+        image.dispose();
+      }
+    } catch (e) {
+      AppLogger.error('PHOTO', 'Gagal membuat hasil foto: $e');
+      _snack('Hasil foto belum bisa dibuat. Coba lagi setelah foto tampil.');
+    } finally {
+      if (mounted) setState(() => _rendering = false);
+    }
   }
 
   Future<void> _save() async {
@@ -84,7 +149,9 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
       if (!await Gal.hasAccess()) await Gal.requestAccess();
       await Gal.putImageBytes(bytes,
           name: 'JejakPOS_${DateTime.now().millisecondsSinceEpoch}');
+      if (!mounted) return;
       await ref.read(activityStatsProvider.notifier).addPhoto();
+      if (!mounted) return;
       setState(() => _saved = true);
       _snack('Foto tersimpan di galeri (album Pictures).');
     } catch (e) {
@@ -143,8 +210,9 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             children: [
-              const Text('Pilih template seragam', style: TextStyle(fontWeight: FontWeight.w600)),
-              const Spacer(),
+              const Expanded(
+                  child: Text('Pilih template seragam',
+                      style: TextStyle(fontWeight: FontWeight.w600))),
               TextButton.icon(
                 onPressed: () => setState(() {
                   _capPos = const Offset(.5, .26);
@@ -173,7 +241,9 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: t == _template ? AppColors.orange : AppColors.lightGrey,
+                          color: t == _template
+                              ? AppColors.orange
+                              : AppColors.lightGrey,
                           width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -193,25 +263,28 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
             child: Row(
               children: [
-                OutlinedButton.icon(
-                  onPressed: () => _pick(ImageSource.gallery),
-                  icon: const Icon(Icons.photo_library_outlined),
-                  label: const Text('Galeri'),
-                ),
                 const Spacer(),
                 SizedBox(
                   width: 72,
                   height: 72,
                   child: FilledButton(
                     style: FilledButton.styleFrom(
-                        shape: const CircleBorder(), backgroundColor: AppColors.orange),
-                    onPressed: () => _pick(ImageSource.camera),
-                    child: const Icon(Icons.camera_alt, size: 30),
+                        shape: const CircleBorder(),
+                        backgroundColor: AppColors.orange),
+                    onPressed: _takingPhoto ? null : _takePhoto,
+                    child: _takingPhoto
+                        ? const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(strokeWidth: 2))
+                        : const Icon(Icons.camera_alt, size: 30),
                   ),
                 ),
                 const Spacer(),
                 FilledButton.icon(
-                  onPressed: _photo == null ? null : _capture,
+                  onPressed: !_photoReady || _takingPhoto || _rendering
+                      ? null
+                      : _capture,
                   icon: const Icon(Icons.check),
                   label: const Text('Jadikan'),
                 ),
@@ -232,7 +305,23 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
         fit: StackFit.expand,
         children: [
           if (_photo != null)
-            Image.file(_photo!, fit: BoxFit.cover)
+            Image.file(
+              _photo!,
+              fit: BoxFit.cover,
+              frameBuilder: (context, child, frame, synchronous) {
+                if ((synchronous || frame != null) && !_photoReady) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (mounted && !_photoReady) {
+                      setState(() => _photoReady = true);
+                    }
+                  });
+                }
+                return child;
+              },
+              errorBuilder: (_, __, ___) => const Center(
+                child: Text('Foto tidak dapat dibuka. Ambil foto ulang.'),
+              ),
+            )
           else
             const ColoredBox(
               color: Color(0xFF4A4F57),
@@ -240,7 +329,7 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
                 child: Padding(
                   padding: EdgeInsets.all(24),
                   child: Text(
-                    'Ambil foto dengan tombol kamera atau pilih dari galeri.\n'
+                    'Ambil foto dengan tombol kamera di bawah.\n'
                     'Geser dan cubit topi/seragam agar pas.',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white70),
@@ -282,19 +371,18 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               color: const Color(0x99000000),
-              child: Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                        color: AppColors.orange, borderRadius: BorderRadius.circular(4)),
-                    child: Text('overlay ${_template.label}',
-                        style: const TextStyle(color: Colors.white, fontSize: 11)),
-                  ),
-                  const Spacer(),
+                  Text('Seragam ${_template.label}',
+                      style:
+                          const TextStyle(color: Colors.white, fontSize: 11)),
                   Text(
                     'Museum Pos Indonesia${widget.poiId == null ? '' : ' · ${widget.poiId}'}'
                     ' · ${formatPostmarkDate(DateTime.now())}',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(color: Colors.white, fontSize: 11),
                   ),
                 ],
@@ -353,7 +441,8 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
                 ),
                 child: Column(
                   children: [
-                    Expanded(child: Image.memory(_result!, fit: BoxFit.contain)),
+                    Expanded(
+                        child: Image.memory(_result!, fit: BoxFit.contain)),
                     const SizedBox(height: 8),
                     Text(
                         'Museum Pos Indonesia${widget.poiId == null ? '' : ' · ${widget.poiId}'}',
@@ -367,17 +456,24 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
               width: double.infinity,
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                  color: AppColors.lightGrey, borderRadius: BorderRadius.circular(8)),
-              child: Text(_saved ? '✓ Foto sudah tersimpan di galeri' : '✓ Foto siap disimpan',
+                  color: AppColors.lightGrey,
+                  borderRadius: BorderRadius.circular(8)),
+              child: Text(
+                  _saved
+                      ? '✓ Foto sudah tersimpan di galeri'
+                      : '✓ Foto siap disimpan',
                   textAlign: TextAlign.center),
             ),
             const SizedBox(height: 12),
             ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(backgroundColor: AppColors.darkGrey),
+              style:
+                  ElevatedButton.styleFrom(backgroundColor: AppColors.darkGrey),
               onPressed: _saving || _saved ? null : _save,
               icon: _saving
                   ? const SizedBox(
-                      width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2))
                   : const Icon(Icons.download),
               label: Text(_saved ? 'Tersimpan' : 'Simpan ke galeri'),
             ),

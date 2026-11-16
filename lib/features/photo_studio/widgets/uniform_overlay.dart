@@ -6,9 +6,10 @@
 import 'package:flutter/material.dart';
 
 enum UniformTemplate {
-  coklatTua('Coklat Tua', 'coklat_tua', bodyAspect: 640 / 562, capAspect: 433 / 640),
-  hijau('Hijau', 'hijau', bodyAspect: 608 / 640, capAspect: 431 / 640),
-  khaki('Khaki', 'khaki', bodyAspect: 590 / 640, capAspect: 432 / 640);
+  coklatTua('Coklat Tua', 'coklat_tua',
+      bodyAspect: 1800 / 1500, capAspect: 800 / 1200),
+  hijau('Hijau', 'hijau', bodyAspect: 1, capAspect: 800 / 1200),
+  khaki('Khaki', 'khaki', bodyAspect: 1, capAspect: 800 / 1200);
 
   const UniformTemplate(this.label, this._key,
       {required this.bodyAspect, required this.capAspect});
@@ -16,7 +17,7 @@ enum UniformTemplate {
   final String label;
   final String _key;
 
-  /// Tinggi / lebar gambar (sudah dipotong rapat ke area tidak transparan).
+  /// Tinggi / lebar PNG asli dari POI004 pada branch content/poi-dataset.
   final double bodyAspect;
   final double capAspect;
 
@@ -29,8 +30,8 @@ class UniformCap extends StatelessWidget {
   final UniformTemplate template;
 
   @override
-  Widget build(BuildContext context) =>
-      Image.asset(template.capAsset, fit: BoxFit.contain, gaplessPlayback: true);
+  Widget build(BuildContext context) => Image.asset(template.capAsset,
+      fit: BoxFit.contain, gaplessPlayback: true);
 }
 
 class UniformBody extends StatelessWidget {
@@ -38,8 +39,8 @@ class UniformBody extends StatelessWidget {
   final UniformTemplate template;
 
   @override
-  Widget build(BuildContext context) =>
-      Image.asset(template.bodyAsset, fit: BoxFit.contain, gaplessPlayback: true);
+  Widget build(BuildContext context) => Image.asset(template.bodyAsset,
+      fit: BoxFit.contain, gaplessPlayback: true);
 }
 
 /// Pratinjau kecil template (topi + seragam) untuk pemilih template.

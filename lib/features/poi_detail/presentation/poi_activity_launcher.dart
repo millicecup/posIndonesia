@@ -4,13 +4,11 @@
 // sengaja belum berisi soal: menampilkan keterangan, bukan fakta karangan (PRD R2, PB06).
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/routes.dart';
 import '../../../app/theme.dart';
 import '../../../data/models/models.dart';
-import '../../../providers/providers.dart';
 import '../../../shared/widgets/media_image.dart';
 
 String poiActivityLabel(PoiActivity a) => switch (a) {
@@ -40,16 +38,7 @@ IconData poiActivityIcon(PoiActivity a) => switch (a) {
 void openPoiActivity(BuildContext context, Poi poi, PoiActivity activity) {
   switch (activity) {
     case PoiActivity.photoStudio:
-      // Hanya bisa dipakai saat pengunjung berada di ruang seragam: POI harus sudah
-      // terdeteksi pada kunjungan ini (lokasi/beacon/QR), bukan dibuka dari daftar.
-      final atLocation = ProviderScope.containerOf(context, listen: false)
-          .read(triggerEngineProvider)
-          .hasTriggered(poi.id);
-      if (atLocation) {
-        context.push(AppRoutes.photoStudio(poi.id));
-      } else {
-        _showNotHere(context, poi);
-      }
+      context.push(AppRoutes.photoStudio(poi.id));
     case PoiActivity.stampVisualization:
       context.push(AppRoutes.stampMaking(poi.id));
     case PoiActivity.quiz:
@@ -170,37 +159,6 @@ void _showTimeline(BuildContext context, Poi poi) {
           ],
         ),
       ),
-    ),
-  );
-}
-
-void _showNotHere(BuildContext context, Poi poi) {
-  showDialog<void>(
-    context: context,
-    builder: (ctx) => AlertDialog(
-      icon: const Icon(Icons.camera_alt_outlined, color: AppColors.orange),
-      title: const Text('Photo Studio ada di ruang seragam'),
-      content: Text(
-          'Datangi area ${poi.name} (${poi.zone.description}). Photo Studio terbuka '
-          'otomatis saat kamu terdeteksi di sana, atau pindai QR di area tersebut.'),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.pop(ctx);
-            context.push(AppRoutes.qrScanner);
-          },
-          child: const Text('Pindai QR'),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.pop(ctx);
-            context.push(AppRoutes.navigateTo(poi.id));
-          },
-          child: const Text('Tunjukkan arah'),
-        ),
-        TextButton(
-            onPressed: () => Navigator.pop(ctx), child: const Text('Tutup')),
-      ],
     ),
   );
 }
