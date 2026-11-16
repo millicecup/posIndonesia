@@ -4,15 +4,14 @@
 // 2D, geser/cubit overlay agar pas, lalu simpan ke galeri HP. Tanpa AR body tracking / AI.
 // Overlay seragam & topi: PNG dari repo content/poi-dataset (POI004), 3 warna.
 
-import 'dart:io';
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gal/gal.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:camera/camera.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../app/theme.dart';
@@ -20,6 +19,8 @@ import '../../../core/utils/app_logger.dart';
 import '../../../providers/providers.dart';
 import '../../../shared/widgets/postmark_stamp.dart';
 import '../widgets/uniform_overlay.dart';
+import '../studio_camera.dart';
+import '../studio_gallery.dart';
 
 class PhotoStudioScreen extends ConsumerStatefulWidget {
   const PhotoStudioScreen({super.key, this.poiId});
@@ -30,11 +31,19 @@ class PhotoStudioScreen extends ConsumerStatefulWidget {
   ConsumerState<PhotoStudioScreen> createState() => _PhotoStudioScreenState();
 }
 
-class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
+class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
+    with WidgetsBindingObserver {
   final _boundaryKey = GlobalKey();
-  final _picker = ImagePicker();
+  StudioCamera? _camera;
+  Future<void> _cameraCleanup = Future<void>.value();
+  bool _cameraReady = false;
+  bool _cameraStarting = false;
+  bool _appActive = true;
+  int _cameraGeneration = 0;
+  String? _cameraError;
+  bool _mirrorPhoto = false;
 
-  File? _photo;
+  Uint8List? _photo;
   UniformTemplate _template = UniformTemplate.values.first;
 
   // Posisi & skala topi dan seragam (relatif terhadap ukuran kanvas).
@@ -55,65 +64,109 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
   @override
   void initState() {
     super.initState();
-    if (Platform.isAndroid) _recoverPhoto();
+    WidgetsBinding.instance.addObserver(this);
+    unawaited(_startCamera());
   }
 
-  void _setPhoto(XFile file) {
-    if (!mounted) return;
-    setState(() {
-      _photo = File(file.path);
-      _photoReady = false;
-      _result = null;
-      _saved = false;
-    });
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _cameraGeneration++;
+    unawaited(_camera?.dispose());
+    super.dispose();
   }
 
-  Future<void> _recoverPhoto() async {
-    try {
-      final response = await _picker.retrieveLostData();
-      if (!mounted || response.isEmpty) return;
-      if (response.files?.isNotEmpty ?? false) {
-        _setPhoto(response.files!.first);
-      } else if (response.exception != null) {
-        _snack(
-            'Foto sebelumnya tidak berhasil dipulihkan. Coba ambil foto lagi.');
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _appActive = true;
+      if (_photo == null && !_cameraReady && !_cameraStarting) {
+        unawaited(_startCamera());
       }
+    } else if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.paused ||
+        state == AppLifecycleState.detached) {
+      _appActive = false;
+      _cameraGeneration++;
+      final camera = _camera;
+      _camera = null;
+      _cameraReady = false;
+      if (camera != null) _cameraCleanup = camera.dispose();
+      if (mounted) setState(() {});
+    }
+  }
+
+  Future<void> _startCamera() async {
+    if (_cameraStarting || !_appActive || _photo != null) return;
+    final generation = ++_cameraGeneration;
+    setState(() {
+      _cameraStarting = true;
+      _cameraError = null;
+    });
+    final camera = ref.read(studioCameraFactoryProvider)();
+    try {
+      await _cameraCleanup;
+      if (!mounted || generation != _cameraGeneration || !_appActive) return;
+      await camera.initialize();
+      if (!mounted || generation != _cameraGeneration || !_appActive) {
+        await camera.dispose();
+        return;
+      }
+      _camera = camera;
+      setState(() => _cameraReady = true);
     } catch (e) {
-      AppLogger.error('PHOTO', 'Gagal memulihkan foto: $e');
+      await camera.dispose();
+      AppLogger.error('PHOTO', 'Gagal membuka preview kamera: $e');
+      if (mounted && generation == _cameraGeneration) {
+        setState(() => _cameraError = e is CameraException
+            ? 'Kamera belum bisa dibuka (${e.code}). '
+                'Periksa izin kamera dan tutup aplikasi kamera lain.'
+            : 'Kamera belum bisa dibuka. Coba lagi.');
+      }
+    } finally {
+      _cameraStarting = false;
+      if (mounted) {
+        setState(() {});
+        if (_appActive && generation != _cameraGeneration && _photo == null) {
+          unawaited(_startCamera());
+        }
+      }
     }
   }
 
   Future<void> _takePhoto() async {
-    if (_takingPhoto) return;
+    final camera = _camera;
+    if (_takingPhoto || !_cameraReady || camera == null) return;
     setState(() => _takingPhoto = true);
     try {
-      final permission = await Permission.camera.request();
+      final mirror = camera.mirrorPhoto;
+      final bytes = await camera.takePhoto();
       if (!mounted) return;
-      if (!permission.isGranted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text('Izinkan akses kamera untuk mengambil foto.'),
-          action: permission.isPermanentlyDenied
-              ? const SnackBarAction(
-                  label: 'Pengaturan', onPressed: openAppSettings)
-              : null,
-        ));
-        return;
-      }
-      final file = await _picker.pickImage(
-          source: ImageSource.camera,
-          maxWidth: 1600,
-          preferredCameraDevice: CameraDevice.front);
-      if (file != null) _setPhoto(file);
-    } on PlatformException catch (e) {
-      AppLogger.error('PHOTO', 'Kamera gagal (${e.code}): ${e.message}');
-      _snack('Kamera tidak bisa dibuka (${e.code}). '
-          '${e.message ?? 'Tutup aplikasi kamera lain, lalu coba lagi.'}');
+      setState(() {
+        _photo = bytes;
+        _mirrorPhoto = mirror;
+        _photoReady = false;
+        _saved = false;
+        _cameraReady = false;
+        _camera = null;
+      });
+      await camera.dispose();
     } catch (e) {
-      AppLogger.error('PHOTO', 'Gagal mengambil foto: $e');
-      _snack('Gagal mengambil foto. Coba buka kamera lagi.');
+      AppLogger.error('PHOTO', 'Gagal menjepret foto: $e');
+      _snack('Foto belum berhasil diambil. Coba jepret lagi.');
     } finally {
       if (mounted) setState(() => _takingPhoto = false);
     }
+  }
+
+  void _retake() {
+    setState(() {
+      _photo = null;
+      _photoReady = false;
+      _result = null;
+      _saved = false;
+    });
+    unawaited(_startCamera());
   }
 
   Future<void> _capture() async {
@@ -146,14 +199,18 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
     if (bytes == null) return;
     setState(() => _saving = true);
     try {
-      if (!await Gal.hasAccess()) await Gal.requestAccess();
-      await Gal.putImageBytes(bytes,
-          name: 'JejakPOS_${DateTime.now().millisecondsSinceEpoch}');
-      if (!mounted) return;
-      await ref.read(activityStatsProvider.notifier).addPhoto();
+      await ref
+          .read(studioGalleryProvider)
+          .save(bytes, 'JejakPOS_${DateTime.now().millisecondsSinceEpoch}');
       if (!mounted) return;
       setState(() => _saved = true);
-      _snack('Foto tersimpan di galeri (album Pictures).');
+      _snack('Foto tersimpan di Galeri > Album JejakPOS.');
+      try {
+        await ref.read(activityStatsProvider.notifier).addPhoto();
+      } catch (e) {
+        AppLogger.error(
+            'PHOTO', 'Foto tersimpan, statistik belum diperbarui: $e');
+      }
     } catch (e) {
       AppLogger.error('PHOTO', 'Gagal menyimpan foto: $e');
       _snack('Gagal menyimpan foto: $e');
@@ -205,6 +262,15 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
               ),
             ),
           ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          child: Text(
+              _photo == null
+                  ? 'Sesuaikan posisi wajah dan tubuh dengan topi dan seragam, lalu jepret.'
+                  : 'Geser atau cubit topi dan seragam agar pas, lalu pilih Lihat hasil.',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 12)),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -267,18 +333,29 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
                 SizedBox(
                   width: 72,
                   height: 72,
-                  child: FilledButton(
-                    style: FilledButton.styleFrom(
-                        shape: const CircleBorder(),
-                        backgroundColor: AppColors.orange),
-                    onPressed: _takingPhoto ? null : _takePhoto,
-                    child: _takingPhoto
-                        ? const SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(strokeWidth: 2))
-                        : const Icon(Icons.camera_alt, size: 30),
-                  ),
+                  child: Tooltip(
+                      message: _photo == null ? 'Jepret foto' : 'Ambil ulang',
+                      child: FilledButton(
+                        style: FilledButton.styleFrom(
+                            shape: const CircleBorder(),
+                            backgroundColor: AppColors.orange),
+                        onPressed: _takingPhoto ||
+                                _rendering ||
+                                (_photo == null && !_cameraReady)
+                            ? null
+                            : (_photo == null ? _takePhoto : _retake),
+                        child: _takingPhoto
+                            ? const SizedBox(
+                                width: 24,
+                                height: 24,
+                                child:
+                                    CircularProgressIndicator(strokeWidth: 2))
+                            : Icon(
+                                _photo == null
+                                    ? Icons.camera_alt
+                                    : Icons.replay,
+                                size: 30),
+                      )),
                 ),
                 const Spacer(),
                 FilledButton.icon(
@@ -286,7 +363,7 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
                       ? null
                       : _capture,
                   icon: const Icon(Icons.check),
-                  label: const Text('Jadikan'),
+                  label: const Text('Lihat hasil'),
                 ),
               ],
             ),
@@ -305,64 +382,80 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
         fit: StackFit.expand,
         children: [
           if (_photo != null)
-            Image.file(
-              _photo!,
-              fit: BoxFit.cover,
-              frameBuilder: (context, child, frame, synchronous) {
-                if ((synchronous || frame != null) && !_photoReady) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    if (mounted && !_photoReady) {
-                      setState(() => _photoReady = true);
+            Transform.flip(
+                flipX: _mirrorPhoto,
+                child: Image.memory(
+                  _photo!,
+                  fit: BoxFit.cover,
+                  frameBuilder: (context, child, frame, synchronous) {
+                    if ((synchronous || frame != null) && !_photoReady) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        if (mounted && !_photoReady) {
+                          setState(() => _photoReady = true);
+                        }
+                      });
                     }
-                  });
-                }
-                return child;
-              },
-              errorBuilder: (_, __, ___) => const Center(
-                child: Text('Foto tidak dapat dibuka. Ambil foto ulang.'),
-              ),
-            )
+                    return child;
+                  },
+                  errorBuilder: (_, __, ___) => const Center(
+                    child: Text('Foto tidak dapat dibuka. Ambil foto ulang.'),
+                  ),
+                ))
+          else if (_cameraReady && _camera != null)
+            _camera!.preview()
           else
-            const ColoredBox(
-              color: Color(0xFF4A4F57),
+            ColoredBox(
+              color: const Color(0xFF4A4F57),
               child: Center(
                 child: Padding(
-                  padding: EdgeInsets.all(24),
-                  child: Text(
-                    'Ambil foto dengan tombol kamera di bawah.\n'
-                    'Geser dan cubit topi/seragam agar pas.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white70),
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(_cameraError ?? 'Menyiapkan kamera...',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(color: Colors.white)),
+                      if (_cameraError != null) ...[
+                        TextButton(
+                            onPressed: _startCamera,
+                            child: const Text('Coba lagi')),
+                        const TextButton(
+                            onPressed: openAppSettings,
+                            child: Text('Pengaturan kamera')),
+                      ],
+                    ],
                   ),
                 ),
               ),
             ),
-          // Seragam (bagian bawah)
-          _movable(
-            size: size,
-            pos: _bodyPos,
-            width: bodyW,
-            aspect: _template.bodyAspect,
-            onChanged: (p, s) => setState(() {
-              _bodyPos = p;
-              _bodyScale = s;
-            }),
-            scale: _bodyScale,
-            child: UniformBody(template: _template),
-          ),
-          // Topi
-          _movable(
-            size: size,
-            pos: _capPos,
-            width: capW,
-            aspect: _template.capAspect,
-            onChanged: (p, s) => setState(() {
-              _capPos = p;
-              _capScale = s;
-            }),
-            scale: _capScale,
-            child: UniformCap(template: _template),
-          ),
+          if (_cameraReady || _photo != null) ...[
+            // Seragam (bagian bawah)
+            _movable(
+              size: size,
+              pos: _bodyPos,
+              width: bodyW,
+              aspect: _template.bodyAspect,
+              onChanged: (p, s) => setState(() {
+                _bodyPos = p;
+                _bodyScale = s;
+              }),
+              scale: _bodyScale,
+              child: UniformBody(template: _template),
+            ),
+            // Topi
+            _movable(
+              size: size,
+              pos: _capPos,
+              width: capW,
+              aspect: _template.capAspect,
+              onChanged: (p, s) => setState(() {
+                _capPos = p;
+                _capScale = s;
+              }),
+              scale: _capScale,
+              child: UniformCap(template: _template),
+            ),
+          ],
           // Bingkai label (wireframe UI16: "Museum Pos Indonesia · P04")
           Positioned(
             left: 0,
@@ -460,7 +553,7 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
                   borderRadius: BorderRadius.circular(8)),
               child: Text(
                   _saved
-                      ? '✓ Foto sudah tersimpan di galeri'
+                      ? 'Foto tersimpan di album JejakPOS'
                       : '✓ Foto siap disimpan',
                   textAlign: TextAlign.center),
             ),
@@ -477,6 +570,18 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
                   : const Icon(Icons.download),
               label: Text(_saved ? 'Tersimpan' : 'Simpan ke galeri'),
             ),
+            if (_saved)
+              TextButton.icon(
+                onPressed: () async {
+                  try {
+                    await ref.read(studioGalleryProvider).open();
+                  } catch (_) {
+                    _snack('Buka aplikasi Galeri, lalu pilih album JejakPOS.');
+                  }
+                },
+                icon: const Icon(Icons.photo_library_outlined),
+                label: const Text('Buka galeri'),
+              ),
             const SizedBox(height: 8),
             Row(
               children: [

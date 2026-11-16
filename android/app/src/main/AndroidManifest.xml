@@ -1,5 +1,6 @@
 <!-- android/app/src/main/AndroidManifest.xml -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Lokasi (F01, F02) -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -8,7 +9,8 @@
     <!-- Kamera: QR fallback (UI12) & Photo Studio (sprint berikutnya) -->
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- Photo Studio (F08): simpan foto ke galeri. Android 10+ tidak butuh izin ini (paket gal). -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29" tools:replace="android:maxSdkVersion" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <!-- Notifikasi POI (Android 13+) -->

@@ -1,15 +1,53 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jejakpos/data/models/poi.dart';
+import 'package:jejakpos/core/utils/app_logger.dart';
 import 'package:jejakpos/features/photo_studio/presentation/photo_studio_screen.dart';
 import 'package:jejakpos/features/photo_studio/widgets/uniform_overlay.dart';
+import 'package:jejakpos/features/photo_studio/studio_camera.dart';
+import 'package:jejakpos/features/photo_studio/studio_gallery.dart';
 import 'package:jejakpos/features/poi_detail/presentation/poi_activity_launcher.dart';
 
 import 'helpers/test_data.dart';
+
+class FakeStudioCamera implements StudioCamera {
+  final Uint8List photo =
+      File('assets/images/onboarding.png').readAsBytesSync();
+  int shots = 0;
+  bool disposed = false;
+  @override
+  bool get mirrorPhoto => true;
+  @override
+  Future<void> initialize() async {}
+  @override
+  Widget preview() =>
+      const ColoredBox(key: Key('live-preview'), color: Colors.blue);
+  @override
+  Future<Uint8List> takePhoto() async {
+    shots++;
+    return photo;
+  }
+
+  @override
+  Future<void> dispose() async {
+    disposed = true;
+  }
+}
+
+class FakeStudioGallery extends StudioGallery {
+  bool fail = false;
+  Uint8List? saved;
+  @override
+  Future<void> save(Uint8List png, String name) async {
+    if (fail) throw StateError('Penyimpanan gagal');
+    saved = png;
+  }
+}
 
 void main() {
   testWidgets('Photo Studio opens without a location trigger or QR',
@@ -35,8 +73,9 @@ void main() {
               PhotoStudioScreen(poiId: state.uri.queryParameters['poi'])),
     ]);
     addTearDown(router.dispose);
-    await tester.pumpWidget(
-        ProviderScope(child: MaterialApp.router(routerConfig: router)));
+    await tester.pumpWidget(ProviderScope(overrides: [
+      studioCameraFactoryProvider.overrideWithValue(FakeStudioCamera.new),
+    ], child: MaterialApp.router(routerConfig: router)));
     await tester.tap(find.text('Coba Photo Studio'));
     await tester.pumpAndSettle();
     expect(find.text('Photo Studio'), findsOneWidget);
@@ -50,6 +89,57 @@ void main() {
         UniformTemplate.hijau);
     expect(tester.widget<UniformCap>(find.byType(UniformCap).first).template,
         UniformTemplate.hijau);
+  });
+
+  testWidgets('live overlay, shutter, editor and gallery save confirmation',
+      (tester) async {
+    await tester.binding.setSurfaceSize(const Size(360, 800));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    final camera = FakeStudioCamera();
+    final gallery = FakeStudioGallery()..fail = true;
+    await tester.pumpWidget(ProviderScope(overrides: [
+      studioCameraFactoryProvider.overrideWithValue(() => camera),
+      studioGalleryProvider.overrideWithValue(gallery),
+    ], child: const MaterialApp(home: PhotoStudioScreen(poiId: 'P04'))));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('live-preview')), findsOneWidget);
+    expect(find.byType(UniformBody), findsWidgets);
+    expect(find.byType(UniformCap), findsWidgets);
+    await tester.runAsync(() => precacheImage(
+          MemoryImage(camera.photo),
+          tester.element(find.byType(PhotoStudioScreen)),
+        ));
+    await tester.tap(find.byTooltip('Jepret foto'));
+    await tester.pumpAndSettle();
+    expect(camera.shots, 1);
+    expect(camera.disposed, isTrue);
+    expect(find.byKey(const Key('live-preview')), findsNothing);
+    await tester.tap(find.text('Hijau'));
+    await tester.pumpAndSettle();
+    final resultButton = tester.widget<FilledButton>(find.ancestor(
+      of: find.text('Lihat hasil'),
+      matching: find.byWidgetPredicate((w) => w is FilledButton),
+    ));
+    expect(resultButton.onPressed, isNotNull);
+    await tester.tap(find.text('Lihat hasil'));
+    await tester.pumpAndSettle();
+    for (var i = 0; i < 20 && find.text('Hasil Foto').evaluate().isEmpty; i++) {
+      await tester.runAsync(
+          () => Future<void>.delayed(const Duration(milliseconds: 20)));
+      await tester.pump();
+    }
+    expect(find.text('Hasil Foto'), findsOneWidget,
+        reason: AppLogger.entries.toString());
+    await tester.tap(find.text('Simpan ke galeri'));
+    await tester.pumpAndSettle();
+    expect(find.text('Tersimpan'), findsNothing);
+    expect(gallery.saved, isNull);
+    gallery.fail = false;
+    await tester.tap(find.text('Simpan ke galeri'));
+    await tester.pumpAndSettle();
+    expect(find.text('Tersimpan'), findsOneWidget);
+    expect(find.text('Buka galeri'), findsOneWidget);
+    expect(gallery.saved!.take(8), [137, 80, 78, 71, 13, 10, 26, 10]);
   });
 
   test('every colour has matching original PNG assets and aspect ratios', () {
