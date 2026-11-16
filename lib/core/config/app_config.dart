@@ -3,9 +3,10 @@
 
 class AppConfig {
   const AppConfig({
-    this.defaultTriggerRadiusMeters = 10,
-    this.defaultApproachRadiusMeters = 15,
-    this.hysteresisMeters = 3,
+    this.defaultTriggerRadiusMeters = 3,
+    this.defaultApproachRadiusMeters = 6,
+    this.hysteresisMeters = 1,
+    this.gpsTriggerMaxAccuracyMeters = 5,
     this.requiredConsecutiveReadings = 2,
     this.maxAcceptedAccuracyMeters = 50,
     this.museumCenterLatitude = -6.902572,
@@ -15,10 +16,18 @@ class AppConfig {
     this.simulationModeDefault = false,
     this.simulationTickInterval = const Duration(seconds: 1),
     this.mediaBaseUrl = '',
+    this.visionMinSimilarity = 0.5,
+    this.visionMinMargin = 0.05,
+    this.visionRequiredFrames = 3,
+    this.visionFrameInterval = const Duration(milliseconds: 500),
+    this.visionGpsSlackMeters = 8,
+    this.visionGpsPenaltyPerMeter = 0.01,
+    this.visionGpsMaxPenalty = 0.15,
   });
 
-  /// Radius trigger default. PRD tabel POI = 5 m, Sprint 2/wireframe = 10 m.
-  /// Dipakai 10 m -> PERLU KONFIRMASI tim/museum.
+  /// Radius trigger default. Koordinat asli (Koordinat POI.pdf) menunjukkan
+  /// jarak antar-POI hanya 1-10 m, jadi radius diperkecil dari 10 m ke 3 m.
+  /// Pengenal utama saat tur adalah computer vision (lihat vision*), GPS hanya pendukung.
   final double defaultTriggerRadiusMeters;
 
   /// Radius status "approaching" (mendekati).
@@ -26,6 +35,11 @@ class AppConfig {
 
   /// Jarak tambahan sebelum status turun (mencegah status berkedip).
   final double hysteresisMeters;
+
+  /// GPS asli hanya boleh MEMICU POI jika akurasinya <= nilai ini. Di dalam
+  /// gedung akurasi biasanya 5-20 m, jadi GPS cukup memberi status "mendekati"
+  /// dan konfirmasi POI diserahkan ke computer vision / QR / beacon.
+  final double gpsTriggerMaxAccuracyMeters;
 
   /// Jumlah pembacaan berturut-turut sebelum status berubah (debounce).
   final int requiredConsecutiveReadings;
@@ -50,6 +64,27 @@ class AppConfig {
   /// Alamat Firebase Hosting untuk audio & foto POI. Kosong = hanya aset APK.
   /// Diisi lewat `--dart-define=MEDIA_BASE_URL=https://<project-id>.web.app`.
   final String mediaBaseUrl;
+
+  // ---- Computer vision (pengenalan pameran lewat kamera) ----
+
+  /// Cosine similarity minimal frame kamera vs foto referensi POI.
+  final double visionMinSimilarity;
+
+  /// Selisih skor minimal POI teratas vs POI kedua (hindari tebakan ragu-ragu).
+  final double visionMinMargin;
+
+  /// Jumlah frame berturut-turut dengan POI teratas yang sama sebelum dikonfirmasi.
+  final int visionRequiredFrames;
+
+  /// Jeda antar-frame yang dianalisis (hemat baterai).
+  final Duration visionFrameInterval;
+
+  /// Penggabungan dengan GPS: POI yang lebih jauh dari (akurasi GPS + slack)
+  /// diberi penalti skor per meter, maksimal [visionGpsMaxPenalty].
+  /// Penalti (bukan filter keras) agar GPS yang meleset tidak menghapus POI yang benar.
+  final double visionGpsSlackMeters;
+  final double visionGpsPenaltyPerMeter;
+  final double visionGpsMaxPenalty;
 
   /// Konfigurasi default membaca flag --dart-define.
   factory AppConfig.fromEnvironment() {

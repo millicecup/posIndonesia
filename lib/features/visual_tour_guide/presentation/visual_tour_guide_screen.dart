@@ -38,6 +38,11 @@ class VisualTourGuideScreen extends ConsumerWidget {
         title: Text(poi?.name ?? 'Pemandu Tur'),
         actions: [
           IconButton(
+            tooltip: 'Kenali pameran (kamera)',
+            icon: const Icon(Icons.center_focus_strong),
+            onPressed: () => context.push(AppRoutes.visionTour),
+          ),
+          IconButton(
             tooltip: 'Tutup',
             icon: const Icon(Icons.close),
             onPressed: () => context.canPop()

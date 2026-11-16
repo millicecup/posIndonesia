@@ -37,6 +37,9 @@ dependencies:
   flutter_tts: ^4.2.5
   camera: 0.11.0+2
 
+  # Computer vision: pengenalan pameran on-device (embedding MobileNetV3)
+  tflite_flutter: ^0.11.0
+
   # --- Disiapkan untuk sprint berikutnya (sengaja di-comment agar build Sprint 1 ringan) ---
   # google_mlkit_barcode_scanning: ^0.13.0  # alternatif mobile_scanner
   # flutter_blue_plus: ^1.35.3              # PoC BLE beacon (PB05) - hanya perangkat fisik
@@ -57,3 +60,4 @@ flutter:
     - assets/images/photo_studio/
     - assets/audio/
     - assets/map/
+    - assets/models/

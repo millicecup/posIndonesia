@@ -27,7 +27,7 @@ void main() {
   setUp(() {
     pois = loadDataset();
     p01 = pois.first;
-    // Debounce 2 pembacaan, hysteresis 3 m (default)
+    // Debounce 2 pembacaan, hysteresis 1 m (default)
     engine = TriggerEngine(config: const AppConfig())..setPois(pois);
   });
 
@@ -45,7 +45,7 @@ void main() {
       .where((e) => e.type == TriggerEventType.triggered && e.poi.id == id)
       .toList();
 
-  test('masuk radius 10 m memicu POI setelah debounce', () {
+  test('masuk radius 3 m memicu POI setelah debounce', () {
     final first = feed(_at(p01, northMeters: 2));
     expect(triggeredFor(first, 'P01'), isEmpty, reason: 'baru 1 pembacaan');
     final second = feed(_at(p01, northMeters: 2));
@@ -70,8 +70,8 @@ void main() {
         hasLength(1));
   });
 
-  test('status approaching saat sekitar 12-15 m', () {
-    final events = feed(_at(p01, northMeters: 13), times: 2);
+  test('status approaching saat sekitar 4-6 m', () {
+    final events = feed(_at(p01, northMeters: 5), times: 2);
     expect(
         events.where(
             (e) => e.poi.id == 'P01' && e.type == TriggerEventType.approaching),
@@ -80,13 +80,13 @@ void main() {
     expect(engine.hasTriggered('P01'), isFalse);
   });
 
-  test('hysteresis: berkedip di sekitar batas 10 m tidak keluar dari triggered', () {
-    feed(_at(p01, northMeters: 9), times: 2);
+  test('hysteresis: berkedip di sekitar batas 3 m tidak keluar dari triggered', () {
+    feed(_at(p01, northMeters: 2.5), times: 2);
     expect(engine.statuses['P01']!.proximity, PoiProximity.triggered);
-    // 11-12 m masih dalam batas keluar (10 + 3 m)
+    // 3.5 m masih dalam batas keluar (3 + 1 m)
     final events = <TriggerEvent>[];
     for (var i = 0; i < 10; i++) {
-      events.addAll(engine.updatePosition(_at(p01, northMeters: i.isEven ? 11 : 9)));
+      events.addAll(engine.updatePosition(_at(p01, northMeters: i.isEven ? 3.5 : 2.5)));
     }
     expect(engine.statuses['P01']!.proximity, PoiProximity.triggered);
     expect(events.where((e) => e.poi.id == 'P01'), isEmpty);
@@ -104,6 +104,21 @@ void main() {
   test('akurasi buruk diabaikan', () {
     final events = feed(_at(p01, accuracy: 200), times: 5);
     expect(events, isEmpty);
+  });
+
+  test('GPS dalam gedung (akurasi > 5 m) hanya approaching, tidak memicu POI', () {
+    final events = feed(_at(p01, accuracy: 12), times: 5);
+    expect(triggeredFor(events, 'P01'), isEmpty);
+    expect(engine.statuses['P01']!.proximity, PoiProximity.approaching);
+    // Konfirmasi lewat computer vision tetap bisa memicu.
+    expect(engine.reportIdentification(p01, TriggerSource.vision)?.source,
+        TriggerSource.vision);
+  });
+
+  test('simulasi tidak terkena syarat akurasi GPS', () {
+    final sim = _at(p01, accuracy: 12).copyWith(source: PositionSource.simulation);
+    final events = feed(sim, times: 2);
+    expect(triggeredFor(events, 'P01'), hasLength(1));
   });
 
   test('identifikasi beacon/QR hanya sekali per sesi', () {

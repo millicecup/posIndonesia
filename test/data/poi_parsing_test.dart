@@ -56,7 +56,7 @@ void main() {
         expect(p.keyFacts.length, inInclusiveRange(3, 5));
         expect(p.images, isNotEmpty);
         expect(p.mapPosition.isValid, isTrue);
-        expect(p.triggerRule.triggerRadiusMeters, 10);
+        expect(p.triggerRule.triggerRadiusMeters, 3);
       }
     });
 

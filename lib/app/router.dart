@@ -27,6 +27,7 @@ import '../features/mystery_clue/presentation/mystery_clue_screen.dart';
 import '../features/simulation_debug/presentation/simulation_panel_screen.dart';
 import '../features/stamp_making/presentation/stamp_making_screen.dart';
 import '../features/visit_summary/presentation/visit_summary_screen.dart';
+import '../features/vision_tour/presentation/vision_tour_screen.dart';
 import '../features/visual_tour_guide/presentation/visual_tour_guide_screen.dart';
 import 'main_shell.dart';
 import 'routes.dart';
@@ -143,6 +144,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.qrScanner,
         builder: (context, state) => const QrScannerScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.visionTour,
+        builder: (context, state) => const VisionTourScreen(),
       ),
       GoRoute(
         path: AppRoutes.simulation,

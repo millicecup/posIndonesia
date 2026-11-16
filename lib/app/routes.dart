@@ -17,6 +17,7 @@ class AppRoutes {
   static String poiDetail(String poiId) => '/poi/$poiId'; // UI10 POI Detail
   static String audioPlayer(String poiId) => '/poi/$poiId/audio'; // UI11 Audio Player
   static const String qrScanner = '/qr'; // UI12 Pindai QR (fallback)
+  static const String visionTour = '/kenali'; // Kenali Pameran (computer vision saat tur)
   static const String album = '/album'; // UI14 Album Perangko Digital (tab Album)
   static const String progress = '/progress'; // UI21 Progres & Rekomendasi (tab Progres)
   static String photoStudio([String? poiId]) =>

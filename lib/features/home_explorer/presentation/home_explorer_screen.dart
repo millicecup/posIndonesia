@@ -31,6 +31,11 @@ class HomeExplorerScreen extends ConsumerWidget {
         title: const Text('Jelajah Museum'),
         actions: [
           IconButton(
+            tooltip: 'Kenali pameran (kamera)',
+            icon: const Icon(Icons.center_focus_strong),
+            onPressed: () => context.push(AppRoutes.visionTour),
+          ),
+          IconButton(
             tooltip: 'Pindai QR',
             icon: const Icon(Icons.qr_code_scanner),
             onPressed: () => context.push(AppRoutes.qrScanner),
@@ -86,6 +91,10 @@ class HomeExplorerScreen extends ConsumerWidget {
                         icon: Icons.map,
                         label: 'Peta',
                         onTap: () => context.go(AppRoutes.map)),
+                    QuickActionButton(
+                        icon: Icons.center_focus_strong,
+                        label: 'Kenali',
+                        onTap: () => context.push(AppRoutes.visionTour)),
                     QuickActionButton(
                         icon: Icons.tour,
                         label: 'Tur',
