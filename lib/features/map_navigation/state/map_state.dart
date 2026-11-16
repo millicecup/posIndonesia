@@ -6,12 +6,15 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../../../core/constants/app_constants.dart';
 import '../../../data/models/map_position.dart';
 
-/// Ukuran "dunia" peta (unit CrsSimple). Rasio sama dengan gambar 1000x700.
+/// Ukuran "dunia" peta (unit CrsSimple). Rasio sama dengan denah asli
+/// (AppConstants.mapImageWidth x mapImageHeight, portrait).
 /// Nilai kecil dipakai karena LatLng membatasi lat -90..90 dan lng -180..180.
-const double kMapUnitWidth = 100;
-const double kMapUnitHeight = 70;
+const double kMapUnitHeight = 90;
+const double kMapUnitWidth =
+    kMapUnitHeight * AppConstants.mapImageWidth / AppConstants.mapImageHeight;
 
 final LatLngBounds kMapBounds = LatLngBounds(
   const LatLng(0, 0),

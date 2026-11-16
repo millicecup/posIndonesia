@@ -109,7 +109,7 @@ posIndonesia/
 │   ├── images/stamps/                   # gambar perangko stamp_pNN.png           [Matilda]
 │   ├── images/onboarding.png            # ilustrasi onboarding                    [Farella]
 │   ├── audio/                           # narasi & Mars (WAV placeholder)         [Matilda]
-│   └── map/museum_floor_plan.png        # denah 2D placeholder 1000×700           [Matilda]
+│   └── map/denah_museum.jpg             # denah asli 1737×2413 (Denah2D_Real)         [Matilda]
 ├── lib/
 │   ├── main.dart                        # entry: SharedPreferences + ProviderScope [Matilda]
 │   ├── core/                                                     ── BACKEND ──

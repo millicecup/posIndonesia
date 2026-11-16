@@ -34,6 +34,10 @@ flutter build apk --debug
 
 ## APK
 
+APK siap pasang ada di [apk/JejakPOS-v0.1.0-arm64-v8a.apk](apk/JejakPOS-v0.1.0-arm64-v8a.apk) (HP Android 64-bit, hampir semua HP sejak 2017). Untuk HP lama 32-bit atau emulator x86_64, build sendiri dengan `--split-per-abi`.
+
+Konten P01–P11 (teks, foto, kuis, perangko album, overlay Photo Studio, denah asli) diambil dari branch `content/poi-dataset`.
+
 ```bash
 flutter build apk --release
 # hasil: build/app/outputs/flutter-apk/app-release.apk

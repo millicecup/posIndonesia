@@ -55,5 +55,6 @@ flutter:
     - assets/images/
     - assets/images/pois/
     - assets/images/stamps/
+    - assets/images/photo_studio/
     - assets/audio/
     - assets/map/

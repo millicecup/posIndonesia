@@ -72,13 +72,13 @@ void main() {
       expect(byId('P11').activities, contains(PoiActivity.postmark));
       expect(byId('P12').activities,
           containsAll([PoiActivity.gallery, PoiActivity.quiz, PoiActivity.mission]));
-      expect(byId('P11').zone.description, contains('pintu masuk'));
+      expect(byId('P11').zone.description, contains('Meja Registrasi'));
     });
 
-    test('konten PB06 (Dokumen Sprint 2 tab revisi): P01-P09 tervalidasi', () {
+    test('konten content/poi-dataset: P01-P11 tervalidasi', () {
       final pois = loadDataset();
       Poi byId(String id) => pois.firstWhere((p) => p.id == id);
-      for (var i = 1; i <= 9; i++) {
+      for (var i = 1; i <= 11; i++) {
         final p = byId('P${i.toString().padLeft(2, '0')}');
         expect(p.contentValidated, isTrue, reason: p.id);
         expect(p.sections, isNotEmpty, reason: p.id);
@@ -86,12 +86,15 @@ void main() {
         expect(p.keyFacts.join(), isNot(contains('PERLU VALIDASI')), reason: p.id);
         expect(p.images.first, endsWith('.jpg'), reason: p.id);
       }
-      // P10 hanya foto (teks di dokumen salah tempel), P11 belum ada materi, P12-P13 backlog.
-      for (final id in ['P10', 'P11', 'P12', 'P13']) {
+      // P12-P13 kandidat tambahan (backlog), belum ada materi.
+      for (final id in ['P12', 'P13']) {
         expect(byId(id).contentValidated, isFalse, reason: id);
       }
-      expect(byId('P04').sections.map((s) => s.title), ['Seragam Petugas Pos', 'Lencana']);
-      expect(byId('P06').sections.single.body, isNot(contains('nanti aku tambahin')));
+      expect(byId('P04').sections.map((s) => s.title),
+          ['Seragam Petugas Pos', 'Topi, Lencana, dan Tas']);
+      expect(byId('P02').curatedQuiz, hasLength(5));
+      expect(byId('P06').sections.map((s) => s.body).join(),
+          isNot(contains('nanti aku tambahin')));
     });
 
     test('semua gambar (termasuk gambar per bagian cerita) ada di assets', () {
@@ -125,7 +128,7 @@ void main() {
       final p09 = pois.firstWhere((p) => p.id == 'P09');
       expect(p09.audio, isNull);
       expect(p09.hasAudio, isFalse);
-      expect(pois.firstWhere((p) => p.id == 'P03').activities, isEmpty);
+      expect(pois.firstWhere((p) => p.id == 'P10').activities, isEmpty);
     });
 
     test('jarak antar-POI (placeholder) > 20 m agar radius 10 m tidak tumpang tindih', () {

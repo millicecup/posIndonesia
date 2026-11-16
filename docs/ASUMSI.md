@@ -84,7 +84,7 @@ Arti status:
   - Lorong: P05, P13
   - Ruang 3: P07, P09
   - Ruang Awal / Pintu Masuk: P01, P02, P11, P12
-- **Di kode:** `mapPosition` semua POI dan gambar `assets/map/museum_floor_plan.png` kini mengikuti tata letak tersebut.
+- **Di kode:** `mapPosition` semua POI dan gambar denah kini memakai denah asli `assets/map/denah_museum.jpg` (Denah2D_Real dari content/poi-dataset).
 - **Tindak lanjut:** ganti dengan denah resmi museum setelah tersedia (R5).
 - **Pembaruan PRD v2:** posisi fisik tiap koleksi tidak berubah, hanya nomornya. Dengan nomor PRD v2:
   - Ruang 4: P08 (Mas Soeharto), P03 (Kepemimpinan)

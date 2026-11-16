@@ -9,12 +9,12 @@ class AppConstants {
 
   // Path aset
   static const String poiDatasetPath = 'assets/data/pois.json';
-  static const String museumMapImage = 'assets/map/museum_floor_plan.png';
+  static const String museumMapImage = 'assets/map/denah_museum.jpg';
   static const String onboardingImage = 'assets/images/onboarding.png';
 
-  // Ukuran gambar denah (dipakai untuk konversi mapPosition 0-1 ke koordinat peta)
-  static const double mapImageWidth = 1000;
-  static const double mapImageHeight = 700;
+  // Ukuran gambar denah asli Denah2D_Real (dipakai untuk konversi mapPosition 0-1 ke koordinat peta)
+  static const double mapImageWidth = 1737;
+  static const double mapImageHeight = 2413;
 
   // Minimal jumlah POI di dataset (F03, F06)
   static const int minimumPoiCount = 10;

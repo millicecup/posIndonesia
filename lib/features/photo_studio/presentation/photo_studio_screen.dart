@@ -2,7 +2,7 @@
 // UI15 Photo Studio + UI16 Hasil Foto (F08, PB14). Wireframe: PRD Gambar 5.5 kanan & 5.6 kiri.
 // Versi minimum sesuai NG04: ambil foto (kamera) atau unggah (galeri), pilih template seragam
 // 2D, geser/cubit overlay agar pas, lalu simpan ke galeri HP. Tanpa AR body tracking / AI.
-// Overlay seragam adalah ilustrasi buatan sendiri (PRD R3), bukan desain seragam resmi.
+// Overlay seragam & topi: PNG dari repo content/poi-dataset (POI004), 3 warna.
 
 import 'dart:io';
 import 'dart:typed_data';
@@ -39,7 +39,7 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
   // Posisi & skala topi dan seragam (relatif terhadap ukuran kanvas).
   Offset _capPos = const Offset(.5, .26);
   double _capScale = 1;
-  Offset _bodyPos = const Offset(.5, .82);
+  Offset _bodyPos = const Offset(.5, .8);
   double _bodyScale = 1;
 
   double _gestureStartScale = 1; // skala saat gesture cubit dimulai
@@ -148,7 +148,7 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
               TextButton.icon(
                 onPressed: () => setState(() {
                   _capPos = const Offset(.5, .26);
-                  _bodyPos = const Offset(.5, .82);
+                  _bodyPos = const Offset(.5, .8);
                   _capScale = 1;
                   _bodyScale = 1;
                 }),
@@ -225,7 +225,7 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
 
   Widget _buildCanvas(Size size) {
     final capW = size.width * .55 * _capScale;
-    final bodyW = size.width * 1.0 * _bodyScale;
+    final bodyW = size.width * .9 * _bodyScale;
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: Stack(
@@ -253,7 +253,7 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
             size: size,
             pos: _bodyPos,
             width: bodyW,
-            aspect: .55,
+            aspect: _template.bodyAspect,
             onChanged: (p, s) => setState(() {
               _bodyPos = p;
               _bodyScale = s;
@@ -266,7 +266,7 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen> {
             size: size,
             pos: _capPos,
             width: capW,
-            aspect: .5,
+            aspect: _template.capAspect,
             onChanged: (p, s) => setState(() {
               _capPos = p;
               _capScale = s;
