@@ -18,6 +18,7 @@ import '../../../providers/providers.dart';
 import '../../../services/trigger_engine.dart';
 import '../../../shared/widgets/async_value_view.dart';
 import '../state/map_state.dart';
+import 'museum_map_view.dart';
 
 class MapScreen extends ConsumerWidget {
   const MapScreen({super.key});
@@ -27,8 +28,8 @@ class MapScreen extends ConsumerWidget {
     final pois = ref.watch(poisProvider);
     final selectedId = ref.watch(selectedMapPoiIdProvider);
     final proximity = ref.watch(poiProximityProvider).valueOrNull ?? const {};
-    final visited =
-        ref.watch(progressProvider).valueOrNull?.visitedPoiIds ?? const <String>[];
+    final visited = ref.watch(progressProvider).valueOrNull?.visitedPoiIds ??
+        const <String>[];
 
     return Scaffold(
       appBar: AppBar(title: const Text('Peta Museum')),
@@ -41,28 +42,16 @@ class MapScreen extends ConsumerWidget {
           }
           return Stack(
             children: [
-              FlutterMap(
-                options: MapOptions(
-                  crs: const CrsSimple(),
-                  initialCameraFit: CameraFit.bounds(
-                    bounds: kMapBounds,
-                    padding: const EdgeInsets.all(12),
-                  ),
-                  minZoom: 1,
-                  maxZoom: 6,
-                  backgroundColor: AppColors.lightGrey,
-                  interactionOptions: const InteractionOptions(
-                    flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
-                  ),
-                  onTap: (_, __) =>
-                      ref.read(selectedMapPoiIdProvider.notifier).state = null,
-                ),
+              MuseumMapView(
+                onTap: (_, __) =>
+                    ref.read(selectedMapPoiIdProvider.notifier).state = null,
                 children: [
                   OverlayImageLayer(
                     overlayImages: [
                       OverlayImage(
                         bounds: kMapBounds,
-                        imageProvider: const AssetImage(AppConstants.museumMapImage),
+                        imageProvider:
+                            const AssetImage(AppConstants.museumMapImage),
                       ),
                     ],
                   ),
@@ -122,7 +111,9 @@ class _PoiMarker extends StatelessWidget {
     Color color = AppColors.darkGrey;
     if (visited) color = AppColors.success;
     if (proximity == PoiProximity.approaching) color = AppColors.warning;
-    if (proximity == PoiProximity.triggered || selected) color = AppColors.orange;
+    if (proximity == PoiProximity.triggered || selected) {
+      color = AppColors.orange;
+    }
 
     return GestureDetector(
       onTap: onTap,
@@ -136,7 +127,9 @@ class _PoiMarker extends StatelessWidget {
         child: Text(
           poi.id,
           style: const TextStyle(
-              color: AppColors.white, fontSize: 11, fontWeight: FontWeight.bold),
+              color: AppColors.white,
+              fontSize: 11,
+              fontWeight: FontWeight.bold),
         ),
       ),
     );

@@ -17,6 +17,7 @@ import '../../../data/models/models.dart';
 import '../../../providers/providers.dart';
 import '../../../shared/widgets/async_value_view.dart';
 import '../state/map_state.dart';
+import 'museum_map_view.dart';
 
 class RouteGuidanceScreen extends ConsumerWidget {
   const RouteGuidanceScreen({super.key, required this.poiId});
@@ -35,7 +36,9 @@ class RouteGuidanceScreen extends ConsumerWidget {
       body: AsyncValueView<Poi?>(
         value: target,
         data: (poi) {
-          if (poi == null) return const Center(child: Text('POI tidak ditemukan'));
+          if (poi == null) {
+            return const Center(child: Text('POI tidak ditemukan'));
+          }
 
           // Titik awal di denah: POI terakhir dikunjungi, atau pintu masuk (P11 Stempel Museum; PRD v1: P12).
           final lastId = (progress?.visitedPoiIds.isNotEmpty ?? false)
@@ -63,20 +66,13 @@ class RouteGuidanceScreen extends ConsumerWidget {
           return Column(
             children: [
               Expanded(
-                child: FlutterMap(
-                  options: MapOptions(
-                    crs: const CrsSimple(),
-                    initialCameraFit: CameraFit.bounds(
-                        bounds: kMapBounds, padding: const EdgeInsets.all(12)),
-                    minZoom: 1,
-                    maxZoom: 6,
-                    backgroundColor: AppColors.lightGrey,
-                  ),
+                child: MuseumMapView(
                   children: [
                     OverlayImageLayer(overlayImages: [
                       OverlayImage(
                         bounds: kMapBounds,
-                        imageProvider: const AssetImage(AppConstants.museumMapImage),
+                        imageProvider:
+                            const AssetImage(AppConstants.museumMapImage),
                       ),
                     ]),
                     if (from != null && from.id != poi.id)
@@ -103,7 +99,8 @@ class RouteGuidanceScreen extends ConsumerWidget {
                         point: mapPositionToLatLng(poi.mapPosition),
                         width: 40,
                         height: 40,
-                        child: const Icon(Icons.place, color: AppColors.orange, size: 40),
+                        child: const Icon(Icons.place,
+                            color: AppColors.orange, size: 40),
                       ),
                     ]),
                   ],
@@ -124,7 +121,8 @@ class RouteGuidanceScreen extends ConsumerWidget {
                     Text(instruction),
                     const SizedBox(height: 12),
                     ElevatedButton(
-                      onPressed: () => context.push(AppRoutes.poiDetail(poi.id)),
+                      onPressed: () =>
+                          context.push(AppRoutes.poiDetail(poi.id)),
                       child: const Text('Lihat Detail'),
                     ),
                   ],
