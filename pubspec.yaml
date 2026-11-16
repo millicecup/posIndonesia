@@ -33,12 +33,11 @@ dependencies:
   # Penyimpanan lokal progres
   shared_preferences: ^2.3.3
   path_provider: ^2.1.6
-  image_picker: ^1.2.4
   gal: ^2.3.3
   flutter_tts: ^4.2.5
+  camera: 0.11.0+2
 
   # --- Disiapkan untuk sprint berikutnya (sengaja di-comment agar build Sprint 1 ringan) ---
-  # camera: ^0.11.0+2                       # Postman Photo Studio (F08)
   # google_mlkit_barcode_scanning: ^0.13.0  # alternatif mobile_scanner
   # flutter_blue_plus: ^1.35.3              # PoC BLE beacon (PB05) - hanya perangkat fisik
 

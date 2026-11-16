@@ -158,8 +158,7 @@ class _PoiDetailBody extends ConsumerWidget {
                     label: 'Galeri',
                     onPressed: () => showPoiGallery(context, poi),
                   ),
-                  // Photo Studio hanya untuk POI seragam (P04), dibuka lewat launcher
-                  // yang memeriksa apakah pengunjung sudah terdeteksi di area tersebut.
+                  // Photo Studio untuk POI seragam (P04), langsung dibuka tanpa QR/lokasi.
                   if (poi.activities.contains(PoiActivity.photoStudio))
                     _MediaButton(
                       icon: Icons.camera_alt_outlined,

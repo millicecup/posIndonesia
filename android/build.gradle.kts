@@ -19,6 +19,17 @@ subprojects {
     project.evaluationDependsOn(":app")
 }
 
+// CameraX 1.5.3 exposes a type annotation referencing concurrent-futures but
+// declares it only at runtime. Gradle 9/JDK 21+ need it at compile time too.
+// https://github.com/flutter/flutter/issues/183515
+subprojects {
+    if (name == "camera_android_camerax") {
+        pluginManager.withPlugin("com.android.library") {
+            dependencies.add("implementation", "androidx.concurrent:concurrent-futures:1.3.0")
+        }
+    }
+}
+
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
