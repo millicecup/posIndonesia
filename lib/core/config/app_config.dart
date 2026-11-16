@@ -8,8 +8,8 @@ class AppConfig {
     this.hysteresisMeters = 3,
     this.requiredConsecutiveReadings = 2,
     this.maxAcceptedAccuracyMeters = 50,
-    this.museumCenterLatitude = -6.90245,
-    this.museumCenterLongitude = 107.61975,
+    this.museumCenterLatitude = -6.902572,
+    this.museumCenterLongitude = 107.620269,
     this.museumGeofenceRadiusMeters = 150,
     this.beaconRssiThreshold = -75,
     this.simulationModeDefault = false,
@@ -33,8 +33,8 @@ class AppConfig {
   /// Pembacaan GPS dengan akurasi lebih buruk dari ini diabaikan.
   final double maxAcceptedAccuracyMeters;
 
-  /// Titik pusat museum. PLACEHOLDER: sekitar Museum Pos Indonesia, Bandung.
-  /// Koordinat asli belum tersedia.
+  /// Titik pusat museum: rata-rata koordinat P01-P11 dari "Koordinat POI.pdf".
+  /// Semua POI baseline berada <= 21 m dari titik ini.
   final double museumCenterLatitude;
   final double museumCenterLongitude;
   final double museumGeofenceRadiusMeters;

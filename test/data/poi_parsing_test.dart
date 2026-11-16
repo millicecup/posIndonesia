@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:jejakpos/core/config/app_config.dart';
 import 'package:jejakpos/core/errors/app_exception.dart';
 import 'package:jejakpos/core/utils/haversine.dart';
 import 'package:jejakpos/data/datasources/poi_local_datasource.dart';
@@ -131,14 +132,13 @@ void main() {
       expect(pois.firstWhere((p) => p.id == 'P10').activities, isEmpty);
     });
 
-    test('jarak antar-POI (placeholder) > 20 m agar radius 10 m tidak tumpang tindih', () {
-      final pois = loadDataset();
-      for (var i = 0; i < pois.length; i++) {
-        for (var j = i + 1; j < pois.length; j++) {
-          final d = haversineDistanceMeters(pois[i].latitude!, pois[i].longitude!,
-              pois[j].latitude!, pois[j].longitude!);
-          expect(d, greaterThan(20), reason: '${pois[i].id}-${pois[j].id}');
-        }
+    test('koordinat POI baseline asli (Koordinat POI.pdf) dan di dalam geofence museum', () {
+      const config = AppConfig();
+      for (final p in loadDataset().where((p) => p.isBaseline)) {
+        expect(p.coordinatesArePlaceholder, isFalse, reason: p.id);
+        final d = haversineDistanceMeters(p.latitude!, p.longitude!,
+            config.museumCenterLatitude, config.museumCenterLongitude);
+        expect(d, lessThan(config.museumGeofenceRadiusMeters), reason: p.id);
       }
     });
 
