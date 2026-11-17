@@ -17,6 +17,10 @@ Future<void> showStampUnlockedDialog(BuildContext context,
   return showDialog<void>(
     context: context,
     builder: (ctx) => AlertDialog(
+      scrollable: true,
+      backgroundColor: AppColors.white,
+      surfaceTintColor: Colors.transparent,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       contentPadding: const EdgeInsets.fromLTRB(24, 20, 24, 8),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -47,24 +51,33 @@ Future<void> showStampUnlockedDialog(BuildContext context,
               style: const TextStyle(fontSize: 12, color: AppColors.grey)),
         ],
       ),
-      actionsAlignment: MainAxisAlignment.center,
-      actionsOverflowDirection: VerticalDirection.down,
+      actionsPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
       actions: [
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(ctx);
-            context.go(AppRoutes.album);
-          },
-          child: const Text('Lihat Album'),
-        ),
-        OutlinedButton(
-          style:
-              OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(44)),
-          onPressed: () {
-            Navigator.pop(ctx);
-            context.push(AppRoutes.tour);
-          },
-          child: const Text('Lanjut menjelajah'),
+        SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  context.go(AppRoutes.album);
+                },
+                icon: const Icon(Icons.collections_bookmark_outlined, size: 20),
+                label: const Text('Lihat Album'),
+              ),
+              const SizedBox(height: 12),
+              OutlinedButton.icon(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  context.push(AppRoutes.tour);
+                },
+                icon: const Icon(Icons.explore_outlined, size: 20),
+                label: const Text('Lanjut menjelajah'),
+              ),
+            ],
+          ),
         ),
       ],
     ),

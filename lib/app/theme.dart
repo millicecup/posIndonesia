@@ -48,8 +48,29 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.orange,
           foregroundColor: AppColors.white,
+          elevation: 0,
+          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           minimumSize: const Size.fromHeight(48),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.orange,
+          minimumSize: const Size(64, 48),
+          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          side: const BorderSide(color: AppColors.orange),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          minimumSize: const Size(64, 48),
+          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
       ),
       // cardTheme sengaja tidak diset: tipenya berubah antar versi Flutter
@@ -61,8 +82,10 @@ class AppTheme {
         secondaryLabelStyle: TextStyle(color: AppColors.white),
       ),
       textTheme: const TextTheme(
-        titleLarge: TextStyle(fontWeight: FontWeight.bold, color: AppColors.darkGrey),
-        titleMedium: TextStyle(fontWeight: FontWeight.w600, color: AppColors.darkGrey),
+        titleLarge:
+            TextStyle(fontWeight: FontWeight.bold, color: AppColors.darkGrey),
+        titleMedium:
+            TextStyle(fontWeight: FontWeight.w600, color: AppColors.darkGrey),
         bodyMedium: TextStyle(color: AppColors.darkGrey),
       ),
     );

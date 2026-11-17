@@ -245,11 +245,11 @@ class _SectionCard extends StatelessWidget {
             children: [
               if (section.images.isNotEmpty)
                 SizedBox(
-                  height: 160,
+                  height: 180,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: section.images.length,
-                    separatorBuilder: (_, __) => const SizedBox(width: 8),
+                    separatorBuilder: (_, __) => const SizedBox(width: 12),
                     itemBuilder: (_, i) => GestureDetector(
                       onTap: () => showDialog<void>(
                         context: context,
@@ -260,11 +260,16 @@ class _SectionCard extends StatelessWidget {
                                   fit: BoxFit.contain)),
                         ),
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: AspectRatio(
-                            aspectRatio: 3 / 4,
-                            child: MediaImage(section.images[i])),
+                      child: Container(
+                        width: 240,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          color: AppColors.lightGrey,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: const EdgeInsets.all(8),
+                        child:
+                            MediaImage(section.images[i], fit: BoxFit.contain),
                       ),
                     ),
                   ),
