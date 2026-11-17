@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../core/constants/app_constants.dart';
@@ -28,6 +29,11 @@ class CachedMedia extends MediaSource {
   final File file;
 }
 
+class RemoteMedia extends MediaSource {
+  const RemoteMedia(this.uri);
+  final Uri uri;
+}
+
 class MediaDownloadResult {
   const MediaDownloadResult({required this.total, required this.failed});
 
@@ -48,8 +54,10 @@ class MediaService {
   })  : baseUrl = baseUrl.replaceFirst(RegExp(r'/+$'), ''),
         _isBundled = isBundled ?? _defaultIsBundled,
         _directory = directory ?? _defaultDirectory,
-        _http = (httpClient ?? HttpClient())
-          ..connectionTimeout = _networkTimeout;
+        _http = httpClient ??
+            (kIsWeb
+                ? null
+                : (HttpClient()..connectionTimeout = _networkTimeout));
 
   static const _networkTimeout = Duration(seconds: 20);
   static const _assetPrefix = 'assets/';
@@ -57,7 +65,7 @@ class MediaService {
   final String baseUrl;
   final MediaAssetChecker _isBundled;
   final MediaDirectoryProvider _directory;
-  final HttpClient _http;
+  final HttpClient? _http;
   final Map<String, Future<File>> _inFlight = {};
 
   bool get isRemoteEnabled => baseUrl.isNotEmpty;
@@ -68,6 +76,7 @@ class MediaService {
   /// Mengembalikan null jika file tidak tersedia dan tidak bisa diunduh.
   Future<MediaSource?> resolve(String path, {bool download = true}) async {
     if (await _isBundled(path)) return BundledMedia(path);
+    if (kIsWeb) return isRemoteEnabled ? RemoteMedia(remoteUri(path)) : null;
     final file = await _fileFor(path);
     if (await file.exists()) return CachedMedia(file);
     if (!download || !isRemoteEnabled) return null;
@@ -94,6 +103,10 @@ class MediaService {
     Iterable<String> paths, {
     MediaProgressCallback? onProgress,
   }) async {
+    if (kIsWeb) {
+      throw const MediaException(
+          'Unduh media offline tersedia di aplikasi Android.');
+    }
     final queue = await missing(paths);
     final failed = <String>[];
     for (var i = 0; i < queue.length; i++) {
@@ -109,7 +122,7 @@ class MediaService {
     return MediaDownloadResult(total: queue.length, failed: failed);
   }
 
-  void dispose() => _http.close(force: true);
+  void dispose() => _http?.close(force: true);
 
   Future<File> _download(String path) {
     if (!isRemoteEnabled) {
@@ -129,7 +142,7 @@ class MediaService {
     final part = File('${target.path}.part');
     final uri = remoteUri(path);
     try {
-      final request = await _http.getUrl(uri);
+      final request = await _http!.getUrl(uri);
       final response = await request.close().timeout(_networkTimeout);
       if (response.statusCode != HttpStatus.ok) {
         await response.drain<void>();

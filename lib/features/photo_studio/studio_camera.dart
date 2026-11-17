@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,7 +38,9 @@ class DeviceStudioCamera implements StudioCamera {
     );
     _controller = controller;
     await controller.initialize();
-    await controller.lockCaptureOrientation(DeviceOrientation.portraitUp);
+    if (!kIsWeb) {
+      await controller.lockCaptureOrientation(DeviceOrientation.portraitUp);
+    }
   }
 
   @override

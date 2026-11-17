@@ -64,6 +64,8 @@ class AudioService {
           await _player.setAsset(bundledPath);
         case CachedMedia(:final file):
           await _player.setFilePath(file.path);
+        case RemoteMedia(:final uri):
+          await _player.setUrl(uri.toString());
       }
       _currentAsset = assetPath;
       AppLogger.info(_tag, 'Audio dimuat: $assetPath');

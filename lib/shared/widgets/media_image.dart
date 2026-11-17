@@ -33,7 +33,8 @@ class MediaImage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final source = ref.watch(mediaSourceProvider((path: path, download: download)));
+    final source =
+        ref.watch(mediaSourceProvider((path: path, download: download)));
     return source.when(
       loading: () => _placeholder(Icons.image_outlined),
       error: (_, __) => _placeholder(Icons.broken_image),
@@ -46,6 +47,12 @@ class MediaImage extends ConsumerWidget {
           ),
         CachedMedia(:final file) => Image.file(
             file,
+            height: height,
+            fit: fit,
+            errorBuilder: (_, __, ___) => _placeholder(Icons.broken_image),
+          ),
+        RemoteMedia(:final uri) => Image.network(
+            uri.toString(),
             height: height,
             fit: fit,
             errorBuilder: (_, __, ___) => _placeholder(Icons.broken_image),
