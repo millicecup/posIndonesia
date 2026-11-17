@@ -4,18 +4,18 @@
   "notes": [
     "Nama, kategori, zona, content, dan systemResponse diambil dari PRD Tabel 4 (Daftar POI).",
     "Semua teks bertanda [PERLU VALIDASI MUSEUM] adalah placeholder dan tidak boleh dianggap fakta sejarah.",
-    "triggerRadiusMeters 10 m mengikuti PB08 dan wireframe UI06/state 3. Tabel 4 PRD masih menulis 5 m -> perlu dicatat di Change Log PRD (Bagian 10).",
+    "triggerRadiusMeters 3 m (approach 6 m): diperkecil dari 10 m karena koordinat asli POI hanya berjarak 1-10 m. PRD v2 Tabel 4 menulis 5 m -> perlu dicatat di Change Log PRD (Bagian 10).",
     "PRD v2 (PRD_JejakPOS_Kelompok8_Lengkap (2).pdf): Tabel 4 berisi 11 POI dengan nomor baru. Field prdV1Id menyimpan nomor lama (PRD v1) untuk penelusuran.",
     "Pemetaan v1 -> v2: P01->P01, P02->P02, P04->P03, P06->P04, P07->P05, P08->P06, P09->P07, P10->P08, P11->P09, P05->P10, P12->P11.",
     "P12 Koleksi Peralatan Pos (v1 P03) dan P13 Tempat Pos Kereta Api (v1 P13) tidak ada di PRD v2 Tabel 4. Tidak dihapus: disimpan sebagai kandidat tambahan (baseline=false), sesuai NG08.",
     "PRD v2 Tabel 4 menulis kode zona P08/P09/P10/P07 untuk POI P07/P08/P09/P10. zone.code disamakan dengan id POI; teks asli PRD disimpan di zone.prdV2ZoneText (lihat docs/ASUMSI.md A23).",
-    "PRD v2 mengubah radius trigger di PB08 dan state 3 menjadi 5 m. Keputusan tim: tetap 10 m (sesuai wireframe UI06) sampai hasil PoC PB05; lihat docs/ASUMSI.md A3.",
+    "PRD v2 mengubah radius trigger di PB08 dan state 3 menjadi 5 m. Setelah koordinat asli diukur (jarak antar-POI 1-10 m), radius diperkecil ke 3 m (approach 6 m). GPS asli hanya memicu jika akurasi <= 5 m; pengenal utama saat tur adalah computer vision (Kenali Pameran).",
     "Konten P01-P09 (teks, fakta, cerita per bagian, foto, soal) diambil dari 'Dokumen Sprint 2.pdf' tab revisi (hal. 25-41). Catatan draf penulis (mis. '(nanti aku tambahin)' di P06) tidak disalin.",
     "P10: audio Mars Pos Indonesia (mp3, 3:00) diambil dari rekaman di Dokumen Sprint 2 (youtu.be/bOx76_GP0PY) setelah tim mendapat izin penggunaan (R3). File WAV placeholder lama tidak dipakai lagi.",
     "P11 Stempel Museum: stempel berupa perangko digital acak hasil kreasi tim (stamp.random=true). Desain digambar kode dari seed yang disimpan saat perangko diambil.",
     "audioPlaceholder=true: file .wav hanya nada placeholder. Narasi POI tersebut dibacakan pemandu suara (Text-to-Speech bawaan Android, id-ID) dari teks pois.json.",
     "mapPosition (x,y 0-1) mengikuti denah asli assets/map/denah_museum.jpg (Denah2D_Real, 1737x2413) dari repo content/poi-dataset.",
-    "latitude/longitude adalah PLACEHOLDER untuk emulator: diturunkan dari mapPosition dengan skala fiktif 200 m x 278 m (rasio denah) di sekitar titik uji. Bukan koordinat asli.",
+    "latitude/longitude P01-P11 diambil dari dokumen 'Koordinat POI.pdf' (pengukuran tim di museum). Latitude P07 di dokumen tertulis -6.92580 (salah ketik, ~2,5 km dari museum) -> dipakai -6.902580. P12-P13 tidak ada di dokumen, koordinatnya masih PLACEHOLDER.",
     "Konten P01-P11 (teks, foto, kuis P02 & P08, perangko album) diperbarui dari branch content/poi-dataset. Perangko P11 tetap desain acak (stamp.random=true); stamp_p11.jpg dipakai sebagai cadangan.",
     "Overlay Photo Studio P04 (3 seragam + 3 topi) dari content/poi-dataset POI004 disimpan di assets/images/photo_studio/."
   ],
@@ -58,8 +58,8 @@
         "timeline"
       ],
       "triggerRule": {
-        "triggerRadiusMeters": 10,
-        "approachRadiusMeters": 15,
+        "triggerRadiusMeters": 3,
+        "approachRadiusMeters": 6,
         "triggerOncePerSession": true,
         "radiusNeedsConfirmation": true
       },
@@ -74,9 +74,9 @@
         "x": 0.8,
         "y": 0.62
       },
-      "latitude": -6.90328,
-      "longitude": 107.620293,
-      "coordinatesArePlaceholder": true,
+      "latitude": -6.902612,
+      "longitude": 107.620203,
+      "coordinatesArePlaceholder": false,
       "activities": [
         "timeline"
       ],
@@ -148,8 +148,8 @@
         "audio"
       ],
       "triggerRule": {
-        "triggerRadiusMeters": 10,
-        "approachRadiusMeters": 15,
+        "triggerRadiusMeters": 3,
+        "approachRadiusMeters": 6,
         "triggerOncePerSession": true,
         "radiusNeedsConfirmation": true
       },
@@ -164,9 +164,9 @@
         "x": 0.57,
         "y": 0.58
       },
-      "latitude": -6.90318,
-      "longitude": 107.619877,
-      "coordinatesArePlaceholder": true,
+      "latitude": -6.902599,
+      "longitude": 107.620204,
+      "coordinatesArePlaceholder": false,
       "activities": [
         "timeline",
         "quiz"
@@ -293,8 +293,8 @@
         "timeline"
       ],
       "triggerRule": {
-        "triggerRadiusMeters": 10,
-        "approachRadiusMeters": 15,
+        "triggerRadiusMeters": 3,
+        "approachRadiusMeters": 6,
         "triggerOncePerSession": true,
         "radiusNeedsConfirmation": true
       },
@@ -309,9 +309,9 @@
         "x": 0.73,
         "y": 0.4
       },
-      "latitude": -6.90273,
-      "longitude": 107.620167,
-      "coordinatesArePlaceholder": true,
+      "latitude": -6.902597,
+      "longitude": 107.620242,
+      "coordinatesArePlaceholder": false,
       "activities": [
         "timeline"
       ],
@@ -384,8 +384,8 @@
         "text"
       ],
       "triggerRule": {
-        "triggerRadiusMeters": 10,
-        "approachRadiusMeters": 15,
+        "triggerRadiusMeters": 3,
+        "approachRadiusMeters": 6,
         "triggerOncePerSession": true,
         "radiusNeedsConfirmation": true
       },
@@ -400,9 +400,9 @@
         "x": 0.92,
         "y": 0.38
       },
-      "latitude": -6.90268,
-      "longitude": 107.620511,
-      "coordinatesArePlaceholder": true,
+      "latitude": -6.90262,
+      "longitude": 107.620264,
+      "coordinatesArePlaceholder": false,
       "activities": [
         "photoStudio",
         "timeline"
@@ -470,8 +470,8 @@
         "simulation"
       ],
       "triggerRule": {
-        "triggerRadiusMeters": 10,
-        "approachRadiusMeters": 15,
+        "triggerRadiusMeters": 3,
+        "approachRadiusMeters": 6,
         "triggerOncePerSession": true,
         "radiusNeedsConfirmation": true
       },
@@ -486,9 +486,9 @@
         "x": 0.73,
         "y": 0.3
       },
-      "latitude": -6.90248,
-      "longitude": 107.620167,
-      "coordinatesArePlaceholder": true,
+      "latitude": -6.902596,
+      "longitude": 107.620326,
+      "coordinatesArePlaceholder": false,
       "activities": [
         "stampVisualization"
       ],
@@ -554,8 +554,8 @@
         "game"
       ],
       "triggerRule": {
-        "triggerRadiusMeters": 10,
-        "approachRadiusMeters": 15,
+        "triggerRadiusMeters": 3,
+        "approachRadiusMeters": 6,
         "triggerOncePerSession": true,
         "radiusNeedsConfirmation": true
       },
@@ -570,9 +570,9 @@
         "x": 0.83,
         "y": 0.5
       },
-      "latitude": -6.90298,
-      "longitude": 107.620348,
-      "coordinatesArePlaceholder": true,
+      "latitude": -6.902625,
+      "longitude": 107.620259,
+      "coordinatesArePlaceholder": false,
       "activities": [
         "minigame"
       ],
@@ -704,8 +704,8 @@
         "text"
       ],
       "triggerRule": {
-        "triggerRadiusMeters": 10,
-        "approachRadiusMeters": 15,
+        "triggerRadiusMeters": 3,
+        "approachRadiusMeters": 6,
         "triggerOncePerSession": true,
         "radiusNeedsConfirmation": true
       },
@@ -720,9 +720,9 @@
         "x": 0.6,
         "y": 0.19
       },
-      "latitude": -6.902205,
-      "longitude": 107.619931,
-      "coordinatesArePlaceholder": true,
+      "latitude": -6.90258,
+      "longitude": 107.620292,
+      "coordinatesArePlaceholder": false,
       "activities": [
         "gallery"
       ],
@@ -816,8 +816,8 @@
         "text"
       ],
       "triggerRule": {
-        "triggerRadiusMeters": 10,
-        "approachRadiusMeters": 15,
+        "triggerRadiusMeters": 3,
+        "approachRadiusMeters": 6,
         "triggerOncePerSession": true,
         "radiusNeedsConfirmation": true
       },
@@ -832,9 +832,9 @@
         "x": 0.21,
         "y": 0.26
       },
-      "latitude": -6.90238,
-      "longitude": 107.619224,
-      "coordinatesArePlaceholder": true,
+      "latitude": -6.90242,
+      "longitude": 107.620345,
+      "coordinatesArePlaceholder": false,
       "activities": [
         "mystery"
       ],
@@ -943,8 +943,8 @@
         "text"
       ],
       "triggerRule": {
-        "triggerRadiusMeters": 10,
-        "approachRadiusMeters": 15,
+        "triggerRadiusMeters": 3,
+        "approachRadiusMeters": 6,
         "triggerOncePerSession": true,
         "radiusNeedsConfirmation": true
       },
@@ -959,9 +959,9 @@
         "x": 0.09,
         "y": 0.38
       },
-      "latitude": -6.90268,
-      "longitude": 107.619007,
-      "coordinatesArePlaceholder": true,
+      "latitude": -6.902388,
+      "longitude": 107.62029,
+      "coordinatesArePlaceholder": false,
       "activities": [
         "gallery"
       ],
@@ -1023,8 +1023,8 @@
         "text"
       ],
       "triggerRule": {
-        "triggerRadiusMeters": 10,
-        "approachRadiusMeters": 15,
+        "triggerRadiusMeters": 3,
+        "approachRadiusMeters": 6,
         "triggerOncePerSession": true,
         "radiusNeedsConfirmation": true
       },
@@ -1039,9 +1039,9 @@
         "x": 0.585,
         "y": 0.31
       },
-      "latitude": -6.902505,
-      "longitude": 107.619904,
-      "coordinatesArePlaceholder": true,
+      "latitude": -6.902654,
+      "longitude": 107.620326,
+      "coordinatesArePlaceholder": false,
       "activities": [],
       "contentValidated": true,
       "contentSource": "Repo content/poi-dataset (description.md, quiz.json, album_perangko), tim konten JejakPOS; audio dari rekaman yang sudah diizinkan (youtu.be/bOx76_GP0PY)",
@@ -1097,8 +1097,8 @@
         "text"
       ],
       "triggerRule": {
-        "triggerRadiusMeters": 10,
-        "approachRadiusMeters": 15,
+        "triggerRadiusMeters": 3,
+        "approachRadiusMeters": 6,
         "triggerOncePerSession": true,
         "radiusNeedsConfirmation": true
       },
@@ -1114,9 +1114,9 @@
         "x": 0.89,
         "y": 0.835
       },
-      "latitude": -6.903817,
-      "longitude": 107.620457,
-      "coordinatesArePlaceholder": true,
+      "latitude": -6.902598,
+      "longitude": 107.620203,
+      "coordinatesArePlaceholder": false,
       "activities": [
         "postmark"
       ],
@@ -1165,8 +1165,8 @@
         "illustration"
       ],
       "triggerRule": {
-        "triggerRadiusMeters": 10,
-        "approachRadiusMeters": 15,
+        "triggerRadiusMeters": 3,
+        "approachRadiusMeters": 6,
         "triggerOncePerSession": true,
         "radiusNeedsConfirmation": true
       },
@@ -1224,8 +1224,8 @@
         "animation"
       ],
       "triggerRule": {
-        "triggerRadiusMeters": 10,
-        "approachRadiusMeters": 15,
+        "triggerRadiusMeters": 3,
+        "approachRadiusMeters": 6,
         "triggerOncePerSession": true,
         "radiusNeedsConfirmation": true
       },

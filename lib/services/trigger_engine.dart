@@ -19,7 +19,7 @@ enum PoiProximity { outside, approaching, triggered }
 enum TriggerEventType { approaching, triggered, exited }
 
 /// Dari mana POI terdeteksi (hybrid trigger).
-enum TriggerSource { gps, simulation, beacon, qr }
+enum TriggerSource { gps, simulation, beacon, qr, vision }
 
 class TriggerEvent {
   const TriggerEvent({
@@ -131,7 +131,15 @@ class TriggerEngine {
           position.latitude, position.longitude, poi.latitude!, poi.longitude!);
       state.distance = d;
 
-      final candidate = _candidateProximity(d, state.proximity, poi);
+      var candidate = _candidateProximity(d, state.proximity, poi);
+      // GPS asli yang kurang akurat tidak boleh memicu POI (jarak antar-POI
+      // hanya beberapa meter). Cukup "mendekati"; konfirmasi lewat kamera/QR.
+      if (candidate == PoiProximity.triggered &&
+          source == TriggerSource.gps &&
+          position.accuracyMeters > config.gpsTriggerMaxAccuracyMeters &&
+          state.proximity != PoiProximity.triggered) {
+        candidate = PoiProximity.approaching;
+      }
       if (candidate == state.proximity) {
         state.pending = null;
         state.pendingCount = 0;
@@ -163,7 +171,7 @@ class TriggerEngine {
     return events;
   }
 
-  /// POI teridentifikasi langsung lewat beacon/QR (bukan jarak GPS).
+  /// POI teridentifikasi langsung lewat beacon/QR/computer vision (bukan jarak GPS).
   TriggerEvent? reportIdentification(Poi poi, TriggerSource source) {
     if (_disposed) return null;
     final state = _states.putIfAbsent(poi.id, _PoiState.new);
