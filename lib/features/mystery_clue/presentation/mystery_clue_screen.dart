@@ -4,6 +4,7 @@
 // sumber Dokumen Sprint 2 PB06). Alur: buka petunjuk satu per satu -> tebak tokoh ->
 // lihat biografi -> jawab tiga pertanyaan pilihan ganda (layar kuis) dengan penjelasan jawaban.
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -37,7 +38,7 @@ class _MysteryClueScreenState extends ConsumerState<MysteryClueScreen> {
     final poi = ref.watch(poiByIdProvider(widget.poiId)).valueOrNull;
     if (poi == null) {
       return Scaffold(
-          appBar: AppBar(title: const Text('Mystery Clue')),
+          appBar: JejakAppBar(title: const Text('Mystery Clue')),
           body: const Center(child: CircularProgressIndicator()));
     }
     final clues = poi.mysteryClues;
@@ -46,7 +47,7 @@ class _MysteryClueScreenState extends ConsumerState<MysteryClueScreen> {
     final solved = _guess == answer;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Mystery Clue')),
+      appBar: JejakAppBar(title: const Text('Mystery Clue')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [

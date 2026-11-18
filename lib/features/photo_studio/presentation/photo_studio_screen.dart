@@ -4,6 +4,7 @@
 // 2D, geser/cubit overlay agar pas, lalu simpan ke galeri HP. Tanpa AR body tracking / AI.
 // Overlay seragam & topi: PNG dari repo content/poi-dataset (POI004), 3 warna.
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
 
@@ -56,7 +57,6 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
 
   Uint8List? _result; // UI16
   bool _saving = false;
-  bool _saved = false;
   bool _takingPhoto = false;
   bool _rendering = false;
   bool _photoReady = false;
@@ -146,7 +146,6 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
         _photo = bytes;
         _mirrorPhoto = mirror;
         _photoReady = false;
-        _saved = false;
         _cameraReady = false;
         _camera = null;
       });
@@ -164,7 +163,6 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
       _photo = null;
       _photoReady = false;
       _result = null;
-      _saved = false;
     });
     unawaited(_startCamera());
   }
@@ -184,7 +182,6 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
         if (!mounted || bytes == null) return;
         setState(() {
           _result = bytes.buffer.asUint8List();
-          _saved = false;
         });
       } finally {
         image.dispose();
@@ -206,8 +203,8 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
           .read(studioGalleryProvider)
           .save(bytes, 'JejakPOS_${DateTime.now().millisecondsSinceEpoch}');
       if (!mounted) return;
-      setState(() => _saved = true);
-      _snack('Foto tersimpan di Galeri > Album JejakPOS.');
+      setState(() => _result = null);
+      _snack('Foto sudah tersimpan di galeri HP.');
       try {
         await ref.read(activityStatsProvider.notifier).addPhoto();
       } catch (e) {
@@ -232,7 +229,7 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: JejakAppBar(
         title: Text(_result == null ? 'Photo Studio' : 'Hasil Foto'),
         leading: _result == null
             ? null
@@ -548,43 +545,19 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
               ),
             ),
             const SizedBox(height: 8),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                  color: AppColors.lightGrey,
-                  borderRadius: BorderRadius.circular(8)),
-              child: Text(
-                  _saved
-                      ? 'Foto tersimpan di album JejakPOS'
-                      : '✓ Foto siap disimpan',
-                  textAlign: TextAlign.center),
-            ),
             const SizedBox(height: 12),
             ElevatedButton.icon(
               style:
                   ElevatedButton.styleFrom(backgroundColor: AppColors.darkGrey),
-              onPressed: _saving || _saved ? null : _save,
+              onPressed: _saving ? null : _save,
               icon: _saving
                   ? const SizedBox(
                       width: 18,
                       height: 18,
                       child: CircularProgressIndicator(strokeWidth: 2))
                   : const Icon(Icons.download),
-              label: Text(_saved ? 'Tersimpan' : 'Simpan ke galeri'),
+              label: const Text('Simpan ke galeri'),
             ),
-            if (_saved)
-              TextButton.icon(
-                onPressed: () async {
-                  try {
-                    await ref.read(studioGalleryProvider).open();
-                  } catch (_) {
-                    _snack('Buka aplikasi Galeri, lalu pilih album JejakPOS.');
-                  }
-                },
-                icon: const Icon(Icons.photo_library_outlined),
-                label: const Text('Buka galeri'),
-              ),
             const SizedBox(height: 8),
             Row(
               children: [

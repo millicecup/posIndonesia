@@ -2,6 +2,7 @@
 // UI03 Home / Explore Museum - BERFUNGSI: daftar 10+ POI dari JSON (bukti PB03).
 // TODO(Farella): sesuaikan layout dengan wireframe, banner museum, kartu rekomendasi.
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,11 +24,10 @@ class HomeExplorerScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final summary = ref.watch(homeSummaryProvider);
-    final validation = ref.watch(datasetValidationProvider);
     final recommended = ref.watch(recommendedNextPoiProvider).valueOrNull;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: JejakAppBar(
         title: const Text('Jelajah Museum'),
         actions: [
           IconButton(
@@ -119,23 +119,6 @@ class HomeExplorerScreen extends ConsumerWidget {
                     onTap: () => context.push(AppRoutes.poiDetail(recommended.id)),
                   ),
                 ),
-              // Status validasi dataset (bukti PB03)
-              validation.maybeWhen(
-                data: (r) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  child: Text(
-                    r.isValid
-                        ? 'Dataset valid: ${r.poiCount} POI dimuat dari pois.json '
-                            '(${r.warnings.length} catatan validasi)'
-                        : 'Dataset bermasalah: ${r.errors.first}',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: r.isValid ? AppColors.success : AppColors.danger,
-                    ),
-                  ),
-                ),
-                orElse: () => const SizedBox.shrink(),
-              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
                 child: Text('Semua Koleksi (${data.pois.length})',

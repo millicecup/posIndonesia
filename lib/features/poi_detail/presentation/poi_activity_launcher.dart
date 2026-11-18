@@ -58,7 +58,7 @@ void openPoiActivity(BuildContext context, Poi poi, PoiActivity activity) {
             context,
             'Mini-game kode pos',
             'Mini-game mencocokkan wilayah dan kode pos akan aktif setelah data kode pos '
-                'divalidasi bersama museum (PB06). Sementara itu, coba kuis koleksi ini.',
+                'siap. Sementara itu, coba kuis koleksi ini.',
             poi);
       }
     case PoiActivity.mystery:

@@ -2,6 +2,7 @@
 // UI22 Ringkasan Kunjungan + Postmark (F07, A06, PB17). Wireframe: PRD Gambar 5.8 kiri.
 // Cap kunjungan memuat tanggal kunjungan dan tersimpan setelah pengguna mengakhiri sesi.
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -25,7 +26,7 @@ class VisitSummaryScreen extends ConsumerWidget {
     final postmark = stats.lastPostmark;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Ringkasan Kunjungan')),
+      appBar: JejakAppBar(title: const Text('Ringkasan Kunjungan')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [

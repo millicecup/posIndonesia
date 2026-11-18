@@ -3,6 +3,7 @@
 // audio/galeri/foto/kuis (F03, F04), aktivitas khusus POI, dan "Selesai & ambil perangko"
 // yang membuka UI13 (F08, PB13). Wireframe: PRD Gambar 5.4 tengah.
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -43,7 +44,7 @@ class _PoiDetailScreenState extends ConsumerState<PoiDetailScreen> {
     final detail = ref.watch(poiDetailProvider(widget.poiId));
     final title = detail.valueOrNull?.poi.name ?? 'Detail ${widget.poiId}';
     return Scaffold(
-      appBar: AppBar(title: Text(title, overflow: TextOverflow.ellipsis)),
+      appBar: JejakAppBar(title: Text(title, overflow: TextOverflow.ellipsis)),
       body: AsyncValueView<PoiDetailData?>(
         value: detail,
         data: (data) => data == null
@@ -202,13 +203,6 @@ class _PoiDetailBody extends ConsumerWidget {
                     ),
                   ),
               ],
-              if (poi.contentSource != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: Text('Sumber konten: ${poi.contentSource}',
-                      style:
-                          const TextStyle(fontSize: 11, color: AppColors.grey)),
-                ),
               const SizedBox(height: 8),
               TextButton.icon(
                 onPressed: () => context.push(AppRoutes.navigateTo(poi.id)),

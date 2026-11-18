@@ -2,6 +2,7 @@
 // UI04 Museum Explorer & Pencarian POI.
 // TODO(Denaya): kelompokkan daftar per kategori (section header), empty state sesuai wireframe.
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -45,7 +46,7 @@ class _PoiListScreenState extends ConsumerState<PoiListScreen> {
         ref.watch(progressProvider).valueOrNull?.visitedPoiIds ?? const <String>[];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Museum Explorer')),
+      appBar: JejakAppBar(title: const Text('Museum Explorer')),
       body: Column(
         children: [
           SearchBarField(

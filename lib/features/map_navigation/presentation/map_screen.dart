@@ -5,6 +5,7 @@
 // TODO(Farella/Firda): banner "Memindai beacon..." (state 1) / "Mendekati: <POI> ≈ 15 m" (state 2),
 //   kartu "POI terdekat", lingkaran radius trigger 10 m, titik "Kamu".
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,7 +33,7 @@ class MapScreen extends ConsumerWidget {
         const <String>[];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Peta Museum')),
+      appBar: JejakAppBar(title: const Text('Peta Museum')),
       body: AsyncValueView<List<Poi>>(
         value: pois,
         data: (list) {

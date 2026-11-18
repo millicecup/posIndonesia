@@ -3,6 +3,7 @@
 // (desain, persiapan cetak, pencetakan, perforasi, hasil akhir) dengan Sebelumnya/Lanjut.
 // Nama tahap dari PRD A04; penjelasan tiap tahap diambil dari keyFacts POI (menunggu validasi).
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -46,7 +47,7 @@ class _StampMakingScreenState extends ConsumerState<StampMakingScreen> {
         : 'Penjelasan tahap ini menunggu materi yang divalidasi museum.';
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Pembuatan Perangko')),
+      appBar: JejakAppBar(title: const Text('Pembuatan Perangko')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

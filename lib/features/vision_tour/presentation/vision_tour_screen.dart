@@ -3,6 +3,7 @@
 // Pengenal utama saat tur (GPS di dalam gedung terlalu kasar, POI hanya 1-10 m).
 // Layar tetap terbuka selama tur; tiap POI baru membuka UI08 lewat app.dart.
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'dart:io' show Platform;
 
 import 'package:camera/camera.dart';
@@ -143,7 +144,7 @@ class _VisionTourScreenState extends ConsumerState<VisionTourScreen>
 
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
+      appBar: JejakAppBar(
         title: const Text('Kenali Pameran'),
         actions: [
           IconButton(

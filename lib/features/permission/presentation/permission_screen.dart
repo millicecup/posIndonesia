@@ -3,6 +3,7 @@
 // TODO(Firda): tampilan toggle per izin sesuai wireframe; pindahkan panel "Deteksi Lokasi"
 //   & log ke halaman debug jika sudah tidak dibutuhkan sebagai evidence.
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -63,7 +64,7 @@ class _PermissionScreenState extends ConsumerState<PermissionScreen> {
         .toList();
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: JejakAppBar(
         title: const Text('Izin & Status Lokasi'),
         actions: [
           IconButton(

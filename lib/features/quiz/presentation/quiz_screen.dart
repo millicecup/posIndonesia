@@ -2,6 +2,7 @@
 // UI17 Kuis Sejarah (A01, PB15): pilihan ganda per POI, umpan balik per soal, hasil akhir.
 // Wireframe: PRD Gambar 5.6 tengah.
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -22,7 +23,7 @@ class QuizScreen extends ConsumerWidget {
     final pois = ref.watch(poisProvider).valueOrNull;
     final poi = pois?.where((p) => p.id == poiId).firstOrNull;
     return Scaffold(
-      appBar: AppBar(title: Text(poi == null ? 'Kuis' : 'Kuis: ${poi.name}')),
+      appBar: JejakAppBar(title: Text(poi == null ? 'Kuis' : 'Kuis: ${poi.name}')),
       body: pois == null
           ? const Center(child: CircularProgressIndicator())
           : poi == null

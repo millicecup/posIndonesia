@@ -137,12 +137,12 @@ void main() {
     gallery.fail = false;
     await tester.tap(find.text('Simpan ke galeri'));
     await tester.pumpAndSettle();
-    expect(find.text('Tersimpan'), findsOneWidget);
-    expect(find.text('Buka galeri'), findsOneWidget);
+    expect(find.text('Photo Studio'), findsOneWidget);
+    expect(find.text('Hasil Foto'), findsNothing);
+    expect(find.text('Foto sudah tersimpan di galeri HP.'), findsOneWidget);
+    expect(find.text('Buka galeri'), findsNothing);
     expect(gallery.saved!.take(8), [137, 80, 78, 71, 13, 10, 26, 10]);
     await tester.pump(const Duration(seconds: 5));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Ulangi'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Lihat hasil'));
     await tester.pumpAndSettle();

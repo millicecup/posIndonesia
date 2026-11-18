@@ -4,6 +4,7 @@
 // UI22 Ringkasan Kunjungan + Postmark.
 // Penomoran UI mengikuti PRD Bagian 5.1.
 
+import '../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -155,7 +156,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
-      appBar: AppBar(title: const Text('Halaman tidak ditemukan')),
+      appBar: JejakAppBar(title: const Text('Halaman tidak ditemukan')),
       body: Center(child: Text('Rute ${state.uri} tidak ada')),
     ),
   );

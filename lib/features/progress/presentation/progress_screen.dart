@@ -3,6 +3,7 @@
 // Progres tersimpan permanen (shared_preferences). "Akhiri kunjungan" menutup sesi trigger,
 // memberi cap kunjungan (A06), lalu membuka UI22 Ringkasan Kunjungan.
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -42,7 +43,7 @@ class ProgressScreen extends ConsumerWidget {
     final next = ref.watch(recommendedNextPoiProvider).valueOrNull;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: JejakAppBar(
         title: const Text('Progres Kunjungan'),
         actions: [
           IconButton(

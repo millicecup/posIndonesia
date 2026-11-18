@@ -5,6 +5,7 @@
 // - Tanpa poiId: pemandu umum yang mengarahkan ke rekomendasi berikutnya.
 // Dialog disusun dari data POI (pois.json); tidak ada fakta sejarah yang ditulis di kode.
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -34,7 +35,7 @@ class VisualTourGuideScreen extends ConsumerWidget {
         poiId == null ? null : ref.watch(poiByIdProvider(poiId!)).valueOrNull;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: JejakAppBar(
         title: Text(poi?.name ?? 'Pemandu Tur'),
         actions: [
           IconButton(

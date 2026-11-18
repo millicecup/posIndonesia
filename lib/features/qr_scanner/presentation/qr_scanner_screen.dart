@@ -2,6 +2,7 @@
 // UI12 QR Scanner: kamera (mobile_scanner) + input manual untuk emulator.
 // TODO(Firda): bingkai pemindai sesuai wireframe, senter, catatan PoC PB05.
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -66,7 +67,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Pindai QR Koleksi')),
+      appBar: JejakAppBar(title: const Text('Pindai QR Koleksi')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -88,7 +89,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
                       color: AppColors.darkGrey,
                       alignment: Alignment.center,
                       child: const Text(
-                        'Kamera nonaktif.\nDi emulator, pakai input manual di bawah.',
+                        'Kamera nonaktif.\nAktifkan kamera atau masukkan kode koleksi di bawah.',
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white),
                       ),
@@ -102,7 +103,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
             label: Text(_cameraOn ? 'Matikan kamera' : 'Aktifkan kamera'),
           ),
           const Divider(height: 32),
-          Text('Input kode manual (fallback/emulator)',
+          Text('Masukkan kode koleksi',
               style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           TextField(

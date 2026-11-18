@@ -2,6 +2,7 @@
 // UI11 Audio Storytelling & Mars Pos Indonesia: putar, jeda, lanjut, seek (F04).
 // TODO(Belinda): tampilan sesuai wireframe (cover besar, lirik/transkrip jika tersedia).
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -62,7 +63,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
     final duration = ref.watch(audioDurationProvider).valueOrNull ?? Duration.zero;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Audio Storytelling')),
+      appBar: JejakAppBar(title: const Text('Audio Storytelling')),
       body: AsyncValueView<Poi?>(
         value: poiAsync,
         data: (poi) {
@@ -145,7 +146,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
                   Text(_error!, style: const TextStyle(color: AppColors.danger)),
                 const Spacer(),
                 const Text(
-                  'Audio saat ini adalah placeholder. Rekaman asli menunggu izin museum.',
+                  'Rekaman narasi belum tersedia untuk koleksi ini.',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 12, color: AppColors.grey),
                 ),

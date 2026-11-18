@@ -3,6 +3,7 @@
 // Wireframe PRD Gambar 5.3 kanan: "TRIGGER AKTIF" + Lihat Info / Dengarkan / Nanti.
 // TODO(Firda): jadikan bottom sheet di atas peta sesuai wireframe; ilustrasi petugas pos.
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -26,7 +27,7 @@ class TriggerAlertScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final poi = ref.watch(poiByIdProvider(poiId));
     return Scaffold(
-      appBar: AppBar(title: const Text('Koleksi Terdeteksi')),
+      appBar: JejakAppBar(title: const Text('Koleksi Terdeteksi')),
       body: AsyncValueView<Poi?>(
         value: poi,
         data: (p) => p == null

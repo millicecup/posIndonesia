@@ -2,6 +2,7 @@
 // Panel debug emulator: "pindah ke POI Pxx", beacon palsu, reset sesi trigger.
 // Hanya untuk pengujian (emulator tidak punya BLE & kamera asli). PIC: Matilda/Firda.
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -25,7 +26,7 @@ class SimulationPanelScreen extends ConsumerWidget {
     final position = ref.watch(positionStreamProvider).valueOrNull;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Panel Simulasi Emulator')),
+      appBar: JejakAppBar(title: const Text('Panel Simulasi Emulator')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [

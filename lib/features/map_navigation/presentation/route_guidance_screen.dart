@@ -4,6 +4,7 @@
 // TODO(Firda): daftar langkah teks per POI ("1. Lurus ke lorong utama ...") setelah denah resmi ada,
 //   tombol "Ganti tujuan" & "Mulai".
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,7 +33,7 @@ class RouteGuidanceScreen extends ConsumerWidget {
     final pois = ref.watch(poisProvider).valueOrNull ?? const <Poi>[];
 
     return Scaffold(
-      appBar: AppBar(title: Text('Menuju $poiId')),
+      appBar: JejakAppBar(title: Text('Menuju $poiId')),
       body: AsyncValueView<Poi?>(
         value: target,
         data: (poi) {

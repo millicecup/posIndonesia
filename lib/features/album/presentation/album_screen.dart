@@ -2,6 +2,7 @@
 // UI14 Album Perangko Digital (tab Album): koleksi tanpa duplikasi, progres, slot terkunci,
 // ketuk perangko untuk melihat cerita di baliknya (F08, PB13). Wireframe: PRD Gambar 5.5 tengah.
 
+import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -22,7 +23,7 @@ class AlbumScreen extends ConsumerWidget {
     final pois = ref.watch(poisProvider).valueOrNull ?? const <Poi>[];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Album Perangko')),
+      appBar: JejakAppBar(title: const Text('Album Perangko')),
       body: AsyncValueView<VisitProgress>(
         value: progress,
         data: (p) {
