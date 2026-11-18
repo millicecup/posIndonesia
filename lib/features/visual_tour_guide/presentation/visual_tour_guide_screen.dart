@@ -116,7 +116,6 @@ class _PoiDialogState extends ConsumerState<_PoiDialog> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _SpeechBubble(text: lines[_step]),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -128,9 +127,10 @@ class _PoiDialogState extends ConsumerState<_PoiDialog> {
             ),
           ],
         ),
+        _SpeechBubble(text: lines[_step], tailAlignment: .13),
         const SizedBox(height: 8),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const PostmanGuide(size: 110),
             const SizedBox(width: 12),
@@ -143,12 +143,14 @@ class _PoiDialogState extends ConsumerState<_PoiDialog> {
                     icon: const Icon(Icons.article_outlined),
                     label: const Text('Lihat info singkat'),
                   ),
+                  const SizedBox(height: 8),
                   OutlinedButton.icon(
                     onPressed: () =>
                         ref.read(voiceGuideProvider.notifier).introducePoi(poi),
                     icon: const Icon(Icons.record_voice_over),
                     label: const Text('Dengarkan pemandu'),
                   ),
+                  const SizedBox(height: 8),
                   OutlinedButton.icon(
                     onPressed: () => listenToPoi(context, ref, poi),
                     icon: const Icon(Icons.headphones),
@@ -156,12 +158,14 @@ class _PoiDialogState extends ConsumerState<_PoiDialog> {
                         ? 'Putar Mars Pos'
                         : 'Dengarkan cerita lengkap'),
                   ),
-                  for (final a in poi.activities)
+                  for (final a in poi.activities) ...[
+                    const SizedBox(height: 8),
                     OutlinedButton.icon(
                       onPressed: () => openPoiActivity(context, poi, a),
                       icon: Icon(poiActivityIcon(a)),
                       label: Text(poiActivityLabel(a)),
                     ),
+                  ],
                 ],
               ),
             ),
@@ -195,19 +199,55 @@ class _GeneralDialog extends StatelessWidget {
 }
 
 class _SpeechBubble extends StatelessWidget {
-  const _SpeechBubble({required this.text});
+  const _SpeechBubble({required this.text, this.tailAlignment = .5});
   final String text;
+  final double tailAlignment;
 
   @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          border: Border.all(color: AppColors.grey),
-          borderRadius: BorderRadius.circular(12),
+  Widget build(BuildContext context) => CustomPaint(
+        painter: _SpeechBubblePainter(tailAlignment),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 18, 20, 36),
+          child: Text(text,
+              style: const TextStyle(
+                  fontSize: 15, height: 1.5, color: AppColors.darkGrey)),
         ),
-        child: Text(text, style: const TextStyle(fontSize: 15, height: 1.35)),
       );
+}
+
+class _SpeechBubblePainter extends CustomPainter {
+  const _SpeechBubblePainter(this.tailAlignment);
+
+  final double tailAlignment;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const tailHeight = 18.0;
+    final bottom = size.height - tailHeight;
+    final anchor = (size.width * tailAlignment).clamp(28.0, size.width - 28);
+    final body = Path()
+      ..addRRect(RRect.fromRectAndRadius(
+          Rect.fromLTWH(0, 0, size.width, bottom), const Radius.circular(24)));
+    final tail = Path()
+      ..moveTo(anchor - 14, bottom - 2)
+      ..quadraticBezierTo(anchor - 12, bottom + 10, anchor - 5, size.height)
+      ..quadraticBezierTo(anchor + 1, bottom + 8, anchor + 14, bottom - 2)
+      ..close();
+    final bubble = Path.combine(PathOperation.union, body, tail);
+    canvas.drawShadow(bubble, const Color(0x1F9B4A1A), 5, false);
+    canvas.drawPath(bubble, Paint()..color = const Color(0xFFFFF6ED));
+    canvas.drawPath(
+      bubble,
+      Paint()
+        ..color = const Color(0xFFF0C9AA)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.2,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _SpeechBubblePainter oldDelegate) =>
+      oldDelegate.tailAlignment != tailAlignment;
 }
 
 class _NextCard extends StatelessWidget {
