@@ -191,8 +191,8 @@ class _GeneralDialog extends StatelessWidget {
               : 'Halo, aku pemandu JejakPOS! Ayo lanjut ke ${next!.name} di '
                   '${next!.zone.description}. Saat kamu sampai, informasinya akan muncul otomatis.',
         ),
-        const SizedBox(height: 8),
-        const Center(child: PostmanGuide(size: 120)),
+        const SizedBox(height: 2),
+        const Center(child: PostmanGuide(size: 175)),
       ],
     );
   }
