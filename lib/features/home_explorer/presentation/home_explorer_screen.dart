@@ -114,7 +114,7 @@ class HomeExplorerScreen extends ConsumerWidget {
                   child: ListTile(
                     leading: const Icon(Icons.recommend, color: AppColors.orange),
                     title: const Text('Rekomendasi berikutnya'),
-                    subtitle: Text('${recommended.id} · ${recommended.name}'),
+                    subtitle: Text('${recommended.id}: ${recommended.name}'),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () => context.push(AppRoutes.poiDetail(recommended.id)),
                   ),

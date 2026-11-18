@@ -72,7 +72,7 @@ class RandomStampArt extends StatelessWidget {
                   style: TextStyle(color: d.ink, fontSize: s * .075)),
               Padding(
                 padding: EdgeInsets.only(bottom: s * .03),
-                child: Text('INDONESIA · Rp${d.value}',
+                child: Text('INDONESIA Rp${d.value}',
                     style: TextStyle(
                         color: d.ink, fontSize: s * .07, fontWeight: FontWeight.bold)),
               ),

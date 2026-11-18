@@ -86,7 +86,7 @@ class AlbumScreen extends ConsumerWidget {
                         random: poi.stamp.isRandom,
                         locked: !has,
                         size: 92,
-                        label: has ? '${poi.id} · ${poi.stamp.title}' : poi.id,
+                        label: has ? '${poi.id}: ${poi.stamp.title}' : poi.id,
                       ),
                     );
                   },
@@ -119,7 +119,7 @@ class AlbumScreen extends ConsumerWidget {
               StampFrame(image: poi.stamp.image, random: poi.stamp.isRandom, size: 110),
               const SizedBox(height: 12),
               Text(poi.stamp.title, style: Theme.of(ctx).textTheme.titleMedium),
-              Text('${poi.id} · ${poi.name}', style: const TextStyle(color: AppColors.grey)),
+              Text('${poi.id}: ${poi.name}', style: const TextStyle(color: AppColors.grey)),
               const SizedBox(height: 8),
               Text(poi.stamp.trivia, textAlign: TextAlign.center),
               const SizedBox(height: 12),

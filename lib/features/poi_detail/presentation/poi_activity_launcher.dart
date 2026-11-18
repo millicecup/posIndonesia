@@ -88,7 +88,7 @@ void showPoiGallery(BuildContext context, Poi poi) {
         mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
-            title: Text('Galeri · ${poi.name}'),
+            title: Text('Galeri: ${poi.name}'),
             trailing: IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () => Navigator.pop(ctx)),
@@ -129,7 +129,7 @@ void _showTimeline(BuildContext context, Poi poi) {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Timeline · ${poi.name}',
+            Text('Timeline: ${poi.name}',
                 style: Theme.of(ctx).textTheme.titleMedium),
             const SizedBox(height: 12),
             for (var i = 0; i < poi.keyFacts.length; i++)

@@ -104,8 +104,8 @@ class ProgressScreen extends ConsumerWidget {
                       children: [
                         Text('POI dikunjungi',
                             style: Theme.of(context).textTheme.titleMedium),
-                        Text('${p.stampCount} perangko · ${stats.quizCompleted} kuis selesai'
-                            ' · ${stats.photoCount} foto'),
+                        Text('${p.stampCount} perangko, ${stats.quizCompleted} kuis selesai,'
+                            ' dan ${stats.photoCount} foto'),
                         Text('${p.completionPercent}% koleksi dijelajahi',
                             style: const TextStyle(color: AppColors.grey, fontSize: 12)),
                       ],
@@ -131,7 +131,7 @@ class ProgressScreen extends ConsumerWidget {
                 ),
                 child: ListTile(
                   title: Text(next.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('${next.category.label} · Zona ${next.zone.code}'),
+                  subtitle: Text('${next.category.label}, Zona ${next.zone.code}'),
                   trailing: OutlinedButton(
                     onPressed: () => context.push(AppRoutes.navigateTo(next.id)),
                     child: const Text('Menuju'),

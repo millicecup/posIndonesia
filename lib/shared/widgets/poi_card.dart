@@ -54,7 +54,7 @@ class PoiCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${poi.id} · ${poi.name}',
+                      '${poi.id}: ${poi.name}',
                       style: Theme.of(context).textTheme.titleMedium,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

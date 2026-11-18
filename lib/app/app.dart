@@ -40,7 +40,7 @@ class JejakPosApp extends ConsumerWidget {
         ?..hideCurrentSnackBar()
         ..showSnackBar(
           SnackBar(
-            content: Text('Kamu berada di zona ${event.poi.id} · ${event.poi.name}'),
+            content: Text('Kamu berada di zona ${event.poi.id}: ${event.poi.name}'),
             duration: const Duration(seconds: 6),
             action: SnackBarAction(
               label: 'LIHAT',

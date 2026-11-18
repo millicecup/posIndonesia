@@ -459,7 +459,7 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
               child: UniformCap(template: _template),
             ),
           ],
-          // Bingkai label (wireframe UI16: "Museum Pos Indonesia · P04")
+          // Bingkai label (wireframe UI16: "Museum Pos Indonesia (P04)")
           Positioned(
             left: 0,
             right: 0,
@@ -475,8 +475,8 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
                       style:
                           const TextStyle(color: Colors.white, fontSize: 11)),
                   Text(
-                    'Museum Pos Indonesia${widget.poiId == null ? '' : ' · ${widget.poiId}'}'
-                    ' · ${formatPostmarkDate(DateTime.now())}',
+                    'Museum Pos Indonesia${widget.poiId == null ? '' : ' (${widget.poiId})'}'
+                    '\n${formatPostmarkDate(DateTime.now())}',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(color: Colors.white, fontSize: 11),
@@ -541,7 +541,7 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
                         child: Image.memory(_result!, fit: BoxFit.contain)),
                     const SizedBox(height: 8),
                     Text(
-                        'Museum Pos Indonesia${widget.poiId == null ? '' : ' · ${widget.poiId}'}',
+                        'Museum Pos Indonesia${widget.poiId == null ? '' : ' (${widget.poiId})'}',
                         style: const TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),

@@ -151,7 +151,7 @@ class _SelectedPoiSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${poi.id} · ${poi.name}',
+            Text('${poi.id}: ${poi.name}',
                 style: Theme.of(context).textTheme.titleMedium),
             Text(poi.zone.label, style: const TextStyle(color: AppColors.grey)),
             const SizedBox(height: 8),

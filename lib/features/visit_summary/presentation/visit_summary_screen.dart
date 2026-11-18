@@ -39,7 +39,7 @@ class VisitSummaryScreen extends ConsumerWidget {
           Text(
             postmark == null
                 ? 'Cap kunjungan digital akan diberikan saat kamu menekan "Akhiri kunjungan" di tab Progres.'
-                : 'Cap kunjungan digital (postmark) · ${stats.postmarks.length} kunjungan tercatat',
+                : 'Cap kunjungan digital (postmark): ${stats.postmarks.length} kunjungan tercatat',
             textAlign: TextAlign.center,
             style: const TextStyle(color: AppColors.grey, fontSize: 12),
           ),
@@ -80,7 +80,7 @@ class VisitSummaryScreen extends ConsumerWidget {
                 if (progress.isVisited(p.id))
                   Chip(
                     avatar: const Icon(Icons.check, size: 16),
-                    label: Text('${p.id} · ${p.name}', style: const TextStyle(fontSize: 12)),
+                    label: Text('${p.id}: ${p.name}', style: const TextStyle(fontSize: 12)),
                   ),
             ],
           ),

@@ -40,7 +40,7 @@ Future<void> showStampUnlockedDialog(BuildContext context,
           StampFrame(
               image: poi.stamp.image,
               random: poi.stamp.isRandom,
-              label: '${poi.id} · ${poi.stamp.title}'),
+              label: '${poi.id}: ${poi.stamp.title}'),
           const SizedBox(height: 12),
           Text(poi.name,
               textAlign: TextAlign.center,

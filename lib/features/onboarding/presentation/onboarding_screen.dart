@@ -116,7 +116,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   color: AppColors.darkGrey, fontWeight: FontWeight.bold)),
           const Text('Museum Pos Indonesia', style: TextStyle(color: AppColors.grey)),
           const SizedBox(height: 8),
-          Chip(label: Text(AppConstants.tagline.replaceAll(', ', ' · '))),
+          const Chip(label: Text(AppConstants.tagline)),
           const SizedBox(height: 24),
           const PostmanGuide(size: 150),
         ],

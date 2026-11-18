@@ -264,7 +264,7 @@ class _NextCard extends StatelessWidget {
         child: ListTile(
           title: const Text('Rekomendasi berikutnya',
               style: TextStyle(fontSize: 12, color: AppColors.darkGrey)),
-          subtitle: Text('${next.id} · ${next.name}',
+          subtitle: Text('${next.id}: ${next.name}',
               style: const TextStyle(
                   fontWeight: FontWeight.bold, color: AppColors.darkGrey)),
           trailing: IconButton.filled(

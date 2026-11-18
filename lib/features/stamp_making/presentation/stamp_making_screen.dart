@@ -113,7 +113,7 @@ class _StampMakingScreenState extends ConsumerState<StampMakingScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              Text('Tahap ${_index + 1} · ${_titles[_index]}',
+              Text('Tahap ${_index + 1}: ${_titles[_index]}',
                   style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 6),
               Text(text),

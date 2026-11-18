@@ -83,7 +83,7 @@ class SimulationPanelScreen extends ConsumerWidget {
           for (final poi in pois)
             Card(
               child: ListTile(
-                title: Text('${poi.id} · ${poi.name}', maxLines: 1, overflow: TextOverflow.ellipsis),
+                title: Text('${poi.id}: ${poi.name}', maxLines: 1, overflow: TextOverflow.ellipsis),
                 subtitle: Text(_statusText(statuses[poi.id])),
                 trailing: Wrap(
                   spacing: 4,
@@ -110,6 +110,6 @@ class SimulationPanelScreen extends ConsumerWidget {
   String _statusText(PoiProximityStatus? s) {
     if (s == null) return 'outside';
     final d = s.distanceMeters;
-    return '${s.proximity.name}${d != null ? ' · ${d.toStringAsFixed(1)} m' : ''}';
+    return '${s.proximity.name}${d != null ? ' (${d.toStringAsFixed(1)} m)' : ''}';
   }
 }

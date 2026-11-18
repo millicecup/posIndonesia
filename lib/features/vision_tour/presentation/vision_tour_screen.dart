@@ -282,7 +282,7 @@ class _StatusPanel extends ConsumerWidget {
               color: AppColors.orangeLight,
               child: ListTile(
                 leading: const Icon(Icons.museum, color: AppColors.orange),
-                title: Text('${recognized.id} · ${recognized.name}'),
+                title: Text('${recognized.id}: ${recognized.name}'),
                 subtitle: Text(state.newlyTriggered
                     ? 'Baru saja dikenali'
                     : 'Sudah dikunjungi di sesi ini'),

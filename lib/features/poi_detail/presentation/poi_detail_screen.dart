@@ -341,7 +341,7 @@ class _CollectStampBar extends ConsumerWidget {
           icon: Icon(
               data.stampCollected ? Icons.verified : Icons.local_post_office),
           label: Text(data.stampCollected
-              ? 'Perangko sudah dikoleksi · lihat lagi'
+              ? 'Lihat perangko yang sudah dikoleksi'
               : 'Selesai & ambil perangko'),
         ),
       ),

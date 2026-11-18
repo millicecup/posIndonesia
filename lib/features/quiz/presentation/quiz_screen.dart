@@ -22,7 +22,7 @@ class QuizScreen extends ConsumerWidget {
     final pois = ref.watch(poisProvider).valueOrNull;
     final poi = pois?.where((p) => p.id == poiId).firstOrNull;
     return Scaffold(
-      appBar: AppBar(title: Text(poi == null ? 'Kuis' : 'Kuis · ${poi.name}')),
+      appBar: AppBar(title: Text(poi == null ? 'Kuis' : 'Kuis: ${poi.name}')),
       body: pois == null
           ? const Center(child: CircularProgressIndicator())
           : poi == null
