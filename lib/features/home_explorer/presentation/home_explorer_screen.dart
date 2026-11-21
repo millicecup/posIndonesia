@@ -21,19 +21,7 @@ class HomeExplorerScreen extends ConsumerWidget {
     final recommended = ref.watch(recommendedNextPoiProvider).valueOrNull;
     return Scaffold(
       appBar: JejakAppBar(
-        title: Row(mainAxisSize: MainAxisSize.min, children: [
-          Container(
-              padding: const EdgeInsets.all(7),
-              decoration: BoxDecoration(
-                  color: AppColors.orangeLight,
-                  borderRadius: BorderRadius.circular(10)),
-              child: const Icon(Icons.local_post_office_outlined,
-                  color: AppColors.orange, size: 21)),
-          const SizedBox(width: 10),
-          const Expanded(
-              child: Text('Jelajah Museum',
-                  maxLines: 1, overflow: TextOverflow.ellipsis)),
-        ]),
+        title: const Text('Jelajah Museum'),
         actions: [
           PopupMenuButton<String>(
             tooltip: 'Pilihan lainnya',
@@ -90,12 +78,14 @@ class HomeExplorerScreen extends ConsumerWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                  const Text('JEJAKPOS',
-                                      style: TextStyle(
-                                          color: Color(0xFFF5B28C),
-                                          fontSize: 11,
-                                          letterSpacing: 3,
-                                          fontWeight: FontWeight.w700)),
+                                  Image.asset(
+                                    'assets/images/logo_jejakpos.png',
+                                    width: 170,
+                                    height: 58,
+                                    fit: BoxFit.contain,
+                                    alignment: Alignment.centerLeft,
+                                    semanticLabel: 'Logo JejakPOS',
+                                  ),
                                   const SizedBox(height: 10),
                                   Text('Selamat datang di Museum POS Indonesia',
                                       style: Theme.of(context)
@@ -103,7 +93,7 @@ class HomeExplorerScreen extends ConsumerWidget {
                                           .titleLarge
                                           ?.copyWith(
                                               color: Colors.white,
-                                              fontSize: 21)),
+                                              fontSize: 22)),
                                 ])),
                             const SizedBox(width: 14),
                             Transform.rotate(
@@ -128,7 +118,7 @@ class HomeExplorerScreen extends ConsumerWidget {
                             '${data.progress.visitedCount}/${data.pois.length} POI',
                             style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 12,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w600)),
                         const SizedBox(width: 14),
                         Expanded(
@@ -149,9 +139,9 @@ class HomeExplorerScreen extends ConsumerWidget {
                       SizedBox(
                           width: double.infinity,
                           child: ElevatedButton.icon(
-                            onPressed: () => context.push(AppRoutes.qrScanner),
-                            icon: const Icon(Icons.qr_code_scanner, size: 21),
-                            label: const Text('Pindai QR'),
+                            onPressed: () => context.push(AppRoutes.tour),
+                            icon: const Icon(Icons.route_outlined, size: 23),
+                            label: const Text('Mulai tur terpandu'),
                           )),
                     ]),
               ),
@@ -185,9 +175,10 @@ class HomeExplorerScreen extends ConsumerWidget {
                             SizedBox(
                                 width: (constraints.maxWidth - 30) / 4,
                                 child: QuickActionButton(
-                                    icon: Icons.route_outlined,
-                                    label: 'Tur terpandu',
-                                    onTap: () => context.push(AppRoutes.tour))),
+                                    icon: Icons.qr_code_scanner,
+                                    label: 'Pindai QR',
+                                    onTap: () =>
+                                        context.push(AppRoutes.qrScanner))),
                           ],
                         )),
               ),
@@ -208,11 +199,11 @@ class HomeExplorerScreen extends ConsumerWidget {
                       title: const Text('Rekomendasi berikutnya',
                           style: TextStyle(
                               color: AppColors.teal,
-                              fontSize: 11,
+                              fontSize: 12,
                               fontWeight: FontWeight.w700)),
                       subtitle: Text('${recommended.id}: ${recommended.name}',
                           style: const TextStyle(
-                              fontSize: 13,
+                              fontSize: 15,
                               fontWeight: FontWeight.w600,
                               height: 1.5)),
                       trailing: const Icon(Icons.arrow_forward_rounded,

@@ -27,7 +27,7 @@ class QuickActionButton extends StatelessWidget {
               Text(label,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                      fontSize: 10, fontWeight: FontWeight.w600, height: 1.4)),
+                      fontSize: 12, fontWeight: FontWeight.w600, height: 1.4)),
             ]),
           ),
         ),

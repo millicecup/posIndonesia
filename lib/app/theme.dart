@@ -50,13 +50,13 @@ class AppTheme {
           color: AppColors.darkGrey),
       titleMedium: const TextStyle(
           fontFamily: 'Poppins',
-          fontSize: 17,
+          fontSize: 19,
           fontWeight: FontWeight.w600,
           height: 1.4,
           color: AppColors.darkGrey),
       titleSmall: const TextStyle(
           fontFamily: 'Poppins',
-          fontSize: 14,
+          fontSize: 16,
           fontWeight: FontWeight.w500,
           height: 1.4,
           color: AppColors.darkGrey),
@@ -67,12 +67,12 @@ class AppTheme {
           color: AppColors.darkGrey),
       bodyMedium: const TextStyle(
           fontFamily: 'PlusJakartaSans',
-          fontSize: 15,
+          fontSize: 16,
           height: 1.6,
           color: AppColors.darkGrey),
       bodySmall: const TextStyle(
           fontFamily: 'PlusJakartaSans',
-          fontSize: 12,
+          fontSize: 13,
           height: 1.5,
           color: AppColors.grey),
     );
@@ -105,7 +105,7 @@ class AppTheme {
           indicatorColor: AppColors.orangeLight,
           labelTextStyle: WidgetStateProperty.resolveWith((s) => TextStyle(
               fontFamily: 'PlusJakartaSans',
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: s.contains(WidgetState.selected)
                   ? FontWeight.w700
                   : FontWeight.w500,
@@ -120,7 +120,7 @@ class AppTheme {
               minimumSize: const Size(64, 50),
               textStyle: const TextStyle(
                   fontFamily: 'PlusJakartaSans',
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: FontWeight.w700),
               shape: shape)),
       filledButtonTheme: FilledButtonThemeData(
@@ -129,7 +129,7 @@ class AppTheme {
               shape: shape,
               textStyle: const TextStyle(
                   fontFamily: 'PlusJakartaSans',
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: FontWeight.w700))),
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
@@ -139,7 +139,7 @@ class AppTheme {
               shape: shape,
               textStyle: const TextStyle(
                   fontFamily: 'PlusJakartaSans',
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: FontWeight.w600))),
       chipTheme: ChipThemeData(
           backgroundColor: AppColors.orangeLight,
@@ -147,7 +147,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           labelStyle: const TextStyle(
               fontFamily: 'PlusJakartaSans',
-              fontSize: 11,
+              fontSize: 12,
               color: AppColors.darkGrey)),
       bottomSheetTheme: const BottomSheetThemeData(
           backgroundColor: AppColors.cream,

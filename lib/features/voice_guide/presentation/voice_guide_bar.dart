@@ -27,7 +27,7 @@ class VoiceGuideBar extends ConsumerWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                      fontSize: 11, fontWeight: FontWeight.w600))),
+                      fontSize: 13, fontWeight: FontWeight.w600))),
           if (s.last != null)
             IconButton(
                 tooltip: 'Ulangi narasi',

@@ -28,7 +28,7 @@ class PoiCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(14),
                     child: SizedBox(
                       width: 94,
-                      height: 120,
+                      height: 136,
                       child: poi.coverImage == null
                           ? const ColoredBox(
                               color: AppColors.lightGrey,
@@ -44,7 +44,7 @@ class PoiCard extends StatelessWidget {
                       Row(children: [
                         Text(poi.id,
                             style: const TextStyle(
-                                fontSize: 11,
+                                fontSize: 12,
                                 color: AppColors.orange,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 1)),
@@ -69,14 +69,14 @@ class PoiCard extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall
-                              ?.copyWith(fontSize: 10)),
+                              ?.copyWith(fontSize: 12)),
                       const SizedBox(height: 4),
                       Text(poi.category.label,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                               color: AppColors.teal,
-                              fontSize: 10,
+                              fontSize: 12,
                               fontWeight: FontWeight.w600)),
                     ])),
                 if (trailing != null) trailing!,

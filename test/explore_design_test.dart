@@ -19,7 +19,8 @@ class NoDownload extends MediaDownloadController {
 
 void main() {
   for (final width in [320.0, 430.0]) {
-    testWidgets('Redesigned Explore fits $width and opens QR', (tester) async {
+    testWidgets('Redesigned Explore fits $width and opens guided tour',
+        (tester) async {
       await tester.binding.setSurfaceSize(Size(width, 740));
       addTearDown(() => tester.binding.setSurfaceSize(null));
       final pois = loadDataset();
@@ -27,8 +28,8 @@ void main() {
         GoRoute(
             path: '/explore', builder: (_, __) => const HomeExplorerScreen()),
         GoRoute(
-            path: '/qr',
-            builder: (_, __) => const Scaffold(body: Text('QR destination'))),
+            path: '/tour',
+            builder: (_, __) => const Scaffold(body: Text('Tour destination'))),
       ]);
       addTearDown(router.dispose);
       await tester.pumpWidget(ProviderScope(
@@ -51,9 +52,9 @@ void main() {
       expect(tester.takeException(), isNull);
       expect(
           find.text('Selamat datang di Museum POS Indonesia'), findsOneWidget);
-      await tester.tap(find.text('Pindai QR'));
+      await tester.tap(find.text('Mulai tur terpandu'));
       await tester.pumpAndSettle();
-      expect(find.text('QR destination'), findsOneWidget);
+      expect(find.text('Tour destination'), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
   }
