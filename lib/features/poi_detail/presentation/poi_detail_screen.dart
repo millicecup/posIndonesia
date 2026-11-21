@@ -20,6 +20,8 @@ import '../state/poi_detail_state.dart';
 import '../../voice_guide/presentation/listen_to_poi.dart';
 import '../../voice_guide/presentation/voice_guide_bar.dart';
 import 'poi_activity_launcher.dart';
+import '../../mystery_clue/presentation/mystery_clue_screen.dart';
+import '../../mystery_clue/state/mystery_state.dart';
 
 class PoiDetailScreen extends ConsumerStatefulWidget {
   const PoiDetailScreen({super.key, required this.poiId});
@@ -41,6 +43,10 @@ class _PoiDetailScreenState extends ConsumerState<PoiDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.poiId == 'P08' &&
+        !ref.watch(mysterySolvedPoiIdsProvider).contains(widget.poiId)) {
+      return MysteryClueScreen(poiId: widget.poiId, onOpenDetail: () {});
+    }
     final detail = ref.watch(poiDetailProvider(widget.poiId));
     final title = detail.valueOrNull?.poi.name ?? 'Detail ${widget.poiId}';
     return Scaffold(

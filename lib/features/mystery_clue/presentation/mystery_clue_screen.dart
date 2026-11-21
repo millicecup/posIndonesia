@@ -14,11 +14,13 @@ import '../../../app/theme.dart';
 import '../../../data/models/models.dart';
 import '../../../providers/providers.dart';
 import '../../../shared/widgets/media_image.dart';
+import '../state/mystery_state.dart';
 
 class MysteryClueScreen extends ConsumerStatefulWidget {
-  const MysteryClueScreen({super.key, required this.poiId});
+  const MysteryClueScreen({super.key, required this.poiId, this.onOpenDetail});
 
   final String poiId;
+  final VoidCallback? onOpenDetail;
 
   @override
   ConsumerState<MysteryClueScreen> createState() => _MysteryClueScreenState();
@@ -52,7 +54,16 @@ class _MysteryClueScreenState extends ConsumerState<MysteryClueScreen> {
     final solved = _guess == answer;
 
     return Scaffold(
-      appBar: JejakAppBar(title: const Text('Mystery Clue')),
+      appBar: JejakAppBar(
+        title: const Text('Mystery Clue'),
+        leading: BackButton(onPressed: () {
+          if (context.canPop()) {
+            context.pop();
+          } else {
+            context.go(AppRoutes.explore);
+          }
+        }),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -147,27 +158,25 @@ class _MysteryClueScreenState extends ConsumerState<MysteryClueScreen> {
                     .titleLarge
                     ?.copyWith(color: AppColors.success)),
             const SizedBox(height: 6),
-            Text(poi.shortDescription),
-            for (final f in poi.keyFacts)
-              Padding(
-                padding: const EdgeInsets.only(top: 6),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Icon(Icons.check, size: 18, color: AppColors.orange),
-                    const SizedBox(width: 6),
-                    Expanded(child: Text(f)),
-                  ],
-                ),
-              ),
+            const Text(
+                'Tebakanmu tepat! Buka detail koleksi untuk mengenal kisah tokoh ini.'),
             const SizedBox(height: 16),
-            if (poi.curatedQuiz.isNotEmpty)
-              ElevatedButton.icon(
-                onPressed: () =>
-                    context.pushReplacement(AppRoutes.quiz(poi.id)),
-                icon: const Icon(Icons.quiz),
-                label: Text('Jawab ${poi.curatedQuiz.length} pertanyaan'),
-              ),
+            FilledButton.icon(
+              onPressed: () {
+                ref
+                    .read(mysterySolvedPoiIdsProvider.notifier)
+                    .update((ids) => {...ids, poi.id});
+                if (widget.onOpenDetail != null) {
+                  widget.onOpenDetail!();
+                } else if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.poiDetail(poi.id));
+                }
+              },
+              icon: const Icon(Icons.arrow_forward_rounded),
+              label: const Text('Lihat detail koleksi'),
+            ),
           ],
         ],
       ),
