@@ -60,7 +60,7 @@ class NarrationScript {
     if (poi.id == 'P10' && poi.hasAudio) {
       parts.add('Tekan tombol putar untuk mendengarkan Mars Pos Indonesia.');
     }
-    parts.add('Jangan lupa ambil perangkonya setelah selesai menjelajah.');
+    parts.add('Jangan lupa ambil prangkonya setelah selesai menjelajah.');
     if (next != null) {
       parts
           .add('Setelah ini, kamu bisa lanjut ke ${next.name}${_where(next)}.');

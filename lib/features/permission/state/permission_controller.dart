@@ -24,7 +24,8 @@ class PermissionController extends AsyncNotifier<PermissionOverview> {
   Future<PermissionOverview> _load() async {
     final permissions = await ref.read(permissionServiceProvider).checkAll();
     final location = await ref.read(locationServiceProvider).checkStatus();
-    return PermissionOverview(permissions: permissions, locationStatus: location);
+    return PermissionOverview(
+        permissions: permissions, locationStatus: location);
   }
 
   Future<void> refresh() async {
@@ -44,7 +45,7 @@ class PermissionController extends AsyncNotifier<PermissionOverview> {
   }
 
   Future<void> requestAll() async {
-    for (final type in AppPermissionType.values) {
+    for (final type in PermissionService.requiredPermissions) {
       if (type == AppPermissionType.location) {
         await ref.read(locationServiceProvider).requestPermission();
       } else {
@@ -54,7 +55,8 @@ class PermissionController extends AsyncNotifier<PermissionOverview> {
     await refresh();
   }
 
-  Future<void> openSettings() => ref.read(permissionServiceProvider).openSettings();
+  Future<void> openSettings() =>
+      ref.read(permissionServiceProvider).openSettings();
 
   Future<void> openLocationSettings() =>
       ref.read(locationServiceProvider).openLocationSettings();

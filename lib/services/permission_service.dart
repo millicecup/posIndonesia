@@ -8,7 +8,13 @@ import '../core/utils/app_logger.dart';
 /// Sesuai PRD UI02: Bluetooth & Lokasi, Kamera, Notifikasi.
 enum AppPermissionType { location, bluetooth, camera, notification }
 
-enum AppPermissionStatus { granted, denied, permanentlyDenied, restricted, limited }
+enum AppPermissionStatus {
+  granted,
+  denied,
+  permanentlyDenied,
+  restricted,
+  limited
+}
 
 extension AppPermissionTypeX on AppPermissionType {
   String get label {
@@ -42,10 +48,16 @@ extension AppPermissionStatusX on AppPermissionStatus {
   }
 
   bool get isGranted =>
-      this == AppPermissionStatus.granted || this == AppPermissionStatus.limited;
+      this == AppPermissionStatus.granted ||
+      this == AppPermissionStatus.limited;
 }
 
 class PermissionService {
+  static const requiredPermissions = [
+    AppPermissionType.location,
+    AppPermissionType.camera,
+    AppPermissionType.notification
+  ];
   static const _tag = 'IZIN';
 
   Permission _map(AppPermissionType type) {
@@ -65,7 +77,9 @@ class PermissionService {
   AppPermissionStatus _convert(PermissionStatus status) {
     if (status.isGranted) return AppPermissionStatus.granted;
     if (status.isLimited) return AppPermissionStatus.limited;
-    if (status.isPermanentlyDenied) return AppPermissionStatus.permanentlyDenied;
+    if (status.isPermanentlyDenied) {
+      return AppPermissionStatus.permanentlyDenied;
+    }
     if (status.isRestricted) return AppPermissionStatus.restricted;
     return AppPermissionStatus.denied;
   }
@@ -84,7 +98,7 @@ class PermissionService {
 
   Future<Map<AppPermissionType, AppPermissionStatus>> checkAll() async {
     final result = <AppPermissionType, AppPermissionStatus>{};
-    for (final type in AppPermissionType.values) {
+    for (final type in requiredPermissions) {
       result[type] = await check(type);
     }
     return result;

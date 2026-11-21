@@ -9,7 +9,9 @@ import '../../../providers/providers.dart';
 class OnboardingSeenController extends Notifier<bool> {
   @override
   bool build() =>
-      ref.watch(sharedPreferencesProvider).getBool(AppConstants.prefOnboardingSeen) ??
+      ref
+          .watch(sharedPreferencesProvider)
+          .getBool(AppConstants.prefOnboardingSeen) ??
       false;
 
   Future<void> markSeen() async {
@@ -20,5 +22,5 @@ class OnboardingSeenController extends Notifier<bool> {
   }
 }
 
-final onboardingSeenProvider =
-    NotifierProvider<OnboardingSeenController, bool>(OnboardingSeenController.new);
+final onboardingSeenProvider = NotifierProvider<OnboardingSeenController, bool>(
+    OnboardingSeenController.new);

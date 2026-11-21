@@ -6,7 +6,7 @@ import 'package:jejakpos/shared/widgets/stamp_unlocked_dialog.dart';
 import 'helpers/test_data.dart';
 
 void main() {
-  for (final entry in {'Scan koleksi lain': '/qr', 'Lihat album': '/album', 'Kembali ke Jelajah': '/explore'}.entries) {
+  for (final entry in {'Scan koleksi lain': '/qr', 'Lihat album': '/album', 'Kembali ke jelajah': '/explore'}.entries) {
     testWidgets('Stamp dialog: ${entry.key} opens ${entry.value}', (tester) async {
       final poi = loadDataset().first;
       final router = GoRouter(initialLocation: '/start', routes: [

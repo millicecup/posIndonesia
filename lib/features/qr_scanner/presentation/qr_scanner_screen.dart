@@ -66,7 +66,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: JejakAppBar(
-        title: const Text('Pindai QR Koleksi'),
+        title: const Text('Pindai QR koleksi'),
         leading: BackButton(onPressed: () {
           if (context.canPop()) {
             context.pop();

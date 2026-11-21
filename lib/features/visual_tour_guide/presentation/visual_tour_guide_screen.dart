@@ -36,7 +36,7 @@ class VisualTourGuideScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: JejakAppBar(
-        title: Text(poi?.name ?? 'Pemandu Tur'),
+        title: Text(poi?.name ?? 'Pemandu tur'),
         actions: [
           IconButton(
             tooltip: 'Kenali pameran (kamera)',
@@ -105,7 +105,7 @@ class _PoiDialogState extends ConsumerState<_PoiDialog> {
       'Halo! Kamu sedang berada di area ${p.name} (${p.zone.description}).',
       p.shortDescription,
       if (p.keyFacts.isNotEmpty) 'Tahukah kamu? ${p.keyFacts.first}',
-      'Di sini kamu bisa: ${p.systemResponse}. Pilih aksi di bawah, lalu ambil perangkonya!',
+      'Di sini kamu bisa: ${p.systemResponse}. Pilih aksi di bawah, lalu ambil prangkonya!',
     ];
   }
 

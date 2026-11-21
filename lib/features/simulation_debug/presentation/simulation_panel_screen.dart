@@ -22,11 +22,12 @@ class SimulationPanelScreen extends ConsumerWidget {
     final pois = ref.watch(poisProvider).valueOrNull ?? const <Poi>[];
     final sim = ref.watch(simulationServiceProvider);
     final engine = ref.watch(triggerEngineProvider);
-    final statuses = ref.watch(poiProximityProvider).valueOrNull ?? engine.statuses;
+    final statuses =
+        ref.watch(poiProximityProvider).valueOrNull ?? engine.statuses;
     final position = ref.watch(positionStreamProvider).valueOrNull;
 
     return Scaffold(
-      appBar: JejakAppBar(title: const Text('Panel Simulasi Emulator')),
+      appBar: JejakAppBar(title: const Text('Panel simulasi')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -36,7 +37,8 @@ class SimulationPanelScreen extends ConsumerWidget {
                 ? 'Posisi & beacon dari SimulationService'
                 : 'Pakai GPS (Extended Controls > Location di emulator)'),
             value: enabled,
-            onChanged: (v) => ref.read(simulationModeProvider.notifier).setEnabled(v),
+            onChanged: (v) =>
+                ref.read(simulationModeProvider.notifier).setEnabled(v),
           ),
           ListTile(
             leading: const Icon(Icons.gps_fixed),
@@ -44,14 +46,17 @@ class SimulationPanelScreen extends ConsumerWidget {
             subtitle: Text(position?.toString() ?? 'belum ada'),
           ),
           ListTile(
-            leading: Icon(engine.isInsideMuseum ? Icons.museum : Icons.wrong_location),
+            leading: Icon(
+                engine.isInsideMuseum ? Icons.museum : Icons.wrong_location),
             title: Text(engine.isInsideMuseum
                 ? 'Di dalam area museum (geofence placeholder)'
                 : 'Di luar area museum'),
-            subtitle: Text('Terpicu sesi ini: ${engine.triggeredThisSession.join(', ')}'),
+            subtitle: Text(
+                'Terpicu sesi ini: ${engine.triggeredThisSession.join(', ')}'),
           ),
           Wrap(
-            spacing: 8,
+            spacing: 12,
+            runSpacing: 12,
             children: [
               OutlinedButton(
                 onPressed: enabled ? sim.moveToMuseumEntrance : null,
@@ -70,21 +75,23 @@ class SimulationPanelScreen extends ConsumerWidget {
               ),
               OutlinedButton(
                 onPressed: () => context.push(AppRoutes.qrScanner),
-                child: const Text('Input QR manual'),
+                child: const Text('Pindai QR'),
               ),
             ],
           ),
           if (!enabled)
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 8),
-              child: Text('Aktifkan mode simulasi untuk memakai tombol "Pindah" dan "Beacon".',
+              child: Text(
+                  'Aktifkan mode simulasi untuk memakai tombol "Pindah" dan "Beacon".',
                   style: TextStyle(color: AppColors.warning)),
             ),
           const Divider(height: 24),
           for (final poi in pois)
             Card(
               child: ListTile(
-                title: Text('${poi.id}: ${poi.name}', maxLines: 1, overflow: TextOverflow.ellipsis),
+                title: Text('${poi.id}: ${poi.name}',
+                    maxLines: 1, overflow: TextOverflow.ellipsis),
                 subtitle: Text(_statusText(statuses[poi.id])),
                 trailing: Wrap(
                   spacing: 4,
@@ -97,7 +104,8 @@ class SimulationPanelScreen extends ConsumerWidget {
                     IconButton(
                       tooltip: 'Kirim beacon ${poi.beaconId}',
                       icon: const Icon(Icons.bluetooth_searching),
-                      onPressed: enabled ? () => sim.emitBeacon(poi.beaconId) : null,
+                      onPressed:
+                          enabled ? () => sim.emitBeacon(poi.beaconId) : null,
                     ),
                   ],
                 ),

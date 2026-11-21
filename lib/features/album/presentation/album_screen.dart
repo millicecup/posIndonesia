@@ -1,6 +1,6 @@
 // lib/features/album/presentation/album_screen.dart
-// UI14 Album Perangko Digital (tab Album): koleksi tanpa duplikasi, progres, slot terkunci,
-// ketuk perangko untuk melihat cerita di baliknya (F08, PB13). Wireframe: PRD Gambar 5.5 tengah.
+// UI14 Album prangko Digital (tab Album): koleksi tanpa duplikasi, progres, slot terkunci,
+// ketuk prangko untuk melihat cerita di baliknya (F08, PB13). Wireframe: PRD Gambar 5.5 tengah.
 
 import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class AlbumScreen extends ConsumerWidget {
     final pois = ref.watch(poisProvider).valueOrNull ?? const <Poi>[];
 
     return Scaffold(
-      appBar: JejakAppBar(title: const Text('Album Perangko')),
+      appBar: JejakAppBar(title: const Text('Album prangko')),
       body: AsyncValueView<VisitProgress>(
         value: progress,
         data: (p) {
@@ -46,8 +46,12 @@ class AlbumScreen extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('$owned / ${pois.length} terkumpul',
+                            Text('$owned / ${pois.length} prangko terkumpul',
                                 style: Theme.of(context).textTheme.titleMedium),
+                            const SizedBox(height: 4),
+                            Text('${p.visitedCount} POI dikunjungi',
+                                style: const TextStyle(
+                                    fontSize: 13, color: AppColors.grey)),
                             const SizedBox(height: 8),
                             LinearProgressIndicator(
                               value: ratio,
@@ -88,7 +92,10 @@ class AlbumScreen extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(16),
                                 onTap: () => p.hasStamp(poi.stamp.id)
                                     ? _showStory(context, poi)
-                                    : _showLocked(context, poi),
+                                    : p.isVisited(poi.id)
+                                        ? context
+                                            .push(AppRoutes.poiDetail(poi.id))
+                                        : _showLocked(context, poi),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 8),
@@ -99,7 +106,9 @@ class AlbumScreen extends ConsumerWidget {
                                     size: stampSize,
                                     label: p.hasStamp(poi.stamp.id)
                                         ? '${poi.id}: ${poi.stamp.title}'
-                                        : poi.id,
+                                        : p.isVisited(poi.id)
+                                            ? '${poi.id}: Belum diambil'
+                                            : poi.id,
                                   ),
                                 ),
                               ),
@@ -113,7 +122,8 @@ class AlbumScreen extends ConsumerWidget {
               const SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.all(16),
-                  child: Text('Ketuk perangko untuk melihat cerita di baliknya',
+                  child: Text(
+                      'Kunjungan dan prangko dihitung terpisah. Tekan “Selesai & ambil prangko” pada detail koleksi untuk menambah album.',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 12, color: AppColors.grey)),
                 ),
@@ -164,7 +174,7 @@ class AlbumScreen extends ConsumerWidget {
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
         content: Text(
-            'Perangko ${poi.id} terkunci. Kunjungi "${poi.name}" untuk membukanya.'),
+            'Prangko ${poi.id} terkunci. Kunjungi "${poi.name}" untuk membukanya.'),
         action: SnackBarAction(
             label: 'ARAH',
             onPressed: () => context.push(AppRoutes.navigateTo(poi.id))),

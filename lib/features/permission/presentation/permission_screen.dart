@@ -1,6 +1,6 @@
 // lib/features/permission/presentation/permission_screen.dart
 // UI02 Izin Akses - BERFUNGSI (bukti PB02). Wireframe: PRD Gambar 5.1 tengah.
-// TODO(Firda): tampilan toggle per izin sesuai wireframe; pindahkan panel "Deteksi Lokasi"
+// TODO(Firda): tampilan toggle per izin sesuai wireframe; pindahkan panel "Deteksi lokasi"
 //   & log ke halaman debug jika sudah tidak dibutuhkan sebagai evidence.
 
 import '../../../shared/widgets/jejak_app_bar.dart';
@@ -51,7 +51,8 @@ class _PermissionScreenState extends ConsumerState<PermissionScreen> {
     final controller = ref.read(permissionControllerProvider.notifier);
     final simulation = ref.watch(simulationModeProvider);
     final livePosition = ref.watch(positionStreamProvider);
-    final logs = ref.watch(detectionLogProvider).valueOrNull ?? const <LogEntry>[];
+    final logs =
+        ref.watch(detectionLogProvider).valueOrNull ?? const <LogEntry>[];
     final locationLogs = logs
         .where((e) =>
             e.tag == AppConstants.logTagLocation ||
@@ -65,7 +66,7 @@ class _PermissionScreenState extends ConsumerState<PermissionScreen> {
 
     return Scaffold(
       appBar: JejakAppBar(
-        title: const Text('Izin & Status Lokasi'),
+        title: const Text('Izin dan status lokasi'),
         actions: [
           IconButton(
             tooltip: 'Muat ulang status',
@@ -78,9 +79,9 @@ class _PermissionScreenState extends ConsumerState<PermissionScreen> {
         padding: const EdgeInsets.all(16),
         children: [
           const Text(
-            'Jejak Pos butuh beberapa izin agar pengalaman berbasis lokasi dapat berjalan: '
-            'Bluetooth & lokasi untuk mendeteksi beacon POI di sekitarmu, kamera untuk '
-            'Photo Studio & pindai QR, dan notifikasi saat mendekati POI.',
+            'JejakPOS menggunakan lokasi untuk memicu informasi saat kamu mendekati koleksi. '
+            'Kamera digunakan untuk mengenali pameran (CV), memindai QR, dan Photo Studio. '
+            'Notifikasi digunakan untuk memberi tahu saat kamu mendekati koleksi.',
           ),
           const SizedBox(height: 8),
           Container(
@@ -89,7 +90,8 @@ class _PermissionScreenState extends ConsumerState<PermissionScreen> {
               color: AppColors.lightGrey,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Text('ⓘ Tanpa Bluetooth, POI tetap bisa dibuka lewat pindai QR.'),
+            child: const Text(
+                'Jika lokasi tidak aktif, kamu tetap bisa mengenali koleksi melalui kamera atau memindai QR.'),
           ),
           const SizedBox(height: 12),
           overview.when(
@@ -99,14 +101,16 @@ class _PermissionScreenState extends ConsumerState<PermissionScreen> {
               children: [
                 _LocationStatusTile(
                   status: data.locationStatus,
-                  onOpenSettings: data.locationStatus == LocationStatus.serviceDisabled
-                      ? controller.openLocationSettings
-                      : controller.openSettings,
+                  onOpenSettings:
+                      data.locationStatus == LocationStatus.serviceDisabled
+                          ? controller.openLocationSettings
+                          : controller.openSettings,
                 ),
-                for (final type in AppPermissionType.values)
+                for (final type in PermissionService.requiredPermissions)
                   _PermissionTile(
                     type: type,
-                    status: data.permissions[type] ?? AppPermissionStatus.denied,
+                    status:
+                        data.permissions[type] ?? AppPermissionStatus.denied,
                     onRequest: () => controller.request(type),
                     onOpenSettings: controller.openSettings,
                   ),
@@ -117,18 +121,20 @@ class _PermissionScreenState extends ConsumerState<PermissionScreen> {
           ElevatedButton.icon(
             onPressed: controller.requestAll,
             icon: const Icon(Icons.verified_user),
-            label: const Text('Izinkan Semua'),
+            label: const Text('Izinkan semua'),
           ),
           const Divider(height: 32),
 
           // ---------- Deteksi lokasi ----------
-          Text('Deteksi Lokasi', style: Theme.of(context).textTheme.titleMedium),
+          Text('Deteksi lokasi',
+              style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 4),
           Text(
             simulation
                 ? 'Sumber: SIMULASI (SimulationService)'
                 : 'Sumber: GPS perangkat/emulator',
-            style: TextStyle(color: simulation ? AppColors.warning : AppColors.success),
+            style: TextStyle(
+                color: simulation ? AppColors.warning : AppColors.success),
           ),
           const SizedBox(height: 8),
           OutlinedButton.icon(
@@ -138,7 +144,8 @@ class _PermissionScreenState extends ConsumerState<PermissionScreen> {
           ),
           if (_singleReading != null) Text('Hasil: $_singleReading'),
           if (_readingError != null)
-            Text(_readingError!, style: const TextStyle(color: AppColors.danger)),
+            Text(_readingError!,
+                style: const TextStyle(color: AppColors.danger)),
           const SizedBox(height: 8),
           Card(
             child: ListTile(
@@ -161,7 +168,7 @@ class _PermissionScreenState extends ConsumerState<PermissionScreen> {
           const Divider(height: 32),
 
           // ---------- Log deteksi (bukti PB02) ----------
-          Text('Log Deteksi (terbaru di atas)',
+          Text('Log deteksi (terbaru di atas)',
               style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 4),
           Container(
@@ -179,14 +186,16 @@ class _PermissionScreenState extends ConsumerState<PermissionScreen> {
                     itemBuilder: (_, i) => Text(
                       locationLogs[i].toString(),
                       style: const TextStyle(
-                          color: Colors.white, fontSize: 11, fontFamily: 'monospace'),
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontFamily: 'monospace'),
                     ),
                   ),
           ),
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () => context.go(AppRoutes.explore),
-            child: const Text('Lanjut ke Jelajah'),
+            child: const Text('Lanjut ke jelajah'),
           ),
         ],
       ),
@@ -195,7 +204,8 @@ class _PermissionScreenState extends ConsumerState<PermissionScreen> {
 }
 
 class _LocationStatusTile extends StatelessWidget {
-  const _LocationStatusTile({required this.status, required this.onOpenSettings});
+  const _LocationStatusTile(
+      {required this.status, required this.onOpenSettings});
 
   final LocationStatus status;
   final VoidCallback onOpenSettings;
@@ -211,7 +221,8 @@ class _LocationStatusTile extends StatelessWidget {
         subtitle: Text(status.label),
         trailing: ok
             ? null
-            : TextButton(onPressed: onOpenSettings, child: const Text('Pengaturan')),
+            : TextButton(
+                onPressed: onOpenSettings, child: const Text('Pengaturan')),
       ),
     );
   }
@@ -254,8 +265,10 @@ class _PermissionTile extends StatelessWidget {
         trailing: granted
             ? const Icon(Icons.check_circle, color: AppColors.success)
             : status == AppPermissionStatus.permanentlyDenied
-                ? TextButton(onPressed: onOpenSettings, child: const Text('Pengaturan'))
-                : TextButton(onPressed: onRequest, child: const Text('Izinkan')),
+                ? TextButton(
+                    onPressed: onOpenSettings, child: const Text('Pengaturan'))
+                : TextButton(
+                    onPressed: onRequest, child: const Text('Izinkan')),
       ),
     );
   }

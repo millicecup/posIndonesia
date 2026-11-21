@@ -155,18 +155,13 @@ class _SplashScreenState extends State<SplashScreen>
                 bottom: 14,
                 left: 20,
                 right: 20,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextButton(
-                          onPressed: _finish,
-                          child: const Text('Lewati animasi')),
-                      if (widget.playSound)
-                        IconButton(
-                            tooltip: 'Putar suara pembuka',
-                            onPressed: _sound,
-                            icon: const Icon(Icons.volume_up_outlined)),
-                    ])),
+                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  if (widget.playSound)
+                    IconButton(
+                        tooltip: 'Putar suara pembuka',
+                        onPressed: _sound,
+                        icon: const Icon(Icons.volume_up_outlined)),
+                ])),
           ])),
         ),
       );

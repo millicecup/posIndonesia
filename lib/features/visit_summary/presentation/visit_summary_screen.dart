@@ -1,5 +1,5 @@
 // lib/features/visit_summary/presentation/visit_summary_screen.dart
-// UI22 Ringkasan Kunjungan + Postmark (F07, A06, PB17). Wireframe: PRD Gambar 5.8 kiri.
+// UI22 Ringkasan kunjungan + Postmark (F07, A06, PB17). Wireframe: PRD Gambar 5.8 kiri.
 // Cap kunjungan memuat tanggal kunjungan dan tersimpan setelah pengguna mengakhiri sesi.
 
 import '../../../shared/widgets/jejak_app_bar.dart';
@@ -26,7 +26,7 @@ class VisitSummaryScreen extends ConsumerWidget {
     final postmark = stats.lastPostmark;
 
     return Scaffold(
-      appBar: JejakAppBar(title: const Text('Ringkasan Kunjungan')),
+      appBar: JejakAppBar(title: const Text('Ringkasan kunjungan')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -48,16 +48,16 @@ class VisitSummaryScreen extends ConsumerWidget {
           Row(
             children: [
               _StatBox(value: progress.visitedCount, label: 'POI'),
-              _StatBox(value: progress.stampCount, label: 'Perangko'),
+              _StatBox(value: progress.stampCount, label: 'Prangko'),
               _StatBox(value: stats.quizCompleted, label: 'Kuis'),
               _StatBox(value: stats.photoCount, label: 'Foto'),
             ],
           ),
           const SizedBox(height: 20),
-          Text('Perangko terkumpul', style: Theme.of(context).textTheme.titleMedium),
+          Text('Prangko terkumpul', style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           if (collected.isEmpty)
-            const Text('Belum ada perangko. Selesaikan aktivitas POI untuk mendapatkannya.')
+            const Text('Belum ada prangko. Selesaikan aktivitas POI untuk mendapatkannya.')
           else
             SizedBox(
               height: 140,

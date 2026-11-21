@@ -1,6 +1,6 @@
 // lib/features/poi_detail/presentation/poi_detail_screen.dart
 // UI10 POI Detail (state 4): ringkasan, 3-5 fakta penting bernomor, gambar, akses
-// audio/galeri/foto/kuis (F03, F04), aktivitas khusus POI, dan "Selesai & ambil perangko"
+// audio/galeri/foto/kuis (F03, F04), aktivitas khusus POI, dan "Selesai & ambil prangko"
 // yang membuka UI13 (F08, PB13). Wireframe: PRD Gambar 5.4 tengah.
 
 import '../../../shared/widgets/jejak_app_bar.dart';
@@ -190,7 +190,7 @@ class _PoiDetailBody extends ConsumerWidget {
                 const Padding(
                   padding: EdgeInsets.only(top: 6),
                   child: Text(
-                      'Tombol Dengarkan cerita membacakan cerita koleksi ini dengan pemandu suara.',
+                      'Dengarkan narasi untuk menyimak cerita koleksi ini.',
                       style: TextStyle(color: AppColors.grey, fontSize: 12)),
                 ),
               if (poi.activities.isNotEmpty) ...[
@@ -334,8 +334,8 @@ class _CollectStampBar extends ConsumerWidget {
           icon: Icon(
               data.stampCollected ? Icons.verified : Icons.local_post_office),
           label: Text(data.stampCollected
-              ? 'Lihat perangko yang sudah dikoleksi'
-              : 'Selesai & ambil perangko'),
+              ? 'Lihat prangko yang sudah dikoleksi'
+              : 'Selesai & ambil prangko'),
         ),
       ),
     );

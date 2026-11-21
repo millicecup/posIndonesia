@@ -19,6 +19,7 @@ class MuseumMapView extends StatefulWidget {
 
 class _MuseumMapViewState extends State<MuseumMapView> {
   final _controller = MapController();
+  Size? _viewport;
 
   @override
   void dispose() {
@@ -44,6 +45,17 @@ class _MuseumMapViewState extends State<MuseumMapView> {
                 minZoom: fitZoom,
                 maxZoom: maxZoom,
               ));
+
+          final viewport = Size(constraints.maxWidth, constraints.maxHeight);
+          if (_viewport != viewport) {
+            final resized = _viewport != null;
+            _viewport = viewport;
+            if (resized) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) reset();
+              });
+            }
+          }
 
           void zoom(double delta) => _controller.move(
                 _controller.camera.center,

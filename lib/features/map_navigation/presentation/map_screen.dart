@@ -33,7 +33,7 @@ class MapScreen extends ConsumerWidget {
         const <String>[];
 
     return Scaffold(
-      appBar: JejakAppBar(title: const Text('Peta Museum')),
+      appBar: JejakAppBar(title: const Text('Peta museum')),
       body: AsyncValueView<List<Poi>>(
         value: pois,
         data: (list) {
@@ -41,9 +41,10 @@ class MapScreen extends ConsumerWidget {
           for (final p in list) {
             if (p.id == selectedId) selected = p;
           }
-          return Stack(
+          return Column(
             children: [
-              MuseumMapView(
+              Expanded(
+                  child: MuseumMapView(
                 onTap: (_, __) =>
                     ref.read(selectedMapPoiIdProvider.notifier).state = null,
                 children: [
@@ -76,13 +77,16 @@ class MapScreen extends ConsumerWidget {
                     ],
                   ),
                 ],
-              ),
+              )),
               if (selected != null)
-                Positioned(
-                  left: 12,
-                  right: 12,
-                  bottom: 12,
-                  child: _SelectedPoiSheet(poi: selected),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                      maxHeight: MediaQuery.sizeOf(context).height * 0.38),
+                  child: SingleChildScrollView(
+                      child: Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+                    child: _SelectedPoiSheet(poi: selected),
+                  )),
                 ),
             ],
           );
@@ -129,7 +133,7 @@ class _PoiMarker extends StatelessWidget {
           poi.id,
           style: const TextStyle(
               color: AppColors.white,
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: FontWeight.bold),
         ),
       ),

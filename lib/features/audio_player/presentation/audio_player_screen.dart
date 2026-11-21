@@ -1,5 +1,5 @@
 // lib/features/audio_player/presentation/audio_player_screen.dart
-// UI11 Audio Storytelling & Mars Pos Indonesia: putar, jeda, lanjut, seek (F04).
+// UI11 Pemutar audio & Mars Pos Indonesia: putar, jeda, lanjut, seek (F04).
 // TODO(Belinda): tampilan sesuai wireframe (cover besar, lirik/transkrip jika tersedia).
 
 import '../../../shared/widgets/jejak_app_bar.dart';
@@ -66,7 +66,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
         ref.watch(audioDurationProvider).valueOrNull ?? Duration.zero;
 
     return Scaffold(
-      appBar: JejakAppBar(title: const Text('Audio Storytelling')),
+      appBar: JejakAppBar(title: const Text('Pemutar audio')),
       body: AsyncValueView<Poi?>(
         value: poiAsync,
         data: (poi) {

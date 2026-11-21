@@ -36,7 +36,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     (
       'Collect',
       Icons.local_post_office_outlined,
-      'Kumpulkan perangko digital, berfoto dengan seragam petugas pos, dan dapatkan cap kunjunganmu.'
+      'Kumpulkan prangko digital, berfoto dengan seragam petugas pos, dan dapatkan cap kunjunganmu.'
     ),
   ];
 
@@ -99,11 +99,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         curve: Curves.easeOut),
                 child: SizedBox(
                     width: double.infinity,
-                    child: Text(last ? 'Mulai Menjelajah' : 'Lanjut',
+                    child: Text(last ? 'Mulai menjelajah' : 'Lanjut',
                         textAlign: TextAlign.center)),
               ),
-              TextButton(
-                  onPressed: _finish, child: const Text('Lewati pengantar')),
+              if (!last)
+                TextButton(
+                    onPressed: _finish, child: const Text('Lewati pengantar')),
             ],
           ),
         ),
@@ -132,22 +133,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               fit: BoxFit.contain,
               semanticLabel: 'Logo JejakPOS'),
           SizedBox(height: MediaQuery.sizeOf(context).height < 700 ? 12 : 22),
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.sizeOf(context).height < 700 ? 12 : 24),
-            decoration: BoxDecoration(
-                color: AppColors.darkGrey,
-                borderRadius: BorderRadius.circular(32)),
-            child: Center(
-                child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                  color: AppColors.cream,
-                  borderRadius: BorderRadius.circular(24)),
-              child: PostmanGuide(
-                  size: MediaQuery.sizeOf(context).height < 700 ? 90 : 120),
-            )),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: PostmanGuide(
+                size: MediaQuery.sizeOf(context).height < 700 ? 130 : 180),
           ),
           const SizedBox(height: 24),
           Text('Museum Pos Indonesia',
@@ -171,25 +160,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           Image.asset('assets/images/logo_jejakpos.png',
               width: 150, height: 52, fit: BoxFit.contain),
           const SizedBox(height: 32),
-          Container(
-            width: double.infinity,
+          SizedBox(
             height: MediaQuery.sizeOf(context).height < 700 ? 130 : 200,
-            decoration: BoxDecoration(
-                color: title == 'Discover'
-                    ? const Color(0xFFE4EEEA)
-                    : AppColors.orangeLight,
-                borderRadius: BorderRadius.circular(32)),
             child: Center(
-                child: Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(24)),
-              child: Icon(icon,
-                  size: 68,
-                  color:
-                      title == 'Discover' ? AppColors.teal : AppColors.orange),
-            )),
+                child: Icon(icon,
+                    size: 100,
+                    color: title == 'Discover'
+                        ? AppColors.teal
+                        : AppColors.orange)),
           ),
           const SizedBox(height: 28),
           Text(title, style: Theme.of(context).textTheme.headlineLarge),

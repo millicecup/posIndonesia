@@ -21,7 +21,7 @@ class HomeExplorerScreen extends ConsumerWidget {
     final recommended = ref.watch(recommendedNextPoiProvider).valueOrNull;
     return Scaffold(
       appBar: JejakAppBar(
-        title: const Text('Jelajah Museum'),
+        title: const Text('Jelajah museum'),
         actions: [
           PopupMenuButton<String>(
             tooltip: 'Pilihan lainnya',
@@ -29,12 +29,7 @@ class HomeExplorerScreen extends ConsumerWidget {
             onSelected: (route) => context.push(route),
             itemBuilder: (_) => [
               const PopupMenuItem(
-                  value: AppRoutes.visionTour,
-                  child: Text('Kenali pameran (kamera)')),
-              const PopupMenuItem(
-                  value: AppRoutes.qrScanner, child: Text('Pindai QR')),
-              const PopupMenuItem(
-                  value: AppRoutes.permission, child: Text('Izin & lokasi')),
+                  value: AppRoutes.permission, child: Text('Izin dan lokasi')),
               if (kDebugMode)
                 const PopupMenuItem(
                     value: AppRoutes.simulation, child: Text('Panel simulasi')),
@@ -87,7 +82,7 @@ class HomeExplorerScreen extends ConsumerWidget {
                                     semanticLabel: 'Logo JejakPOS',
                                   ),
                                   const SizedBox(height: 10),
-                                  Text('Selamat datang di Museum POS Indonesia',
+                                  Text('Selamat datang di Museum Pos Indonesia',
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleLarge
@@ -114,12 +109,13 @@ class HomeExplorerScreen extends ConsumerWidget {
                         const Icon(Icons.flag_outlined,
                             color: Color(0xFF9FD4C6), size: 17),
                         const SizedBox(width: 8),
-                        Text(
-                            '${data.progress.visitedCount}/${data.pois.length} POI',
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600)),
+                        Flexible(
+                            child: Text(
+                                '${data.progress.visitedCount}/${data.pois.length} POI dikunjungi',
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600))),
                         const SizedBox(width: 14),
                         Expanded(
                             child: ClipRRect(
@@ -135,6 +131,10 @@ class HomeExplorerScreen extends ConsumerWidget {
                                   backgroundColor: const Color(0xFF465765),
                                 )))),
                       ]),
+                      const SizedBox(height: 6),
+                      Text('${data.progress.stampCount} prangko terkumpul',
+                          style: const TextStyle(
+                              color: Color(0xFFCEE0DA), fontSize: 13)),
                       const SizedBox(height: 18),
                       SizedBox(
                           width: double.infinity,
@@ -232,7 +232,7 @@ class HomeExplorerScreen extends ConsumerWidget {
                 ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
-                child: Text('Semua Koleksi (${data.pois.length})',
+                child: Text('Semua koleksi (${data.pois.length})',
                     style: Theme.of(context).textTheme.titleMedium),
               ),
               for (final poi in data.pois)

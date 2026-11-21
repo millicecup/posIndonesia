@@ -1,7 +1,7 @@
 // lib/shared/widgets/random_stamp_art.dart
-// Perangko digital acak untuk P11 Stempel Museum (kreasi tim JejakPOS, bukan desain resmi).
-// Desain (warna, motif, nominal) ditentukan oleh [seed] yang disimpan saat perangko diambil,
-// sehingga perangko yang sama selalu tampil sama di UI13, album, dan ringkasan.
+// Prangko digital acak untuk P11 Stempel Museum (kreasi tim JejakPOS, bukan desain resmi).
+// Desain (warna, motif, nominal) ditentukan oleh [seed] yang disimpan saat prangko diambil,
+// sehingga prangko yang sama selalu tampil sama di UI13, album, dan ringkasan.
 
 import 'dart:math' as math;
 

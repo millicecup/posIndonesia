@@ -18,7 +18,7 @@ void main() {
         await tester.tap(find.text('Open QR'));
         await tester.pumpAndSettle();
       }
-      expect(find.text('Pindai QR Koleksi'), findsOneWidget);
+      expect(find.text('Pindai QR koleksi'), findsOneWidget);
       await tester.tap(find.byType(BackButton));
       await tester.pumpAndSettle();
       expect(find.text('Open QR'), findsOneWidget);

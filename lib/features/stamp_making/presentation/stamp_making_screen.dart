@@ -1,5 +1,5 @@
 // lib/features/stamp_making/presentation/stamp_making_screen.dart
-// UI19 Visualisasi Pembuatan Perangko (A04, POI P05 di PRD v2): lima tahap step-by-step
+// UI19 Visualisasi Pembuatan prangko (A04, POI P05 di PRD v2): lima tahap step-by-step
 // (desain, persiapan cetak, pencetakan, perforasi, hasil akhir) dengan Sebelumnya/Lanjut.
 // Nama tahap dari PRD A04; penjelasan tiap tahap diambil dari keyFacts POI (menunggu validasi).
 
@@ -47,7 +47,7 @@ class _StampMakingScreenState extends ConsumerState<StampMakingScreen> {
         : 'Penjelasan tahap ini menunggu materi yang divalidasi museum.';
 
     return Scaffold(
-      appBar: JejakAppBar(title: const Text('Pembuatan Perangko')),
+      appBar: JejakAppBar(title: const Text('Pembuatan prangko')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

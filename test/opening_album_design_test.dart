@@ -25,6 +25,7 @@ void main() {
                             const Scaffold(body: Text('Introduction'))))))));
     await tester.pump(const Duration(milliseconds: 2300));
     expect(find.bySemanticsLabel('Ikon prangko JejakPOS'), findsOneWidget);
+    expect(find.text('Lewati animasi'), findsNothing);
     await tester.pump(const Duration(milliseconds: 2100));
     await tester.pumpAndSettle();
     expect(find.text('Introduction'), findsOneWidget);
@@ -63,6 +64,13 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Explore'), findsOneWidget);
       expect(tester.takeException(), isNull);
+      await tester.tap(find.text('Lanjut'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Lanjut'));
+      await tester.pumpAndSettle();
+      expect(find.text('Collect'), findsOneWidget);
+      expect(find.text('Lewati pengantar'), findsNothing);
+      expect(find.text('Mulai menjelajah'), findsOneWidget);
     });
   }
 }

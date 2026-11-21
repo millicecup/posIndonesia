@@ -1,5 +1,5 @@
 // lib/shared/widgets/stamp_unlocked_dialog.dart
-// UI13 Perangko Digital Terbuka (F08): popup setelah aktivitas POI selesai.
+// UI13 Prangko Digital Terbuka (F08): popup setelah aktivitas POI selesai.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +11,7 @@ import '../../data/models/models.dart';
 import '../../providers/providers.dart';
 import 'random_stamp_art.dart';
 
-/// Tampilkan popup perangko baru. [isNew] false = perangko sudah ada (tidak diduplikasi).
+/// Tampilkan popup prangko baru. [isNew] false = prangko sudah ada (tidak diduplikasi).
 Future<void> showStampUnlockedDialog(BuildContext context,
     {required Poi poi, required bool isNew}) {
   return showDialog<void>(
@@ -30,7 +30,7 @@ Future<void> showStampUnlockedDialog(BuildContext context,
             decoration: BoxDecoration(
                 color: isNew ? AppColors.orange : AppColors.grey,
                 borderRadius: BorderRadius.circular(4)),
-            child: Text(isNew ? 'PERANGKO BARU!' : 'SUDAH ADA DI ALBUM',
+            child: Text(isNew ? 'Prangko baru' : 'Sudah ada di album',
                 style: const TextStyle(
                     color: AppColors.white,
                     fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ Future<void> showStampUnlockedDialog(BuildContext context,
                   Navigator.pop(ctx);
                   context.go(AppRoutes.explore);
                 },
-                child: const Text('Kembali ke Jelajah'),
+                child: const Text('Kembali ke jelajah'),
               ),
             ],
           ),
@@ -92,7 +92,7 @@ Future<void> showStampUnlockedDialog(BuildContext context,
   );
 }
 
-/// Bingkai perangko bergerigi sederhana (garis putus) di sekitar gambar perangko.
+/// Bingkai prangko bergerigi sederhana (garis putus) di sekitar gambar prangko.
 class StampFrame extends ConsumerWidget {
   const StampFrame(
       {super.key,
@@ -107,7 +107,7 @@ class StampFrame extends ConsumerWidget {
   final double size;
   final bool locked;
 
-  /// true = perangko acak P11; desain dari seed yang tersimpan.
+  /// true = prangko acak P11; desain dari seed yang tersimpan.
   final bool random;
 
   @override

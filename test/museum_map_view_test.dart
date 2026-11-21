@@ -5,6 +5,25 @@ import 'package:jejakpos/features/map_navigation/presentation/museum_map_view.da
 import 'package:jejakpos/features/map_navigation/state/map_state.dart';
 
 void main() {
+  testWidgets('map refits when the selected POI panel reduces viewport height',
+      (tester) async {
+    Widget view(double height) => MaterialApp(
+        home: Scaffold(
+            body: Center(
+                child: SizedBox(
+                    width: 360,
+                    height: height,
+                    child: const MuseumMapView(children: [])))));
+    await tester.pumpWidget(view(560));
+    await tester.pumpAndSettle();
+    await tester.pumpWidget(view(260));
+    await tester.pumpAndSettle();
+    final map = tester.widget<FlutterMap>(find.byType(FlutterMap));
+    final scale = const CrsSimple().scale(map.mapController!.camera.zoom);
+    expect(kMapUnitHeight * scale, lessThanOrEqualTo(236.001));
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('phone camera fits the denah and zoom controls can reset it',
       (tester) async {
     await tester.pumpWidget(const MaterialApp(

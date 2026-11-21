@@ -48,10 +48,24 @@ void main() {
   test('getProgressSummary menghitung persentase', () async {
     await repo.markVisited('P01');
     final summary = await repo.getProgressSummary();
-    expect(summary.totalPois, 11); // hanya POI baseline PRD v2 (P12-P13 backlog)
+    expect(
+        summary.totalPois, 11); // hanya POI baseline PRD v2 (P12-P13 backlog)
     expect(summary.visitedCount, 1);
     expect(summary.completionPercent, 9); // 1 dari 11
     expect(summary.lastVisitedAt, isNotNull);
+  });
+
+  test(
+      'enam kunjungan dan dua prangko tetap tersimpan sebagai hitungan berbeda',
+      () async {
+    for (var i = 1; i <= 6; i++) {
+      await repo.markVisited('P${i.toString().padLeft(2, '0')}');
+    }
+    await repo.collectStamp('STP-P01');
+    await repo.collectStamp('STP-P02');
+    final reopened = await newRepo().getProgressSummary();
+    expect(reopened.visitedCount, 6);
+    expect(reopened.stampCount, 2);
   });
 
   test('resetProgress menghapus semua', () async {
@@ -62,7 +76,8 @@ void main() {
     expect(await repo.getCollectedStamps(), isEmpty);
   });
 
-  test('sesi kunjungan tersimpan, dan clearSession tidak menghapus progres', () async {
+  test('sesi kunjungan tersimpan, dan clearSession tidak menghapus progres',
+      () async {
     final local = ProgressLocalDataSource(prefs);
     await repo.markVisited('P01');
     await local.writeSessionTriggeredIds(['P01']);

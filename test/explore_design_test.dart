@@ -51,7 +51,9 @@ void main() {
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
       expect(
-          find.text('Selamat datang di Museum POS Indonesia'), findsOneWidget);
+          find.text('Selamat datang di Museum Pos Indonesia'), findsOneWidget);
+      await tester.ensureVisible(find.text('Mulai tur terpandu'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Mulai tur terpandu'));
       await tester.pumpAndSettle();
       expect(find.text('Tour destination'), findsOneWidget);

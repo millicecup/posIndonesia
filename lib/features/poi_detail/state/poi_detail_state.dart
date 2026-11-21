@@ -1,5 +1,5 @@
 // lib/features/poi_detail/state/poi_detail_state.dart
-// State UI10: data POI + status perangko (PIC: Belinda).
+// State UI10: data POI + status prangko (PIC: Belinda).
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
