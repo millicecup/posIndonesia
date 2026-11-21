@@ -24,6 +24,7 @@ class HomeExplorerScreen extends ConsumerStatefulWidget {
 class _HomeExplorerScreenState extends ConsumerState<HomeExplorerScreen> {
   final _tourTarget = GlobalKey();
   final _qrTarget = GlobalKey();
+  final _collectionCardTarget = GlobalKey();
   final _searchTarget = GlobalKey();
   final _mapTarget = GlobalKey();
   final _recognizeTarget = GlobalKey();
@@ -55,6 +56,8 @@ class _HomeExplorerScreenState extends ConsumerState<HomeExplorerScreen> {
             'Ketuk Kenali, lalu arahkan kamera ke pameran yang didukung untuk mengenali koleksinya.'),
         TutorialStep(_qrTarget, 'Pindai QR di dekat koleksi',
             'Arahkan kamera ke QR koleksi untuk membuka informasinya. Setelah selesai, kamu bisa memindai koleksi berikutnya.'),
+        TutorialStep(_collectionCardTarget, 'Buka cerita koleksi',
+            'Ketuk kartu koleksi untuk membaca cerita, melihat foto, dan mencoba aktivitasnya. Setelah selesai, ambil prangko untuk mengisi album.'),
         if (navigation != null) ...[
           TutorialStep(navigation.explore, 'Kembali ke Jelajah',
               'Tab Jelajah membawamu kembali ke halaman utama, daftar koleksi, dan rekomendasi berikutnya.'),
@@ -316,11 +319,13 @@ class _HomeExplorerScreenState extends ConsumerState<HomeExplorerScreen> {
                 child: Text('Semua koleksi (${data.pois.length})',
                     style: Theme.of(context).textTheme.titleMedium),
               ),
-              for (final poi in data.pois)
+              for (var i = 0; i < data.pois.length; i++)
                 PoiCard(
-                    poi: poi,
-                    visited: data.progress.isVisited(poi.id),
-                    onTap: () => context.push(AppRoutes.poiDetail(poi.id))),
+                    key: i == 0 ? _collectionCardTarget : null,
+                    poi: data.pois[i],
+                    visited: data.progress.isVisited(data.pois[i].id),
+                    onTap: () =>
+                        context.push(AppRoutes.poiDetail(data.pois[i].id))),
             ],
           ),
         ),
