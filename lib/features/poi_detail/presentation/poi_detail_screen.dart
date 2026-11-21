@@ -60,15 +60,8 @@ class _PoiDetailScreenState extends ConsumerState<PoiDetailScreen> {
             ? const Center(child: Text('POI tidak ditemukan'))
             : _PoiDetailBody(data: data),
       ),
-      bottomNavigationBar: detail.valueOrNull == null
-          ? null
-          : Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const VoiceGuideBar(),
-                _CollectStampBar(data: detail.valueOrNull!),
-              ],
-            ),
+      bottomNavigationBar:
+          detail.valueOrNull == null ? null : const VoiceGuideBar(),
     );
   }
 }
@@ -218,6 +211,8 @@ class _PoiDetailBody extends ConsumerWidget {
             ],
           ),
         ),
+        _CollectStampBar(data: data),
+        const SizedBox(height: 16),
       ],
     );
   }
@@ -314,29 +309,28 @@ class _CollectStampBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final poi = data.poi;
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-        child: ElevatedButton.icon(
-          onPressed: () async {
-            if (poi.stamp.isRandom) {
-              await ref
-                  .read(activityStatsProvider.notifier)
-                  .ensureRandomStampSeed();
-            }
-            final isNew = await ref
-                .read(progressProvider.notifier)
-                .collectStamp(poi.stamp.id);
-            if (context.mounted) {
-              await showStampUnlockedDialog(context, poi: poi, isNew: isNew);
-            }
-          },
-          icon: Icon(
-              data.stampCollected ? Icons.verified : Icons.local_post_office),
-          label: Text(data.stampCollected
-              ? 'Lihat prangko yang sudah dikoleksi'
-              : 'Selesai & ambil prangko'),
-        ),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
+      child: FilledButton.icon(
+        style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(52)),
+        onPressed: () async {
+          if (poi.stamp.isRandom) {
+            await ref
+                .read(activityStatsProvider.notifier)
+                .ensureRandomStampSeed();
+          }
+          final isNew = await ref
+              .read(progressProvider.notifier)
+              .collectStamp(poi.stamp.id);
+          if (context.mounted) {
+            await showStampUnlockedDialog(context, poi: poi, isNew: isNew);
+          }
+        },
+        icon: Icon(
+            data.stampCollected ? Icons.verified : Icons.local_post_office),
+        label: Text(data.stampCollected
+            ? 'Lihat prangko yang sudah dikoleksi'
+            : 'Selesai & ambil prangko'),
       ),
     );
   }

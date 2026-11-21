@@ -6,7 +6,6 @@ import 'package:jejakpos/app/theme.dart';
 import 'package:jejakpos/features/splash/presentation/splash_screen.dart';
 import 'package:jejakpos/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:jejakpos/features/album/presentation/album_screen.dart';
-import 'package:jejakpos/data/models/models.dart';
 import 'package:jejakpos/providers/providers.dart';
 import 'package:jejakpos/shared/widgets/stamp_unlocked_dialog.dart';
 import 'helpers/test_data.dart';

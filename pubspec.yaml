@@ -58,6 +58,7 @@ flutter:
     - assets/images/pois/
     - assets/images/stamps/
     - assets/images/photo_studio/
+    - assets/images/stamp_making/
     - assets/audio/
     - assets/map/
     - assets/models/
