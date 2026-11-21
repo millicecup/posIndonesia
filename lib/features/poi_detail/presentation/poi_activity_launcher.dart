@@ -150,16 +150,16 @@ void _showTimeline(BuildContext context, Poi poi) {
             ),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Text('Ketuk tahun atau periode untuk membaca ceritanya.'),
+              child: Text(
+                  'Ikuti perjalanan sejarah dari atas ke bawah. Geser untuk melanjutkan.'),
             ),
             Expanded(
               child: entries.isEmpty
                   ? const Center(
                       child: Text('Linimasa koleksi ini belum tersedia.'))
-                  : ListView.separated(
+                  : ListView.builder(
                       padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
                       itemCount: entries.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 8),
                       itemBuilder: (context, index) {
                         final entry = entries[index];
                         final split = entry.indexOf(' — ');
@@ -168,21 +168,74 @@ void _showTimeline(BuildContext context, Poi poi) {
                             : entry.substring(0, split);
                         final story =
                             split < 0 ? entry : entry.substring(split + 3);
-                        return Card(
-                          child: ExpansionTile(
-                            key: ValueKey('${poi.id}-timeline-$index'),
-                            initiallyExpanded: index == 0,
-                            leading: const Icon(Icons.history,
-                                color: AppColors.orange),
-                            title: Text(period,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600)),
-                            childrenPadding:
-                                const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                            expandedCrossAxisAlignment:
-                                CrossAxisAlignment.start,
+                        return IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Text(story, style: const TextStyle(height: 1.5))
+                              SizedBox(
+                                width: 32,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: 3,
+                                      height: 20,
+                                      color: index == 0
+                                          ? Colors.transparent
+                                          : AppColors.orange,
+                                    ),
+                                    Container(
+                                      width: 16,
+                                      height: 16,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.orange,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            color: Colors.white, width: 3),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              color: AppColors.orangeLight,
+                                              spreadRadius: 2)
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                        child: Container(
+                                      width: 3,
+                                      color: index == entries.length - 1
+                                          ? Colors.transparent
+                                          : AppColors.orange,
+                                    )),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 20),
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(
+                                        color: AppColors.orangeLight),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(period,
+                                          style: const TextStyle(
+                                            color: AppColors.orange,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          )),
+                                      const SizedBox(height: 8),
+                                      Text(story,
+                                          style: const TextStyle(height: 1.5)),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         );
