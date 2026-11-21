@@ -9,6 +9,7 @@ import '../../../shared/widgets/async_value_view.dart';
 import '../../../shared/widgets/jejak_app_bar.dart';
 import '../../../shared/widgets/poi_card.dart';
 import '../../../shared/widgets/postman_guide.dart';
+import '../../../shared/widgets/tutorial_navigation_scope.dart';
 import '../../media_download/presentation/media_download_card.dart';
 import '../state/home_state.dart';
 import '../widgets/quick_action_button.dart';
@@ -23,8 +24,9 @@ class HomeExplorerScreen extends ConsumerStatefulWidget {
 class _HomeExplorerScreenState extends ConsumerState<HomeExplorerScreen> {
   final _tourTarget = GlobalKey();
   final _qrTarget = GlobalKey();
-  final _actionsTarget = GlobalKey();
-  final _progressTarget = GlobalKey();
+  final _searchTarget = GlobalKey();
+  final _mapTarget = GlobalKey();
+  final _recognizeTarget = GlobalKey();
   final _helpTarget = GlobalKey();
   bool _tutorialScheduled = false;
   bool _tutorialOpen = false;
@@ -37,6 +39,7 @@ class _HomeExplorerScreenState extends ConsumerState<HomeExplorerScreen> {
         .read(sharedPreferencesProvider)
         .setBool(exploreTutorialSeenKey, true);
     if (!mounted) return;
+    final navigation = TutorialNavigationScope.maybeOf(context);
     await showGeneralDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -44,12 +47,24 @@ class _HomeExplorerScreenState extends ConsumerState<HomeExplorerScreen> {
       pageBuilder: (_, __, ___) => ExploreTutorial(steps: [
         TutorialStep(_tourTarget, 'Mulai dari tur terpandu',
             'Ikuti pemandu untuk menjelajahi koleksi museum. Kamu juga bebas membuka koleksi sendiri.'),
+        TutorialStep(_searchTarget, 'Cari koleksi yang kamu inginkan',
+            'Ketuk Cari POI untuk mencari koleksi berdasarkan namanya. POI adalah titik koleksi yang bisa kamu jelajahi.'),
+        TutorialStep(_mapTarget, 'Lihat lokasi koleksi',
+            'Buka Peta untuk melihat denah museum. Pilih titik koleksi, lalu ketuk Detail atau Arahkan.'),
+        TutorialStep(_recognizeTarget, 'Kenali pameran lewat kamera',
+            'Ketuk Kenali, lalu arahkan kamera ke pameran yang didukung untuk mengenali koleksinya.'),
         TutorialStep(_qrTarget, 'Pindai QR di dekat koleksi',
-            'Arahkan kamera ke QR koleksi untuk membuka informasi POI tersebut. Setelah selesai, kamu bisa memindai koleksi berikutnya.'),
-        TutorialStep(_actionsTarget, 'Temukan koleksi dengan caramu',
-            'Gunakan Peta untuk melihat letak koleksi, Cari POI untuk mencari namanya, atau Kenali untuk mengenali pameran lewat kamera.'),
-        TutorialStep(_progressTarget, 'Dikunjungi dan dikoleksi berbeda',
-            'Membuka detail mencatat kunjungan. Setelah membaca, tekan “Selesai & ambil prangko” untuk mengumpulkannya. Koleksimu tersimpan di tab Album, dan perjalananmu ada di tab Progres.'),
+            'Arahkan kamera ke QR koleksi untuk membuka informasinya. Setelah selesai, kamu bisa memindai koleksi berikutnya.'),
+        if (navigation != null) ...[
+          TutorialStep(navigation.explore, 'Kembali ke Jelajah',
+              'Tab Jelajah membawamu kembali ke halaman utama, daftar koleksi, dan rekomendasi berikutnya.'),
+          TutorialStep(navigation.map, 'Denah selalu mudah dijangkau',
+              'Tab Peta membuka denah yang sama dengan tombol Peta di atas. Gunakan akses ini saat berpindah koleksi.'),
+          TutorialStep(navigation.album, 'Prangkomu tersimpan di Album',
+              'Setelah membaca koleksi, tekan “Selesai & ambil prangko”. Buka Album untuk melihat prangko yang sudah kamu kumpulkan.'),
+          TutorialStep(navigation.progress, 'Pantau perjalananmu',
+              'Tab Progres menampilkan perkembangan kunjunganmu. POI yang dikunjungi dan prangko yang diambil dihitung terpisah.'),
+        ],
         TutorialStep(_helpTarget, 'Butuh panduan lagi?',
             'Ketuk tombol bantuan ini kapan saja untuk mengulang tutorial. Selamat menjelajah Museum Pos Indonesia!'),
       ]),
@@ -166,7 +181,7 @@ class _HomeExplorerScreenState extends ConsumerState<HomeExplorerScreen> {
                                 )),
                           ]),
                       const SizedBox(height: 18),
-                      Row(key: _progressTarget, children: [
+                      Row(children: [
                         const Icon(Icons.flag_outlined,
                             color: Color(0xFF9FD4C6), size: 17),
                         const SizedBox(width: 8),
@@ -208,7 +223,6 @@ class _HomeExplorerScreenState extends ConsumerState<HomeExplorerScreen> {
                     ]),
               ),
               Padding(
-                key: _actionsTarget,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: LayoutBuilder(
                     builder: (context, constraints) => Wrap(
@@ -218,6 +232,7 @@ class _HomeExplorerScreenState extends ConsumerState<HomeExplorerScreen> {
                             SizedBox(
                                 width: (constraints.maxWidth - 30) / 4,
                                 child: QuickActionButton(
+                                    key: _searchTarget,
                                     icon: Icons.search_rounded,
                                     label: 'Cari POI',
                                     onTap: () =>
@@ -225,12 +240,14 @@ class _HomeExplorerScreenState extends ConsumerState<HomeExplorerScreen> {
                             SizedBox(
                                 width: (constraints.maxWidth - 30) / 4,
                                 child: QuickActionButton(
+                                    key: _mapTarget,
                                     icon: Icons.map_outlined,
                                     label: 'Peta',
                                     onTap: () => context.go(AppRoutes.map))),
                             SizedBox(
                                 width: (constraints.maxWidth - 30) / 4,
                                 child: QuickActionButton(
+                                    key: _recognizeTarget,
                                     icon: Icons.center_focus_strong,
                                     label: 'Kenali',
                                     onTap: () =>

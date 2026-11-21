@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../app/theme.dart';
 
-const exploreTutorialSeenKey = 'explore_tutorial_seen_v1';
+const exploreTutorialSeenKey = 'explore_tutorial_seen_v2';
 
 class TutorialStep {
   const TutorialStep(this.target, this.title, this.description);
@@ -131,32 +131,48 @@ class _ExploreTutorialState extends State<ExploreTutorial>
                                 style:
                                     const TextStyle(fontSize: 14, height: 1.5)),
                             const SizedBox(height: 20),
-                            Row(children: [
-                              if (_index > 0) ...[
-                                Expanded(
-                                    child: OutlinedButton(
-                                        onPressed: _moving
-                                            ? null
-                                            : () => _select(_index - 1),
-                                        child: const Text('Kembali'))),
-                                const SizedBox(width: 12),
-                              ],
-                              Expanded(
-                                  child: FilledButton(
+                            if (_index == widget.steps.length - 1) ...[
+                              FilledButton(
                                 onPressed: _moving
                                     ? null
-                                    : () {
-                                        if (_index == widget.steps.length - 1) {
-                                          Navigator.of(context).pop();
-                                        } else {
-                                          _select(_index + 1);
-                                        }
-                                      },
-                                child: Text(_index == widget.steps.length - 1
-                                    ? 'Mengerti'
-                                    : 'Lanjut'),
-                              )),
-                            ]),
+                                    : () => Navigator.of(context).pop(),
+                                child:
+                                    const Text('Mulai menjelajah', maxLines: 1),
+                              ),
+                              const SizedBox(height: 8),
+                              TextButton(
+                                onPressed:
+                                    _moving ? null : () => _select(_index - 1),
+                                child: const Text('Kembali'),
+                              ),
+                            ] else
+                              Row(children: [
+                                if (_index > 0) ...[
+                                  Expanded(
+                                      child: OutlinedButton(
+                                          onPressed: _moving
+                                              ? null
+                                              : () => _select(_index - 1),
+                                          child: const Text('Kembali'))),
+                                  const SizedBox(width: 12),
+                                ],
+                                Expanded(
+                                    child: FilledButton(
+                                  onPressed: _moving
+                                      ? null
+                                      : () {
+                                          if (_index ==
+                                              widget.steps.length - 1) {
+                                            Navigator.of(context).pop();
+                                          } else {
+                                            _select(_index + 1);
+                                          }
+                                        },
+                                  child: Text(_index == widget.steps.length - 1
+                                      ? 'Mulai menjelajah'
+                                      : 'Lanjut'),
+                                )),
+                              ]),
                           ]),
                     ),
                   ),
