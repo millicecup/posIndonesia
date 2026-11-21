@@ -12,17 +12,78 @@ import '../../../shared/widgets/postman_guide.dart';
 import '../../media_download/presentation/media_download_card.dart';
 import '../state/home_state.dart';
 import '../widgets/quick_action_button.dart';
+import '../widgets/explore_tutorial.dart';
 
-class HomeExplorerScreen extends ConsumerWidget {
+class HomeExplorerScreen extends ConsumerStatefulWidget {
   const HomeExplorerScreen({super.key});
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeExplorerScreen> createState() => _HomeExplorerScreenState();
+}
+
+class _HomeExplorerScreenState extends ConsumerState<HomeExplorerScreen> {
+  final _tourTarget = GlobalKey();
+  final _qrTarget = GlobalKey();
+  final _actionsTarget = GlobalKey();
+  final _progressTarget = GlobalKey();
+  final _helpTarget = GlobalKey();
+  bool _tutorialScheduled = false;
+  bool _tutorialOpen = false;
+
+  Future<void> _showTutorial() async {
+    if (_tutorialOpen || !mounted) return;
+    _tutorialOpen = true;
+    // Remember showing it, including Skip; replay remains available in the header.
+    await ref
+        .read(sharedPreferencesProvider)
+        .setBool(exploreTutorialSeenKey, true);
+    if (!mounted) return;
+    await showGeneralDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      barrierColor: Colors.transparent,
+      pageBuilder: (_, __, ___) => ExploreTutorial(steps: [
+        TutorialStep(_tourTarget, 'Mulai dari tur terpandu',
+            'Ikuti pemandu untuk menjelajahi koleksi museum. Kamu juga bebas membuka koleksi sendiri.'),
+        TutorialStep(_qrTarget, 'Pindai QR di dekat koleksi',
+            'Arahkan kamera ke QR koleksi untuk membuka informasi POI tersebut. Setelah selesai, kamu bisa memindai koleksi berikutnya.'),
+        TutorialStep(_actionsTarget, 'Temukan koleksi dengan caramu',
+            'Gunakan Peta untuk melihat letak koleksi, Cari POI untuk mencari namanya, atau Kenali untuk mengenali pameran lewat kamera.'),
+        TutorialStep(_progressTarget, 'Dikunjungi dan dikoleksi berbeda',
+            'Membuka detail mencatat kunjungan. Setelah membaca, tekan “Selesai & ambil prangko” untuk mengumpulkannya. Koleksimu tersimpan di tab Album, dan perjalananmu ada di tab Progres.'),
+        TutorialStep(_helpTarget, 'Butuh panduan lagi?',
+            'Ketuk tombol bantuan ini kapan saja untuk mengulang tutorial. Selamat menjelajah Museum Pos Indonesia!'),
+      ]),
+    );
+    _tutorialOpen = false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final summary = ref.watch(homeSummaryProvider);
     final recommended = ref.watch(recommendedNextPoiProvider).valueOrNull;
+    if (!_tutorialScheduled &&
+        summary.hasValue &&
+        GoRouterState.of(context).uri.path == AppRoutes.explore) {
+      _tutorialScheduled = true;
+      if (!(ref
+              .read(sharedPreferencesProvider)
+              .getBool(exploreTutorialSeenKey) ??
+          false)) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _showTutorial();
+        });
+      }
+    }
     return Scaffold(
       appBar: JejakAppBar(
         title: const Text('Jelajah museum'),
         actions: [
+          IconButton(
+            key: _helpTarget,
+            tooltip: 'Tutorial penggunaan',
+            onPressed: summary.hasValue ? _showTutorial : null,
+            icon: const Icon(Icons.help_outline_rounded),
+          ),
           PopupMenuButton<String>(
             tooltip: 'Pilihan lainnya',
             icon: const Icon(Icons.tune_rounded),
@@ -105,7 +166,7 @@ class HomeExplorerScreen extends ConsumerWidget {
                                 )),
                           ]),
                       const SizedBox(height: 18),
-                      Row(children: [
+                      Row(key: _progressTarget, children: [
                         const Icon(Icons.flag_outlined,
                             color: Color(0xFF9FD4C6), size: 17),
                         const SizedBox(width: 8),
@@ -137,6 +198,7 @@ class HomeExplorerScreen extends ConsumerWidget {
                               color: Color(0xFFCEE0DA), fontSize: 13)),
                       const SizedBox(height: 18),
                       SizedBox(
+                          key: _tourTarget,
                           width: double.infinity,
                           child: ElevatedButton.icon(
                             onPressed: () => context.push(AppRoutes.tour),
@@ -146,6 +208,7 @@ class HomeExplorerScreen extends ConsumerWidget {
                     ]),
               ),
               Padding(
+                key: _actionsTarget,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: LayoutBuilder(
                     builder: (context, constraints) => Wrap(
@@ -173,6 +236,7 @@ class HomeExplorerScreen extends ConsumerWidget {
                                     onTap: () =>
                                         context.push(AppRoutes.visionTour))),
                             SizedBox(
+                                key: _qrTarget,
                                 width: (constraints.maxWidth - 30) / 4,
                                 child: QuickActionButton(
                                     icon: Icons.qr_code_scanner,
