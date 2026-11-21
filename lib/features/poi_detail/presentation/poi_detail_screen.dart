@@ -44,7 +44,23 @@ class _PoiDetailScreenState extends ConsumerState<PoiDetailScreen> {
     final detail = ref.watch(poiDetailProvider(widget.poiId));
     final title = detail.valueOrNull?.poi.name ?? 'Detail ${widget.poiId}';
     return Scaffold(
-      appBar: JejakAppBar(title: Text(title, overflow: TextOverflow.ellipsis)),
+      appBar: JejakAppBar(
+        title: Text(title, overflow: TextOverflow.ellipsis),
+        leading: BackButton(onPressed: () {
+          if (context.canPop()) {
+            context.pop();
+          } else {
+            context.go(AppRoutes.explore);
+          }
+        }),
+        actions: [
+          IconButton(
+            tooltip: 'Scan koleksi lain',
+            icon: const Icon(Icons.qr_code_scanner),
+            onPressed: () => context.push(AppRoutes.qrScanner),
+          ),
+        ],
+      ),
       body: AsyncValueView<PoiDetailData?>(
         value: detail,
         data: (data) => data == null
@@ -151,7 +167,7 @@ class _PoiDetailBody extends ConsumerWidget {
                 children: [
                   _MediaButton(
                     icon: Icons.play_arrow,
-                    label: poi.hasRealAudio ? 'Mars' : 'Dengar',
+                    label: poi.hasRealAudio ? 'Mars' : 'Dengarkan cerita',
                     onPressed: () => listenToPoi(context, ref, poi),
                   ),
                   _MediaButton(
@@ -178,7 +194,7 @@ class _PoiDetailBody extends ConsumerWidget {
                 const Padding(
                   padding: EdgeInsets.only(top: 6),
                   child: Text(
-                      'Tombol Dengar membacakan cerita koleksi ini dengan pemandu suara.',
+                      'Tombol Dengarkan cerita membacakan cerita koleksi ini dengan pemandu suara.',
                       style: TextStyle(color: AppColors.grey, fontSize: 12)),
                 ),
               if (poi.sections.isNotEmpty) ...[

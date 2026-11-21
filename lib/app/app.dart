@@ -30,7 +30,7 @@ class JejakPosApp extends ConsumerWidget {
     // diatur TriggerEngine): UI08 dibuka langsung, plus banner bergaya notifikasi.
     ref.listen<AsyncValue<TriggerEvent>>(triggerEventsProvider, (_, next) {
       final event = next.valueOrNull;
-      if (event == null || event.type != TriggerEventType.triggered) return;
+      if (event == null || event.source == TriggerSource.qr || event.type != TriggerEventType.triggered) return;
       final target = AppRoutes.triggerAlert(event.poi.id);
       final current = router.routerDelegate.currentConfiguration.uri.toString();
       final onboarding = current.startsWith(AppRoutes.onboarding) ||

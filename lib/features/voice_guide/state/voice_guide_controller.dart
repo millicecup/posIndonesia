@@ -65,7 +65,7 @@ class VoiceGuideController extends Notifier<VoiceGuideState> {
   }
 
   Future<void> _onTrigger(TriggerEvent event) async {
-    if (!state.enabled) return;
+    if (!state.enabled || event.source == TriggerSource.qr) return;
     final poi = event.poi;
     switch (event.type) {
       case TriggerEventType.approaching:

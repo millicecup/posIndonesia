@@ -97,7 +97,7 @@ class HomeExplorerScreen extends ConsumerWidget {
                         onTap: () => context.push(AppRoutes.visionTour)),
                     QuickActionButton(
                         icon: Icons.tour,
-                        label: 'Tur',
+                        label: 'Tur terpandu',
                         onTap: () => context.push(AppRoutes.tour)),
                     QuickActionButton(
                         icon: Icons.qr_code,

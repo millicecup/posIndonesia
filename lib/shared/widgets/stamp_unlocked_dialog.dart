@@ -62,19 +62,27 @@ Future<void> showStampUnlockedDialog(BuildContext context,
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.pop(ctx);
-                  context.go(AppRoutes.album);
+                  context.go(AppRoutes.qrScanner);
                 },
-                icon: const Icon(Icons.collections_bookmark_outlined, size: 20),
-                label: const Text('Lihat Album'),
+                icon: const Icon(Icons.qr_code_scanner, size: 20),
+                label: const Text('Scan koleksi lain'),
               ),
               const SizedBox(height: 12),
               OutlinedButton.icon(
                 onPressed: () {
                   Navigator.pop(ctx);
-                  context.push(AppRoutes.tour);
+                  context.go(AppRoutes.album);
                 },
-                icon: const Icon(Icons.explore_outlined, size: 20),
-                label: const Text('Lanjut menjelajah'),
+                icon: const Icon(Icons.collections_bookmark_outlined, size: 20),
+                label: const Text('Lihat album'),
+              ),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  context.go(AppRoutes.explore);
+                },
+                child: const Text('Kembali ke Jelajah'),
               ),
             ],
           ),
