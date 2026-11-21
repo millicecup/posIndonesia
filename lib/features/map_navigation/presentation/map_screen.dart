@@ -183,13 +183,13 @@ class _SelectedPoiSheet extends StatelessWidget {
                         fontFamily: 'PlusJakartaSans',
                         fontSize: 14,
                         fontWeight: FontWeight.w600)),
-                onPressed: () => context.push(AppRoutes.navigateTo(poi.id)),
-                icon: const Icon(Icons.directions_walk, size: 18),
-                label: const Text('Arahkan'),
+                onPressed: () => context.push(AppRoutes.poiDetail(poi.id)),
+                icon: const Icon(Icons.info_outline, size: 18),
+                label: const Text('Detail'),
               )),
               const SizedBox(width: 10),
               Expanded(
-                  child: ElevatedButton(
+                  child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                     minimumSize: const Size(64, 40),
                     padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -197,8 +197,9 @@ class _SelectedPoiSheet extends StatelessWidget {
                         fontFamily: 'PlusJakartaSans',
                         fontSize: 14,
                         fontWeight: FontWeight.w600)),
-                onPressed: () => context.push(AppRoutes.poiDetail(poi.id)),
-                child: const Text('Detail'),
+                onPressed: () => context.push(AppRoutes.navigateTo(poi.id)),
+                icon: const Icon(Icons.directions_walk, size: 18),
+                label: const Text('Arahkan'),
               )),
             ]),
           ],
