@@ -62,6 +62,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             children: [
               Expanded(
                 child: PageView(
+                  physics: const PageScrollPhysics(),
                   controller: _controller,
                   onPageChanged: (i) => setState(() => _page = i),
                   children: [

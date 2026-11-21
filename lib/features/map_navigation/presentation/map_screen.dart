@@ -84,7 +84,7 @@ class MapScreen extends ConsumerWidget {
                       maxHeight: MediaQuery.sizeOf(context).height * 0.38),
                   child: SingleChildScrollView(
                       child: Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+                    padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
                     child: _SelectedPoiSheet(poi: selected),
                   )),
                 ),
@@ -122,7 +122,10 @@ class _PoiMarker extends StatelessWidget {
 
     return GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: Center(
+          child: Container(
+        width: selected ? 36 : 32,
+        height: selected ? 36 : 32,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: color,
@@ -133,10 +136,10 @@ class _PoiMarker extends StatelessWidget {
           poi.id,
           style: const TextStyle(
               color: AppColors.white,
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: FontWeight.bold),
         ),
-      ),
+      )),
     );
   }
 }
@@ -149,35 +152,55 @@ class _SelectedPoiSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4,
+      elevation: 0,
+      margin: EdgeInsets.zero,
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('${poi.id}: ${poi.name}',
-                style: Theme.of(context).textTheme.titleMedium),
-            Text(poi.zone.label, style: const TextStyle(color: AppColors.grey)),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall
+                    ?.copyWith(fontWeight: FontWeight.w600)),
+            const SizedBox(height: 2),
+            Text(poi.zone.label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(color: AppColors.grey, fontSize: 12)),
             const SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
+            Row(children: [
+              Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: () => context.push(AppRoutes.navigateTo(poi.id)),
-                    icon: const Icon(Icons.directions_walk),
-                    label: const Text('Arahkan'),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
+                style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(64, 40),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    textStyle: const TextStyle(
+                        fontFamily: 'PlusJakartaSans',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600)),
+                onPressed: () => context.push(AppRoutes.navigateTo(poi.id)),
+                icon: const Icon(Icons.directions_walk, size: 18),
+                label: const Text('Arahkan'),
+              )),
+              const SizedBox(width: 10),
+              Expanded(
                   child: ElevatedButton(
-                    onPressed: () => context.push(AppRoutes.poiDetail(poi.id)),
-                    child: const Text('Detail'),
-                  ),
-                ),
-              ],
-            ),
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(64, 40),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    textStyle: const TextStyle(
+                        fontFamily: 'PlusJakartaSans',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600)),
+                onPressed: () => context.push(AppRoutes.poiDetail(poi.id)),
+                child: const Text('Detail'),
+              )),
+            ]),
           ],
         ),
       ),

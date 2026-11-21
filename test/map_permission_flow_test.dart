@@ -73,6 +73,8 @@ void main() {
     final map = tester.getRect(find.byType(MuseumMapView));
     final panel = tester.getRect(find.byType(Card));
     expect(panel.top, greaterThanOrEqualTo(map.bottom));
+    expect(panel.height, lessThanOrEqualTo(120));
     expect(find.text('Detail'), findsOneWidget);
+    expect(find.text('Arahkan'), findsOneWidget);
   });
 }

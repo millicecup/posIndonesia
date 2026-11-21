@@ -30,6 +30,38 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Introduction'), findsOneWidget);
   });
+  testWidgets(
+      'Introduction supports vertical scrolling and horizontal swipes on a short phone',
+      (tester) async {
+    await tester.binding.setSurfaceSize(const Size(320, 480));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await tester.pumpWidget(ProviderScope(
+        child: MaterialApp(
+            theme: AppTheme.light,
+            home: const OnboardingScreen(),
+            builder: (context, child) => MediaQuery(
+                data: MediaQuery.of(context)
+                    .copyWith(textScaler: const TextScaler.linear(1.2)),
+                child: child!))));
+    await tester.pumpAndSettle();
+    final scroller = find.byType(SingleChildScrollView).first;
+    final position = tester
+        .state<ScrollableState>(find
+            .descendant(of: scroller, matching: find.byType(Scrollable))
+            .first)
+        .position;
+    expect(position.maxScrollExtent, greaterThan(0));
+    await tester.drag(scroller, const Offset(0, -180));
+    await tester.pumpAndSettle();
+    expect(position.pixels, greaterThan(0));
+    await tester.drag(find.byType(PageView), const Offset(-280, 0));
+    await tester.pumpAndSettle();
+    expect(tester.widget<PageView>(find.byType(PageView)).controller!.page,
+        closeTo(1, 0.01));
+    expect(find.text('Explore'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
   for (final width in [320.0, 430.0]) {
     testWidgets('Compact album and onboarding fit $width', (tester) async {
       await tester.binding.setSurfaceSize(Size(width, 740));

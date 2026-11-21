@@ -1,0 +1,6 @@
+Mode: built-in image_gen (background-extraction).
+Input: assets/images/maskot_prangko.jpg
+Output: assets/images/maskot_prangko_transparent.png
+
+Final prompt:
+Use case: background-extraction. Edit the provided JejakPOS stamp mascot image. Remove ONLY the white exterior background and make it genuinely transparent with alpha. Preserve the mascot exactly: same face, eyes, cream perforated stamp body, navy/orange postal cap, envelope emblems, brown/orange bag, hands, legs, shoes, proportions, colors and illustration style. Keep all cream and white details INSIDE the mascot opaque. Full body centered with a small transparent margin; clean anti-aliased silhouette, no white halo, no background shadow, no added objects or text. Save the transparent PNG to C:/Users/Farella/Documents/JejakPOS/posIndonesia/assets/images/maskot_prangko_transparent.png if possible; otherwise return the generated local file path.
