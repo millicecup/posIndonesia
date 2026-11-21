@@ -29,9 +29,14 @@ class _MysteryClueScreenState extends ConsumerState<MysteryClueScreen> {
   String? _guess;
 
   /// Nama tokoh lain di dataset sebagai pengecoh tebakan.
-  static const _otherFigures = ['R. Dijar', 'Sir Rowland Hill', 'Mohammad Hatta'];
+  static const _otherFigures = [
+    'R. Dijar',
+    'Sir Rowland Hill',
+    'Mohammad Hatta'
+  ];
 
-  String _figureName(Poi poi) => poi.name.replaceFirst(RegExp(r'^Tokoh\s+'), '');
+  String _figureName(Poi poi) =>
+      poi.name.replaceFirst(RegExp(r'^Tokoh\s+'), '');
 
   @override
   Widget build(BuildContext context) {
@@ -79,21 +84,32 @@ class _MysteryClueScreenState extends ConsumerState<MysteryClueScreen> {
               ),
             ),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: SizedBox(
-              height: 200,
-              child: solved && poi.coverImage != null
-                  ? MediaImage(poi.coverImage!)
-                  : const ColoredBox(
-                      color: AppColors.lightGrey,
-                      child: Center(
-                          child: Icon(Icons.person_search, size: 72, color: AppColors.grey))),
+          if (solved && poi.coverImage != null)
+            Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: MediaImage(poi.coverImage!,
+                    height: (MediaQuery.sizeOf(context).height * .55)
+                        .clamp(260.0, 420.0),
+                    fit: BoxFit.contain),
+              ),
+            )
+          else
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: const SizedBox(
+                height: 200,
+                child: ColoredBox(
+                    color: AppColors.lightGrey,
+                    child: Center(
+                        child: Icon(Icons.person_search,
+                            size: 72, color: AppColors.grey))),
+              ),
             ),
-          ),
           const SizedBox(height: 12),
           if (!solved) ...[
-            const Text('Tebak tokohnya:', style: TextStyle(fontWeight: FontWeight.w600)),
+            const Text('Tebak tokohnya:',
+                style: TextStyle(fontWeight: FontWeight.w600)),
             const SizedBox(height: 4),
             for (final o in options)
               Padding(
@@ -101,7 +117,8 @@ class _MysteryClueScreenState extends ConsumerState<MysteryClueScreen> {
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size.fromHeight(44),
-                    backgroundColor: _guess == o ? const Color(0xFFFFEBEE) : null,
+                    backgroundColor:
+                        _guess == o ? const Color(0xFFFFEBEE) : null,
                   ),
                   onPressed: () => setState(() => _guess = o),
                   child: Text(o),
@@ -115,9 +132,13 @@ class _MysteryClueScreenState extends ConsumerState<MysteryClueScreen> {
               ),
             const SizedBox(height: 12),
             OutlinedButton.icon(
-              onPressed: _revealed < clues.length ? () => setState(() => _revealed++) : null,
+              onPressed: _revealed < clues.length
+                  ? () => setState(() => _revealed++)
+                  : null,
               icon: const Icon(Icons.lightbulb_outline),
-              label: Text(_revealed < clues.length ? 'Petunjuk lain' : 'Semua petunjuk terbuka'),
+              label: Text(_revealed < clues.length
+                  ? 'Petunjuk lain'
+                  : 'Semua petunjuk terbuka'),
             ),
           ] else ...[
             Text('Benar, aku $answer!',
@@ -142,7 +163,8 @@ class _MysteryClueScreenState extends ConsumerState<MysteryClueScreen> {
             const SizedBox(height: 16),
             if (poi.curatedQuiz.isNotEmpty)
               ElevatedButton.icon(
-                onPressed: () => context.pushReplacement(AppRoutes.quiz(poi.id)),
+                onPressed: () =>
+                    context.pushReplacement(AppRoutes.quiz(poi.id)),
                 icon: const Icon(Icons.quiz),
                 label: Text('Jawab ${poi.curatedQuiz.length} pertanyaan'),
               ),
