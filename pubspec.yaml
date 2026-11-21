@@ -62,6 +62,7 @@ flutter:
     - assets/audio/
     - assets/map/
     - assets/models/
+    - assets/qr/
 
   fonts:
     - family: Poppins
