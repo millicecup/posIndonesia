@@ -44,7 +44,7 @@ class PoiCard extends StatelessWidget {
                       Row(children: [
                         Text(poi.id,
                             style: const TextStyle(
-                                fontSize: 12,
+                                fontSize: 14,
                                 color: AppColors.orange,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 1)),

@@ -67,31 +67,47 @@ class AlbumScreen extends ConsumerWidget {
               ),
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                sliver: SliverGrid.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 12,
-                    childAspectRatio: 0.62,
-                  ),
-                  itemCount: pois.length,
-                  itemBuilder: (_, i) {
-                    final poi = pois[i];
-                    final has = p.hasStamp(poi.stamp.id);
-                    return InkWell(
-                      borderRadius: BorderRadius.circular(8),
-                      onTap: () => has
-                          ? _showStory(context, poi)
-                          : _showLocked(context, poi),
-                      child: StampFrame(
-                        image: poi.stamp.image,
-                        random: poi.stamp.isRandom,
-                        locked: !has,
-                        size: 92,
-                        label: has ? '${poi.id}: ${poi.stamp.title}' : poi.id,
-                      ),
+                sliver: SliverToBoxAdapter(
+                  child: LayoutBuilder(builder: (context, constraints) {
+                    final columns = constraints.maxWidth >= 600 ? 3 : 2;
+                    const gap = 16.0;
+                    final width =
+                        (constraints.maxWidth - gap * (columns - 1)) / columns;
+                    final stampSize = (width - 24).clamp(96.0, 170.0);
+                    return Wrap(
+                      spacing: gap,
+                      runSpacing: 20,
+                      children: [
+                        for (final poi in pois)
+                          SizedBox(
+                            width: width,
+                            child: Material(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(16),
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(16),
+                                onTap: () => p.hasStamp(poi.stamp.id)
+                                    ? _showStory(context, poi)
+                                    : _showLocked(context, poi),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 8),
+                                  child: StampFrame(
+                                    image: poi.stamp.image,
+                                    random: poi.stamp.isRandom,
+                                    locked: !p.hasStamp(poi.stamp.id),
+                                    size: stampSize,
+                                    label: p.hasStamp(poi.stamp.id)
+                                        ? '${poi.id}: ${poi.stamp.title}'
+                                        : poi.id,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
                     );
-                  },
+                  }),
                 ),
               ),
               const SliverToBoxAdapter(

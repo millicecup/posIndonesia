@@ -191,25 +191,42 @@ class HomeExplorerScreen extends ConsumerWidget {
                     color: const Color(0xFFEAF2EE),
                     borderRadius: BorderRadius.circular(18),
                     clipBehavior: Clip.antiAlias,
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 6),
-                      leading: const Icon(Icons.near_me_outlined,
-                          color: AppColors.teal),
-                      title: const Text('Rekomendasi berikutnya',
-                          style: TextStyle(
-                              color: AppColors.teal,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700)),
-                      subtitle: Text('${recommended.id}: ${recommended.name}',
-                          style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              height: 1.5)),
-                      trailing: const Icon(Icons.arrow_forward_rounded,
-                          color: AppColors.teal, size: 20),
+                    child: InkWell(
                       onTap: () =>
                           context.push(AppRoutes.poiDetail(recommended.id)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(18),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.near_me_outlined,
+                                color: AppColors.teal),
+                            const SizedBox(width: 14),
+                            Expanded(
+                                child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text('Rekomendasi berikutnya',
+                                    style: TextStyle(
+                                        color: AppColors.teal,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                        height: 1.4)),
+                                const SizedBox(height: 4),
+                                Text('${recommended.id}: ${recommended.name}',
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        height: 1.4)),
+                              ],
+                            )),
+                            const SizedBox(width: 12),
+                            const Icon(Icons.arrow_forward_rounded,
+                                color: AppColors.teal, size: 20),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
