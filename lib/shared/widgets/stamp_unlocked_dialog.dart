@@ -147,7 +147,12 @@ class StampFrame extends ConsumerWidget {
               : seed != null
                   ? RandomStampArt(seed: seed)
                   : (image != null
-                      ? Image.asset(image!, fit: BoxFit.cover)
+                      ? Image.asset(
+                          image!,
+                          fit: image == 'assets/images/stamps/stamp_p09.jpg'
+                              ? BoxFit.contain
+                              : BoxFit.cover,
+                        )
                       : const Icon(Icons.local_post_office, size: 48)),
         ),
         if (label != null) ...[
