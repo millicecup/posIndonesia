@@ -87,14 +87,13 @@ class _PoiDetailBody extends ConsumerWidget {
         if (poi.coverImage != null)
           GestureDetector(
             onTap: () => showPoiGallery(context, poi),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Center(
-                  child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: MediaImage(poi.coverImage!,
-                    height: 240, fit: BoxFit.contain),
-              )),
+            child: AspectRatio(
+              aspectRatio: 3 / 2,
+              child: MediaImage(
+                poi.coverImage!,
+                fit: BoxFit.cover,
+                alignment: Alignment.topCenter,
+              ),
             ),
           ),
         Padding(

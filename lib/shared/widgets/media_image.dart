@@ -14,12 +14,14 @@ class MediaImage extends ConsumerWidget {
     super.key,
     this.height,
     this.fit = BoxFit.cover,
+    this.alignment = Alignment.center,
     this.download = true,
   });
 
   final String path;
   final double? height;
   final BoxFit fit;
+  final AlignmentGeometry alignment;
 
   /// false = tidak mengunduh sendiri. Dipakai di daftar POI agar membuka
   /// daftar tidak menghabiskan kuota transfer Hosting.
@@ -43,18 +45,21 @@ class MediaImage extends ConsumerWidget {
             assetPath,
             height: height,
             fit: fit,
+            alignment: alignment,
             errorBuilder: (_, __, ___) => _placeholder(Icons.broken_image),
           ),
         CachedMedia(:final file) => Image.file(
             file,
             height: height,
             fit: fit,
+            alignment: alignment,
             errorBuilder: (_, __, ___) => _placeholder(Icons.broken_image),
           ),
         RemoteMedia(:final uri) => Image.network(
             uri.toString(),
             height: height,
             fit: fit,
+            alignment: alignment,
             errorBuilder: (_, __, ___) => _placeholder(Icons.broken_image),
           ),
         null => _placeholder(Icons.cloud_download_outlined),
