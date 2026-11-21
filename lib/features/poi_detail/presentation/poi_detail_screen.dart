@@ -53,13 +53,6 @@ class _PoiDetailScreenState extends ConsumerState<PoiDetailScreen> {
             context.go(AppRoutes.explore);
           }
         }),
-        actions: [
-          IconButton(
-            tooltip: 'Scan koleksi lain',
-            icon: const Icon(Icons.qr_code_scanner),
-            onPressed: () => context.push(AppRoutes.qrScanner),
-          ),
-        ],
       ),
       body: AsyncValueView<PoiDetailData?>(
         value: detail,
