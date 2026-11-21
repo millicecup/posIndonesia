@@ -24,8 +24,10 @@ void main() {
 
     test('PRD v2 Tabel 4: P01-P11 baseline, P12-P13 kandidat tambahan', () {
       final pois = loadDataset();
-      final baseline = pois.where((p) => p.isBaseline).map((p) => p.id).toList();
-      expect(baseline, [for (var i = 1; i <= 11; i++) 'P${i.toString().padLeft(2, '0')}']);
+      final baseline =
+          pois.where((p) => p.isBaseline).map((p) => p.id).toList();
+      expect(baseline,
+          [for (var i = 1; i <= 11; i++) 'P${i.toString().padLeft(2, '0')}']);
       expect(pois.where((p) => !p.isBaseline).map((p) => p.id), ['P12', 'P13']);
       for (final p in pois) {
         expect(p.tourOrder, int.parse(p.id.substring(1)), reason: p.id);
@@ -53,26 +55,31 @@ void main() {
       for (final p in loadDataset()) {
         expect(p.beaconId, 'BCN-${p.id}');
         expect(p.qrCode, 'QR-${p.id}');
-        expect(p.keyFacts.length, inInclusiveRange(3, 5));
+        expect(p.keyFacts.length, inInclusiveRange(0, 5));
         expect(p.images, isNotEmpty);
         expect(p.mapPosition.isValid, isTrue);
         expect(p.triggerRule.triggerRadiusMeters, 3);
       }
     });
 
-    test('sesuai PRD v2 Tabel 4: P10 audio, P04 Photo Studio, P05 lima tahap', () {
+    test('sesuai PRD v2 Tabel 4: P10 audio, P04 Photo Studio, P05 lima tahap',
+        () {
       final pois = loadDataset();
       Poi byId(String id) => pois.firstWhere((p) => p.id == id);
       expect(byId('P10').contentTypes, contains(PoiContentType.audio));
       expect(byId('P10').hasAudio, isTrue);
       expect(byId('P04').activities, contains(PoiActivity.photoStudio));
-      expect(byId('P05').keyFacts, hasLength(5));
+      expect(byId('P05').keyFacts, hasLength(1));
+      expect(byId('P05').sections.map((s) => s.body).join(),
+          contains('pelat cetak'));
       expect(byId('P05').activities, contains(PoiActivity.stampVisualization));
       expect(byId('P06').activities, contains(PoiActivity.minigame));
       expect(byId('P08').activities, contains(PoiActivity.mystery));
       expect(byId('P11').activities, contains(PoiActivity.postmark));
-      expect(byId('P12').activities,
-          containsAll([PoiActivity.gallery, PoiActivity.quiz, PoiActivity.mission]));
+      expect(
+          byId('P12').activities,
+          containsAll(
+              [PoiActivity.gallery, PoiActivity.quiz, PoiActivity.mission]));
       expect(byId('P11').zone.description, contains('Meja Registrasi'));
     });
 
@@ -83,8 +90,10 @@ void main() {
         final p = byId('P${i.toString().padLeft(2, '0')}');
         expect(p.contentValidated, isTrue, reason: p.id);
         expect(p.sections, isNotEmpty, reason: p.id);
-        expect(p.shortDescription, isNot(contains('PERLU VALIDASI')), reason: p.id);
-        expect(p.keyFacts.join(), isNot(contains('PERLU VALIDASI')), reason: p.id);
+        expect(p.shortDescription, isNot(contains('PERLU VALIDASI')),
+            reason: p.id);
+        expect(p.keyFacts.join(), isNot(contains('PERLU VALIDASI')),
+            reason: p.id);
         expect(p.images.first, endsWith('.jpg'), reason: p.id);
       }
       // P12-P13 kandidat tambahan (backlog), belum ada materi.
@@ -92,7 +101,7 @@ void main() {
         expect(byId(id).contentValidated, isFalse, reason: id);
       }
       expect(byId('P04').sections.map((s) => s.title),
-          ['Seragam Petugas Pos', 'Topi, Lencana, dan Tas']);
+          ['Sejarah Seragam Petugas Pos']);
       expect(byId('P02').curatedQuiz, hasLength(5));
       expect(byId('P06').sections.map((s) => s.body).join(),
           isNot(contains('nanti aku tambahin')));
@@ -132,7 +141,9 @@ void main() {
       expect(pois.firstWhere((p) => p.id == 'P10').activities, isEmpty);
     });
 
-    test('koordinat POI baseline asli (Koordinat POI.pdf) dan di dalam geofence museum', () {
+    test(
+        'koordinat POI baseline asli (Koordinat POI.pdf) dan di dalam geofence museum',
+        () {
       const config = AppConfig();
       for (final p in loadDataset().where((p) => p.isBaseline)) {
         expect(p.coordinatesArePlaceholder, isFalse, reason: p.id);
@@ -168,7 +179,8 @@ void main() {
 
     test('field wajib hilang melempar DataParseException', () {
       final json = jsonDecode(readDatasetJson()) as Map<String, dynamic>;
-      final first = Map<String, dynamic>.from((json['pois'] as List).first as Map);
+      final first =
+          Map<String, dynamic>.from((json['pois'] as List).first as Map);
       first.remove('name');
       expect(() => PoiLocalDataSource.parsePois(jsonEncode([first])),
           throwsA(isA<DataParseException>()));

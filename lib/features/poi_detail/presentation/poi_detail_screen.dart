@@ -129,9 +129,16 @@ class _PoiDetailBody extends ConsumerWidget {
                       style: TextStyle(color: AppColors.warning, fontSize: 12)),
                 ),
               const SizedBox(height: 12),
-              Text(poi.shortDescription),
+              Text('Ringkasan cerita', style: textTheme.titleMedium),
+              if (poi.sections.isNotEmpty)
+                for (final section in poi.sections)
+                  _SectionCard(
+                      section: section, showTitle: section.title != poi.name)
+              else
+                Text(poi.shortDescription),
               const SizedBox(height: 16),
-              Text('Fakta penting', style: textTheme.titleMedium),
+              if (poi.keyFacts.isNotEmpty)
+                Text('Fakta unik', style: textTheme.titleMedium),
               const SizedBox(height: 8),
               for (var i = 0; i < poi.keyFacts.length; i++)
                 Container(
@@ -197,12 +204,6 @@ class _PoiDetailBody extends ConsumerWidget {
                       'Tombol Dengarkan cerita membacakan cerita koleksi ini dengan pemandu suara.',
                       style: TextStyle(color: AppColors.grey, fontSize: 12)),
                 ),
-              if (poi.sections.isNotEmpty) ...[
-                const SizedBox(height: 20),
-                Text('Cerita lengkap', style: textTheme.titleMedium),
-                for (final section in poi.sections)
-                  _SectionCard(section: section),
-              ],
               if (poi.activities.isNotEmpty) ...[
                 const SizedBox(height: 16),
                 Text('Aktivitas di koleksi ini', style: textTheme.titleMedium),
@@ -235,8 +236,9 @@ class _PoiDetailBody extends ConsumerWidget {
 
 /// Satu bagian cerita (mis. "Lencana" di P04) dengan foto yang bisa diperbesar.
 class _SectionCard extends StatelessWidget {
-  const _SectionCard({required this.section});
+  const _SectionCard({required this.section, this.showTitle = true});
   final PoiSection section;
+  final bool showTitle;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -245,52 +247,50 @@ class _SectionCard extends StatelessWidget {
           border: Border.all(color: AppColors.lightGrey, width: 2),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Theme(
-          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-          child: ExpansionTile(
-            title: Text(section.title,
-                style: const TextStyle(fontWeight: FontWeight.w600)),
-            childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            expandedCrossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (section.images.isNotEmpty)
-                SizedBox(
-                  height: 180,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: section.images.length,
-                    separatorBuilder: (_, __) => const SizedBox(width: 12),
-                    itemBuilder: (_, i) => GestureDetector(
-                      onTap: () => showDialog<void>(
-                        context: context,
-                        builder: (ctx) => Dialog(
-                          insetPadding: const EdgeInsets.all(12),
-                          child: InteractiveViewer(
-                              child: MediaImage(section.images[i],
-                                  fit: BoxFit.contain)),
-                        ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (showTitle)
+              Text(section.title,
+                  style: const TextStyle(fontWeight: FontWeight.w600)),
+            for (final p in section.paragraphs)
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(p, style: const TextStyle(height: 1.4)),
+              ),
+            const SizedBox(height: 12),
+            if (section.images.isNotEmpty)
+              SizedBox(
+                height: 180,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: section.images.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 12),
+                  itemBuilder: (_, i) => GestureDetector(
+                    onTap: () => showDialog<void>(
+                      context: context,
+                      builder: (ctx) => Dialog(
+                        insetPadding: const EdgeInsets.all(12),
+                        child: InteractiveViewer(
+                            child: MediaImage(section.images[i],
+                                fit: BoxFit.contain)),
                       ),
-                      child: Container(
-                        width: 240,
-                        clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(
-                          color: AppColors.lightGrey,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: const EdgeInsets.all(8),
-                        child:
-                            MediaImage(section.images[i], fit: BoxFit.contain),
+                    ),
+                    child: Container(
+                      width: 240,
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        color: AppColors.lightGrey,
+                        borderRadius: BorderRadius.circular(12),
                       ),
+                      padding: const EdgeInsets.all(8),
+                      child: MediaImage(section.images[i], fit: BoxFit.contain),
                     ),
                   ),
                 ),
-              for (final p in section.paragraphs)
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(p, style: const TextStyle(height: 1.4)),
-                ),
-            ],
-          ),
+              ),
+          ],
         ),
       );
 }

@@ -78,8 +78,8 @@ class NarrationScript {
       }
     } else {
       parts.add(_clean(poi.shortDescription));
-      parts.addAll(poi.keyFacts.map(_clean));
     }
+    parts.addAll(poi.keyFacts.map(_clean));
     return Narration(
         title: 'Cerita ${poi.name}',
         parts: parts.where((p) => p.isNotEmpty).toList());

@@ -134,8 +134,8 @@ class PoiRepositoryImpl implements PoiRepository {
     final result = <NearbyPoi>[];
     for (final p in pois) {
       if (!p.hasCoordinates) continue;
-      final d =
-          haversineDistanceMeters(latitude, longitude, p.latitude!, p.longitude!);
+      final d = haversineDistanceMeters(
+          latitude, longitude, p.latitude!, p.longitude!);
       if (d <= radiusMeters) result.add((poi: p, distanceMeters: d));
     }
     result.sort((a, b) => a.distanceMeters.compareTo(b.distanceMeters));
@@ -174,7 +174,9 @@ class PoiRepositoryImpl implements PoiRepository {
       pois = await getAllPoisIncludingBacklog();
     } catch (e) {
       return DatasetValidationReport(
-          poiCount: 0, errors: ['Dataset gagal dimuat: $e'], warnings: const []);
+          poiCount: 0,
+          errors: ['Dataset gagal dimuat: $e'],
+          warnings: const []);
     }
 
     if (pois.length < AppConstants.minimumPoiCount) {
@@ -207,8 +209,8 @@ class PoiRepositoryImpl implements PoiRepository {
       if (p.systemResponse.trim().isEmpty) {
         errors.add('$tag: systemResponse kosong');
       }
-      if (p.keyFacts.length < 3 || p.keyFacts.length > 5) {
-        errors.add('$tag: keyFacts harus 3-5 (sekarang ${p.keyFacts.length})');
+      if (p.keyFacts.length > 5) {
+        errors.add('$tag: keyFacts maksimal 5 (sekarang ${p.keyFacts.length})');
       }
       if (p.images.isEmpty) errors.add('$tag: images kosong');
       if (p.contentTypes.isEmpty) errors.add('$tag: contentTypes kosong');
@@ -233,7 +235,8 @@ class PoiRepositoryImpl implements PoiRepository {
         if (p.stamp.image != null) p.stamp.image!,
       ];
       for (final path in assetPaths) {
-        if (!await _assetExists(path)) errors.add('$tag: aset "$path" tidak ditemukan');
+        if (!await _assetExists(path))
+          errors.add('$tag: aset "$path" tidak ditemukan');
       }
 
       // Peringatan (bukan error) untuk hal yang belum pasti.
@@ -242,12 +245,15 @@ class PoiRepositoryImpl implements PoiRepository {
       if (p.coordinatesArePlaceholder) {
         warnings.add('$tag: koordinat masih PLACEHOLDER');
       }
-      if (!p.contentValidated) warnings.add('$tag: konten PERLU VALIDASI MUSEUM');
+      if (!p.contentValidated)
+        warnings.add('$tag: konten PERLU VALIDASI MUSEUM');
       if (!p.isBaseline) {
-        warnings.add('$tag: kandidat tambahan, tidak ada di PRD v2 Tabel 4 (NG08)');
+        warnings
+            .add('$tag: kandidat tambahan, tidak ada di PRD v2 Tabel 4 (NG08)');
       }
       if (p.triggerRule.radiusNeedsConfirmation) {
-        warnings.add('$tag: radius trigger perlu konfirmasi (PRD v2 PB08: 5 m, kode: 10 m)');
+        warnings.add(
+            '$tag: radius trigger perlu konfirmasi (PRD v2 PB08: 5 m, kode: 10 m)');
       }
     }
 
