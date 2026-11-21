@@ -15,7 +15,7 @@ void main() {
     final text = n.parts.join(' ');
     expect(n.parts.first, startsWith('Sekarang kamu berada di Sejarah Seragam Petugas Pos'));
     expect(text, contains(byId['P04']!.shortDescription));
-    expect(text, contains('Photo Studio'));
+    expect(text, contains('studio foto'));
     expect(n.parts.last, contains('Kode Pos di Indonesia'));
   });
 

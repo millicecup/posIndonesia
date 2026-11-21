@@ -5,9 +5,33 @@
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 import '../core/utils/app_logger.dart';
+
+/// Memilih suara bahasa Indonesia dari hasil `FlutterTts.getVoices`
+/// (list of map `{name, locale}`). Suara offline/lokal diutamakan. null bila tidak ada.
+@visibleForTesting
+Map<String, String>? pickIndonesianVoice(Object? voices) {
+  if (voices is! List) return null;
+  final indo = RegExp(r'^(id|in|ind)([-_]|$)', caseSensitive: false);
+  final candidates = <Map<String, String>>[];
+  for (final v in voices) {
+    if (v is! Map) continue;
+    final name = v['name']?.toString();
+    final locale = v['locale']?.toString();
+    if (name == null || locale == null || !indo.hasMatch(locale)) continue;
+    candidates.add({'name': name, 'locale': locale});
+  }
+  if (candidates.isEmpty) return null;
+  candidates.sort((a, b) {
+    int score(Map<String, String> v) =>
+        (v['name']!.toLowerCase().contains('network') ? 1 : 0);
+    return score(a).compareTo(score(b));
+  });
+  return candidates.first;
+}
 
 abstract class NarrationService {
   /// Bacakan [parts] berurutan. Memanggil speak lagi menghentikan bacaan sebelumnya.
@@ -36,26 +60,86 @@ class TtsNarrationService implements NarrationService {
 
   final FlutterTts _tts = FlutterTts();
   final _speaking = StreamController<bool>.broadcast();
-  bool _ready = false;
   int _session = 0;
 
-  Future<void> _init() async {
-    if (_ready) return;
-    _ready = true;
+  /// Satu Future bersama: pemanggil speak() yang datang bersamaan (mis. "mendekati" lalu
+  /// "tiba") menunggu bahasa Indonesia selesai diset, tidak langsung bicara dengan suara
+  /// bawaan HP (sering bahasa Inggris).
+  Future<void>? _init;
+
+  /// Kode bahasa Indonesia yang dipakai berbagai engine TTS.
+  static const _languageCandidates = ['id-ID', 'id', 'in-ID', 'ind-IDN'];
+  static const _googleEngine = 'com.google.android.tts';
+
+  Future<void> _ensureReady() {
+    return _init ??= _configure().then((ok) {
+      // Belum berhasil (engine belum siap / suara belum terpasang): coba lagi lain kali.
+      if (!ok) _init = null;
+    }).catchError((Object e) {
+      AppLogger.error(_tag, 'Gagal menyiapkan TTS: $e');
+      _init = null;
+    });
+  }
+
+  /// Mengunci TTS ke bahasa Indonesia. Mengembalikan true bila berhasil.
+  Future<bool> _configure() async {
     await _tts.awaitSpeakCompletion(true);
-    final available = await _tts.isLanguageAvailable('id-ID');
-    if (available == true) {
-      await _tts.setLanguage('id-ID');
-    } else {
-      AppLogger.error(_tag, 'Suara bahasa Indonesia belum terpasang; memakai suara bawaan HP');
-    }
     await _tts.setSpeechRate(0.48);
     await _tts.setPitch(1.0);
+
+    var ok = await _setIndonesian();
+    if (!ok && _isAndroid) {
+      // Engine bawaan HP (mis. Samsung) kadang tidak punya suara Indonesia; Google punya.
+      try {
+        final engines = await _tts.getEngines;
+        if (engines is List && engines.contains(_googleEngine)) {
+          await _tts.setEngine(_googleEngine);
+          ok = await _setIndonesian();
+        }
+      } catch (e) {
+        AppLogger.error(_tag, 'Gagal beralih ke engine Google: $e');
+      }
+    }
+    if (!ok) {
+      AppLogger.error(_tag,
+          'Suara bahasa Indonesia belum terpasang; pasang di Setelan > Text-to-speech');
+    }
+    return ok;
+  }
+
+  static bool get _isAndroid =>
+      !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+
+  Future<bool> _setIndonesian() async {
+    var languageSet = false;
+    for (final code in _languageCandidates) {
+      try {
+        final r = await _tts.setLanguage(code);
+        if (r == 1 || r == true) {
+          languageSet = true;
+          break;
+        }
+      } catch (_) {
+        // coba kode berikutnya
+      }
+    }
+
+    // setLanguage saja kadang tetap memakai suara default; pilih suara id eksplisit.
+    try {
+      final voice = pickIndonesianVoice(await _tts.getVoices);
+      if (voice != null) {
+        await _tts.setVoice(voice);
+        return true;
+      }
+    } catch (_) {
+      // getVoices tidak didukung di platform ini
+    }
+    return languageSet;
   }
 
   @override
   Future<void> speak(List<String> parts) async {
-    await _init();
+    await _ensureReady();
     final session = ++_session;
     await _tts.stop();
     _speaking.add(true);

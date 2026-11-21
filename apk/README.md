@@ -1,3 +1,20 @@
+# JejakPOS v3.6 — pemandu suara bahasa Indonesia
+
+`JejakPOS-maps-arm64-v3.6.apk` (versionName 3.6, versionCode 5) = seluruh perubahan di bawah ditambah perbaikan pemandu suara:
+- Narasi tidak lagi kadang terdengar dengan suara bahasa Inggris. Semua narasi menunggu sampai bahasa Indonesia selesai diset di TTS (sebelumnya narasi yang datang bersamaan langsung bicara dengan suara bawaan HP).
+- Suara Indonesia dipilih secara eksplisit (kode `id-ID`, `id`, `in-ID`, `ind-IDN`). Bila engine bawaan HP tidak punya suara Indonesia, aplikasi beralih ke Google TTS. Bila TTS belum siap, pengaturan dicoba lagi pada narasi berikutnya.
+- Istilah "Photo Studio" pada narasi diganti "studio foto".
+
+Version code 5 lebih tinggi dari build sebelumnya (4), jadi bisa dipasang sebagai pembaruan di atas `JejakPOS-maps-arm64.apk`.
+
+```sh
+flutter build apk --release --no-pub --target-platform android-arm64 --build-name=3.6 --build-number=5
+```
+
+Validasi: `flutter analyze` bersih, `flutter test` 111 tes lolos (termasuk `test/narration_voice_test.dart`). Suara TTS di perangkat fisik belum diuji langsung.
+
+---
+
 # JejakPOS — perbaikan peta dan Photo Studio
 
 `JejakPOS-maps-arm64.apk` adalah build release untuk perangkat Android ARM64.

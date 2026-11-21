@@ -55,7 +55,7 @@ class NarrationScript {
     }
     if (poi.activities.contains(PoiActivity.photoStudio)) {
       parts.add(
-          'Di ruang ini kamu juga bisa berfoto dengan seragam petugas pos di Photo Studio.');
+          'Di ruang ini kamu juga bisa berfoto dengan seragam petugas pos di studio foto.');
     }
     if (poi.id == 'P10' && poi.hasAudio) {
       parts.add('Tekan tombol putar untuk mendengarkan Mars Pos Indonesia.');
