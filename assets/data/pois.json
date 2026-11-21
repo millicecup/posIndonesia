@@ -947,9 +947,7 @@
       ],
       "images": [
         "assets/images/pois/p10_03.jpg",
-        "assets/images/pois/p10_04.jpg",
-        "assets/images/pois/p10_01.jpg",
-        "assets/images/pois/p10_02.jpg"
+        "assets/images/pois/p10_04.jpg"
       ],
       "audio": "assets/audio/p10_mars_pos_indonesia.mp3",
       "contentTypes": [
@@ -986,16 +984,14 @@
           "title": "Mars Pos Indonesia",
           "body": "Mars Pos Indonesia adalah lagu mars yang menjadi bagian dari identitas Pos Indonesia. Di Museum Pos Indonesia, lirik dan partitur lagu ini dipajang di area Lorong Akhir sehingga pengunjung dapat mengenal lagu kebanggaan insan pos secara langsung.",
           "images": [
-            "assets/images/pois/p10_03.jpg",
-            "assets/images/pois/p10_01.jpg"
+            "assets/images/pois/p10_03.jpg"
           ]
         },
         {
           "title": "Lirik dan Partitur",
           "body": "Pada panel Mars Pos Indonesia, pengunjung dapat melihat lirik lagu beserta partitur atau notasi musiknya. Partitur ini menunjukkan bagaimana lagu mars disusun dalam bentuk notasi, sehingga pengunjung tidak hanya mendengar tetapi juga dapat melihat susunan nadanya.",
           "images": [
-            "assets/images/pois/p10_04.jpg",
-            "assets/images/pois/p10_02.jpg"
+            "assets/images/pois/p10_04.jpg"
           ]
         }
       ]
