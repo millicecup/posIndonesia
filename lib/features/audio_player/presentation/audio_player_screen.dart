@@ -58,36 +58,47 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
   @override
   Widget build(BuildContext context) {
     final poiAsync = ref.watch(poiByIdProvider(widget.poiId));
-    final status = ref.watch(audioStatusProvider).valueOrNull ?? AudioPlaybackStatus.idle;
-    final position = ref.watch(audioPositionProvider).valueOrNull ?? Duration.zero;
-    final duration = ref.watch(audioDurationProvider).valueOrNull ?? Duration.zero;
+    final status =
+        ref.watch(audioStatusProvider).valueOrNull ?? AudioPlaybackStatus.idle;
+    final position =
+        ref.watch(audioPositionProvider).valueOrNull ?? Duration.zero;
+    final duration =
+        ref.watch(audioDurationProvider).valueOrNull ?? Duration.zero;
 
     return Scaffold(
       appBar: JejakAppBar(title: const Text('Audio Storytelling')),
       body: AsyncValueView<Poi?>(
         value: poiAsync,
         data: (poi) {
-          if (poi == null) return const Center(child: Text('POI tidak ditemukan'));
+          if (poi == null) {
+            return const Center(child: Text('POI tidak ditemukan'));
+          }
           if (!poi.hasAudio) {
-            return const Center(child: Text('Audio belum tersedia untuk POI ini.'));
+            return const Center(
+                child: Text('Audio belum tersedia untuk POI ini.'));
           }
           final maxMs = duration.inMilliseconds.toDouble();
-          final posMs = position.inMilliseconds.clamp(0, duration.inMilliseconds).toDouble();
+          final posMs = position.inMilliseconds
+              .clamp(0, duration.inMilliseconds)
+              .toDouble();
           final playing = status == AudioPlaybackStatus.playing;
-          return Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
+          return SafeArea(
+            child: ListView(
+              padding: const EdgeInsets.all(20),
               children: [
                 if (poi.coverImage != null)
-                  ClipRRect(
+                  Center(
+                      child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    child: MediaImage(poi.coverImage!, height: 200),
-                  ),
+                    child: MediaImage(poi.coverImage!,
+                        height: 200, fit: BoxFit.contain),
+                  )),
                 const SizedBox(height: 16),
                 Text(poi.name,
                     style: Theme.of(context).textTheme.titleLarge,
                     textAlign: TextAlign.center),
-                Text(poi.id == 'P10' ? 'Mars Pos Indonesia' : 'Narasi ${poi.id}',
+                Text(
+                    poi.id == 'P10' ? 'Mars Pos Indonesia' : 'Narasi ${poi.id}',
                     style: const TextStyle(color: AppColors.grey)),
                 const SizedBox(height: 24),
                 Slider(
@@ -115,7 +126,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
                       },
                     ),
                     const SizedBox(width: 16),
-                    FloatingActionButton.large(
+                    FloatingActionButton(
                       backgroundColor: AppColors.orange,
                       foregroundColor: AppColors.white,
                       onPressed: () {
@@ -141,15 +152,18 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
                 ),
                 const SizedBox(height: 12),
                 Text('Status: ${status.name}',
-                    style: const TextStyle(color: AppColors.grey, fontSize: 12)),
+                    style:
+                        const TextStyle(color: AppColors.grey, fontSize: 12)),
                 if (_error != null)
-                  Text(_error!, style: const TextStyle(color: AppColors.danger)),
-                const Spacer(),
-                const Text(
-                  'Rekaman narasi belum tersedia untuk koleksi ini.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12, color: AppColors.grey),
-                ),
+                  Text(_error!,
+                      style: const TextStyle(color: AppColors.danger)),
+                const SizedBox(height: 16),
+                if (poi.audioPlaceholder)
+                  const Text(
+                    'Rekaman narasi belum tersedia untuk koleksi ini.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 12, color: AppColors.grey),
+                  ),
               ],
             ),
           );

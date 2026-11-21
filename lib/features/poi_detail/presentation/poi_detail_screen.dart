@@ -87,8 +87,15 @@ class _PoiDetailBody extends ConsumerWidget {
         if (poi.coverImage != null)
           GestureDetector(
             onTap: () => showPoiGallery(context, poi),
-            child: AspectRatio(
-                aspectRatio: 3 / 2, child: MediaImage(poi.coverImage!)),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Center(
+                  child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: MediaImage(poi.coverImage!,
+                    height: 240, fit: BoxFit.contain),
+              )),
+            ),
           ),
         Padding(
           padding: const EdgeInsets.all(16),
@@ -244,33 +251,31 @@ class _SectionCard extends StatelessWidget {
               ),
             const SizedBox(height: 12),
             if (section.images.isNotEmpty)
-              SizedBox(
-                height: 180,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: section.images.length,
-                  separatorBuilder: (_, __) => const SizedBox(width: 12),
-                  itemBuilder: (_, i) => GestureDetector(
-                    onTap: () => showDialog<void>(
-                      context: context,
-                      builder: (ctx) => Dialog(
-                        insetPadding: const EdgeInsets.all(12),
-                        child: InteractiveViewer(
-                            child: MediaImage(section.images[i],
-                                fit: BoxFit.contain)),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    for (var i = 0; i < section.images.length; i++) ...[
+                      if (i > 0) const SizedBox(width: 12),
+                      GestureDetector(
+                        onTap: () => showDialog<void>(
+                          context: context,
+                          builder: (ctx) => Dialog(
+                            insetPadding: const EdgeInsets.all(12),
+                            child: InteractiveViewer(
+                                child: MediaImage(section.images[i],
+                                    fit: BoxFit.contain)),
+                          ),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: MediaImage(section.images[i],
+                              height: 220, fit: BoxFit.contain),
+                        ),
                       ),
-                    ),
-                    child: Container(
-                      width: 240,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        color: AppColors.lightGrey,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: const EdgeInsets.all(8),
-                      child: MediaImage(section.images[i], fit: BoxFit.contain),
-                    ),
-                  ),
+                    ],
+                  ],
                 ),
               ),
           ],
