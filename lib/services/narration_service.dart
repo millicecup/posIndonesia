@@ -65,19 +65,21 @@ class TtsNarrationService implements NarrationService {
   /// Satu Future bersama: pemanggil speak() yang datang bersamaan (mis. "mendekati" lalu
   /// "tiba") menunggu bahasa Indonesia selesai diset, tidak langsung bicara dengan suara
   /// bawaan HP (sering bahasa Inggris).
-  Future<void>? _init;
+  Future<bool>? _init;
 
   /// Kode bahasa Indonesia yang dipakai berbagai engine TTS.
   static const _languageCandidates = ['id-ID', 'id', 'in-ID', 'ind-IDN'];
   static const _googleEngine = 'com.google.android.tts';
 
-  Future<void> _ensureReady() {
+  Future<bool> _ensureReady() {
     return _init ??= _configure().then((ok) {
       // Belum berhasil (engine belum siap / suara belum terpasang): coba lagi lain kali.
       if (!ok) _init = null;
+      return ok;
     }).catchError((Object e) {
       AppLogger.error(_tag, 'Gagal menyiapkan TTS: $e');
       _init = null;
+      return false;
     });
   }
 
@@ -126,7 +128,12 @@ class TtsNarrationService implements NarrationService {
 
     // setLanguage saja kadang tetap memakai suara default; pilih suara id eksplisit.
     try {
-      final voice = pickIndonesianVoice(await _tts.getVoices);
+      var voice = pickIndonesianVoice(await _tts.getVoices);
+      // Browser voices can arrive asynchronously after the first request.
+      for (var attempt = 0; kIsWeb && voice == null && attempt < 3; attempt++) {
+        await Future<void>.delayed(const Duration(milliseconds: 300));
+        voice = pickIndonesianVoice(await _tts.getVoices);
+      }
       if (voice != null) {
         await _tts.setVoice(voice);
         return true;
@@ -134,14 +141,20 @@ class TtsNarrationService implements NarrationService {
     } catch (_) {
       // getVoices tidak didukung di platform ini
     }
-    return languageSet;
+    // Web setLanguage can succeed even when no matching voice is installed.
+    return !kIsWeb && languageSet;
   }
 
   @override
   Future<void> speak(List<String> parts) async {
-    await _ensureReady();
     final session = ++_session;
     await _tts.stop();
+    final ready = await _ensureReady();
+    if (session != _session) return;
+    if (!ready) {
+      _speaking.add(false);
+      return;
+    }
     _speaking.add(true);
     // Dibacakan per paragraf: batas panjang teks TTS Android sekitar 4000 karakter.
     for (final part in parts) {

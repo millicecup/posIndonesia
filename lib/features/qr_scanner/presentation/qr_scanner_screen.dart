@@ -67,7 +67,16 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: JejakAppBar(title: const Text('Pindai QR Koleksi')),
+      appBar: JejakAppBar(
+        title: const Text('Pindai QR Koleksi'),
+        leading: BackButton(onPressed: () {
+          if (context.canPop()) {
+            context.pop();
+          } else {
+            context.go(AppRoutes.explore);
+          }
+        }),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
