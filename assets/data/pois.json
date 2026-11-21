@@ -36,7 +36,7 @@
       },
       "beaconId": "BCN-P01",
       "qrCode": "QR-P01",
-      "shortDescription": "Pameran Surat Emas menampilkan lebih dari 4 abad hubungan sejarah dan diplomasi antara raja-raja Nusantara dengan penguasa Inggris. \nPara penguasa lokal seperti dari Aceh, Banten, Palembang, hingga Surakarta, mengirimkan epistel indah yang dihiasi lembaran emas (prada). \nNaskah kuno ini ditulis dalam berbagai bahasa daerah (seperti Melayu, Jawa, Sunda, dan Bugis) di atas media tradisional seperti lontar, bambu, hingga kulit kayu. \nKoleksi naskah yang kini tersimpan di British Library menjadi bukti keagungan tradisi keberaksaraan dan seni diplomasi Nusantara di masa lampau.",
+      "shortDescription": "Pameran Surat Emas mengajak pengunjung menelusuri lebih dari empat abad hubungan sejarah dan diplomasi antara raja-raja Nusantara dengan penguasa Inggris. Dari Aceh, Banten, Palembang, hingga Surakarta, para penguasa mengirimkan surat yang dihiasi lembaran emas atau prada.\n\nKeindahannya tidak hanya terlihat pada hiasan. Surat dan naskah kuno ini juga memperlihatkan keragaman bahasa serta media tulis Nusantara, mulai dari bahasa Melayu, Jawa, Sunda, dan Bugis hingga lontar, bambu, dan kulit kayu.\n\nKini tersimpan di British Library, koleksi tersebut menjadi jejak tradisi tulis dan seni diplomasi Nusantara yang dapat dikenali melalui pameran ini.",
       "keyFacts": [
         "Surat Emas terpanjang memiliki panjang 1.5 m. Surat ini merupakan surat yang ditulis oleh Raja Iskandar Muda dari Aceh kepada Raja James 1 pada tahun 1615 untuk mengajak berniaga hanya di Aceh."
       ],
@@ -80,7 +80,7 @@
       "sections": [
         {
           "title": "Sejarah Komunikasi Tertulis di Nusantara",
-          "body": "Pameran Surat Emas menampilkan lebih dari 4 abad hubungan sejarah dan diplomasi antara raja-raja Nusantara dengan penguasa Inggris. \nPara penguasa lokal seperti dari Aceh, Banten, Palembang, hingga Surakarta, mengirimkan epistel indah yang dihiasi lembaran emas (prada). \nNaskah kuno ini ditulis dalam berbagai bahasa daerah (seperti Melayu, Jawa, Sunda, dan Bugis) di atas media tradisional seperti lontar, bambu, hingga kulit kayu. \nKoleksi naskah yang kini tersimpan di British Library menjadi bukti keagungan tradisi keberaksaraan dan seni diplomasi Nusantara di masa lampau.",
+          "body": "Pameran Surat Emas mengajak pengunjung menelusuri lebih dari empat abad hubungan sejarah dan diplomasi antara raja-raja Nusantara dengan penguasa Inggris. Dari Aceh, Banten, Palembang, hingga Surakarta, para penguasa mengirimkan surat yang dihiasi lembaran emas atau prada.\n\nKeindahannya tidak hanya terlihat pada hiasan. Surat dan naskah kuno ini juga memperlihatkan keragaman bahasa serta media tulis Nusantara, mulai dari bahasa Melayu, Jawa, Sunda, dan Bugis hingga lontar, bambu, dan kulit kayu.\n\nKini tersimpan di British Library, koleksi tersebut menjadi jejak tradisi tulis dan seni diplomasi Nusantara yang dapat dikenali melalui pameran ini.",
           "images": [
             "assets/images/pois/p01_04.jpg",
             "assets/images/pois/p01_01.jpg",
@@ -88,6 +88,11 @@
             "assets/images/pois/p01_05.jpg",
             "assets/images/pois/p01_03.jpg"
           ]
+        },
+        {
+          "title": "Linimasa Surat Emas",
+          "body": "- 1615 — Sultan Iskandar Muda dari Aceh mengirim surat kepada Raja James I untuk mengajak berniaga hanya di Aceh. Surat Emas ini memiliki panjang 1,5 meter.",
+          "images": []
         }
       ],
       "contentSource": "Repo content/poi-dataset (description.md, quiz.json, album_perangko), tim konten JejakPOS; sebelumnya Dokumen Sprint 2 (PB06)",
@@ -109,7 +114,7 @@
       },
       "beaconId": "BCN-P02",
       "qrCode": "QR-P02",
-      "shortDescription": "Sejarah Perposan di Nusantara berkembang dari tradisi lisan hingga menjadi urat nadi komunikasi bangsa. Di era kerajaan, pesan jarak jauh disampaikan lewat pos teriak, sinyal asap, hingga naskah lontar oleh para caraka. \n\nPada masa VOC, pengiriman surat bergantung pada kapal dagang yang memakan waktu berbulan-bulan dan dipajang di penginapan kota (Stadsherberg). \n\nPerubahan besar terjadi pada era Daendels (1808-1811) lewat pembangunan Jalan Raya Pos Anyer-Panarukan yang memangkas waktu kirim surat dari 2 minggu menjadi 3-4 hari. \n\nSistem ini disempurnakan pada era Raffles dan Hindia Belanda melalui penataan tarif resmi berbasis jarak. Meski sempat dipecah ke dalam 3 wilayah militer pada era Jepang, \n\npuncaknya terjadi pada 27 September 1945 (era setelah Kemerdekaan) saat pemuda PTT (Post, Telegraaf, en Telefoon) mengambil alih Kantor Pos Besar dari Jepang dan mengawal layanan pos saat Ibu Kota berpindah ke Yogyakarta.",
+      "shortDescription": "Jauh sebelum layanan pos modern hadir, masyarakat Nusantara telah menemukan berbagai cara untuk menyampaikan pesan. Pada masa kerajaan, pesan jarak jauh disampaikan melalui pos teriak, sinyal asap, dan naskah lontar yang dibawa para caraka.\n\nMemasuki masa VOC, surat bergantung pada perjalanan kapal dagang yang dapat memakan waktu berbulan-bulan. Surat-surat juga dipajang di penginapan kota yang disebut Stadsherberg.\n\nPerjalanan surat menjadi lebih cepat pada masa Daendels, ketika Jalan Raya Pos Anyer–Panarukan dibangun pada 1808–1811. Waktu pengiriman yang sebelumnya sekitar dua minggu berkurang menjadi tiga sampai empat hari. Pada masa Raffles dan Hindia Belanda, layanan ini kemudian ditata melalui tarif resmi berdasarkan jarak.\n\n\nPada masa pendudukan Jepang, pengelolaan pos dibagi ke dalam tiga wilayah militer. Babak baru dimulai pada 27 September 1945, saat para pemuda PTT mengambil alih Kantor Pos Besar dari Jepang. Layanan pos terus berjalan, termasuk ketika ibu kota berpindah ke Yogyakarta.",
       "keyFacts": [
         "Gedung PTT di sayap timur Gedung Sate menjadi saksi perjuangan bangsa Indonesia mengambil alih pengelolaan layanan komunikasi dari Jepang.  Dibangun sejak peletakan batu pertama pada 27 Juli 1920, gedung rancangan arsitek J. Herberg ini memiliki desain unik dengan posisi 45° terhadap Gedung Sate.",
         "27 September diperingati sebagai Hari Bakti Postel"
@@ -162,7 +167,7 @@
       "sections": [
         {
           "title": "Sejarah Pos Nusantara",
-          "body": "Sejarah Perposan di Nusantara berkembang dari tradisi lisan hingga menjadi urat nadi komunikasi bangsa. Di era kerajaan, pesan jarak jauh disampaikan lewat pos teriak, sinyal asap, hingga naskah lontar oleh para caraka. \n\nPada masa VOC, pengiriman surat bergantung pada kapal dagang yang memakan waktu berbulan-bulan dan dipajang di penginapan kota (Stadsherberg). \n\nPerubahan besar terjadi pada era Daendels (1808-1811) lewat pembangunan Jalan Raya Pos Anyer-Panarukan yang memangkas waktu kirim surat dari 2 minggu menjadi 3-4 hari. \n\nSistem ini disempurnakan pada era Raffles dan Hindia Belanda melalui penataan tarif resmi berbasis jarak. Meski sempat dipecah ke dalam 3 wilayah militer pada era Jepang, \n\npuncaknya terjadi pada 27 September 1945 (era setelah Kemerdekaan) saat pemuda PTT (Post, Telegraaf, en Telefoon) mengambil alih Kantor Pos Besar dari Jepang dan mengawal layanan pos saat Ibu Kota berpindah ke Yogyakarta.",
+          "body": "Jauh sebelum layanan pos modern hadir, masyarakat Nusantara telah menemukan berbagai cara untuk menyampaikan pesan. Pada masa kerajaan, pesan jarak jauh disampaikan melalui pos teriak, sinyal asap, dan naskah lontar yang dibawa para caraka.\n\nMemasuki masa VOC, surat bergantung pada perjalanan kapal dagang yang dapat memakan waktu berbulan-bulan. Surat-surat juga dipajang di penginapan kota yang disebut Stadsherberg.\n\nPerjalanan surat menjadi lebih cepat pada masa Daendels, ketika Jalan Raya Pos Anyer–Panarukan dibangun pada 1808–1811. Waktu pengiriman yang sebelumnya sekitar dua minggu berkurang menjadi tiga sampai empat hari. Pada masa Raffles dan Hindia Belanda, layanan ini kemudian ditata melalui tarif resmi berdasarkan jarak.\n\n\nPada masa pendudukan Jepang, pengelolaan pos dibagi ke dalam tiga wilayah militer. Babak baru dimulai pada 27 September 1945, saat para pemuda PTT mengambil alih Kantor Pos Besar dari Jepang. Layanan pos terus berjalan, termasuk ketika ibu kota berpindah ke Yogyakarta.",
           "images": [
             "assets/images/pois/p02_10.jpg",
             "assets/images/pois/p02_01.jpg",
@@ -175,6 +180,11 @@
             "assets/images/pois/p02_12.jpg",
             "assets/images/pois/p02_07.jpg"
           ]
+        },
+        {
+          "title": "Linimasa Pos Nusantara",
+          "body": "- Masa kerajaan — Pesan disampaikan melalui pos teriak, sinyal asap, dan naskah lontar yang dibawa para caraka.\n- Masa VOC — Pengiriman surat bergantung pada kapal dagang dan dapat memakan waktu berbulan-bulan.\n- 1808–1811 — Pembangunan Jalan Raya Pos Anyer–Panarukan pada masa Daendels mempercepat pengiriman surat menjadi tiga sampai empat hari.\n- Masa Raffles dan Hindia Belanda — Tarif resmi pengiriman ditata berdasarkan jarak.\n- Masa pendudukan Jepang — Pengelolaan layanan pos dibagi ke dalam tiga wilayah militer.\n- 27 September 1945 — Para pemuda PTT mengambil alih Kantor Pos Besar dari Jepang.",
+          "images": []
         }
       ],
       "contentSource": "Repo content/poi-dataset (description.md, quiz.json, album_perangko), tim konten JejakPOS; sebelumnya Dokumen Sprint 2 (PB06)",
@@ -253,7 +263,7 @@
       },
       "beaconId": "BCN-P03",
       "qrCode": "QR-P03",
-      "shortDescription": "Sejarah kepemimpinan Pos Indonesia mengikuti perubahan organisasi yang mengelola layanan pos. Pada masa Hindia Belanda, layanan pos, telegraf, dan telepon dikelola oleh Post, Telegraaf en Telefoondienst (PTT). Setelah kemerdekaan, pengelolaannya beralih ke pemerintah Indonesia. Dalam perkembangannya, layanan pos dipisahkan dari telekomunikasi, dan Pos Indonesia kemudian memperluas layanannya hingga mencakup kurir, logistik, dan jasa keuangan.\n\nDi Museum Pos Indonesia, perjalanan kepemimpinan ini juga didokumentasikan melalui koleksi tera tangan direksi. Tera tangan adalah cap atau cetakan tangan dari pimpinan yang pernah menjabat. Setiap cetakan mewakili seorang tokoh pada masa jabatannya dan membantu pengunjung mengenal para pimpinan yang berperan dalam perkembangan layanan pos di Indonesia.\n\n- Masa Hindia Belanda — PTT mengelola layanan pos, telegraf, dan telepon.\n- 1945 — Setelah kemerdekaan, pemerintah Indonesia mengambil alih pengelolaan layanan melalui Jawatan Pos, Telegraf dan Telepon.\n- 1961 — Jawatan tersebut berubah menjadi PN Pos dan Telekomunikasi.\n- 1965 — Layanan pos dipisahkan dari telekomunikasi dan mulai dikelola oleh PN Pos dan Giro.\n- 1978 — PN Pos dan Giro berubah menjadi Perum Pos dan Giro.\n- 1995 — Perum Pos dan Giro resmi menjadi PT Pos Indonesia (Persero).",
+      "shortDescription": "Perjalanan kepemimpinan Pos Indonesia tidak terlepas dari perubahan lembaga yang mengelola layanan komunikasi. Pada masa Hindia Belanda, pos, telegraf, dan telepon berada dalam pengelolaan Post, Telegraaf en Telefoondienst atau PTT. Setelah kemerdekaan, pengelolaannya beralih ke pemerintah Indonesia.\n\nSeiring waktu, layanan pos dipisahkan dari telekomunikasi. Organisasinya terus berkembang hingga menjadi PT Pos Indonesia (Persero), dengan layanan yang mencakup kurir, logistik, dan jasa keuangan. Urutan perubahan ini dapat ditelusuri melalui linimasa interaktif.\n\nDi museum, kisah para pemimpinnya juga hadir melalui koleksi tera tangan direksi. Cap atau cetakan tangan ini mewakili tokoh-tokoh yang pernah menjabat, sehingga perjalanan organisasi tidak hanya dikenali melalui nama dan tahun, tetapi juga melalui jejak para pemimpinnya.",
       "keyFacts": [],
       "images": [
         "assets/images/pois/p03_01.jpg",
@@ -294,7 +304,7 @@
       "sections": [
         {
           "title": "Sejarah Kepemimpinan Pos Indonesia",
-          "body": "Sejarah kepemimpinan Pos Indonesia mengikuti perubahan organisasi yang mengelola layanan pos. Pada masa Hindia Belanda, layanan pos, telegraf, dan telepon dikelola oleh Post, Telegraaf en Telefoondienst (PTT). Setelah kemerdekaan, pengelolaannya beralih ke pemerintah Indonesia. Dalam perkembangannya, layanan pos dipisahkan dari telekomunikasi, dan Pos Indonesia kemudian memperluas layanannya hingga mencakup kurir, logistik, dan jasa keuangan.\n\nDi Museum Pos Indonesia, perjalanan kepemimpinan ini juga didokumentasikan melalui koleksi tera tangan direksi. Tera tangan adalah cap atau cetakan tangan dari pimpinan yang pernah menjabat. Setiap cetakan mewakili seorang tokoh pada masa jabatannya dan membantu pengunjung mengenal para pimpinan yang berperan dalam perkembangan layanan pos di Indonesia.",
+          "body": "Perjalanan kepemimpinan Pos Indonesia tidak terlepas dari perubahan lembaga yang mengelola layanan komunikasi. Pada masa Hindia Belanda, pos, telegraf, dan telepon berada dalam pengelolaan Post, Telegraaf en Telefoondienst atau PTT. Setelah kemerdekaan, pengelolaannya beralih ke pemerintah Indonesia.\n\nSeiring waktu, layanan pos dipisahkan dari telekomunikasi. Organisasinya terus berkembang hingga menjadi PT Pos Indonesia (Persero), dengan layanan yang mencakup kurir, logistik, dan jasa keuangan. Urutan perubahan ini dapat ditelusuri melalui linimasa interaktif.\n\nDi museum, kisah para pemimpinnya juga hadir melalui koleksi tera tangan direksi. Cap atau cetakan tangan ini mewakili tokoh-tokoh yang pernah menjabat, sehingga perjalanan organisasi tidak hanya dikenali melalui nama dan tahun, tetapi juga melalui jejak para pemimpinnya.",
           "images": [
             "assets/images/pois/p03_03.jpg",
             "assets/images/pois/p03_01.jpg",
@@ -327,7 +337,7 @@
       },
       "beaconId": "BCN-P04",
       "qrCode": "QR-P04",
-      "shortDescription": "Sejak masa Hindia Belanda, pakaian dinas digunakan sebagai tanda pengenal resmi pengantar surat. Bentuk tanda pengenal itu berubah dari waktu ke waktu. Pada pertengahan abad ke-19, petugas memakai ban lengan kulit dengan pelat tembaga. Pada 1864, para pesuruh dinas mendapat selempang sebagai pengganti ban lengan dan mengenakan pelat tembaga di dada.\nPada masa pendudukan Jepang (1942–1945), pengelolaan layanan pos beralih ke pemerintahan Jepang. Museum Pos Indonesia menyimpan contoh pakaian pengantar surat dari akhir masa tersebut. Setelah kemerdekaan, seragam terus berkembang mengikuti perubahan organisasi Pos Indonesia, termasuk pakaian dinas lapangan yang mulai digunakan pada 1995.\nKoleksi museum juga memperlihatkan fungsi perlengkapan yang menyertai seragam. Topi dinas, yang pada label museum disebut pet, dan lencana menjadi bagian dari tanda pengenal petugas. Bentuk dan lambang lencana mencerminkan identitas organisasi pos pada tiap masa. Sementara itu, tas pengiriman surat digunakan untuk menyimpan dan membawa kiriman selama pengantaran.",
+      "shortDescription": "Seragam membantu masyarakat mengenali petugas yang mengantarkan surat. Sejak masa Hindia Belanda, pakaian dinas dan perlengkapannya menjadi tanda pengenal resmi, dengan bentuk yang terus berubah mengikuti zamannya.\n\n\nPada pertengahan abad ke-19, petugas menggunakan ban lengan kulit dengan pelat tembaga. Pada 1864, para pesuruh dinas menggantinya dengan selempang dan mengenakan pelat tembaga di dada.\n\nPerubahan berlanjut pada masa pendudukan Jepang dan setelah kemerdekaan. Museum menyimpan contoh pakaian pengantar surat dari akhir masa pendudukan Jepang, serta seragam yang memperlihatkan perkembangan organisasi Pos Indonesia, termasuk pakaian dinas lapangan yang mulai digunakan pada 1995.\n\nDi samping pakaian, topi dinas atau pet dan lencana menjadi bagian dari identitas petugas. Bentuk dan lambangnya mencerminkan organisasi pos pada tiap masa, sementara tas pengiriman membantu petugas membawa surat selama perjalanan.",
       "keyFacts": [
         "1854 — Pengantar surat di Batavia, Semarang, dan Surabaya mendapat pakaian dinas sebagai tanda pengenal.",
         "1864 — Para pesuruh dinas mengganti ban lengan dengan selempang biru tua bertepi kuning dan mengenakan pelat tembaga di dada.",
@@ -385,7 +395,7 @@
       "sections": [
         {
           "title": "Sejarah Seragam Petugas Pos",
-          "body": "Sejak masa Hindia Belanda, pakaian dinas digunakan sebagai tanda pengenal resmi pengantar surat. Bentuk tanda pengenal itu berubah dari waktu ke waktu. Pada pertengahan abad ke-19, petugas memakai ban lengan kulit dengan pelat tembaga. Pada 1864, para pesuruh dinas mendapat selempang sebagai pengganti ban lengan dan mengenakan pelat tembaga di dada.\nPada masa pendudukan Jepang (1942–1945), pengelolaan layanan pos beralih ke pemerintahan Jepang. Museum Pos Indonesia menyimpan contoh pakaian pengantar surat dari akhir masa tersebut. Setelah kemerdekaan, seragam terus berkembang mengikuti perubahan organisasi Pos Indonesia, termasuk pakaian dinas lapangan yang mulai digunakan pada 1995.\nKoleksi museum juga memperlihatkan fungsi perlengkapan yang menyertai seragam. Topi dinas, yang pada label museum disebut pet, dan lencana menjadi bagian dari tanda pengenal petugas. Bentuk dan lambang lencana mencerminkan identitas organisasi pos pada tiap masa. Sementara itu, tas pengiriman surat digunakan untuk menyimpan dan membawa kiriman selama pengantaran.",
+          "body": "Seragam membantu masyarakat mengenali petugas yang mengantarkan surat. Sejak masa Hindia Belanda, pakaian dinas dan perlengkapannya menjadi tanda pengenal resmi, dengan bentuk yang terus berubah mengikuti zamannya.\n\n\nPada pertengahan abad ke-19, petugas menggunakan ban lengan kulit dengan pelat tembaga. Pada 1864, para pesuruh dinas menggantinya dengan selempang dan mengenakan pelat tembaga di dada.\n\nPerubahan berlanjut pada masa pendudukan Jepang dan setelah kemerdekaan. Museum menyimpan contoh pakaian pengantar surat dari akhir masa pendudukan Jepang, serta seragam yang memperlihatkan perkembangan organisasi Pos Indonesia, termasuk pakaian dinas lapangan yang mulai digunakan pada 1995.\n\nDi samping pakaian, topi dinas atau pet dan lencana menjadi bagian dari identitas petugas. Bentuk dan lambangnya mencerminkan organisasi pos pada tiap masa, sementara tas pengiriman membantu petugas membawa surat selama perjalanan.",
           "images": [
             "assets/images/pois/p04_13.jpg",
             "assets/images/pois/p04_14.jpg",
@@ -493,7 +503,7 @@
       },
       "beaconId": "BCN-P06",
       "qrCode": "QR-P06",
-      "shortDescription": "Kode pos adalah kode yang ditambahkan pada alamat surat dan paket untuk memudahkan penyortiran. Di Indonesia, kode pos terdiri dari lima angka. Angka pertama menunjukkan kelompok wilayah tujuan, sedangkan angka berikutnya membantu memperinci lokasi kiriman.\nSistem kode pos Indonesia dicetuskan oleh Ir. Marsoedi Mohamad Paham saat memimpin Perum Pos dan Giro. Gagasan ini muncul karena banyaknya surat yang harus disortir. Dengan memberi kode pada setiap wilayah, petugas pos dapat mengelompokkan kiriman sebelum meneruskannya ke tujuan masing-masing.\nPerum Pos dan Giro mulai menggunakan kode pos untuk keperluan internal pada 27 September 1982. Tepat setahun kemudian, pada 27 September 1983, sistem ini resmi diperkenalkan kepada masyarakat.\n\nPeta di museum memperlihatkan pengelompokan wilayah berdasarkan angka pertama kode pos.\n\n1: DKI Jakarta serta sebagian Jawa Barat dan Banten, seperti Bogor, Depok, Bekasi, dan Tangerang\n\n2: Aceh, Sumatera Utara, Sumatera Barat, Riau, dan Kepulauan Riau\n\n3: Jambi, Bengkulu, Sumatera Selatan, Kepulauan Bangka Belitung, dan Lampung\n\n4: Wilayah Jawa Barat dan Banten di luar kelompok angka 1\n\n5: Jawa Tengah dan Daerah Istimewa Yogyakarta\n\n6: Jawa Timur\n\n7: Kalimantan\n\n8: Bali, Nusa Tenggara Barat, dan Nusa Tenggara Timur\n\n9: Sulawesi, Maluku, dan Papua",
+      "shortDescription": "Kode pos adalah kode yang ditambahkan pada alamat surat dan paket untuk memudahkan penyortiran. Di Indonesia, kode pos terdiri dari lima angka. Angka pertama menunjukkan kelompok wilayah tujuan, sedangkan angka berikutnya membantu memperinci lokasi kiriman.\n\nSistem kode pos Indonesia dicetuskan oleh Ir. Marsoedi Mohamad Paham saat memimpin Perum Pos dan Giro. Gagasan ini muncul karena banyaknya surat yang harus disortir. Dengan memberi kode pada setiap wilayah, petugas pos dapat mengelompokkan kiriman sebelum meneruskannya ke tujuan masing-masing.\n\nPerum Pos dan Giro mulai menggunakan kode pos untuk keperluan internal pada 27 September 1982. Tepat setahun kemudian, pada 27 September 1983, sistem ini resmi diperkenalkan kepada masyarakat.\n\nPeta di museum memperlihatkan pengelompokan wilayah berdasarkan angka pertama kode pos.\n\n1: DKI Jakarta serta sebagian Jawa Barat dan Banten, seperti Bogor, Depok, Bekasi, dan Tangerang\n\n2: Aceh, Sumatera Utara, Sumatera Barat, Riau, dan Kepulauan Riau\n\n3: Jambi, Bengkulu, Sumatera Selatan, Kepulauan Bangka Belitung, dan Lampung\n\n4: Wilayah Jawa Barat dan Banten di luar kelompok angka 1\n\n5: Jawa Tengah dan Daerah Istimewa Yogyakarta\n\n6: Jawa Timur\n\n7: Kalimantan\n\n8: Bali, Nusa Tenggara Barat, dan Nusa Tenggara Timur\n\n9: Sulawesi, Maluku, dan Papua",
       "keyFacts": [
         "Satu provinsi bisa memiliki lebih dari satu angka awal. Di Jawa Barat, misalnya, kode pos di Bandung diawali angka 4, sedangkan kode pos di Bekasi diawali angka 1."
       ],
@@ -535,7 +545,7 @@
       "sections": [
         {
           "title": "Kode Pos di Indonesia",
-          "body": "Kode pos adalah kode yang ditambahkan pada alamat surat dan paket untuk memudahkan penyortiran. Di Indonesia, kode pos terdiri dari lima angka. Angka pertama menunjukkan kelompok wilayah tujuan, sedangkan angka berikutnya membantu memperinci lokasi kiriman.\nSistem kode pos Indonesia dicetuskan oleh Ir. Marsoedi Mohamad Paham saat memimpin Perum Pos dan Giro. Gagasan ini muncul karena banyaknya surat yang harus disortir. Dengan memberi kode pada setiap wilayah, petugas pos dapat mengelompokkan kiriman sebelum meneruskannya ke tujuan masing-masing.\nPerum Pos dan Giro mulai menggunakan kode pos untuk keperluan internal pada 27 September 1982. Tepat setahun kemudian, pada 27 September 1983, sistem ini resmi diperkenalkan kepada masyarakat.",
+          "body": "Kode pos adalah kode yang ditambahkan pada alamat surat dan paket untuk memudahkan penyortiran. Di Indonesia, kode pos terdiri dari lima angka. Angka pertama menunjukkan kelompok wilayah tujuan, sedangkan angka berikutnya membantu memperinci lokasi kiriman.\n\nSistem kode pos Indonesia dicetuskan oleh Ir. Marsoedi Mohamad Paham saat memimpin Perum Pos dan Giro. Gagasan ini muncul karena banyaknya surat yang harus disortir. Dengan memberi kode pada setiap wilayah, petugas pos dapat mengelompokkan kiriman sebelum meneruskannya ke tujuan masing-masing.\n\nPerum Pos dan Giro mulai menggunakan kode pos untuk keperluan internal pada 27 September 1982. Tepat setahun kemudian, pada 27 September 1983, sistem ini resmi diperkenalkan kepada masyarakat.",
           "images": [
             "assets/images/pois/p06_01.jpg",
             "assets/images/pois/p06_02.jpg"
@@ -1006,7 +1016,7 @@
       },
       "beaconId": "BCN-P11",
       "qrCode": "QR-P11",
-      "shortDescription": "Postmark merupakan penanda bahwa surat telah melewati seluruh alur perjalanan pos. Layaknya surat resmi yang dibubuhi perangko dan postmark penutup, pengunjung menandai akhir penjelajahan sejarah Pos Indonesia dengan mengabdikan stempel pengesahan kunjungan.",
+      "shortDescription": "Selembar surat tidak hanya membawa pesan, tetapi juga jejak perjalanannya. Postmark atau cap pos menjadi penanda bahwa surat telah melewati alur layanan pos.\n\nDi akhir penjelajahan museum, pengunjung dapat menutup perjalanan dengan stempel pengesahan kunjungan. Seperti postmark pada surat, stempel ini menjadi penanda akhir perjalanan mengenal sejarah Pos Indonesia.",
       "keyFacts": [],
       "images": [
         "assets/images/pois/p11_01.jpg"
@@ -1046,7 +1056,7 @@
       "sections": [
         {
           "title": "Stempel Museum",
-          "body": "Postmark merupakan penanda bahwa surat telah melewati seluruh alur perjalanan pos. Layaknya surat resmi yang dibubuhi perangko dan postmark penutup, pengunjung menandai akhir penjelajahan sejarah Pos Indonesia dengan mengabdikan stempel pengesahan kunjungan.",
+          "body": "Selembar surat tidak hanya membawa pesan, tetapi juga jejak perjalanannya. Postmark atau cap pos menjadi penanda bahwa surat telah melewati alur layanan pos.\n\nDi akhir penjelajahan museum, pengunjung dapat menutup perjalanan dengan stempel pengesahan kunjungan. Seperti postmark pada surat, stempel ini menjadi penanda akhir perjalanan mengenal sejarah Pos Indonesia.",
           "images": [
             "assets/images/pois/p11_01.jpg"
           ]

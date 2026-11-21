@@ -131,7 +131,8 @@ class _PoiDetailBody extends ConsumerWidget {
               const SizedBox(height: 12),
               Text('Ringkasan cerita', style: textTheme.titleMedium),
               if (poi.sections.isNotEmpty)
-                for (final section in poi.sections)
+                for (final section in poi.sections
+                    .where((s) => !s.title.toLowerCase().contains('linimasa')))
                   _SectionCard(
                       section: section, showTitle: section.title != poi.name)
               else
@@ -140,31 +141,20 @@ class _PoiDetailBody extends ConsumerWidget {
               if (poi.keyFacts.isNotEmpty)
                 Text('Fakta unik', style: textTheme.titleMedium),
               const SizedBox(height: 8),
-              for (var i = 0; i < poi.keyFacts.length; i++)
-                Container(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.lightGrey, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              for (final fact in poi.keyFacts)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        width: 24,
-                        height: 24,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: AppColors.orange,
-                            borderRadius: BorderRadius.circular(6)),
-                        child: Text('${i + 1}',
-                            style: const TextStyle(
-                                color: AppColors.white,
-                                fontWeight: FontWeight.bold)),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 8, right: 10),
+                        child: Icon(Icons.circle,
+                            size: 5, color: AppColors.orange),
                       ),
-                      const SizedBox(width: 10),
-                      Expanded(child: Text(poi.keyFacts[i])),
+                      Expanded(
+                          child:
+                              Text(fact, style: const TextStyle(height: 1.5))),
                     ],
                   ),
                 ),

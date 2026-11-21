@@ -118,44 +118,77 @@ void showPoiGallery(BuildContext context, Poi poi) {
   );
 }
 
+/// Chronological events come from the curated timeline, not unique facts.
+List<String> poiTimelineEntries(Poi poi) => [
+      for (final section in poi.sections)
+        if (section.title.toLowerCase().contains('linimasa'))
+          ...section.body
+              .split('\n')
+              .map((line) => line.replaceFirst(RegExp(r'^-\s*'), '').trim())
+              .where((line) => line.isNotEmpty),
+    ];
+
 void _showTimeline(BuildContext context, Poi poi) {
+  final entries = poiTimelineEntries(poi);
   showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
+    showDragHandle: true,
     builder: (ctx) => SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
+      child: SizedBox(
+        height: MediaQuery.sizeOf(ctx).height * 0.78,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Timeline: ${poi.name}',
-                style: Theme.of(ctx).textTheme.titleMedium),
-            const SizedBox(height: 12),
-            for (var i = 0; i < poi.keyFacts.length; i++)
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(children: [
-                    CircleAvatar(
-                        radius: 12,
-                        backgroundColor: AppColors.orange,
-                        child: Text('${i + 1}',
-                            style: const TextStyle(
-                                color: AppColors.white, fontSize: 12))),
-                    if (i < poi.keyFacts.length - 1)
-                      Container(
-                          width: 2, height: 32, color: AppColors.orangeLight),
-                  ]),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 2, bottom: 12),
-                      child: Text(poi.keyFacts[i]),
+            ListTile(
+              title: Text('Linimasa: ${poi.name}',
+                  style: Theme.of(ctx).textTheme.titleMedium),
+              trailing: IconButton(
+                  tooltip: 'Tutup linimasa',
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.pop(ctx)),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text('Ketuk tahun atau periode untuk membaca ceritanya.'),
+            ),
+            Expanded(
+              child: entries.isEmpty
+                  ? const Center(
+                      child: Text('Linimasa koleksi ini belum tersedia.'))
+                  : ListView.separated(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+                      itemCount: entries.length,
+                      separatorBuilder: (_, __) => const SizedBox(height: 8),
+                      itemBuilder: (context, index) {
+                        final entry = entries[index];
+                        final split = entry.indexOf(' — ');
+                        final period = split < 0
+                            ? 'Peristiwa ${index + 1}'
+                            : entry.substring(0, split);
+                        final story =
+                            split < 0 ? entry : entry.substring(split + 3);
+                        return Card(
+                          child: ExpansionTile(
+                            key: ValueKey('${poi.id}-timeline-$index'),
+                            initiallyExpanded: index == 0,
+                            leading: const Icon(Icons.history,
+                                color: AppColors.orange),
+                            title: Text(period,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600)),
+                            childrenPadding:
+                                const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                            expandedCrossAxisAlignment:
+                                CrossAxisAlignment.start,
+                            children: [
+                              Text(story, style: const TextStyle(height: 1.5))
+                            ],
+                          ),
+                        );
+                      },
                     ),
-                  ),
-                ],
-              ),
+            ),
           ],
         ),
       ),
