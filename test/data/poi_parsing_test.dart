@@ -119,8 +119,13 @@ void main() {
       final pois = loadDataset();
       final p08 = pois.firstWhere((p) => p.id == 'P08');
       expect(p08.mysteryClues, hasLength(3));
-      expect(p08.curatedQuiz.map((q) => q.options[q.answerIndex]),
-          ['Semarang', 'Boedi Oetomo', 'R. Dijar dan para pemuda PTT']);
+      expect(p08.curatedQuiz.map((q) => q.options[q.answerIndex]), [
+        'Semarang',
+        'Boedi Oetomo',
+        'R. Dijar dan para pemuda PTT',
+        'Pasuruan',
+        '27 September 1945'
+      ]);
       final p06 = pois.firstWhere((p) => p.id == 'P06');
       final q1 = p06.curatedQuiz.first;
       expect(q1.question, contains('angka 1'));

@@ -177,11 +177,12 @@ class _PoiDetailBody extends ConsumerWidget {
                       onPressed: () => openPoiActivity(
                           context, poi, PoiActivity.photoStudio),
                     ),
-                  _MediaButton(
-                    icon: Icons.quiz_outlined,
-                    label: 'Kuis',
-                    onPressed: () => context.push(AppRoutes.quiz(poi.id)),
-                  ),
+                  if (poi.hasQuiz)
+                    _MediaButton(
+                      icon: Icons.quiz_outlined,
+                      label: 'Kuis',
+                      onPressed: () => context.push(AppRoutes.quiz(poi.id)),
+                    ),
                 ],
               ),
               if (!poi.hasRealAudio)
@@ -196,16 +197,20 @@ class _PoiDetailBody extends ConsumerWidget {
                 Text('Aktivitas di koleksi ini', style: textTheme.titleMedium),
                 const SizedBox(height: 4),
                 for (final activity in poi.activities)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: OutlinedButton.icon(
-                      style: OutlinedButton.styleFrom(
-                          minimumSize: const Size.fromHeight(44)),
-                      onPressed: () => openPoiActivity(context, poi, activity),
-                      icon: Icon(poiActivityIcon(activity)),
-                      label: Text(poiActivityLabel(activity)),
+                  if (activity != PoiActivity.quiz &&
+                      (activity != PoiActivity.timeline ||
+                          poiTimelineEntries(poi).isNotEmpty))
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                            minimumSize: const Size.fromHeight(44)),
+                        onPressed: () =>
+                            openPoiActivity(context, poi, activity),
+                        icon: Icon(poiActivityIcon(activity)),
+                        label: Text(poiActivityLabel(activity)),
+                      ),
                     ),
-                  ),
               ],
               const SizedBox(height: 8),
               TextButton.icon(

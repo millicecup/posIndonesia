@@ -378,8 +378,7 @@
       "longitude": 107.620264,
       "coordinatesArePlaceholder": false,
       "activities": [
-        "photoStudio",
-        "timeline"
+        "photoStudio"
       ],
       "contentValidated": true,
       "sections": [
@@ -742,7 +741,7 @@
         "triggerOncePerSession": true,
         "radiusNeedsConfirmation": true
       },
-      "systemResponse": "Mystery clue dan cerita tokoh berdasarkan informasi yang telah divalidasi",
+      "systemResponse": "Mystery clue, kuis lima soal, dan cerita tokoh berdasarkan informasi koleksi",
       "stamp": {
         "id": "STP-P08",
         "title": "Perangko Mas Soeharto",
@@ -757,7 +756,8 @@
       "longitude": 107.620345,
       "coordinatesArePlaceholder": false,
       "activities": [
-        "mystery"
+        "mystery",
+        "quiz"
       ],
       "contentValidated": true,
       "sections": [
@@ -812,6 +812,28 @@
           ],
           "answerIndex": 0,
           "explanation": "Dalam perjuangan PTT, Mas Soeharto bersama R. Dijar dan para pemuda PTT berhasil mengambil alih Kantor Pusat PTT di Bandung dari Jepang."
+        },
+        {
+          "question": "Di kota mana Mas Soeharto lahir pada 2 Mei 1901?",
+          "options": [
+            "Semarang",
+            "Bandung",
+            "Pasuruan",
+            "Yogyakarta"
+          ],
+          "answerIndex": 2,
+          "explanation": "Mas Soeharto lahir di Pasuruan pada 2 Mei 1901, sebagaimana dijelaskan dalam profilnya."
+        },
+        {
+          "question": "Kapan Mas Soeharto memimpin pengambilalihan Kantor Pusat PTT dari kekuasaan Jepang?",
+          "options": [
+            "17 Agustus 1945",
+            "27 September 1945",
+            "2 Mei 1901",
+            "27 Juli 1920"
+          ],
+          "answerIndex": 1,
+          "explanation": "Pengambilalihan Kantor Pusat PTT berlangsung pada 27 September 1945. Peristiwa ini diperingati sebagai Hari Bakti Postel."
         }
       ],
       "mysteryClues": [

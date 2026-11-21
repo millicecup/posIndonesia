@@ -23,12 +23,21 @@ class QuizScreen extends ConsumerWidget {
     final pois = ref.watch(poisProvider).valueOrNull;
     final poi = pois?.where((p) => p.id == poiId).firstOrNull;
     return Scaffold(
-      appBar: JejakAppBar(title: Text(poi == null ? 'Kuis' : 'Kuis: ${poi.name}')),
+      appBar: JejakAppBar(
+          title: Text(poi?.hasCodeGame == true
+              ? 'Permainan kode pos'
+              : poi == null
+                  ? 'Kuis'
+                  : 'Kuis: ${poi.name}')),
       body: pois == null
           ? const Center(child: CircularProgressIndicator())
           : poi == null
               ? const Center(child: Text('POI tidak ditemukan'))
-              : _QuizBody(poi: poi, questions: QuizGenerator.forPoi(poi, pois)),
+              : !poi.hasQuiz && !poi.hasCodeGame
+                  ? const Center(
+                      child: Text('Koleksi ini tidak memiliki kuis.'))
+                  : _QuizBody(
+                      poi: poi, questions: QuizGenerator.forPoi(poi, pois)),
     );
   }
 }
@@ -48,7 +57,8 @@ class _QuizBodyState extends ConsumerState<_QuizBody> {
   bool _answered = false;
   final List<bool> _results = [];
 
-  bool get _finished => _results.length == widget.questions.length && !_answered;
+  bool get _finished =>
+      _results.length == widget.questions.length && !_answered;
 
   void _submit() {
     if (_selected == null) return;
@@ -65,7 +75,9 @@ class _QuizBodyState extends ConsumerState<_QuizBody> {
       _selected = null;
       if (!isLast) _index++;
     });
-    if (isLast) await ref.read(activityStatsProvider.notifier).addQuizCompleted();
+    if (isLast) {
+      await ref.read(activityStatsProvider.notifier).addQuizCompleted();
+    }
   }
 
   void _restart() => setState(() {
@@ -78,7 +90,8 @@ class _QuizBodyState extends ConsumerState<_QuizBody> {
   @override
   Widget build(BuildContext context) {
     if (widget.questions.isEmpty) {
-      return const Center(child: Text('Soal belum tersedia untuk koleksi ini.'));
+      return const Center(
+          child: Text('Soal belum tersedia untuk koleksi ini.'));
     }
     if (_finished) return _buildResult();
 
@@ -100,7 +113,9 @@ class _QuizBodyState extends ConsumerState<_QuizBody> {
                       height: 6,
                       margin: const EdgeInsets.symmetric(horizontal: 2),
                       decoration: BoxDecoration(
-                        color: i <= _index ? AppColors.darkGrey : AppColors.lightGrey,
+                        color: i <= _index
+                            ? AppColors.darkGrey
+                            : AppColors.lightGrey,
                         borderRadius: BorderRadius.circular(3),
                       ),
                     ),
@@ -114,7 +129,8 @@ class _QuizBodyState extends ConsumerState<_QuizBody> {
                 border: Border.all(color: AppColors.lightGrey, width: 2),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Text(q.prompt, style: Theme.of(context).textTheme.titleMedium),
+              child: Text(q.prompt,
+                  style: Theme.of(context).textTheme.titleMedium),
             ),
             const SizedBox(height: 12),
             Expanded(
@@ -127,17 +143,23 @@ class _QuizBodyState extends ConsumerState<_QuizBody> {
                       child: Text(
                         '${_results.last ? 'Benar!' : 'Kurang tepat.'} ${q.explanation}',
                         style: TextStyle(
-                            color: _results.last ? AppColors.success : AppColors.danger),
+                            color: _results.last
+                                ? AppColors.success
+                                : AppColors.danger),
                       ),
                     ),
                 ],
               ),
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: AppColors.darkGrey),
-              onPressed: _answered ? _next : (_selected == null ? null : _submit),
+              style:
+                  ElevatedButton.styleFrom(backgroundColor: AppColors.darkGrey),
+              onPressed:
+                  _answered ? _next : (_selected == null ? null : _submit),
               child: Text(_answered
-                  ? (_index == widget.questions.length - 1 ? 'Lihat hasil' : 'Lanjut')
+                  ? (_index == widget.questions.length - 1
+                      ? 'Lihat hasil'
+                      : 'Lanjut')
                   : 'Jawab'),
             ),
           ],
@@ -175,7 +197,10 @@ class _QuizBodyState extends ConsumerState<_QuizBody> {
           ),
           child: Row(
             children: [
-              Icon(i == _selected ? Icons.radio_button_checked : Icons.radio_button_off,
+              Icon(
+                  i == _selected
+                      ? Icons.radio_button_checked
+                      : Icons.radio_button_off,
                   color: i == _selected ? AppColors.orange : AppColors.grey),
               const SizedBox(width: 10),
               Expanded(child: Text(q.options[i])),
@@ -198,8 +223,12 @@ class _QuizBodyState extends ConsumerState<_QuizBody> {
               size: 72, color: AppColors.orange),
           const SizedBox(height: 8),
           Text('Skor kamu: $correct / $total',
-              textAlign: TextAlign.center, style: Theme.of(context).textTheme.headlineSmall),
-          Text(great ? 'Sempurna! Kamu menjelajah dengan teliti.' : 'Bagus! Coba lagi untuk skor penuh.',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headlineSmall),
+          Text(
+              great
+                  ? 'Sempurna! Kamu menjelajah dengan teliti.'
+                  : 'Bagus! Coba lagi untuk skor penuh.',
               textAlign: TextAlign.center),
           const SizedBox(height: 16),
           for (var i = 0; i < total; i++)
@@ -211,7 +240,8 @@ class _QuizBodyState extends ConsumerState<_QuizBody> {
             ),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () => context.pushReplacement(AppRoutes.poiDetail(widget.poi.id)),
+            onPressed: () =>
+                context.pushReplacement(AppRoutes.poiDetail(widget.poi.id)),
             child: const Text('Kembali ke koleksi'),
           ),
           const SizedBox(height: 8),

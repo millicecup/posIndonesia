@@ -12,7 +12,7 @@ import '../../../data/models/models.dart';
 import '../../../shared/widgets/media_image.dart';
 
 String poiActivityLabel(PoiActivity a) => switch (a) {
-      PoiActivity.timeline => 'Timeline interaktif',
+      PoiActivity.timeline => 'Linimasa interaktif',
       PoiActivity.gallery => 'Galeri',
       PoiActivity.quiz => 'Kuis',
       PoiActivity.mission => 'Jejak Misi',

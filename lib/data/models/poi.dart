@@ -11,7 +11,17 @@ import 'stamp.dart';
 import 'trigger_rule.dart';
 
 /// Jenis konten POI, mengikuti kolom "Content" Tabel 4 PRD.
-enum PoiContentType { text, image, audio, timeline, illustration, animation, simulation, map, game }
+enum PoiContentType {
+  text,
+  image,
+  audio,
+  timeline,
+  illustration,
+  animation,
+  simulation,
+  map,
+  game
+}
 
 /// Aktivitas/respons khusus POI (kolom "System Response" Tabel 4 PRD).
 /// Sebagian besar dikerjakan sprint berikutnya (A01-A07, F08).
@@ -118,6 +128,10 @@ class Poi {
   bool get hasRealAudio => hasAudio && !audioPlaceholder;
   bool get hasCoordinates => latitude != null && longitude != null;
   String? get coverImage => images.isEmpty ? null : images.first;
+  bool get hasQuiz =>
+      activities.contains(PoiActivity.quiz) && curatedQuiz.isNotEmpty;
+  bool get hasCodeGame =>
+      activities.contains(PoiActivity.minigame) && curatedQuiz.isNotEmpty;
 
   /// File yang boleh disajikan dari Firebase Hosting, bukan dari APK.
   List<String> get mediaPaths => {
@@ -146,26 +160,31 @@ class Poi {
       contentTypes: readStringList(json, 'contentTypes', context: ctx)
           .map((e) => _enumFromName(PoiContentType.values, e, 'contentTypes'))
           .toList(growable: false),
-      triggerRule: TriggerRule.fromJson(
-          readRequired<Map<String, dynamic>>(json, 'triggerRule', context: ctx)),
-      systemResponse: readRequired<String>(json, 'systemResponse', context: ctx),
+      triggerRule: TriggerRule.fromJson(readRequired<Map<String, dynamic>>(
+          json, 'triggerRule',
+          context: ctx)),
+      systemResponse:
+          readRequired<String>(json, 'systemResponse', context: ctx),
       stamp: Stamp.fromJson(
           readRequired<Map<String, dynamic>>(json, 'stamp', context: ctx)),
-      mapPosition: MapPosition.fromJson(
-          readRequired<Map<String, dynamic>>(json, 'mapPosition', context: ctx)),
+      mapPosition: MapPosition.fromJson(readRequired<Map<String, dynamic>>(
+          json, 'mapPosition',
+          context: ctx)),
       latitude: readNullableDouble(json, 'latitude'),
       longitude: readNullableDouble(json, 'longitude'),
       coordinatesArePlaceholder:
           (json['coordinatesArePlaceholder'] as bool?) ?? true,
       activities: ((json['activities'] as List?) ?? const [])
-          .map((e) => _enumFromName(PoiActivity.values, e.toString(), 'activities'))
+          .map((e) =>
+              _enumFromName(PoiActivity.values, e.toString(), 'activities'))
           .toList(growable: false),
       contentValidated: (json['contentValidated'] as bool?) ?? false,
       isBaseline: (json['baseline'] as bool?) ?? true,
       sections: ((json['sections'] as List?) ?? const [])
           .map((e) => PoiSection.fromJson(e as Map<String, dynamic>))
           .toList(growable: false),
-      mysteryClues: ((json['mysteryClues'] as List?) ?? const []).cast<String>(),
+      mysteryClues:
+          ((json['mysteryClues'] as List?) ?? const []).cast<String>(),
       curatedQuiz: ((json['quiz'] as List?) ?? const [])
           .map((e) => PoiQuizItem.fromJson(e as Map<String, dynamic>))
           .toList(growable: false),
