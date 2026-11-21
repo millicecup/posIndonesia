@@ -85,7 +85,12 @@ class _PoiDetailBody extends ConsumerWidget {
               child: MediaImage(
                 poi.coverImage!,
                 fit: BoxFit.cover,
-                alignment: Alignment.topCenter,
+                // Keep the exhibit in view instead of the ceiling or upper wall.
+                alignment: switch (poi.id) {
+                  'P08' => const Alignment(0, -0.65),
+                  'P10' => const Alignment(0, -0.6),
+                  _ => Alignment.center,
+                },
               ),
             ),
           ),

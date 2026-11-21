@@ -22,6 +22,13 @@ void main() {
       }
     }
     expect(stampMakingSteps.map((s) => s.image).toSet().length, 5);
+    final soeharto = pois.firstWhere((p) => p['id'] == 'P08');
+    expect(soeharto['sections'][1]['images'], [
+      'assets/images/pois/p08_09.jpg',
+      'assets/images/pois/p08_10.jpg',
+    ]);
+    expect(soeharto['sections'][0]['images'],
+        contains('assets/images/pois/p08_06.jpg'));
     for (final step in stampMakingSteps) {
       expect(File('assets/images/stamp_making/${step.image}').lengthSync(),
           greaterThan(1000));

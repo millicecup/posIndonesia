@@ -10,7 +10,7 @@ out = root / 'assets/images/stamp_making'
 out.mkdir(parents=True, exist_ok=True)
 files = [
     ('design', 'Franklin 1870 die proof2-1c.jpg'),
-    ('proof', 'Lincoln Plate proof 1890-4c.jpg'),
+    ('proof', 'Washington Die Proof2 1861-10c.jpg'),
     ('perforation', 'Women perforating sheets of stamps in the Stamp Division at the Bureau of Engraving & Printing 3c37142v.jpg'),
     ('finished', 'Abraham Lincoln 1890 Issue-4c.jpg'),
 ]

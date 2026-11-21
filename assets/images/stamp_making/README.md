@@ -12,7 +12,7 @@ The five stages are an educational simplification for a perforated sheet of stam
 | File | Creator / institution | Status stated by source |
 | --- | --- | --- |
 | design.jpg | US Post Office, Franklin die proof, 1870 | Public domain, US federal government work |
-| proof.jpg | US Post Office, Lincoln plate proof, 1890 | Public domain, US federal government work |
+| proof.jpg | US Post Office / Smithsonian National Postal Museum, Washington die proof, 1861 | Public domain, US federal government work |
 | printing.jpg | Frances Benjamin Johnston, 1889–1890; Library of Congress | Historical US photograph published in 1895; public domain |
 | perforation.jpg | Frances Benjamin Johnston, ca. 1895; Library of Congress / Wikimedia Commons | Public domain; LOC states no known publication restrictions |
 | finished.jpg | US Post Office, Lincoln 4-cent stamp, 1890 | Public domain, US federal government work |

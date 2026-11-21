@@ -12,7 +12,7 @@ const stampMakingSteps = [
         'Perjalanan prangko dimulai dari sebuah rancangan. Gambar, tulisan, dan nilai nominal disusun agar pesannya terbaca pada bidang yang kecil. Rancangan ini menjadi acuan untuk menyiapkan cetakan.',
     caption:
         'Contoh desain pada cetak uji prangko Benjamin Franklin, Amerika Serikat, 1870.',
-    credit: 'US Post Office / Wikimedia Commons. Domain publik.'
+    credit: 'US Post Office / Wikimedia Commons.'
   ),
   (
     title: 'Persiapan cetak',
@@ -20,8 +20,9 @@ const stampMakingSteps = [
     text:
         'Desain dipindahkan ke media cetak sesuai teknik yang digunakan, misalnya pelat pada cetak offset atau intaglio. Cetak uji membantu memeriksa detail dan warna sebelum pencetakan dalam jumlah besar.',
     caption:
-        'Cetak uji prangko Abraham Lincoln, Amerika Serikat, 1890. Gambar ini memperlihatkan hasil uji, bukan pelat cetaknya.',
-    credit: 'US Post Office / Wikimedia Commons. Domain publik.'
+        'Cetak uji prangko George Washington, 10 sen, Amerika Serikat, 1861. Hasil uji diperiksa sebelum pencetakan massal.',
+    credit:
+        'US Post Office / Smithsonian National Postal Museum, melalui Wikimedia Commons.'
   ),
   (
     title: 'Pencetakan',
@@ -30,7 +31,7 @@ const stampMakingSteps = [
         'Mesin memindahkan tinta ke kertas sehingga desain muncul berulang dalam satu lembar. Tekniknya dapat berbeda; cetak offset memakai beberapa warna tinta, sedangkan intaglio memakai cetakan berukir. Hasil cetak kemudian diperiksa.',
     caption:
         'Pekerja mengambil lembar prangko dari mesin cetak di Bureau of Engraving and Printing, Amerika Serikat, 1889–1890.',
-    credit: 'Frances Benjamin Johnston / Library of Congress. Domain publik.'
+    credit: 'Frances Benjamin Johnston / Library of Congress.'
   ),
   (
     title: 'Perforasi',
@@ -40,7 +41,7 @@ const stampMakingSteps = [
     caption:
         'Pekerja melubangi lembar prangko di Bureau of Engraving and Printing, Amerika Serikat, sekitar 1895.',
     credit:
-        'Frances Benjamin Johnston / Library of Congress, melalui Wikimedia Commons. Domain publik.'
+        'Frances Benjamin Johnston / Library of Congress, melalui Wikimedia Commons.'
   ),
   (
     title: 'Hasil akhir',
@@ -49,7 +50,7 @@ const stampMakingSteps = [
         'Lembaran yang sudah selesai diproses dipotong menjadi bagian yang lebih kecil untuk penjualan. Dari sebuah rancangan, prangko kini siap digunakan sebagai bukti pembayaran biaya pos atau disimpan sebagai koleksi.',
     caption:
         'Contoh prangko jadi: Abraham Lincoln, 4 sen, Amerika Serikat, terbitan 1890.',
-    credit: 'US Post Office / Wikimedia Commons. Domain publik.'
+    credit: 'US Post Office / Wikimedia Commons.'
   ),
 ];
 
