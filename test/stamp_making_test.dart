@@ -3,10 +3,45 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jejakpos/app/theme.dart';
 import 'package:jejakpos/features/stamp_making/presentation/stamp_making_screen.dart';
 
 void main() {
+  for (final direct in [true, false]) {
+    testWidgets('Finish returns to P05 detail (direct: $direct)',
+        (tester) async {
+      final router = GoRouter(
+          initialLocation: direct ? '/stamp-making/P05' : '/poi/P05',
+          routes: [
+            GoRoute(
+                path: '/poi/:id',
+                builder: (context, state) => Scaffold(
+                    body: TextButton(
+                        onPressed: () => context.push('/stamp-making/P05'),
+                        child: const Text('Detail P05')))),
+            GoRoute(
+                path: '/stamp-making/:id',
+                builder: (context, state) =>
+                    const StampMakingScreen(poiId: 'P05')),
+          ]);
+      addTearDown(router.dispose);
+      await tester.pumpWidget(MaterialApp.router(routerConfig: router));
+      await tester.pumpAndSettle();
+      if (!direct) {
+        await tester.tap(find.text('Detail P05'));
+        await tester.pumpAndSettle();
+      }
+      for (var i = 0; i < 4; i++) {
+        await tester.tap(find.text('Lanjut'));
+        await tester.pumpAndSettle();
+      }
+      await tester.tap(find.text('Selesai'));
+      await tester.pumpAndSettle();
+      expect(find.text('Detail P05'), findsOneWidget);
+      expect(router.routeInformationProvider.value.uri.path, '/poi/P05');
+    });
+  }
   test('curated galleries retain one reference per selected photograph', () {
     final raw = jsonDecode(File('assets/data/pois.json').readAsStringSync());
     final pois = raw is List ? raw : raw['pois'] as List;

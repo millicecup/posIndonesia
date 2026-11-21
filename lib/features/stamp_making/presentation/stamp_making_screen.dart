@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../../../app/routes.dart';
 import '../../../app/theme.dart';
 import '../../../shared/widgets/jejak_app_bar.dart';
 
@@ -64,6 +66,14 @@ class StampMakingScreen extends StatefulWidget {
 class _StampMakingScreenState extends State<StampMakingScreen> {
   int _index = 0;
   final _scroll = ScrollController();
+  void _finish() {
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go(AppRoutes.poiDetail(widget.poiId));
+    }
+  }
+
   void _select(int index) {
     setState(() => _index = index);
     if (_scroll.hasClients) _scroll.jumpTo(0);
@@ -153,7 +163,7 @@ class _StampMakingScreenState extends State<StampMakingScreen> {
               Expanded(
                   child: FilledButton(
                       onPressed: _index == stampMakingSteps.length - 1
-                          ? () => Navigator.of(context).maybePop()
+                          ? _finish
                           : () => _select(_index + 1),
                       child: Text(_index == stampMakingSteps.length - 1
                           ? 'Selesai'
