@@ -1,42 +1,35 @@
-// lib/features/home_explorer/widgets/quick_action_button.dart
-// Tombol pintasan fitur utama di Home.
-
 import 'package:flutter/material.dart';
-
 import '../../../app/theme.dart';
 
 class QuickActionButton extends StatelessWidget {
-  const QuickActionButton({
-    super.key,
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
-
+  const QuickActionButton(
+      {super.key,
+      required this.icon,
+      required this.label,
+      required this.onTap});
   final IconData icon;
   final String label;
   final VoidCallback onTap;
-
   @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(12),
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CircleAvatar(
-              radius: 24,
-              backgroundColor: AppColors.orangeLight,
-              child: Icon(icon, color: AppColors.orange),
-            ),
-            const SizedBox(height: 6),
-            Text(label, style: const TextStyle(fontSize: 12)),
-          ],
+  Widget build(BuildContext context) => Material(
+        color: AppColors.white,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+            side: const BorderSide(color: AppColors.lightGrey)),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(18),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 3),
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              Icon(icon, size: 25, color: AppColors.darkGrey),
+              const SizedBox(height: 8),
+              Text(label,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontSize: 10, fontWeight: FontWeight.w600, height: 1.4)),
+            ]),
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

@@ -36,8 +36,9 @@ class AlbumScreen extends ConsumerWidget {
                   margin: const EdgeInsets.all(16),
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.lightGrey, width: 2),
-                    borderRadius: BorderRadius.circular(12),
+                    color: AppColors.white,
+                    border: Border.all(color: AppColors.lightGrey),
+                    borderRadius: BorderRadius.circular(22),
                   ),
                   child: Row(
                     children: [
@@ -52,7 +53,7 @@ class AlbumScreen extends ConsumerWidget {
                               value: ratio,
                               minHeight: 8,
                               borderRadius: BorderRadius.circular(4),
-                              color: AppColors.darkGrey,
+                              color: AppColors.teal,
                               backgroundColor: AppColors.lightGrey,
                             ),
                           ],
@@ -117,10 +118,14 @@ class AlbumScreen extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              StampFrame(image: poi.stamp.image, random: poi.stamp.isRandom, size: 110),
+              StampFrame(
+                  image: poi.stamp.image,
+                  random: poi.stamp.isRandom,
+                  size: 110),
               const SizedBox(height: 12),
               Text(poi.stamp.title, style: Theme.of(ctx).textTheme.titleMedium),
-              Text('${poi.id}: ${poi.name}', style: const TextStyle(color: AppColors.grey)),
+              Text('${poi.id}: ${poi.name}',
+                  style: const TextStyle(color: AppColors.grey)),
               const SizedBox(height: 8),
               Text(poi.stamp.trivia, textAlign: TextAlign.center),
               const SizedBox(height: 12),
@@ -142,9 +147,11 @@ class AlbumScreen extends ConsumerWidget {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
-        content: Text('Perangko ${poi.id} terkunci. Kunjungi "${poi.name}" untuk membukanya.'),
+        content: Text(
+            'Perangko ${poi.id} terkunci. Kunjungi "${poi.name}" untuk membukanya.'),
         action: SnackBarAction(
-            label: 'ARAH', onPressed: () => context.push(AppRoutes.navigateTo(poi.id))),
+            label: 'ARAH',
+            onPressed: () => context.push(AppRoutes.navigateTo(poi.id))),
       ));
   }
 }

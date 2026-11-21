@@ -1,56 +1,58 @@
-// lib/features/home_explorer/presentation/home_explorer_screen.dart
-// UI03 Home / Explore Museum - BERFUNGSI: daftar 10+ POI dari JSON (bukti PB03).
-// TODO(Farella): sesuaikan layout dengan wireframe, banner museum, kartu rekomendasi.
-
-import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../app/routes.dart';
 import '../../../app/theme.dart';
-import '../../media_download/presentation/media_download_card.dart';
 import '../../../providers/providers.dart';
 import '../../../shared/widgets/async_value_view.dart';
+import '../../../shared/widgets/jejak_app_bar.dart';
 import '../../../shared/widgets/poi_card.dart';
-import '../../../shared/widgets/progress_badge.dart';
+import '../../../shared/widgets/postman_guide.dart';
+import '../../media_download/presentation/media_download_card.dart';
 import '../state/home_state.dart';
 import '../widgets/quick_action_button.dart';
 
 class HomeExplorerScreen extends ConsumerWidget {
   const HomeExplorerScreen({super.key});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final summary = ref.watch(homeSummaryProvider);
     final recommended = ref.watch(recommendedNextPoiProvider).valueOrNull;
-
     return Scaffold(
       appBar: JejakAppBar(
-        title: const Text('Jelajah Museum'),
+        title: Row(mainAxisSize: MainAxisSize.min, children: [
+          Container(
+              padding: const EdgeInsets.all(7),
+              decoration: BoxDecoration(
+                  color: AppColors.orangeLight,
+                  borderRadius: BorderRadius.circular(10)),
+              child: const Icon(Icons.local_post_office_outlined,
+                  color: AppColors.orange, size: 21)),
+          const SizedBox(width: 10),
+          const Expanded(
+              child: Text('Jelajah Museum',
+                  maxLines: 1, overflow: TextOverflow.ellipsis)),
+        ]),
         actions: [
-          IconButton(
-            tooltip: 'Kenali pameran (kamera)',
-            icon: const Icon(Icons.center_focus_strong),
-            onPressed: () => context.push(AppRoutes.visionTour),
+          PopupMenuButton<String>(
+            tooltip: 'Pilihan lainnya',
+            icon: const Icon(Icons.tune_rounded),
+            onSelected: (route) => context.push(route),
+            itemBuilder: (_) => [
+              const PopupMenuItem(
+                  value: AppRoutes.visionTour,
+                  child: Text('Kenali pameran (kamera)')),
+              const PopupMenuItem(
+                  value: AppRoutes.qrScanner, child: Text('Pindai QR')),
+              const PopupMenuItem(
+                  value: AppRoutes.permission, child: Text('Izin & lokasi')),
+              if (kDebugMode)
+                const PopupMenuItem(
+                    value: AppRoutes.simulation, child: Text('Panel simulasi')),
+            ],
           ),
-          IconButton(
-            tooltip: 'Pindai QR',
-            icon: const Icon(Icons.qr_code_scanner),
-            onPressed: () => context.push(AppRoutes.qrScanner),
-          ),
-          IconButton(
-            tooltip: 'Izin & lokasi',
-            icon: const Icon(Icons.location_searching),
-            onPressed: () => context.push(AppRoutes.permission),
-          ),
-          if (kDebugMode)
-            IconButton(
-              tooltip: 'Panel simulasi',
-              icon: const Icon(Icons.bug_report),
-              onPressed: () => context.push(AppRoutes.simulation),
-            ),
+          const SizedBox(width: 8),
         ],
       ),
       body: AsyncValueView<HomeSummary>(
@@ -62,75 +64,174 @@ class HomeExplorerScreen extends ConsumerWidget {
             await ref.read(homeSummaryProvider.future);
           },
           child: ListView(
+            padding: const EdgeInsets.only(bottom: 24),
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text('Selamat datang di Museum POS Indonesia',
-                          style: Theme.of(context).textTheme.titleMedium),
-                    ),
-                    ProgressBadge(
-                      visited: data.progress.visitedCount,
-                      total: data.pois.length,
-                    ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+                padding: const EdgeInsets.all(22),
+                decoration: BoxDecoration(
+                  color: AppColors.darkGrey,
+                  borderRadius: BorderRadius.circular(26),
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Color(0x15203344),
+                        blurRadius: 24,
+                        offset: Offset(0, 10))
                   ],
                 ),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                  const Text('JEJAKPOS',
+                                      style: TextStyle(
+                                          color: Color(0xFFF5B28C),
+                                          fontSize: 11,
+                                          letterSpacing: 3,
+                                          fontWeight: FontWeight.w700)),
+                                  const SizedBox(height: 10),
+                                  Text('Selamat datang di Museum POS Indonesia',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge
+                                          ?.copyWith(
+                                              color: Colors.white,
+                                              fontSize: 21)),
+                                ])),
+                            const SizedBox(width: 14),
+                            Transform.rotate(
+                                angle: 0.07,
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(18),
+                                      border: Border.all(
+                                          color: const Color(0xFFE9D4BF),
+                                          width: 2)),
+                                  child: const PostmanGuide(size: 84),
+                                )),
+                          ]),
+                      const SizedBox(height: 18),
+                      Row(children: [
+                        const Icon(Icons.flag_outlined,
+                            color: Color(0xFF9FD4C6), size: 17),
+                        const SizedBox(width: 8),
+                        Text(
+                            '${data.progress.visitedCount}/${data.pois.length} POI',
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600)),
+                        const SizedBox(width: 14),
+                        Expanded(
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(4),
+                                child: ExcludeSemantics(
+                                    child: LinearProgressIndicator(
+                                  value: data.pois.isEmpty
+                                      ? 0
+                                      : data.progress.visitedCount /
+                                          data.pois.length,
+                                  minHeight: 5,
+                                  color: const Color(0xFF91CDBB),
+                                  backgroundColor: const Color(0xFF465765),
+                                )))),
+                      ]),
+                      const SizedBox(height: 18),
+                      SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed: () => context.push(AppRoutes.qrScanner),
+                            icon: const Icon(Icons.qr_code_scanner, size: 21),
+                            label: const Text('Pindai QR'),
+                          )),
+                    ]),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    QuickActionButton(
-                        icon: Icons.search,
-                        label: 'Cari POI',
-                        onTap: () => context.push(AppRoutes.poiList)),
-                    QuickActionButton(
-                        icon: Icons.map,
-                        label: 'Peta',
-                        onTap: () => context.go(AppRoutes.map)),
-                    QuickActionButton(
-                        icon: Icons.center_focus_strong,
-                        label: 'Kenali',
-                        onTap: () => context.push(AppRoutes.visionTour)),
-                    QuickActionButton(
-                        icon: Icons.tour,
-                        label: 'Tur terpandu',
-                        onTap: () => context.push(AppRoutes.tour)),
-                    QuickActionButton(
-                        icon: Icons.qr_code,
-                        label: 'QR',
-                        onTap: () => context.push(AppRoutes.qrScanner)),
-                  ],
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: LayoutBuilder(
+                    builder: (context, constraints) => Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: [
+                            SizedBox(
+                                width: (constraints.maxWidth - 30) / 4,
+                                child: QuickActionButton(
+                                    icon: Icons.search_rounded,
+                                    label: 'Cari POI',
+                                    onTap: () =>
+                                        context.push(AppRoutes.poiList))),
+                            SizedBox(
+                                width: (constraints.maxWidth - 30) / 4,
+                                child: QuickActionButton(
+                                    icon: Icons.map_outlined,
+                                    label: 'Peta',
+                                    onTap: () => context.go(AppRoutes.map))),
+                            SizedBox(
+                                width: (constraints.maxWidth - 30) / 4,
+                                child: QuickActionButton(
+                                    icon: Icons.center_focus_strong,
+                                    label: 'Kenali',
+                                    onTap: () =>
+                                        context.push(AppRoutes.visionTour))),
+                            SizedBox(
+                                width: (constraints.maxWidth - 30) / 4,
+                                child: QuickActionButton(
+                                    icon: Icons.route_outlined,
+                                    label: 'Tur terpandu',
+                                    onTap: () => context.push(AppRoutes.tour))),
+                          ],
+                        )),
               ),
+              const SizedBox(height: 12),
               const MediaDownloadCard(),
               if (recommended != null)
-                Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  color: AppColors.orangeLight,
-                  child: ListTile(
-                    leading: const Icon(Icons.recommend, color: AppColors.orange),
-                    title: const Text('Rekomendasi berikutnya'),
-                    subtitle: Text('${recommended.id}: ${recommended.name}'),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () => context.push(AppRoutes.poiDetail(recommended.id)),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 4),
+                  child: Material(
+                    color: const Color(0xFFEAF2EE),
+                    borderRadius: BorderRadius.circular(18),
+                    clipBehavior: Clip.antiAlias,
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 6),
+                      leading: const Icon(Icons.near_me_outlined,
+                          color: AppColors.teal),
+                      title: const Text('Rekomendasi berikutnya',
+                          style: TextStyle(
+                              color: AppColors.teal,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700)),
+                      subtitle: Text('${recommended.id}: ${recommended.name}',
+                          style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              height: 1.5)),
+                      trailing: const Icon(Icons.arrow_forward_rounded,
+                          color: AppColors.teal, size: 20),
+                      onTap: () =>
+                          context.push(AppRoutes.poiDetail(recommended.id)),
+                    ),
                   ),
                 ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
                 child: Text('Semua Koleksi (${data.pois.length})',
                     style: Theme.of(context).textTheme.titleMedium),
               ),
               for (final poi in data.pois)
                 PoiCard(
-                  poi: poi,
-                  visited: data.progress.isVisited(poi.id),
-                  onTap: () => context.push(AppRoutes.poiDetail(poi.id)),
-                ),
-              const SizedBox(height: 24),
+                    poi: poi,
+                    visited: data.progress.isVisited(poi.id),
+                    onTap: () => context.push(AppRoutes.poiDetail(poi.id))),
             ],
           ),
         ),

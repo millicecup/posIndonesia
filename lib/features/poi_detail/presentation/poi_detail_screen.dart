@@ -97,7 +97,7 @@ class _PoiDetailBody extends ConsumerWidget {
             ),
           ),
         Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -232,21 +232,17 @@ class _SectionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         margin: const EdgeInsets.only(top: 10),
-        decoration: BoxDecoration(
-          border: Border.all(color: AppColors.lightGrey, width: 2),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (showTitle)
               Text(section.title,
-                  style: const TextStyle(fontWeight: FontWeight.w600)),
+                  style: Theme.of(context).textTheme.titleMedium),
             for (final p in section.paragraphs)
               Padding(
                 padding: const EdgeInsets.only(top: 10),
-                child: Text(p, style: const TextStyle(height: 1.4)),
+                child: Text(p, style: Theme.of(context).textTheme.bodyLarge),
               ),
             const SizedBox(height: 12),
             if (section.images.isNotEmpty)
