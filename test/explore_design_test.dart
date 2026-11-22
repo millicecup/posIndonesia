@@ -69,10 +69,10 @@ void main() {
                   child: child!))));
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
-      expect(find.text('Panduan 1/10'), findsOneWidget);
+      expect(find.text('Panduan 1/11'), findsOneWidget);
       final tourBottom =
           tester.getBottomLeft(find.text('Mulai tur terpandu')).dy;
-      final tipTop = tester.getTopLeft(find.text('Panduan 1/10')).dy;
+      final tipTop = tester.getTopLeft(find.text('Panduan 1/11')).dy;
       expect(tipTop, greaterThan(tourBottom));
       expect(tipTop - tourBottom, lessThan(100));
       const titles = [
@@ -81,25 +81,26 @@ void main() {
         'Lihat lokasi koleksi',
         'Kenali pameran lewat kamera',
         'Pindai QR di dekat koleksi',
+        'Buka cerita koleksi',
         'Kembali ke Jelajah',
         'Denah selalu mudah dijangkau',
         'Prangkomu tersimpan di Album',
         'Pantau perjalananmu',
         'Butuh panduan lagi?'
       ];
-      for (var step = 1; step <= 10; step++) {
-        expect(find.text('Panduan $step/10'), findsOneWidget);
+      for (var step = 1; step <= 11; step++) {
+        expect(find.text('Panduan $step/11'), findsOneWidget);
         expect(find.text(titles[step - 1]), findsOneWidget);
         expect(router.routeInformationProvider.value.uri.path, '/explore');
-        if (step == 8) {
+        if (step == 9) {
           final album =
               tester.getRect(find.byType(NavigationDestination).at(2));
           final tooltip =
               tester.getRect(find.text('Prangkomu tersimpan di Album'));
           expect(tooltip.bottom, lessThan(album.top));
         }
-        final next = find.text(step == 10 ? 'Mulai menjelajah' : 'Lanjut');
-        if (step == 10) {
+        final next = find.text(step == 11 ? 'Mulai menjelajah' : 'Lanjut');
+        if (step == 11) {
           expect(tester.widget<Text>(next).maxLines, 1);
           expect(
               tester
@@ -119,10 +120,10 @@ void main() {
       await tester.pumpAndSettle();
       router.go('/explore');
       await tester.pumpAndSettle();
-      expect(find.text('Panduan 1/10'), findsNothing);
+      expect(find.text('Panduan 1/11'), findsNothing);
       await tester.tap(find.byTooltip('Tutorial penggunaan'));
       await tester.pumpAndSettle();
-      expect(find.text('Panduan 1/10'), findsOneWidget);
+      expect(find.text('Panduan 1/11'), findsOneWidget);
       await tester.tap(find.text('Lewati'));
       await tester.pumpAndSettle();
       expect(
