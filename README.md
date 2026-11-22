@@ -77,3 +77,5 @@ APK release masih ditandatangani dengan debug key (bawaan template Flutter): bis
 ## Computer vision (branch integrasi)
 
 Fitur Kenali memakai SIFT offline Android, digabung dengan branch QR P01–P11 dan desain terbaru. Lihat [panduan CV, APK dan build lokal](docs/COMPUTER_VISION.md).
+
+Untuk anggota tim yang akan menambah foto ruangan atau panel, ikuti [panduan menambah referensi CV dan membangun ulang APK](docs/PANDUAN_TAMBAH_REFERENSI_CV.md).

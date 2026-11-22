@@ -62,3 +62,7 @@ android/gradlew.bat -p android assembleRelease --no-daemon -Ptarget-platform=and
 ```
 
 Verifikasi APK: tanda tangan valid; hanya ARM64; indeks SIFT 29 referensi dan QR P01–P11 terbundel. Ukuran 96.404.410 byte. Tanda tangan berbeda dari APK v3.6 pada repo, sehingga bukan pembaruan langsung untuk pemasangan v3.6. Jangan menghapus data kunjungan untuk memaksa pembaruan. Kamera fisik museum belum diuji.
+
+## Menambah referensi bersama tim
+
+Ikuti [panduan penambahan foto, ekspor indeks, dan build APK](PANDUAN_TAMBAH_REFERENSI_CV.md) untuk memperbarui pengenalan di branch `computer-vision`.
