@@ -16,10 +16,16 @@ class Recognizer:
     def __init__(self):
         self.sift=cv2.SIFT_create(nfeatures=2200)
         self.refs=[]
+        selection=json.loads((ROOT/"reference_selection.json").read_text(encoding="utf8"))
         for folder in sorted((ROOT/'data').glob('POI*')):
             if not folder.is_dir() or not folder.name[3:].isdigit(): continue
             i=int(folder.name[3:])-1
-            for path in sorted((folder/'images').iterdir()):
+            paths=sorted((folder/'images').iterdir())
+            if folder.name in selection:
+                paths=[folder/'images'/name for name in selection[folder.name]]
+                for path in paths:
+                    if not path.is_file(): raise ValueError(f'Referensi lokasi tidak ditemukan: {path}')
+            for path in paths:
                 if path.suffix.lower() not in ('.jpg','.jpeg','.png'): continue
                 im=load(path)
                 if im is None: raise ValueError(f'Gambar rusak: {path}')
