@@ -51,3 +51,5 @@ Hasil sesi ini: 36/36 transformasi sintetis sesuai POI; 3/3 negatif ditolak. Med
 ## Koreksi referensi lokasi
 
 `reference_selection.json` memilih foto lokasi untuk POI002 (Lorong Awal dan Ruang 4), POI006 (panel Kode Pos), POI007 (lemari prangko geser). Foto Gedung PTT, potret Marsoedi dan close-up/arsip prangko tidak lagi diindeks untuk ketiga POI tersebut, tetapi file aslinya tetap disimpan. Foto pertama dalam daftar menjadi contoh utama galeri. POI lain belum dikurasi pada koreksi ini. Indeks aktif kini 29 foto. Hasil 36/36 di atas adalah pengujian versi sebelumnya; lihat location_evaluation.json untuk pengujian koreksi lokasi.
+
+Foto kartu galeri dipisahkan dari referensi deteksi: POI002 menampilkan Gedung PTT, POI006 potret Marsoedi, POI007 Penny Black. Klik kartu tetap menguji foto lokasi yang aktif pada indeks, bukan gambar cover. Referensi deteksi ruangan/panel tetap digunakan.
