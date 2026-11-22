@@ -1,6 +1,6 @@
 {
   "format": "JPSIFT01",
-  "references": 29,
+  "references": 36,
   "poiIds": [
     "P01",
     "P02",
@@ -31,13 +31,19 @@
       "poi_id": "POI002",
       "app_poi_id": "P02",
       "name": "Sejarah Pos",
-      "reference": "data/POI002/images/Sejarah Pos (Lorong Awal).jpg"
+      "reference": "data/POI002/images/Gedung PTT.jpg"
     },
     {
       "poi_id": "POI002",
       "app_poi_id": "P02",
       "name": "Sejarah Pos",
       "reference": "data/POI002/images/Sejarah Gedung PTT (Ruang 4).jpg"
+    },
+    {
+      "poi_id": "POI002",
+      "app_poi_id": "P02",
+      "name": "Sejarah Pos",
+      "reference": "data/POI002/images/Sejarah Pos (Lorong Awal).jpg"
     },
     {
       "poi_id": "POI003",
@@ -121,13 +127,49 @@
       "poi_id": "POI006",
       "app_poi_id": "P06",
       "name": "Kode Pos",
+      "reference": "data/POI006/images/1. Marsoedi.png"
+    },
+    {
+      "poi_id": "POI006",
+      "app_poi_id": "P06",
+      "name": "Kode Pos",
       "reference": "data/POI006/images/2. Kode Pos.jpeg"
     },
     {
       "poi_id": "POI007",
       "app_poi_id": "P07",
       "name": "Koleksi Prangko",
+      "reference": "data/POI007/images/Penny Black.jpg"
+    },
+    {
+      "poi_id": "POI007",
+      "app_poi_id": "P07",
+      "name": "Koleksi Prangko",
+      "reference": "data/POI007/images/Prangko Cerita Rakyat 1.png"
+    },
+    {
+      "poi_id": "POI007",
+      "app_poi_id": "P07",
+      "name": "Koleksi Prangko",
+      "reference": "data/POI007/images/Prangko Cerita Rakyat 2.png"
+    },
+    {
+      "poi_id": "POI007",
+      "app_poi_id": "P07",
+      "name": "Koleksi Prangko",
+      "reference": "data/POI007/images/Prangko Emas.png"
+    },
+    {
+      "poi_id": "POI007",
+      "app_poi_id": "P07",
+      "name": "Koleksi Prangko",
       "reference": "data/POI007/images/Prangko Geser.jpg"
+    },
+    {
+      "poi_id": "POI007",
+      "app_poi_id": "P07",
+      "name": "Koleksi Prangko",
+      "reference": "data/POI007/images/Sir Rowland Hill.jpg"
     },
     {
       "poi_id": "POI008",

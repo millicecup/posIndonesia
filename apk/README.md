@@ -1,12 +1,14 @@
-# JejakPOS computer vision — APK uji ARM64
+# JejakPOS computer vision semua foto
 
-Unduh [JejakPOS-computer-vision-arm64.apk](JejakPOS-computer-vision-arm64.apk). Menggabungkan branch QR P01–P11/desain terbaru dengan SIFT offline pada Kenali. Kamera otomatis terbuka saat Kenali dipilih.
+Unduh [JejakPOS-computer-vision-arm64.apk](JejakPOS-computer-vision-arm64.apk). Versi **3.6.2-cv**, nomor build **7**, ARM64. Seluruh **36 foto** pada folder POI001–POI011 diaktifkan sebagai referensi, termasuk foto arsip, potret, prangko dan ruangan. QR P01–P11 dan desain terbaru tetap tergabung.
 
-Paket ditandatangani dengan kunci debug proyek; versionName 3.6.1-local-cv, versionCode 6. Paket ARM64 untuk uji internal, shrinking tidak diaktifkan. Kamera Android fisik dan akurasi museum belum diuji langsung. Lihat [panduan CV](../docs/COMPUTER_VISION.md).
+Tanda tangan sama dengan APK CV versi sebelumnya (nomor 6), sehingga dapat memperbarui pemasangan versi CV tersebut. Kuncinya tetap berbeda dari APK v3.6 asli. Jangan menghapus data kunjungan untuk memaksa pembaruan.
 
-Tanda tangan APK ini berbeda dari JejakPOS-maps-arm64-v3.6.apk, sehingga Android tidak menerima pemasangan sebagai pembaruan langsung. Jangan menghapus pemasangan lama jika data kunjungannya belum diamankan.
+36/36 referensi lolos uji sintetis perspektif/pencahayaan; 3 negatif sintetis ditolak. Kamera museum belum diuji langsung. APK ini untuk uji internal, shrinking dimatikan dan lint vital dilewati pada build distribusi uji.
 
-SHA-256: `468a40e3190b7f5096d54d951f39dd9ff8cc2992bb058353cac76f6cfb8255ed`
+Ukuran 97762074 byte. SHA-256: `fb658c52913580a8a9c086186cbbf0ec3dac85c575cb8097bbd4f38db910f71c`.
+
+Lihat [panduan CV](../docs/COMPUTER_VISION.md) dan [panduan menambah referensi](../docs/PANDUAN_TAMBAH_REFERENSI_CV.md).
 
 ---
 

@@ -1,37 +1,52 @@
 # JejakPos computer vision
 
-Branch `computer-vision` menggabungkan source `main` v3.6, seluruh perubahan `codex/add-qr-poi-7-11` (sampai commit 8e5fea6), dan pengenalan SIFT pada fitur **Kenali**.
+Branch `computer-vision` menggabungkan source main v3.6, branch QR P01–P11 beserta desain terbarunya, dan pengenalan SIFT pada fitur **Kenali**.
 
-## Aplikasi
+## Aplikasi terbaru
 
-APK ARM64 hasil integrasi tersedia di `apk/JejakPOS-computer-vision-arm64.apk` setelah build selesai. APK untuk uji internal, menggunakan penandatanganan debug sesuai konfigurasi proyek. Cek kecocokan tanda tangan sebelum memperbarui pemasangan lama; jangan hapus data kunjungan untuk memaksa pembaruan.
+APK uji ARM64 ada di [JejakPOS-computer-vision-arm64.apk](../apk/JejakPOS-computer-vision-arm64.apk). Versi semua foto adalah **3.6.2-cv**, nomor build **7**. Buka aplikasi → Kenali → izinkan kamera → arahkan ke gambar, panel, atau ruangan POI → tiga hasil konsisten → informasi POI. Foto contoh dan pilihan POI manual tidak ditampilkan di halaman Kenali.
 
-Alur: buka aplikasi → Kenali → berikan izin kamera → arahkan kamera ke panel/ruangan POI → tiga hasil konsisten → informasi POI. Layar Kenali tidak menyediakan pilihan POI manual maupun foto contoh. QR tetap fitur terpisah dan mendukung P01–P11.
+## Semua foto menjadi referensi
+
+Seluruh **36 foto** dalam `tools/vision/demo/data/POI001/images` sampai `POI011/images` menjadi referensi aktif. Ini mencakup foto ruangan, panel, arsip, potret tokoh, prangko dan foto studio yang ada pada dataset. Foto tampilan koleksi tetap terpisah dari konfigurasi referensi CV.
+
+`tools/vision/demo/reference_selection.json` sekarang berisi `{}`. Dengan konfigurasi ini, setiap JPG/JPEG/PNG yang ditambahkan ke folder POI otomatis ikut saat indeks diekspor ulang. Jika tim menambahkan daftar nama foto untuk POI tertentu ke JSON tersebut, hanya foto yang tercantum yang dipakai pada POI itu.
+
+P01–P11 mengikuti nomor folder POI001–POI011. P12 dan P13 belum mempunyai referensi pada dataset ini dan belum didukung daftar SIFT.
 
 ## Android offline
 
-`SiftVision.java` menjalankan OpenCV pada worker thread native. Indeks SIFT 29 referensi untuk P01–P11 dibundel di `android/app/src/main/assets/jejakpos_sift/`. Flutter mengirim bidang luminans kamera tanpa crop embedding 224px. Ratio test, RANSAC, jumlah/sebaran inlier dan bentuk proyeksi memverifikasi kandidat; hasil ambigu/tidak dikenal tidak memicu POI. Tiga frame yang diterima berurutan diteruskan melalui `TriggerSource.vision` ke alur informasi dan narasi aplikasi. Android tidak memerlukan server Python atau internet untuk pengenalan ini. Jalur embedding lama dipertahankan untuk platform non-Android yang mendukungnya.
+`SiftVision.java` menjalankan OpenCV pada worker thread native. Indeks berada di `android/app/src/main/assets/jejakpos_sift/`. Flutter mengirim bidang luminans kamera tanpa crop embedding 224px. Ratio test, RANSAC, jumlah/sebaran inlier dan bentuk proyeksi memverifikasi kandidat. Hasil ambigu/tidak dikenal tidak memicu POI. Tiga frame yang diterima berurutan diteruskan lewat `TriggerSource.vision` ke alur informasi dan narasi aplikasi.
 
-Sumber referensi ada di `tools/vision/demo/data`. Foto tampilan koleksi dipisahkan dari referensi deteksi. POI002 memakai Lorong Awal dan Ruang 4; POI006 memakai panel Kode Pos; POI007 memakai lemari prangko geser. POI lain masih mencakup foto konten dalam foldernya. P12 dan P13 belum memiliki referensi pada dataset ZIP.
+Android tidak memerlukan server Python atau internet untuk pengenalan SIFT. Jalur embedding lama dipertahankan untuk platform non-Android yang mendukungnya.
 
-Bangun ulang indeks:
+Bangun ulang indeks setelah menambah foto:
 
 ```powershell
 python -m pip install -r tools/vision/demo/requirements.txt
 python tools/vision/export_sift_android.py
 ```
 
-## Build
+Lalu build APK baru; mengganti foto atau indeks pada GitHub tidak memperbarui APK yang sudah terpasang. Ikuti [panduan lengkap untuk anggota tim](PANDUAN_TAMBAH_REFERENSI_CV.md).
 
-Gunakan Flutter, Android SDK, serta JDK 21 dengan Gradle 8.14.3 / AGP 8.11.1 yang dikonfigurasi branch ini. JDK 25 tidak kompatibel dengan wrapper tersebut. Konfigurasikan JDK Flutter ke JDK 21 pada mesin build sebelum menjalankan:
+## Build APK uji
+
+Konfigurasi yang dipakai: Flutter 3.47.9, JDK 21, Android SDK 36, Gradle 8.14.3, AGP 8.11.1. JDK 25 tidak kompatibel dengan wrapper Gradle branch ini.
 
 ```powershell
 flutter pub get
-flutter test
-flutter build apk --release --target-platform android-arm64 --build-name=3.6.1-local-cv --build-number=6
+flutter build apk --config-only --release --target-platform android-arm64 --build-name=3.6.2-cv --build-number=7
 ```
 
-Build lokal sesi pengembangan menjalankan `android/gradlew.bat assembleRelease --no-daemon -Ptarget-platform=android-arm64 -Ptarget=lib/main.dart -Ptree-shake-icons=true` dengan JAVA_HOME menunjuk JDK 21. Hasil Gradle ada di `build/app/outputs/apk/release/app-release.apk`.
+Dengan JAVA_HOME menunjuk JDK 21:
+
+```powershell
+.\android\gradlew.bat -p android :app:assembleRelease --no-daemon "-Ptarget-platform=android-arm64" "-Ptarget=lib/main.dart" "-Ptree-shake-icons=true" "-Pdisable-abi-filtering=true" "-Pshrink=false" -x lintVitalRelease -x lintVitalAnalyzeRelease -x lintVitalReportRelease
+```
+
+Hasil: `build/app/outputs/apk/release/app-release.apk`. Distribusi uji ini mematikan shrinking dan melewati lint vital; kompilasi dan penandatanganan APK tetap berjalan. APK ini untuk pengujian internal, bukan rilis Play Store.
+
+Gunakan kunci yang sama untuk memperbarui APK yang sudah terpasang. Kunci APK CV berbeda dari APK v3.6 asli pada repo. Jangan menghapus data kunjungan untuk memaksa pembaruan.
 
 ## Pratinjau laptop
 
@@ -41,28 +56,11 @@ python -m pip install -r tools/vision/demo/requirements.txt
 python tools/vision/serve_local_app.py
 ```
 
-Buka http://127.0.0.1:8787/. Bingkai HP memuat Flutter web aplikasi lengkap. Pada browser, Kenali memakai kamera browser dan backend CV lokal pada origin yang sama. Izinkan kamera; tidak ada pilihan foto contoh. Ini bukan emulator APK. Server hanya mendengarkan loopback dan tidak dirancang untuk deployment publik.
+Buka http://127.0.0.1:8787/. Bingkai HP memuat aplikasi Flutter web lengkap. Kenali memakai kamera browser dan backend CV lokal pada origin yang sama. Kamera membutuhkan izin browser. Ini bukan emulator APK; server hanya mendengarkan loopback dan tidak dirancang sebagai server publik.
 
-## Validasi dan batas
+## Validasi
 
-- 29/29 transformasi perspektif/pencahayaan dari referensi dikenali pada pengujian desktop; 3 negatif sintetis ditolak. Ini bukan akurasi foto kamera independen.
-- Tes integrasi controller memeriksa ID P01–P11, tiga frame, penolakan hasil ambigu/tidak dikenal, serta pencegahan trigger ulang.
-- Suite gabungan berisi 148 tes: 146 lolos pada suite utama dan dua tes tutorial lolos setelah penyesuaian ke 11 langkah.
-- Gambar QR P07–P11 didekode dan sesuai ID dataset.
-- Kamera Android fisik, latensi SIFT pada HP, dan akurasi museum belum diuji langsung. Emulator lokal tidak dapat dijalankan karena akselerasi virtualisasi tidak tersedia.
-
-Uji museum tetap diperlukan: ambil foto baru dari sudut/jarak pengunjung, sisihkan sesi pengambilan untuk evaluasi, ukur false accept/recall dan latensi, serta tambah referensi lokasi terutama pada POI yang masih memakai foto konten.
-
-## APK uji yang dibagikan
-
-Paket ARM64 memakai versionName 3.6.1-local-cv / versionCode 6 dan kunci debug proyek. Build distribusi uji mematikan shrinking (`-Pshrink=false`) serta tidak menjalankan lint vital; kompilasi Kotlin/Java/Dart dan pengemasan tetap dijalankan. Ini paket pengujian internal, bukan build untuk Play Store. Perintah tepatnya:
-
-```powershell
-android/gradlew.bat -p android assembleRelease --no-daemon -Ptarget-platform=android-arm64 -Ptarget=lib/main.dart -Ptree-shake-icons=true -Pdisable-abi-filtering=true -Pshrink=false -x lintVitalRelease -x lintVitalAnalyzeRelease -x lintVitalReportRelease
-```
-
-Verifikasi APK: tanda tangan valid; hanya ARM64; indeks SIFT 29 referensi dan QR P01–P11 terbundel. Ukuran 96.404.410 byte. Tanda tangan berbeda dari APK v3.6 pada repo, sehingga bukan pembaruan langsung untuk pemasangan v3.6. Jangan menghapus data kunjungan untuk memaksa pembaruan. Kamera fisik museum belum diuji.
-
-## Menambah referensi bersama tim
-
-Ikuti [panduan penambahan foto, ekspor indeks, dan build APK](PANDUAN_TAMBAH_REFERENSI_CV.md) untuk memperbarui pengenalan di branch `computer-vision`.
+- Semua **36/36 foto** dikenali sesuai POI setelah transformasi perspektif dan pencahayaan pada pengujian desktop. Gambar kosong, noise dan gradien ditolak (3/3). Laporan: `tools/vision/demo/evaluation.json`.
+- Pengujian tersebut memakai transformasi dari referensi yang sama, bukan foto kamera independen atau ukuran akurasi di museum.
+- Tes integrasi controller memeriksa ID P01–P11, tiga frame, penolakan hasil ambigu/tidak dikenal, serta pencegahan trigger ulang. Suite gabungan sebelumnya berisi 148 tes yang lulus setelah dua tes tutorial diperbarui.
+- Kamera Android fisik, latensi SIFT pada HP, dan akurasi museum tetap perlu diuji langsung. Gunakan foto baru dari sudut, jarak, dan sesi pengambilan berbeda; uji juga objek yang bukan POI.

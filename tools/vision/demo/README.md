@@ -57,3 +57,7 @@ Foto kartu galeri dipisahkan dari referensi deteksi: POI002 menampilkan Gedung P
 ## Uji menyeluruh terbaru
 
 29/29 referensi aktif dari 11 POI lolos transformasi perspektif dan pencahayaan; 3/3 negatif sintetis ditolak. evaluation.json kini memuat hasil indeks terbaru. Median 1.71 detik. Ini bukan akurasi kamera lapangan.
+
+## Referensi aktif versi semua foto
+
+Mulai build Android 3.6.2-cv (nomor 7), reference_selection.json kosong sehingga semua 36 foto di folder POI001–POI011 diindeks. Foto arsip, potret, prangko dan ruangan semuanya dapat dicocokkan ke POI masing-masing. Bagian koreksi lokasi dan hasil 29 referensi di atas adalah riwayat versi sebelumnya. Setelah menambah foto, ekspor ulang indeks dan build APK baru.

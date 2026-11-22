@@ -74,33 +74,17 @@ Pilih foto JPG, JPEG, atau PNG yang menampilkan ruangan, lemari, atau panel sepe
 
 `assets/images/pois/` berisi gambar tampilan koleksi. Menambah gambar di sana tidak otomatis menambah referensi SIFT. Mengubah referensi CV juga tidak otomatis mengganti foto kartu koleksi.
 
-## 4 Perbarui daftar foto yang dipakai
+## 4 Pastikan semua foto ikut dipakai
 
-Buka `tools/vision/demo/reference_selection.json`.
-
-- Jika POI memiliki entri di file ini, hanya nama foto yang tercantum yang akan dipakai.
-- Jika POI tidak memiliki entri, semua JPG/JPEG/PNG di folder `images` POI tersebut akan dipakai.
-
-Saat ini POI002, POI006, dan POI007 memiliki daftar pilihan khusus. Misalnya, setelah dua foto contoh pada langkah 3 benar-benar disalin, ubah daftar POI007 sehingga file lengkapnya menjadi:
+Buka `tools/vision/demo/reference_selection.json`. Bawaan branch sekarang adalah:
 
 ```json
-{
-  "POI002": [
-    "Sejarah Pos (Lorong Awal).jpg",
-    "Sejarah Gedung PTT (Ruang 4).jpg"
-  ],
-  "POI006": [
-    "2. Kode Pos.jpeg"
-  ],
-  "POI007": [
-    "Prangko Geser.jpg",
-    "poi007_lemari_depan_01.jpg",
-    "poi007_lemari_kiri_01.jpg"
-  ]
-}
+{}
 ```
 
-Pertahankan entri lain yang sudah ada jika teman tim telah menambahnya. Nama file, spasi, dan ekstensi harus sesuai. JSON tidak boleh memakai komentar atau koma setelah elemen terakhir. Untuk membatasi POI lain ke foto lokasi tertentu, tambahkan entri POI itu dengan daftar nama foto yang dipilih.
+Dengan konfigurasi kosong tersebut, semua JPG/JPEG/PNG pada setiap folder `POIxxx/images` otomatis masuk sebagai referensi. Untuk menambah foto, cukup salin gambar ke folder POI yang benar, lalu lanjutkan pemeriksaan dan ekspor indeks. Tidak perlu menulis nama setiap foto di JSON.
+
+Jika file ini berisi entri suatu POI dengan daftar nama foto, hanya file dalam daftar itu yang akan dipakai untuk POI tersebut. Hapus entri POI itu bila ingin kembali memakai semua fotonya. Nama file, spasi, dan ekstensi harus sesuai jika tim sengaja menggunakan daftar pilihan. JSON tidak boleh memakai komentar atau koma setelah elemen terakhir.
 
 ## 5 Periksa foto sebelum ekspor
 
@@ -133,7 +117,7 @@ Get-Content android/app/src/main/assets/jejakpos_sift/manifest.json -Raw |
   Select-Object references, poiIds
 ```
 
-Sebelum penambahan, indeks branch ini mempunyai 29 foto aktif. Jika hanya dua foto POI007 dalam contoh tadi yang ditambahkan, jumlahnya menjadi 31. Pastikan nama kedua foto muncul di bagian `sources` pada `manifest.json`.
+Sebelum penambahan, indeks branch ini mempunyai 36 foto aktif. Jika hanya dua foto POI007 dalam contoh tadi yang ditambahkan, jumlahnya menjadi 38. Pastikan nama kedua foto muncul di bagian `sources` pada `manifest.json`.
 
 Gunakan `export_sift_android.py` untuk SIFT Android. Script `build_vision_index.py` di folder yang sama membuat indeks embedding untuk jalur pengenalan lama dan tidak memperbarui `jejakpos_sift/index.bin`.
 
@@ -157,12 +141,12 @@ Hasilnya disimpan pada `tools/vision/demo/evaluation.json`. Pengujian ini menggu
 
 Koordinasikan dahulu kunci penandatanganan yang akan dipakai. Konfigurasi branch ini memakai `signingConfigs.getByName("debug")`; laptop lain dapat mempunyai debug keystore yang berbeda. Untuk memperbarui pemasangan yang sudah ada, gunakan kunci yang sama dengan APK yang terpasang. Keystore APK v3.6 berbeda dari APK CV pertama yang dibagikan. Jangan mengunggah keystore atau kata sandinya ke GitHub. Penjelasan penandatanganan tersedia di [dokumentasi Android](https://developer.android.com/studio/publish/app-signing).
 
-Contoh berikut membuat versi `3.6.2-cv`, nomor build `7`, setelah APK CV pertama bernomor `6`. Jika tim sudah menerbitkan nomor yang lebih tinggi, naikkan nomor tersebut lagi. Flutter memetakan `--build-name` ke `versionName` dan `--build-number` ke `versionCode`; lihat [dokumentasi build Android Flutter](https://docs.flutter.dev/deployment/android).
+Contoh berikut membuat versi `3.6.3-cv`, nomor build `8`, setelah APK semua foto bernomor `7`. Jika tim sudah menerbitkan nomor yang lebih tinggi, naikkan nomor tersebut lagi. Flutter memetakan `--build-name` ke `versionName` dan `--build-number` ke `versionCode`; lihat [dokumentasi build Android Flutter](https://docs.flutter.dev/deployment/android).
 
 Siapkan file konfigurasi dan wrapper melalui Flutter:
 
 ```powershell
-flutter build apk --config-only --release --target-platform android-arm64 --build-name=3.6.2-cv --build-number=7
+flutter build apk --config-only --release --target-platform android-arm64 --build-name=3.6.3-cv --build-number=8
 ```
 
 Lalu bangun APK uji dengan pengaturan yang digunakan untuk distribusi uji branch ini. Pastikan `JAVA_HOME` masih menunjuk JDK 21.
@@ -200,7 +184,7 @@ $jejakposHash = (Get-FileHash $jejakposApk -Algorithm SHA256).Hash.ToLower()
 Get-Item $jejakposApk | Select-Object Name, Length
 ```
 
-APK pertama berukuran sekitar 96 MB. Penambahan referensi bisa membuat ukuran APK bertambah. GitHub memblokir file Git yang lebih besar dari 100 MiB; periksa juga ukuran `index.bin`. Jika APK melewati batas tersebut, bagikan melalui GitHub Releases dan perbarui tautan unduh, jangan memaksakan commit APK ke Git. Lihat [batas file dan distribusi binary GitHub](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github).
+APK pertama sebelum seluruh foto diaktifkan berukuran sekitar 96 MB. Penambahan referensi bisa membuat ukuran APK bertambah. GitHub memblokir file Git yang lebih besar dari 100 MiB; periksa juga ukuran `index.bin`. Jika APK melewati batas tersebut, bagikan melalui GitHub Releases dan perbarui tautan unduh, jangan memaksakan commit APK ke Git. Lihat [batas file dan distribusi binary GitHub](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github).
 
 Jika ukuran APK masih di bawah batas, siapkan commit:
 

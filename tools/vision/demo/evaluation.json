@@ -1,7 +1,7 @@
 {
   "kind": "synthetic transforms of reference images, NOT held-out real camera accuracy",
-  "references": 29,
-  "passed": 29,
+  "references": 36,
+  "passed": 36,
   "negatives": [
     {
       "name": "blank",
@@ -25,203 +25,252 @@
       "expected": "POI001",
       "predicted": "POI001",
       "passed": true,
-      "elapsed_ms": 1536
+      "elapsed_ms": 2445
     },
     {
       "reference": "data/POI001/images/Surat Emas Terpanjang.png",
       "expected": "POI001",
       "predicted": "POI001",
       "passed": true,
-      "elapsed_ms": 1207
+      "elapsed_ms": 1585
     },
     {
-      "reference": "data/POI002/images/Sejarah Pos (Lorong Awal).jpg",
+      "reference": "data/POI002/images/Gedung PTT.jpg",
       "expected": "POI002",
       "predicted": "POI002",
       "passed": true,
-      "elapsed_ms": 1556
+      "elapsed_ms": 3781
     },
     {
       "reference": "data/POI002/images/Sejarah Gedung PTT (Ruang 4).jpg",
       "expected": "POI002",
       "predicted": "POI002",
       "passed": true,
-      "elapsed_ms": 3551
+      "elapsed_ms": 6215
+    },
+    {
+      "reference": "data/POI002/images/Sejarah Pos (Lorong Awal).jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 2806
     },
     {
       "reference": "data/POI003/images/Sejarah Kepemimpinan Pos (Ruang 2) (1).jpg",
       "expected": "POI003",
       "predicted": "POI003",
       "passed": true,
-      "elapsed_ms": 2416
+      "elapsed_ms": 3665
     },
     {
       "reference": "data/POI003/images/Tangan Tera.jpeg",
       "expected": "POI003",
       "predicted": "POI003",
       "passed": true,
-      "elapsed_ms": 1533
+      "elapsed_ms": 2723
     },
     {
       "reference": "data/POI004/images/Koleksi lencana dan topi dinas petugas pos di Museum Pos Indonesia.jpg",
       "expected": "POI004",
       "predicted": "POI004",
       "passed": true,
-      "elapsed_ms": 1476
+      "elapsed_ms": 2187
     },
     {
       "reference": "data/POI004/images/Koleksi lencana dinas petugas pos di Museum Pos Indonesia..jpg",
       "expected": "POI004",
       "predicted": "POI004",
       "passed": true,
-      "elapsed_ms": 1530
+      "elapsed_ms": 2389
     },
     {
       "reference": "data/POI004/images/Koleksi seragam petugas pos di Museum Pos Indonesia (tampak kedua).jpg",
       "expected": "POI004",
       "predicted": "POI004",
       "passed": true,
-      "elapsed_ms": 1291
+      "elapsed_ms": 2245
     },
     {
       "reference": "data/POI004/images/Koleksi seragam petugas pos di Museum Pos Indonesia (tampak pertama).jpg",
       "expected": "POI004",
       "predicted": "POI004",
       "passed": true,
-      "elapsed_ms": 1708
+      "elapsed_ms": 1865
     },
     {
       "reference": "data/POI004/images/Photo Studio Seragam Coklat Tua.png",
       "expected": "POI004",
       "predicted": "POI004",
       "passed": true,
-      "elapsed_ms": 1220
+      "elapsed_ms": 1305
     },
     {
       "reference": "data/POI004/images/Photo Studio Seragam Hijau.png",
       "expected": "POI004",
       "predicted": "POI004",
       "passed": true,
-      "elapsed_ms": 1174
+      "elapsed_ms": 2480
     },
     {
       "reference": "data/POI004/images/Photo Studio Seragam Khaki.png",
       "expected": "POI004",
       "predicted": "POI004",
       "passed": true,
-      "elapsed_ms": 1314
+      "elapsed_ms": 2571
     },
     {
       "reference": "data/POI004/images/Photo Studio Topi Coklat Tua.png",
       "expected": "POI004",
       "predicted": "POI004",
       "passed": true,
-      "elapsed_ms": 1063
+      "elapsed_ms": 1853
     },
     {
       "reference": "data/POI004/images/Photo Studio Topi Hijau.png",
       "expected": "POI004",
       "predicted": "POI004",
       "passed": true,
-      "elapsed_ms": 1409
+      "elapsed_ms": 1667
     },
     {
       "reference": "data/POI004/images/Photo Studio Topi Khaki.png",
       "expected": "POI004",
       "predicted": "POI004",
       "passed": true,
-      "elapsed_ms": 1089
+      "elapsed_ms": 1331
     },
     {
       "reference": "data/POI005/images/Loc Trigger_Pembuatan Perangko (Ruang 2).jpg",
       "expected": "POI005",
       "predicted": "POI005",
       "passed": true,
-      "elapsed_ms": 1888
+      "elapsed_ms": 1893
+    },
+    {
+      "reference": "data/POI006/images/1. Marsoedi.png",
+      "expected": "POI006",
+      "predicted": "POI006",
+      "passed": true,
+      "elapsed_ms": 1838
     },
     {
       "reference": "data/POI006/images/2. Kode Pos.jpeg",
       "expected": "POI006",
       "predicted": "POI006",
       "passed": true,
-      "elapsed_ms": 2072
+      "elapsed_ms": 4049
+    },
+    {
+      "reference": "data/POI007/images/Penny Black.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 1808
+    },
+    {
+      "reference": "data/POI007/images/Prangko Cerita Rakyat 1.png",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 3461
+    },
+    {
+      "reference": "data/POI007/images/Prangko Cerita Rakyat 2.png",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 3475
+    },
+    {
+      "reference": "data/POI007/images/Prangko Emas.png",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 2392
     },
     {
       "reference": "data/POI007/images/Prangko Geser.jpg",
       "expected": "POI007",
       "predicted": "POI007",
       "passed": true,
-      "elapsed_ms": 3472
+      "elapsed_ms": 3803
+    },
+    {
+      "reference": "data/POI007/images/Sir Rowland Hill.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 2131
     },
     {
       "reference": "data/POI008/images/Lokasi trigger Mas Soeharto.jpg",
       "expected": "POI008",
       "predicted": "POI008",
       "passed": true,
-      "elapsed_ms": 1885
+      "elapsed_ms": 3193
     },
     {
       "reference": "data/POI008/images/Monumen Perjuangan AMPTT.jpg",
       "expected": "POI008",
       "predicted": "POI008",
       "passed": true,
-      "elapsed_ms": 2093
+      "elapsed_ms": 4946
     },
     {
       "reference": "data/POI008/images/Panel biografi R. Dijar.jpg",
       "expected": "POI008",
       "predicted": "POI008",
       "passed": true,
-      "elapsed_ms": 2775
+      "elapsed_ms": 4240
     },
     {
       "reference": "data/POI008/images/Panel informasi Mas Soeharto.jpg",
       "expected": "POI008",
       "predicted": "POI008",
       "passed": true,
-      "elapsed_ms": 2874
+      "elapsed_ms": 5241
     },
     {
       "reference": "data/POI008/images/Patung Mas Soeharto.jpg",
       "expected": "POI008",
       "predicted": "POI008",
       "passed": true,
-      "elapsed_ms": 3561
+      "elapsed_ms": 4108
     },
     {
       "reference": "data/POI009/images/Brievenbus 2.jpg",
       "expected": "POI009",
       "predicted": "POI009",
       "passed": true,
-      "elapsed_ms": 2515
+      "elapsed_ms": 2569
     },
     {
       "reference": "data/POI009/images/Brievenbus.jpg",
       "expected": "POI009",
       "predicted": "POI009",
       "passed": true,
-      "elapsed_ms": 2441
+      "elapsed_ms": 2225
     },
     {
       "reference": "data/POI010/images/Lokasi trigger Mars Pos Indonesia.jpg",
       "expected": "POI010",
       "predicted": "POI010",
       "passed": true,
-      "elapsed_ms": 1929
+      "elapsed_ms": 2178
     },
     {
       "reference": "data/POI010/images/Partitur lagu Mars Pos Indonesia.jpg",
       "expected": "POI010",
       "predicted": "POI010",
       "passed": true,
-      "elapsed_ms": 2875
+      "elapsed_ms": 2364
     },
     {
       "reference": "data/POI011/images/Stampel Museum_Lantai 1.jpeg",
       "expected": "POI011",
       "predicted": "POI011",
       "passed": true,
-      "elapsed_ms": 1713
+      "elapsed_ms": 2235
     }
   ]
 }
