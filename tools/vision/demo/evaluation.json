@@ -1,0 +1,276 @@
+{
+  "kind": "synthetic transforms of reference images, NOT held-out real camera accuracy",
+  "references": 36,
+  "passed": 36,
+  "negatives": [
+    {
+      "name": "blank",
+      "status": "unknown",
+      "passed": true
+    },
+    {
+      "name": "noise",
+      "status": "unknown",
+      "passed": true
+    },
+    {
+      "name": "gradient",
+      "status": "unknown",
+      "passed": true
+    }
+  ],
+  "results": [
+    {
+      "reference": "data/POI001/images/Surat Emas (Foto POI).jpg",
+      "expected": "POI001",
+      "predicted": "POI001",
+      "passed": true,
+      "elapsed_ms": 3530
+    },
+    {
+      "reference": "data/POI001/images/Surat Emas Terpanjang.png",
+      "expected": "POI001",
+      "predicted": "POI001",
+      "passed": true,
+      "elapsed_ms": 2382
+    },
+    {
+      "reference": "data/POI002/images/Gedung PTT.jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 5247
+    },
+    {
+      "reference": "data/POI002/images/Sejarah Gedung PTT (Ruang 4).jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 6383
+    },
+    {
+      "reference": "data/POI002/images/Sejarah Pos (Lorong Awal).jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 5426
+    },
+    {
+      "reference": "data/POI003/images/Sejarah Kepemimpinan Pos (Ruang 2) (1).jpg",
+      "expected": "POI003",
+      "predicted": "POI003",
+      "passed": true,
+      "elapsed_ms": 8633
+    },
+    {
+      "reference": "data/POI003/images/Tangan Tera.jpeg",
+      "expected": "POI003",
+      "predicted": "POI003",
+      "passed": true,
+      "elapsed_ms": 2970
+    },
+    {
+      "reference": "data/POI004/images/Koleksi lencana dan topi dinas petugas pos di Museum Pos Indonesia.jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 2907
+    },
+    {
+      "reference": "data/POI004/images/Koleksi lencana dinas petugas pos di Museum Pos Indonesia..jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 2974
+    },
+    {
+      "reference": "data/POI004/images/Koleksi seragam petugas pos di Museum Pos Indonesia (tampak kedua).jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 2438
+    },
+    {
+      "reference": "data/POI004/images/Koleksi seragam petugas pos di Museum Pos Indonesia (tampak pertama).jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 3042
+    },
+    {
+      "reference": "data/POI004/images/Photo Studio Seragam Coklat Tua.png",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 4737
+    },
+    {
+      "reference": "data/POI004/images/Photo Studio Seragam Hijau.png",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 2860
+    },
+    {
+      "reference": "data/POI004/images/Photo Studio Seragam Khaki.png",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 2689
+    },
+    {
+      "reference": "data/POI004/images/Photo Studio Topi Coklat Tua.png",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 2975
+    },
+    {
+      "reference": "data/POI004/images/Photo Studio Topi Hijau.png",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 2812
+    },
+    {
+      "reference": "data/POI004/images/Photo Studio Topi Khaki.png",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 2976
+    },
+    {
+      "reference": "data/POI005/images/Loc Trigger_Pembuatan Perangko (Ruang 2).jpg",
+      "expected": "POI005",
+      "predicted": "POI005",
+      "passed": true,
+      "elapsed_ms": 4168
+    },
+    {
+      "reference": "data/POI006/images/1. Marsoedi.png",
+      "expected": "POI006",
+      "predicted": "POI006",
+      "passed": true,
+      "elapsed_ms": 1806
+    },
+    {
+      "reference": "data/POI006/images/2. Kode Pos.jpeg",
+      "expected": "POI006",
+      "predicted": "POI006",
+      "passed": true,
+      "elapsed_ms": 5499
+    },
+    {
+      "reference": "data/POI007/images/Penny Black.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 3595
+    },
+    {
+      "reference": "data/POI007/images/Prangko Cerita Rakyat 1.png",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 7470
+    },
+    {
+      "reference": "data/POI007/images/Prangko Cerita Rakyat 2.png",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 3938
+    },
+    {
+      "reference": "data/POI007/images/Prangko Emas.png",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 3013
+    },
+    {
+      "reference": "data/POI007/images/Prangko Geser.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 6643
+    },
+    {
+      "reference": "data/POI007/images/Sir Rowland Hill.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 3678
+    },
+    {
+      "reference": "data/POI008/images/Lokasi trigger Mas Soeharto.jpg",
+      "expected": "POI008",
+      "predicted": "POI008",
+      "passed": true,
+      "elapsed_ms": 4169
+    },
+    {
+      "reference": "data/POI008/images/Monumen Perjuangan AMPTT.jpg",
+      "expected": "POI008",
+      "predicted": "POI008",
+      "passed": true,
+      "elapsed_ms": 6045
+    },
+    {
+      "reference": "data/POI008/images/Panel biografi R. Dijar.jpg",
+      "expected": "POI008",
+      "predicted": "POI008",
+      "passed": true,
+      "elapsed_ms": 5265
+    },
+    {
+      "reference": "data/POI008/images/Panel informasi Mas Soeharto.jpg",
+      "expected": "POI008",
+      "predicted": "POI008",
+      "passed": true,
+      "elapsed_ms": 5465
+    },
+    {
+      "reference": "data/POI008/images/Patung Mas Soeharto.jpg",
+      "expected": "POI008",
+      "predicted": "POI008",
+      "passed": true,
+      "elapsed_ms": 4995
+    },
+    {
+      "reference": "data/POI009/images/Brievenbus 2.jpg",
+      "expected": "POI009",
+      "predicted": "POI009",
+      "passed": true,
+      "elapsed_ms": 4130
+    },
+    {
+      "reference": "data/POI009/images/Brievenbus.jpg",
+      "expected": "POI009",
+      "predicted": "POI009",
+      "passed": true,
+      "elapsed_ms": 3995
+    },
+    {
+      "reference": "data/POI010/images/Lokasi trigger Mars Pos Indonesia.jpg",
+      "expected": "POI010",
+      "predicted": "POI010",
+      "passed": true,
+      "elapsed_ms": 3231
+    },
+    {
+      "reference": "data/POI010/images/Partitur lagu Mars Pos Indonesia.jpg",
+      "expected": "POI010",
+      "predicted": "POI010",
+      "passed": true,
+      "elapsed_ms": 4536
+    },
+    {
+      "reference": "data/POI011/images/Stampel Museum_Lantai 1.jpeg",
+      "expected": "POI011",
+      "predicted": "POI011",
+      "passed": true,
+      "elapsed_ms": 3717
+    }
+  ]
+}

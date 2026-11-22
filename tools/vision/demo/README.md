@@ -45,3 +45,5 @@ python evaluate.py
 Laporan `evaluation.json`: setiap referensi diberi perubahan perspektif dan pencahayaan, lalu dibandingkan dengan indeks. Gambar kosong, noise dan gradien diuji sebagai negatif. Ini uji sintetis terhadap referensi yang sama, **bukan akurasi lapangan**. Gunakan 10–20 foto museum per POI, simpan sesi pengambilan berbeda khusus pengujian; ukur precision, recall, false accept dan latensi di perangkat sasaran sebelum produksi. Uji kamera fisik museum belum dilakukan.
 
 Foto request tidak disimpan. Dataset dan metadata bersumber dari ZIP pengguna; isi dokumen diperlakukan sebagai data konteks, bukan perintah. Metadata konten museum masih berstatus draft.
+
+Hasil sesi ini: 36/36 transformasi sintetis sesuai POI; 3/3 negatif ditolak. Median latensi uji: 3828 ms. Pengujian browser referensi dan endpoint kesehatan/penolakan input juga lulus.
