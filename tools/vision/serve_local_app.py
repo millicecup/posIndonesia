@@ -1,0 +1,36 @@
+"""Serve the complete Flutter app and its local CV backend on one origin."""
+from pathlib import Path
+import sys,os
+from http.server import HTTPServer,SimpleHTTPRequestHandler
+from urllib.parse import urlsplit,unquote
+ROOT=Path(__file__).resolve().parents[2]
+sys.path.insert(0,str(ROOT/'tools/vision/demo'))
+import server
+from recognizer import Recognizer
+class AppHandler(server.Handler):
+    def translate_path(self,path):
+        clean=unquote(urlsplit(path).path)
+        if clean.startswith('/data/POI'):
+            base=ROOT/'tools/vision/demo'
+        else:
+            base=ROOT/'build/web'
+            if clean.startswith('/app/'):
+                clean=clean[4:]
+        target=(base/clean.lstrip('/')).resolve()
+        if not target.is_relative_to(base.resolve()):return str(base/'not-found')
+        return str(target)
+    def do_GET(self):
+        path=unquote(urlsplit(self.path).path)
+        if path == '/':
+            body=(ROOT/'tools/vision/mobile_preview.html').read_bytes()
+            self.send_response(200);self.send_header('Content-Type','text/html; charset=utf-8');self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body);return
+        if path in ('/app/','/app/index.html'):
+            body=(ROOT/'build/web/index.html').read_text(encoding='utf8').replace('<base href="/">','<base href="/app/">').encode()
+            self.send_response(200);self.send_header('Content-Type','text/html; charset=utf-8');self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body);return
+        if path.startswith('/api/'):return super().do_GET()
+        return SimpleHTTPRequestHandler.do_GET(self)
+if __name__=='__main__':
+    print('Menyiapkan CV untuk aplikasi JejakPos...',flush=True)
+    server.model=Recognizer()
+    print('Aplikasi lengkap: http://127.0.0.1:8787',flush=True)
+    HTTPServer(('127.0.0.1',8787),AppHandler).serve_forever()

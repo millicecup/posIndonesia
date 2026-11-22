@@ -47,3 +47,8 @@ kotlin {
 flutter {
     source = "../.."
 }
+
+// Local Kenali integration: official OpenCV Android runtime.
+dependencies {
+    implementation("org.opencv:opencv:4.12.0")
+}

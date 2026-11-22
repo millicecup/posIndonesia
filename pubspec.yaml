@@ -36,6 +36,7 @@ dependencies:
   gal: ^2.3.3
   flutter_tts: ^4.2.5
   camera: 0.11.0+2
+  http: ^1.6.0
 
   # Computer vision: pengenalan pameran on-device (embedding MobileNetV3)
   tflite_flutter: ^0.11.0

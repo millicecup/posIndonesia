@@ -1,0 +1,193 @@
+{
+  "format": "JPSIFT01",
+  "references": 29,
+  "poiIds": [
+    "P01",
+    "P02",
+    "P03",
+    "P04",
+    "P05",
+    "P06",
+    "P07",
+    "P08",
+    "P09",
+    "P10",
+    "P11"
+  ],
+  "sources": [
+    {
+      "poi_id": "POI001",
+      "app_poi_id": "P01",
+      "name": "Komunikasi Nusantara",
+      "reference": "data/POI001/images/Surat Emas (Foto POI).jpg"
+    },
+    {
+      "poi_id": "POI001",
+      "app_poi_id": "P01",
+      "name": "Komunikasi Nusantara",
+      "reference": "data/POI001/images/Surat Emas Terpanjang.png"
+    },
+    {
+      "poi_id": "POI002",
+      "app_poi_id": "P02",
+      "name": "Sejarah Pos",
+      "reference": "data/POI002/images/Sejarah Pos (Lorong Awal).jpg"
+    },
+    {
+      "poi_id": "POI002",
+      "app_poi_id": "P02",
+      "name": "Sejarah Pos",
+      "reference": "data/POI002/images/Sejarah Gedung PTT (Ruang 4).jpg"
+    },
+    {
+      "poi_id": "POI003",
+      "app_poi_id": "P03",
+      "name": "Kepemimpinan Pos",
+      "reference": "data/POI003/images/Sejarah Kepemimpinan Pos (Ruang 2) (1).jpg"
+    },
+    {
+      "poi_id": "POI003",
+      "app_poi_id": "P03",
+      "name": "Kepemimpinan Pos",
+      "reference": "data/POI003/images/Tangan Tera.jpeg"
+    },
+    {
+      "poi_id": "POI004",
+      "app_poi_id": "P04",
+      "name": "Seragam Petugas Pos",
+      "reference": "data/POI004/images/Koleksi lencana dan topi dinas petugas pos di Museum Pos Indonesia.jpg"
+    },
+    {
+      "poi_id": "POI004",
+      "app_poi_id": "P04",
+      "name": "Seragam Petugas Pos",
+      "reference": "data/POI004/images/Koleksi lencana dinas petugas pos di Museum Pos Indonesia..jpg"
+    },
+    {
+      "poi_id": "POI004",
+      "app_poi_id": "P04",
+      "name": "Seragam Petugas Pos",
+      "reference": "data/POI004/images/Koleksi seragam petugas pos di Museum Pos Indonesia (tampak kedua).jpg"
+    },
+    {
+      "poi_id": "POI004",
+      "app_poi_id": "P04",
+      "name": "Seragam Petugas Pos",
+      "reference": "data/POI004/images/Koleksi seragam petugas pos di Museum Pos Indonesia (tampak pertama).jpg"
+    },
+    {
+      "poi_id": "POI004",
+      "app_poi_id": "P04",
+      "name": "Seragam Petugas Pos",
+      "reference": "data/POI004/images/Photo Studio Seragam Coklat Tua.png"
+    },
+    {
+      "poi_id": "POI004",
+      "app_poi_id": "P04",
+      "name": "Seragam Petugas Pos",
+      "reference": "data/POI004/images/Photo Studio Seragam Hijau.png"
+    },
+    {
+      "poi_id": "POI004",
+      "app_poi_id": "P04",
+      "name": "Seragam Petugas Pos",
+      "reference": "data/POI004/images/Photo Studio Seragam Khaki.png"
+    },
+    {
+      "poi_id": "POI004",
+      "app_poi_id": "P04",
+      "name": "Seragam Petugas Pos",
+      "reference": "data/POI004/images/Photo Studio Topi Coklat Tua.png"
+    },
+    {
+      "poi_id": "POI004",
+      "app_poi_id": "P04",
+      "name": "Seragam Petugas Pos",
+      "reference": "data/POI004/images/Photo Studio Topi Hijau.png"
+    },
+    {
+      "poi_id": "POI004",
+      "app_poi_id": "P04",
+      "name": "Seragam Petugas Pos",
+      "reference": "data/POI004/images/Photo Studio Topi Khaki.png"
+    },
+    {
+      "poi_id": "POI005",
+      "app_poi_id": "P05",
+      "name": "Pembuatan Prangko",
+      "reference": "data/POI005/images/Loc Trigger_Pembuatan Perangko (Ruang 2).jpg"
+    },
+    {
+      "poi_id": "POI006",
+      "app_poi_id": "P06",
+      "name": "Kode Pos",
+      "reference": "data/POI006/images/2. Kode Pos.jpeg"
+    },
+    {
+      "poi_id": "POI007",
+      "app_poi_id": "P07",
+      "name": "Koleksi Prangko",
+      "reference": "data/POI007/images/Prangko Geser.jpg"
+    },
+    {
+      "poi_id": "POI008",
+      "app_poi_id": "P08",
+      "name": "Mas Soeharto",
+      "reference": "data/POI008/images/Lokasi trigger Mas Soeharto.jpg"
+    },
+    {
+      "poi_id": "POI008",
+      "app_poi_id": "P08",
+      "name": "Mas Soeharto",
+      "reference": "data/POI008/images/Monumen Perjuangan AMPTT.jpg"
+    },
+    {
+      "poi_id": "POI008",
+      "app_poi_id": "P08",
+      "name": "Mas Soeharto",
+      "reference": "data/POI008/images/Panel biografi R. Dijar.jpg"
+    },
+    {
+      "poi_id": "POI008",
+      "app_poi_id": "P08",
+      "name": "Mas Soeharto",
+      "reference": "data/POI008/images/Panel informasi Mas Soeharto.jpg"
+    },
+    {
+      "poi_id": "POI008",
+      "app_poi_id": "P08",
+      "name": "Mas Soeharto",
+      "reference": "data/POI008/images/Patung Mas Soeharto.jpg"
+    },
+    {
+      "poi_id": "POI009",
+      "app_poi_id": "P09",
+      "name": "Kotak Pos",
+      "reference": "data/POI009/images/Brievenbus 2.jpg"
+    },
+    {
+      "poi_id": "POI009",
+      "app_poi_id": "P09",
+      "name": "Kotak Pos",
+      "reference": "data/POI009/images/Brievenbus.jpg"
+    },
+    {
+      "poi_id": "POI010",
+      "app_poi_id": "P10",
+      "name": "Mars Pos Indonesia",
+      "reference": "data/POI010/images/Lokasi trigger Mars Pos Indonesia.jpg"
+    },
+    {
+      "poi_id": "POI010",
+      "app_poi_id": "P10",
+      "name": "Mars Pos Indonesia",
+      "reference": "data/POI010/images/Partitur lagu Mars Pos Indonesia.jpg"
+    },
+    {
+      "poi_id": "POI011",
+      "app_poi_id": "P11",
+      "name": "Stempel Museum",
+      "reference": "data/POI011/images/Stampel Museum_Lantai 1.jpeg"
+    }
+  ]
+}
