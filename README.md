@@ -73,3 +73,7 @@ APK release masih ditandatangani dengan debug key (bawaan template Flutter): bis
 
 - Semua konten POI bertanda **[PERLU VALIDASI MUSEUM]** dan semua koordinat adalah **placeholder**. Lihat [docs/ASUMSI.md](docs/ASUMSI.md).
 - Penyimpanan hanya lokal (shared_preferences). Tidak ada sinkronisasi cloud.
+
+## Computer vision (branch integrasi)
+
+Fitur Kenali memakai SIFT offline Android, digabung dengan branch QR P01–P11 dan desain terbaru. Lihat [panduan CV, APK dan build lokal](docs/COMPUTER_VISION.md).
