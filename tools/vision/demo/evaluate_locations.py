@@ -1,7 +1,7 @@
 """Synthetic robustness checks only; not an independent accuracy benchmark."""
 import json
 import cv2,numpy as np
-from recognizer import Recognizer,ROOT,load,resize
+from recognizer import Recognizer,ROOT,DEMO_ROOT,load,resize
 model=Recognizer(); rows=[]
 for ref in model.refs:
     if ref['poi_id'] not in ('POI002','POI006','POI007'): continue
@@ -17,5 +17,5 @@ rng=np.random.default_rng(42); negatives=[]
 for name,im in [('blank',np.zeros((600,800,3),np.uint8)),('noise',rng.integers(0,256,(600,800,3),dtype=np.uint8)),('gradient',np.repeat(np.tile(np.arange(256,dtype=np.uint8),(600,4))[:,:800,None],3,axis=2))]:
     result=model.predict(im);negatives.append(dict(name=name,status=result['status'],passed=result['status']=='unknown'))
 report=dict(kind='synthetic transforms of reference images, NOT held-out real camera accuracy',references=len(rows),passed=sum(r['passed'] for r in rows),negatives=negatives,results=rows)
-(ROOT/'location_evaluation.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
+(DEMO_ROOT/'location_evaluation.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
 print(json.dumps({k:v for k,v in report.items() if k!='results'},indent=2))

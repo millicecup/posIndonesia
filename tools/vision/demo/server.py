@@ -2,8 +2,16 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from urllib.parse import urlsplit,unquote
 import argparse,json,os
 import cv2,numpy as np
-from recognizer import Recognizer,ROOT
+from recognizer import Recognizer,ROOT,DEMO_ROOT
 class Handler(SimpleHTTPRequestHandler):
+    def translate_path(self,path):
+        clean=unquote(urlsplit(path).path)
+        base=DEMO_ROOT
+        if clean.startswith('/assets/images/pois/'):
+            base=ROOT/'assets/images/pois'
+            clean=clean[len('/assets/images/pois'):]
+        target=(base/clean.lstrip('/')).resolve()
+        return str(target) if target.is_relative_to(base.resolve()) else str(base/'not-found')
     def reply(self,status,data):
         body=json.dumps(data,ensure_ascii=False).encode(); self.send_response(status); self.send_header('Content-Type','application/json; charset=utf-8'); self.send_header('Content-Length',str(len(body))); self.send_header('Cache-Control','no-store'); self.end_headers(); self.wfile.write(body)
     def do_GET(self):
@@ -11,7 +19,7 @@ class Handler(SimpleHTTPRequestHandler):
         if path=='/api/pois': return self.reply(200,model.catalog())
         if path=='/api/health': return self.reply(200,dict(ready=True,references=len(model.refs),pois=len(set(r['poi_id'] for r in model.refs))))
         if path=='/': self.path='/web/index.html'
-        elif not (path.startswith('/web/') or path.startswith('/data/POI')) or '..' in path.split('/'): return self.reply(404,dict(error='Not found'))
+        elif not (path.startswith('/web/') or path.startswith('/assets/images/pois/')) or '..' in path.split('/'): return self.reply(404,dict(error='Not found'))
         super().do_GET()
     def do_POST(self):
         if self.path!='/api/recognize': return self.reply(404,dict(error='Not found'))

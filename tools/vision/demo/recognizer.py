@@ -3,10 +3,50 @@ from pathlib import Path
 import json, time
 import cv2
 import numpy as np
-ROOT = Path(__file__).resolve().parent
-NAMES = ['Komunikasi Nusantara','Sejarah Pos','Kepemimpinan Pos','Seragam Petugas Pos','Pembuatan Prangko','Kode Pos','Koleksi Prangko','Mas Soeharto','Kotak Pos','Mars Pos Indonesia','Stempel Museum']
-# Current repository uses PRD v2 numbering. P12 and P13 have no reference folder.
-APP_IDS = [f'P{i:02d}' for i in range(1,12)]
+DEMO_ROOT = Path(__file__).resolve().parent
+ROOT = DEMO_ROOT.parents[2]
+
+def collect_asset_references(root=ROOT):
+    """Use current POI metadata, then the pNN filename for additional asset photos."""
+    import re
+    root = Path(root)
+    asset_dir = root / 'assets/images/pois'
+    dataset = json.loads((root / 'assets/data/pois.json').read_text(encoding='utf8'))
+    pois = {p['id']: p for p in dataset['pois'] if p.get('baseline', True)}
+    owners = {}
+    for poi in pois.values():
+        paths = list(poi.get('images', []))
+        paths += [path for section in poi.get('sections', []) for path in section.get('images', [])]
+        for path in paths:
+            if not path.startswith('assets/images/pois/'):
+                continue
+            if not (root / path).is_file():
+                raise ValueError(f'Asset koleksi tidak ditemukan: {path}')
+            if path in owners and owners[path] != poi['id']:
+                raise ValueError(f'Asset dipakai oleh lebih dari satu POI: {path}')
+            owners[path] = poi['id']
+    references, excluded = [], []
+    for path in sorted(asset_dir.iterdir()):
+        if path.suffix.lower() not in ('.jpg', '.jpeg', '.png'):
+            continue
+        relative = path.relative_to(root).as_posix()
+        if re.fullmatch(r'p\d{2}_1\.png', path.name, re.I):
+            excluded.append({'reference': relative, 'reason': 'placeholder'})
+            continue
+        match = re.match(r'p(\d{2})_', path.name, re.I)
+        poi_id = owners.get(relative) or (f'P{match.group(1)}' if match else None)
+        if poi_id is None:
+            raise ValueError(f'Asset belum memiliki ID POI: {relative}')
+        if poi_id not in pois:
+            excluded.append({'reference': relative, 'reason': 'inactive_poi'})
+            continue
+        poi = pois[poi_id]
+        references.append(dict(poi_id=f"POI{int(poi_id[1:]):03d}",
+            app_poi_id=poi_id, name=poi['name'], reference=relative))
+    references.sort(key=lambda r: (r['app_poi_id'],
+        r['reference'] != (pois[r['app_poi_id']].get('images') or [None])[0], r['reference']))
+    return references, excluded
+
 def resize(image):
     h,w=image.shape[:2]
     return cv2.resize(image,(round(w*min(1,960/max(h,w))),round(h*min(1,960/max(h,w)))))
@@ -16,21 +56,18 @@ class Recognizer:
     def __init__(self):
         self.sift=cv2.SIFT_create(nfeatures=2200)
         self.refs=[]
-        selection=json.loads((ROOT/"reference_selection.json").read_text(encoding="utf8"))
-        for folder in sorted((ROOT/'data').glob('POI*')):
-            if not folder.is_dir() or not folder.name[3:].isdigit(): continue
-            i=int(folder.name[3:])-1
-            paths=sorted((folder/'images').iterdir())
-            if folder.name in selection:
-                paths=[folder/'images'/name for name in selection[folder.name]]
-                for path in paths:
-                    if not path.is_file(): raise ValueError(f'Referensi lokasi tidak ditemukan: {path}')
-            for path in paths:
-                if path.suffix.lower() not in ('.jpg','.jpeg','.png'): continue
-                im=load(path)
-                if im is None: raise ValueError(f'Gambar rusak: {path}')
-                im=resize(im); kp,des=self.sift.detectAndCompute(cv2.cvtColor(im,cv2.COLOR_BGR2GRAY),None)
-                self.refs.append(dict(poi_id=folder.name,app_poi_id=APP_IDS[i],name=NAMES[i],reference=path.relative_to(ROOT).as_posix(),size=im.shape[:2],points=np.float32([k.pt for k in kp]),des=des))
+        catalog, self.excluded = collect_asset_references()
+        for ref in catalog:
+            path = ROOT / ref['reference']
+            im = load(path)
+            if im is None:
+                raise ValueError(f'Gambar rusak: {path}')
+            im = resize(im)
+            kp, des = self.sift.detectAndCompute(cv2.cvtColor(im, cv2.COLOR_BGR2GRAY), None)
+            if des is None or len(kp) < 12:
+                raise ValueError(f'Foto kurang dari 12 fitur SIFT: {path}')
+            self.refs.append(dict(ref, size=im.shape[:2],
+                points=np.float32([k.pt for k in kp]), des=des))
     def catalog(self):
         return [{k:v for k,v in r.items() if k not in ('points','des','size')} for r in self.refs]
     def predict(self,image):

@@ -79,3 +79,5 @@ APK release masih ditandatangani dengan debug key (bawaan template Flutter): bis
 Fitur Kenali memakai SIFT offline Android, digabung dengan branch QR P01–P11 dan desain terbaru. Lihat [panduan CV, APK dan build lokal](docs/COMPUTER_VISION.md).
 
 Untuk anggota tim yang akan menambah foto ruangan atau panel, ikuti [panduan menambah referensi CV dan membangun ulang APK](docs/PANDUAN_TAMBAH_REFERENSI_CV.md).
+
+Referensi CV kini langsung memakai seluruh foto koleksi di `assets/images/pois/`, dengan label dari data aplikasi dan nama pNN. Placeholder tidak diindeks. Folder foto dari ZIP lama tidak lagi menjadi sumber pengenalan.

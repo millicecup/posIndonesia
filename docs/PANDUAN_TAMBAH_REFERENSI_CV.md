@@ -43,58 +43,51 @@ python -m venv .venv-vision
 
 Selesaikan masalah Android SDK yang dilaporkan `flutter doctor`. Jika lisensi SDK belum diterima, jalankan `flutter doctor --android-licenses` dan baca ketentuannya. Tidak perlu mengaktifkan virtual environment melalui `Activate.ps1`; perintah di panduan ini langsung memakai Python di `.venv-vision`.
 
-## 3 Simpan foto pada folder POI
+## 3 Tambahkan foto langsung ke assets
 
-Contoh foto tambahan untuk lemari prangko POI007:
+Sumber referensi CV sekarang langsung dari **`assets/images/pois/`**. Folder ini berisi 70 foto koleksi aktif dan 13 gambar placeholder. Gambar placeholder `pNN_1.png` tidak dipakai untuk pengenalan.
+
+Contoh penambahan foto untuk P07:
 
 ```text
-tools/vision/demo/data/POI007/images/
-  Prangko Geser.jpg
-  poi007_lemari_depan_01.jpg
-  poi007_lemari_kiri_01.jpg
+assets/images/pois/
+  p07_01.jpg
+  ...
+  p07_11.jpg
+  p07_12.jpg
+  p07_13.jpg
 ```
 
-| Folder referensi | ID aplikasi | Isi POI |
-| --- | --- | --- |
-| POI001 | P01 | Komunikasi tertulis di Nusantara |
-| POI002 | P02 | Sejarah Pos Indonesia |
-| POI003 | P03 | Sejarah kepemimpinan Pos |
-| POI004 | P04 | Seragam petugas pos |
-| POI005 | P05 | Pembuatan prangko |
-| POI006 | P06 | Kode Pos Indonesia |
-| POI007 | P07 | Koleksi prangko lemari geser |
-| POI008 | P08 | Mas Soeharto |
-| POI009 | P09 | Kotak pos |
-| POI010 | P10 | Mars Pos Indonesia |
-| POI011 | P11 | Stempel museum |
+Gunakan JPG, JPEG, atau PNG dan ikuti awalan ID POI: `p01_...` untuk P01 sampai `p11_...` untuk P11. Pilih nomor yang belum ada agar foto lama tidak tertimpa. Jangan menamai foto baru `p07_1.png`, karena pola `pNN_1.png` dipakai oleh placeholder lama.
 
-Gunakan folder `POI007`, bukan `P07`. P12 dan P13 belum didukung oleh daftar referensi SIFT saat ini; menambah POI baru memerlukan perubahan kode dan data aplikasi, bukan sekadar folder tambahan.
+Pemetaan yang tercantum pada `assets/data/pois.json` menjadi acuan utama. Untuk foto tambahan yang belum tercantum di JSON, ID diambil dari awalan nama file. Contohnya `p07_12.jpg` masuk P07. Jika nama file tidak punya ID dan tidak terdaftar dalam data POI, ekspor ditolak supaya foto tidak salah dipetakan.
 
-Pilih foto JPG, JPEG, atau PNG yang menampilkan ruangan, lemari, atau panel seperti dilihat pengunjung. Ambil beberapa sudut dan jarak, dengan objek utama tetap jelas dan pencahayaan museum. Untuk pengenalan lokasi, prioritaskan foto lokasi dibanding potret tokoh, gambar arsip, atau gambar seragam untuk studio foto. Tambahkan bertahap karena jumlah referensi memengaruhi ukuran indeks dan waktu pencocokan.
+P12 dan P13 masih berstatus `baseline: false` dan hanya mempunyai placeholder pada folder ini. Menambah POI aktif baru perlu penyesuaian data dan alur aplikasi, bukan sekadar menyalin gambar.
 
-`assets/images/pois/` berisi gambar tampilan koleksi. Menambah gambar di sana tidak otomatis menambah referensi SIFT. Mengubah referensi CV juga tidak otomatis mengganti foto kartu koleksi.
+## 4 Tampilkan foto baru di galeri bila diperlukan
 
-## 4 Pastikan semua foto ikut dipakai
-
-Buka `tools/vision/demo/reference_selection.json`. Bawaan branch sekarang adalah:
+Semua foto asli dalam folder assets tersebut ikut menjadi referensi CV ketika indeks dibangun ulang. Untuk menampilkan foto baru juga di galeri atau cerita aplikasi, tambahkan path-nya pada POI yang sesuai dalam `assets/data/pois.json`, misalnya ke daftar `images` atau `sections[n].images`:
 
 ```json
-{}
+"images": [
+  "assets/images/pois/p07_06.jpg",
+  "assets/images/pois/p07_12.jpg"
+]
 ```
 
-Dengan konfigurasi kosong tersebut, semua JPG/JPEG/PNG pada setiap folder `POIxxx/images` otomatis masuk sebagai referensi. Untuk menambah foto, cukup salin gambar ke folder POI yang benar, lalu lanjutkan pemeriksaan dan ekspor indeks. Tidak perlu menulis nama setiap foto di JSON.
+Cuplikan itu hanya contoh sebuah field; pertahankan foto dan field lain yang sudah ada. Jangan menempatkan foto yang sama pada dua POI berbeda. Gunakan nama file, spasi, ekstensi dan huruf besar/kecil yang sesuai.
 
-Jika file ini berisi entri suatu POI dengan daftar nama foto, hanya file dalam daftar itu yang akan dipakai untuk POI tersebut. Hapus entri POI itu bila ingin kembali memakai semua fotonya. Nama file, spasi, dan ekstensi harus sesuai jika tim sengaja menggunakan daftar pilihan. JSON tidak boleh memakai komentar atau koma setelah elemen terakhir.
+Folder `tools/vision/demo/data/POIxxx` dari ZIP lama tidak lagi menjadi sumber CV. File `reference_selection.json` juga sudah dihapus; tidak ada daftar pilihan foto terpisah yang perlu diperbarui.
 
 ## 5 Periksa foto sebelum ekspor
 
-Perintah berikut memuat referensi yang aktif dan mencari foto yang tidak mempunyai cukup fitur SIFT:
-
 ```powershell
-.\.venv-vision\Scripts\python.exe -c "import sys; sys.path.insert(0,'tools/vision/demo'); from recognizer import Recognizer; m=Recognizer(); bad=[r['reference'] for r in m.refs if r['des'] is None or len(r['des'])<12]; print('Foto aktif:',len(m.refs)); print('Foto perlu diganti:',bad); sys.exit(bool(bad))"
+.\.venv-vision\Scripts\python.exe -c "import sys; sys.path.insert(0,'tools/vision/demo'); from recognizer import Recognizer; m=Recognizer(); print('Foto siap:',len(m.refs)); print('Dikecualikan:',m.excluded)"
 ```
 
-Lanjutkan jika daftar `Foto perlu diganti` kosong. Bila ada foto di daftar itu, ganti dengan foto yang lebih jelas dan memiliki detail visual, atau keluarkan dari referensi aktif. Pemuat indeks Android menolak referensi dengan kurang dari 12 fitur. Foto rusak atau nama file yang salah juga harus diperbaiki sebelum ekspor.
+Pemeriksaan memuat seluruh foto aktif, memastikan pemetaan POI, dan menolak foto rusak atau foto dengan kurang dari 12 fitur SIFT. Ganti foto yang gagal dengan foto yang lebih jelas dan memiliki detail visual, lalu jalankan kembali. Placeholder tampil sebagai pengecualian yang disengaja.
+
+Untuk pemakaian kamera di museum, tambahkan variasi sudut, jarak dan pencahayaan nyata. Semua foto koleksi pada assets dipakai; gambar dekorasi, ikon dan maskot di folder lain tidak dipakai.
 
 ## 6 Bangun ulang indeks SIFT Android
 
@@ -102,30 +95,31 @@ Lanjutkan jika daftar `Foto perlu diganti` kosong. Bila ada foto di daftar itu, 
 .\.venv-vision\Scripts\python.exe tools/vision/export_sift_android.py
 ```
 
-Perintah ini menghasilkan ulang:
+Hasilnya:
 
 ```text
 android/app/src/main/assets/jejakpos_sift/index.bin
 android/app/src/main/assets/jejakpos_sift/manifest.json
 ```
 
-Terminal akan menampilkan `Exported ... reference images`. Periksa daftar sumber dan jumlah referensi dalam manifest:
+Periksa sumber dan jumlah fotonya:
 
 ```powershell
 Get-Content android/app/src/main/assets/jejakpos_sift/manifest.json -Raw |
   ConvertFrom-Json |
-  Select-Object references, poiIds
+  Select-Object sourceDirectory, references, poiIds
 ```
 
-Sebelum penambahan, indeks branch ini mempunyai 36 foto aktif. Jika hanya dua foto POI007 dalam contoh tadi yang ditambahkan, jumlahnya menjadi 38. Pastikan nama kedua foto muncul di bagian `sources` pada `manifest.json`.
+`sourceDirectory` harus `assets/images/pois`. Indeks saat ini berisi 70 foto; setelah menambah dua foto tanpa mengubah yang lain, jumlahnya menjadi 72. Bagian `sources` mencantumkan setiap foto aktif; `excluded` menjelaskan placeholder atau POI nonaktif yang tidak diindeks.
 
-Gunakan `export_sift_android.py` untuk SIFT Android. Script `build_vision_index.py` di folder yang sama membuat indeks embedding untuk jalur pengenalan lama dan tidak memperbarui `jejakpos_sift/index.bin`.
+Indeks baru memakai format JPSIFT02 yang menyimpan descriptor SIFT secara ringkas tanpa kehilangan nilai. Android merekonstruksi descriptor yang sama saat indeks dimuat. Tidak perlu mengedit isi `index.bin` secara manual.
 
-Jika ekspor gagal, jangan commit atau distribusikan `index.bin` hasil percobaan yang gagal. Perbaiki sumber foto, lalu ekspor ulang sampai selesai. Tidak perlu mengedit isi `index.bin` secara manual.
+Ekspor menggunakan file sementara, sehingga pemeriksaan yang gagal tidak mengganti indeks sebelumnya. Perbaiki foto lalu ulangi ekspor sampai terminal menampilkan jumlah foto yang sesuai.
 
 ## 7 Jalankan pemeriksaan aplikasi
 
 ```powershell
+.\.venv-vision\Scripts\python.exe -m unittest discover -s tools/vision -p test_reference_assets.py
 flutter test
 ```
 
@@ -141,12 +135,12 @@ Hasilnya disimpan pada `tools/vision/demo/evaluation.json`. Pengujian ini menggu
 
 Koordinasikan dahulu kunci penandatanganan yang akan dipakai. Konfigurasi branch ini memakai `signingConfigs.getByName("debug")`; laptop lain dapat mempunyai debug keystore yang berbeda. Untuk memperbarui pemasangan yang sudah ada, gunakan kunci yang sama dengan APK yang terpasang. Keystore APK v3.6 berbeda dari APK CV pertama yang dibagikan. Jangan mengunggah keystore atau kata sandinya ke GitHub. Penjelasan penandatanganan tersedia di [dokumentasi Android](https://developer.android.com/studio/publish/app-signing).
 
-Contoh berikut membuat versi `3.6.3-cv`, nomor build `8`, setelah APK semua foto bernomor `7`. Jika tim sudah menerbitkan nomor yang lebih tinggi, naikkan nomor tersebut lagi. Flutter memetakan `--build-name` ke `versionName` dan `--build-number` ke `versionCode`; lihat [dokumentasi build Android Flutter](https://docs.flutter.dev/deployment/android).
+Contoh berikut membuat versi `3.6.4-cv`, nomor build `9`, setelah APK berbasis assets bernomor `8`. Jika tim sudah menerbitkan nomor yang lebih tinggi, naikkan nomor tersebut lagi. Flutter memetakan `--build-name` ke `versionName` dan `--build-number` ke `versionCode`; lihat [dokumentasi build Android Flutter](https://docs.flutter.dev/deployment/android).
 
 Siapkan file konfigurasi dan wrapper melalui Flutter:
 
 ```powershell
-flutter build apk --config-only --release --target-platform android-arm64 --build-name=3.6.3-cv --build-number=8
+flutter build apk --config-only --release --target-platform android-arm64 --build-name=3.6.4-cv --build-number=9
 ```
 
 Lalu bangun APK uji dengan pengaturan yang digunakan untuk distribusi uji branch ini. Pastikan `JAVA_HOME` masih menunjuk JDK 21.
@@ -189,7 +183,7 @@ APK pertama sebelum seluruh foto diaktifkan berukuran sekitar 96 MB. Penambahan 
 Jika ukuran APK masih di bawah batas, siapkan commit:
 
 ```powershell
-git add tools/vision/demo/data tools/vision/demo/reference_selection.json
+git add assets/images/pois assets/data/pois.json
 git add android/app/src/main/assets/jejakpos_sift/index.bin android/app/src/main/assets/jejakpos_sift/manifest.json
 git add -f apk/JejakPOS-computer-vision-arm64.apk apk/JejakPOS-computer-vision-arm64.apk.sha256
 git diff --cached --stat
@@ -197,7 +191,7 @@ git commit -m "feat: add location references and rebuild CV APK"
 git push origin computer-vision
 ```
 
-Perbarui pula keterangan versi dan hasil uji pada `apk/README.md` jika membagikan APK baru. Jika APK dibagikan lewat Releases, cukup commit foto, daftar pilihan, indeks, dan dokumentasi tautan rilisnya; lewati perintah `git add` untuk APK.
+Perbarui pula keterangan versi dan hasil uji pada `apk/README.md` jika membagikan APK baru. Jika APK dibagikan lewat Releases, cukup commit foto assets, data POI, indeks, dan dokumentasi tautan rilisnya; lewati perintah `git add` untuk APK.
 
 Jika push ditolak karena branch sudah diperbarui teman lain, ambil dan gabungkan perubahan terbaru terlebih dahulu, lalu ekspor ulang indeks dan build ulang APK agar semua referensi tim ikut terbawa. Jangan menyelesaikan konflik `index.bin` dengan menggabungkan byte secara manual.
 
@@ -205,8 +199,8 @@ Jika push ditolak karena branch sudah diperbarui teman lain, ambil dan gabungkan
 
 | Gejala | Yang perlu diperiksa |
 | --- | --- |
-| Foto baru tidak muncul di manifest | Folder POI, ekstensi gambar, dan entri `reference_selection.json` |
-| `Referensi lokasi tidak ditemukan` | Ejaan, spasi, ekstensi, dan keberadaan file yang disebut JSON |
+| Foto baru tidak muncul di manifest | Folder assets, ekstensi gambar, awalan pNN, dan pemetaan pada pois.json |
+| `Asset koleksi tidak ditemukan` | Ejaan, spasi, ekstensi, dan keberadaan file yang disebut JSON |
 | Foto kurang dari 12 fitur atau `No descriptor` | Gunakan foto lebih jelas dan bertekstur, lalu ulangi pemeriksaan foto dan ekspor |
 | Indeks baru sudah dibuat tetapi APK tidak berubah | Build ulang APK, salin hasil build terbaru, lalu pasang APK yang benar |
 | Java 25 tidak kompatibel | Arahkan Flutter dan `JAVA_HOME` ke JDK 21 |

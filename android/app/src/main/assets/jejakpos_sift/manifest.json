@@ -1,6 +1,8 @@
 {
-  "format": "JPSIFT01",
-  "references": 36,
+  "format": "JPSIFT02",
+  "descriptorEncoding": "uint8-lossless-to-float32",
+  "sourceDirectory": "assets/images/pois",
+  "references": 70,
   "poiIds": [
     "P01",
     "P02",
@@ -14,222 +16,480 @@
     "P10",
     "P11"
   ],
+  "excluded": [
+    {
+      "reference": "assets/images/pois/p01_1.png",
+      "reason": "placeholder"
+    },
+    {
+      "reference": "assets/images/pois/p02_1.png",
+      "reason": "placeholder"
+    },
+    {
+      "reference": "assets/images/pois/p03_1.png",
+      "reason": "placeholder"
+    },
+    {
+      "reference": "assets/images/pois/p04_1.png",
+      "reason": "placeholder"
+    },
+    {
+      "reference": "assets/images/pois/p05_1.png",
+      "reason": "placeholder"
+    },
+    {
+      "reference": "assets/images/pois/p06_1.png",
+      "reason": "placeholder"
+    },
+    {
+      "reference": "assets/images/pois/p07_1.png",
+      "reason": "placeholder"
+    },
+    {
+      "reference": "assets/images/pois/p08_1.png",
+      "reason": "placeholder"
+    },
+    {
+      "reference": "assets/images/pois/p09_1.png",
+      "reason": "placeholder"
+    },
+    {
+      "reference": "assets/images/pois/p10_1.png",
+      "reason": "placeholder"
+    },
+    {
+      "reference": "assets/images/pois/p11_1.png",
+      "reason": "placeholder"
+    },
+    {
+      "reference": "assets/images/pois/p12_1.png",
+      "reason": "placeholder"
+    },
+    {
+      "reference": "assets/images/pois/p13_1.png",
+      "reason": "placeholder"
+    }
+  ],
   "sources": [
     {
       "poi_id": "POI001",
       "app_poi_id": "P01",
-      "name": "Komunikasi Nusantara",
-      "reference": "data/POI001/images/Surat Emas (Foto POI).jpg"
+      "name": "Sejarah Komunikasi Tertulis di Nusantara",
+      "reference": "assets/images/pois/p01_01.jpg"
     },
     {
       "poi_id": "POI001",
       "app_poi_id": "P01",
-      "name": "Komunikasi Nusantara",
-      "reference": "data/POI001/images/Surat Emas Terpanjang.png"
+      "name": "Sejarah Komunikasi Tertulis di Nusantara",
+      "reference": "assets/images/pois/p01_02.jpg"
+    },
+    {
+      "poi_id": "POI001",
+      "app_poi_id": "P01",
+      "name": "Sejarah Komunikasi Tertulis di Nusantara",
+      "reference": "assets/images/pois/p01_03.jpg"
+    },
+    {
+      "poi_id": "POI001",
+      "app_poi_id": "P01",
+      "name": "Sejarah Komunikasi Tertulis di Nusantara",
+      "reference": "assets/images/pois/p01_04.jpg"
+    },
+    {
+      "poi_id": "POI001",
+      "app_poi_id": "P01",
+      "name": "Sejarah Komunikasi Tertulis di Nusantara",
+      "reference": "assets/images/pois/p01_05.jpg"
     },
     {
       "poi_id": "POI002",
       "app_poi_id": "P02",
-      "name": "Sejarah Pos",
-      "reference": "data/POI002/images/Gedung PTT.jpg"
+      "name": "Sejarah Pos Indonesia",
+      "reference": "assets/images/pois/p02_01.jpg"
     },
     {
       "poi_id": "POI002",
       "app_poi_id": "P02",
-      "name": "Sejarah Pos",
-      "reference": "data/POI002/images/Sejarah Gedung PTT (Ruang 4).jpg"
+      "name": "Sejarah Pos Indonesia",
+      "reference": "assets/images/pois/p02_02.jpg"
     },
     {
       "poi_id": "POI002",
       "app_poi_id": "P02",
-      "name": "Sejarah Pos",
-      "reference": "data/POI002/images/Sejarah Pos (Lorong Awal).jpg"
+      "name": "Sejarah Pos Indonesia",
+      "reference": "assets/images/pois/p02_03.jpg"
+    },
+    {
+      "poi_id": "POI002",
+      "app_poi_id": "P02",
+      "name": "Sejarah Pos Indonesia",
+      "reference": "assets/images/pois/p02_04.jpg"
+    },
+    {
+      "poi_id": "POI002",
+      "app_poi_id": "P02",
+      "name": "Sejarah Pos Indonesia",
+      "reference": "assets/images/pois/p02_05.jpg"
+    },
+    {
+      "poi_id": "POI002",
+      "app_poi_id": "P02",
+      "name": "Sejarah Pos Indonesia",
+      "reference": "assets/images/pois/p02_06.jpg"
+    },
+    {
+      "poi_id": "POI002",
+      "app_poi_id": "P02",
+      "name": "Sejarah Pos Indonesia",
+      "reference": "assets/images/pois/p02_07.jpg"
+    },
+    {
+      "poi_id": "POI002",
+      "app_poi_id": "P02",
+      "name": "Sejarah Pos Indonesia",
+      "reference": "assets/images/pois/p02_08.jpg"
+    },
+    {
+      "poi_id": "POI002",
+      "app_poi_id": "P02",
+      "name": "Sejarah Pos Indonesia",
+      "reference": "assets/images/pois/p02_09.jpg"
+    },
+    {
+      "poi_id": "POI002",
+      "app_poi_id": "P02",
+      "name": "Sejarah Pos Indonesia",
+      "reference": "assets/images/pois/p02_10.jpg"
+    },
+    {
+      "poi_id": "POI002",
+      "app_poi_id": "P02",
+      "name": "Sejarah Pos Indonesia",
+      "reference": "assets/images/pois/p02_11.jpg"
+    },
+    {
+      "poi_id": "POI002",
+      "app_poi_id": "P02",
+      "name": "Sejarah Pos Indonesia",
+      "reference": "assets/images/pois/p02_12.jpg"
     },
     {
       "poi_id": "POI003",
       "app_poi_id": "P03",
-      "name": "Kepemimpinan Pos",
-      "reference": "data/POI003/images/Sejarah Kepemimpinan Pos (Ruang 2) (1).jpg"
+      "name": "Sejarah Kepemimpinan Pos Indonesia",
+      "reference": "assets/images/pois/p03_03.jpg"
     },
     {
       "poi_id": "POI003",
       "app_poi_id": "P03",
-      "name": "Kepemimpinan Pos",
-      "reference": "data/POI003/images/Tangan Tera.jpeg"
+      "name": "Sejarah Kepemimpinan Pos Indonesia",
+      "reference": "assets/images/pois/p03_01.jpg"
+    },
+    {
+      "poi_id": "POI003",
+      "app_poi_id": "P03",
+      "name": "Sejarah Kepemimpinan Pos Indonesia",
+      "reference": "assets/images/pois/p03_02.jpg"
+    },
+    {
+      "poi_id": "POI003",
+      "app_poi_id": "P03",
+      "name": "Sejarah Kepemimpinan Pos Indonesia",
+      "reference": "assets/images/pois/p03_04.jpg"
     },
     {
       "poi_id": "POI004",
       "app_poi_id": "P04",
-      "name": "Seragam Petugas Pos",
-      "reference": "data/POI004/images/Koleksi lencana dan topi dinas petugas pos di Museum Pos Indonesia.jpg"
+      "name": "Sejarah Seragam Petugas Pos",
+      "reference": "assets/images/pois/p04_01.jpg"
     },
     {
       "poi_id": "POI004",
       "app_poi_id": "P04",
-      "name": "Seragam Petugas Pos",
-      "reference": "data/POI004/images/Koleksi lencana dinas petugas pos di Museum Pos Indonesia..jpg"
+      "name": "Sejarah Seragam Petugas Pos",
+      "reference": "assets/images/pois/p04_02.jpg"
     },
     {
       "poi_id": "POI004",
       "app_poi_id": "P04",
-      "name": "Seragam Petugas Pos",
-      "reference": "data/POI004/images/Koleksi seragam petugas pos di Museum Pos Indonesia (tampak kedua).jpg"
+      "name": "Sejarah Seragam Petugas Pos",
+      "reference": "assets/images/pois/p04_03.jpg"
     },
     {
       "poi_id": "POI004",
       "app_poi_id": "P04",
-      "name": "Seragam Petugas Pos",
-      "reference": "data/POI004/images/Koleksi seragam petugas pos di Museum Pos Indonesia (tampak pertama).jpg"
+      "name": "Sejarah Seragam Petugas Pos",
+      "reference": "assets/images/pois/p04_04.jpg"
     },
     {
       "poi_id": "POI004",
       "app_poi_id": "P04",
-      "name": "Seragam Petugas Pos",
-      "reference": "data/POI004/images/Photo Studio Seragam Coklat Tua.png"
+      "name": "Sejarah Seragam Petugas Pos",
+      "reference": "assets/images/pois/p04_05.jpg"
     },
     {
       "poi_id": "POI004",
       "app_poi_id": "P04",
-      "name": "Seragam Petugas Pos",
-      "reference": "data/POI004/images/Photo Studio Seragam Hijau.png"
+      "name": "Sejarah Seragam Petugas Pos",
+      "reference": "assets/images/pois/p04_06.jpg"
     },
     {
       "poi_id": "POI004",
       "app_poi_id": "P04",
-      "name": "Seragam Petugas Pos",
-      "reference": "data/POI004/images/Photo Studio Seragam Khaki.png"
+      "name": "Sejarah Seragam Petugas Pos",
+      "reference": "assets/images/pois/p04_07.jpg"
     },
     {
       "poi_id": "POI004",
       "app_poi_id": "P04",
-      "name": "Seragam Petugas Pos",
-      "reference": "data/POI004/images/Photo Studio Topi Coklat Tua.png"
+      "name": "Sejarah Seragam Petugas Pos",
+      "reference": "assets/images/pois/p04_08.jpg"
     },
     {
       "poi_id": "POI004",
       "app_poi_id": "P04",
-      "name": "Seragam Petugas Pos",
-      "reference": "data/POI004/images/Photo Studio Topi Hijau.png"
+      "name": "Sejarah Seragam Petugas Pos",
+      "reference": "assets/images/pois/p04_09.jpg"
     },
     {
       "poi_id": "POI004",
       "app_poi_id": "P04",
-      "name": "Seragam Petugas Pos",
-      "reference": "data/POI004/images/Photo Studio Topi Khaki.png"
+      "name": "Sejarah Seragam Petugas Pos",
+      "reference": "assets/images/pois/p04_10.jpg"
+    },
+    {
+      "poi_id": "POI004",
+      "app_poi_id": "P04",
+      "name": "Sejarah Seragam Petugas Pos",
+      "reference": "assets/images/pois/p04_11.jpg"
+    },
+    {
+      "poi_id": "POI004",
+      "app_poi_id": "P04",
+      "name": "Sejarah Seragam Petugas Pos",
+      "reference": "assets/images/pois/p04_12.jpg"
+    },
+    {
+      "poi_id": "POI004",
+      "app_poi_id": "P04",
+      "name": "Sejarah Seragam Petugas Pos",
+      "reference": "assets/images/pois/p04_13.jpg"
+    },
+    {
+      "poi_id": "POI004",
+      "app_poi_id": "P04",
+      "name": "Sejarah Seragam Petugas Pos",
+      "reference": "assets/images/pois/p04_14.jpg"
     },
     {
       "poi_id": "POI005",
       "app_poi_id": "P05",
-      "name": "Pembuatan Prangko",
-      "reference": "data/POI005/images/Loc Trigger_Pembuatan Perangko (Ruang 2).jpg"
+      "name": "Proses Pembuatan Prangko",
+      "reference": "assets/images/pois/p05_01.jpg"
+    },
+    {
+      "poi_id": "POI005",
+      "app_poi_id": "P05",
+      "name": "Proses Pembuatan Prangko",
+      "reference": "assets/images/pois/p05_02.jpg"
+    },
+    {
+      "poi_id": "POI005",
+      "app_poi_id": "P05",
+      "name": "Proses Pembuatan Prangko",
+      "reference": "assets/images/pois/p05_03.jpg"
     },
     {
       "poi_id": "POI006",
       "app_poi_id": "P06",
-      "name": "Kode Pos",
-      "reference": "data/POI006/images/1. Marsoedi.png"
+      "name": "Kode Pos di Indonesia",
+      "reference": "assets/images/pois/p06_01.jpg"
     },
     {
       "poi_id": "POI006",
       "app_poi_id": "P06",
-      "name": "Kode Pos",
-      "reference": "data/POI006/images/2. Kode Pos.jpeg"
+      "name": "Kode Pos di Indonesia",
+      "reference": "assets/images/pois/p06_02.jpg"
+    },
+    {
+      "poi_id": "POI006",
+      "app_poi_id": "P06",
+      "name": "Kode Pos di Indonesia",
+      "reference": "assets/images/pois/p06_03.jpg"
     },
     {
       "poi_id": "POI007",
       "app_poi_id": "P07",
-      "name": "Koleksi Prangko",
-      "reference": "data/POI007/images/Penny Black.jpg"
+      "name": "Koleksi Prangko Lemari Geser",
+      "reference": "assets/images/pois/p07_08.jpg"
     },
     {
       "poi_id": "POI007",
       "app_poi_id": "P07",
-      "name": "Koleksi Prangko",
-      "reference": "data/POI007/images/Prangko Cerita Rakyat 1.png"
+      "name": "Koleksi Prangko Lemari Geser",
+      "reference": "assets/images/pois/p07_01.jpg"
     },
     {
       "poi_id": "POI007",
       "app_poi_id": "P07",
-      "name": "Koleksi Prangko",
-      "reference": "data/POI007/images/Prangko Cerita Rakyat 2.png"
+      "name": "Koleksi Prangko Lemari Geser",
+      "reference": "assets/images/pois/p07_02.jpg"
     },
     {
       "poi_id": "POI007",
       "app_poi_id": "P07",
-      "name": "Koleksi Prangko",
-      "reference": "data/POI007/images/Prangko Emas.png"
+      "name": "Koleksi Prangko Lemari Geser",
+      "reference": "assets/images/pois/p07_03.jpg"
     },
     {
       "poi_id": "POI007",
       "app_poi_id": "P07",
-      "name": "Koleksi Prangko",
-      "reference": "data/POI007/images/Prangko Geser.jpg"
+      "name": "Koleksi Prangko Lemari Geser",
+      "reference": "assets/images/pois/p07_04.jpg"
     },
     {
       "poi_id": "POI007",
       "app_poi_id": "P07",
-      "name": "Koleksi Prangko",
-      "reference": "data/POI007/images/Sir Rowland Hill.jpg"
+      "name": "Koleksi Prangko Lemari Geser",
+      "reference": "assets/images/pois/p07_05.jpg"
+    },
+    {
+      "poi_id": "POI007",
+      "app_poi_id": "P07",
+      "name": "Koleksi Prangko Lemari Geser",
+      "reference": "assets/images/pois/p07_06.jpg"
+    },
+    {
+      "poi_id": "POI007",
+      "app_poi_id": "P07",
+      "name": "Koleksi Prangko Lemari Geser",
+      "reference": "assets/images/pois/p07_07.jpg"
+    },
+    {
+      "poi_id": "POI007",
+      "app_poi_id": "P07",
+      "name": "Koleksi Prangko Lemari Geser",
+      "reference": "assets/images/pois/p07_09.jpg"
+    },
+    {
+      "poi_id": "POI007",
+      "app_poi_id": "P07",
+      "name": "Koleksi Prangko Lemari Geser",
+      "reference": "assets/images/pois/p07_10.jpg"
+    },
+    {
+      "poi_id": "POI007",
+      "app_poi_id": "P07",
+      "name": "Koleksi Prangko Lemari Geser",
+      "reference": "assets/images/pois/p07_11.jpg"
     },
     {
       "poi_id": "POI008",
       "app_poi_id": "P08",
-      "name": "Mas Soeharto",
-      "reference": "data/POI008/images/Lokasi trigger Mas Soeharto.jpg"
+      "name": "Tokoh Mas Soeharto",
+      "reference": "assets/images/pois/p08_06.jpg"
     },
     {
       "poi_id": "POI008",
       "app_poi_id": "P08",
-      "name": "Mas Soeharto",
-      "reference": "data/POI008/images/Monumen Perjuangan AMPTT.jpg"
+      "name": "Tokoh Mas Soeharto",
+      "reference": "assets/images/pois/p08_01.jpg"
     },
     {
       "poi_id": "POI008",
       "app_poi_id": "P08",
-      "name": "Mas Soeharto",
-      "reference": "data/POI008/images/Panel biografi R. Dijar.jpg"
+      "name": "Tokoh Mas Soeharto",
+      "reference": "assets/images/pois/p08_02.jpg"
     },
     {
       "poi_id": "POI008",
       "app_poi_id": "P08",
-      "name": "Mas Soeharto",
-      "reference": "data/POI008/images/Panel informasi Mas Soeharto.jpg"
+      "name": "Tokoh Mas Soeharto",
+      "reference": "assets/images/pois/p08_03.jpg"
     },
     {
       "poi_id": "POI008",
       "app_poi_id": "P08",
-      "name": "Mas Soeharto",
-      "reference": "data/POI008/images/Patung Mas Soeharto.jpg"
+      "name": "Tokoh Mas Soeharto",
+      "reference": "assets/images/pois/p08_04.jpg"
+    },
+    {
+      "poi_id": "POI008",
+      "app_poi_id": "P08",
+      "name": "Tokoh Mas Soeharto",
+      "reference": "assets/images/pois/p08_05.jpg"
+    },
+    {
+      "poi_id": "POI008",
+      "app_poi_id": "P08",
+      "name": "Tokoh Mas Soeharto",
+      "reference": "assets/images/pois/p08_07.jpg"
+    },
+    {
+      "poi_id": "POI008",
+      "app_poi_id": "P08",
+      "name": "Tokoh Mas Soeharto",
+      "reference": "assets/images/pois/p08_08.jpg"
+    },
+    {
+      "poi_id": "POI008",
+      "app_poi_id": "P08",
+      "name": "Tokoh Mas Soeharto",
+      "reference": "assets/images/pois/p08_09.jpg"
+    },
+    {
+      "poi_id": "POI008",
+      "app_poi_id": "P08",
+      "name": "Tokoh Mas Soeharto",
+      "reference": "assets/images/pois/p08_10.jpg"
     },
     {
       "poi_id": "POI009",
       "app_poi_id": "P09",
-      "name": "Kotak Pos",
-      "reference": "data/POI009/images/Brievenbus 2.jpg"
+      "name": "Koleksi Kotak Pos",
+      "reference": "assets/images/pois/p09_01.jpg"
     },
     {
       "poi_id": "POI009",
       "app_poi_id": "P09",
-      "name": "Kotak Pos",
-      "reference": "data/POI009/images/Brievenbus.jpg"
+      "name": "Koleksi Kotak Pos",
+      "reference": "assets/images/pois/p09_02.jpg"
+    },
+    {
+      "poi_id": "POI009",
+      "app_poi_id": "P09",
+      "name": "Koleksi Kotak Pos",
+      "reference": "assets/images/pois/p09_03.jpg"
     },
     {
       "poi_id": "POI010",
       "app_poi_id": "P10",
       "name": "Mars Pos Indonesia",
-      "reference": "data/POI010/images/Lokasi trigger Mars Pos Indonesia.jpg"
+      "reference": "assets/images/pois/p10_03.jpg"
     },
     {
       "poi_id": "POI010",
       "app_poi_id": "P10",
       "name": "Mars Pos Indonesia",
-      "reference": "data/POI010/images/Partitur lagu Mars Pos Indonesia.jpg"
+      "reference": "assets/images/pois/p10_01.jpg"
+    },
+    {
+      "poi_id": "POI010",
+      "app_poi_id": "P10",
+      "name": "Mars Pos Indonesia",
+      "reference": "assets/images/pois/p10_02.jpg"
+    },
+    {
+      "poi_id": "POI010",
+      "app_poi_id": "P10",
+      "name": "Mars Pos Indonesia",
+      "reference": "assets/images/pois/p10_04.jpg"
     },
     {
       "poi_id": "POI011",
       "app_poi_id": "P11",
       "name": "Stempel Museum",
-      "reference": "data/POI011/images/Stampel Museum_Lantai 1.jpeg"
+      "reference": "assets/images/pois/p11_01.jpg"
     }
   ]
 }

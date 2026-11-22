@@ -52,14 +52,21 @@ public final class SiftVision {
         List<Reference> loaded=new ArrayList<>();
         try(DataInputStream input=new DataInputStream(new BufferedInputStream(context.getAssets().open("jejakpos_sift/index.bin")))) {
             byte[] magic=new byte[8];input.readFully(magic);
-            if(!Arrays.equals(magic,"JPSIFT01".getBytes("UTF-8")))throw new IOException("Indeks SIFT tidak sesuai");
+            boolean compact=Arrays.equals(magic,"JPSIFT02".getBytes("UTF-8"));
+            if(!compact && !Arrays.equals(magic,"JPSIFT01".getBytes("UTF-8")))throw new IOException("Indeks SIFT tidak sesuai");
             int count=input.readInt();
             if(count<1 || count>500)throw new IOException("Jumlah referensi tidak valid");
             for(int i=0;i<count;i++) {
                 Reference ref=new Reference();ref.id=input.readUTF();ref.width=input.readInt();ref.height=input.readInt();int n=input.readInt();
                 if(n<12 || n>10000)throw new IOException("Jumlah fitur tidak valid");
                 ref.points=new Point[n];for(int j=0;j<n;j++)ref.points[j]=new Point(input.readFloat(),input.readFloat());
-                float[] data=new float[n*128];for(int j=0;j<data.length;j++)data[j]=input.readFloat();
+                float[] data=new float[n*128];
+                if(compact) {
+                    byte[] packed=new byte[data.length];input.readFully(packed);
+                    for(int j=0;j<data.length;j++)data[j]=packed[j]&0xff;
+                } else {
+                    for(int j=0;j<data.length;j++)data[j]=input.readFloat();
+                }
                 ref.descriptors=new Mat(n,128,CvType.CV_32F);ref.descriptors.put(0,0,data);loaded.add(ref);
             }
         } catch(IOException e) {for(Reference r:loaded)r.descriptors.release();throw e;}

@@ -18,8 +18,9 @@ class AppHandler(server.Handler):
         super().end_headers()
     def translate_path(self,path):
         clean=unquote(urlsplit(path).path)
-        if clean.startswith('/data/POI'):
-            base=ROOT/'tools/vision/demo'
+        if clean.startswith('/assets/images/pois/'):
+            base=ROOT/'assets/images/pois'
+            clean=clean[len('/assets/images/pois'):]
         else:
             base=ROOT/'build/web'
             if clean.startswith('/app/'):
