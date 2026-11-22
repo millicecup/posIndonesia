@@ -1,6 +1,6 @@
 # JejakPos CV dari assets aplikasi
 
-Mesin SIFT untuk backend pratinjau laptop dan pembuatan indeks Android. Sumber foto aktif langsung dari `assets/images/pois/`, bukan folder ZIP `data/POIxxx` yang disimpan sebagai arsip.
+Mesin SIFT untuk backend pratinjau laptop dan pembuatan indeks Android. Sumber foto aktif langsung dari `assets/images/pois/`, Salinan folder ZIP lama sudah dihapus; versi lamanya tetap tersedia di Git history.
 
 Semua 70 foto koleksi diindeks. Sebanyak 13 placeholder `pNN_1.png` dikecualikan. Label diambil dari data aplikasi `assets/data/pois.json`, dengan awalan pNN sebagai pemetaan tambahan. Gambar galeri, referensi ekspor dan pengujian memakai sumber assets yang sama.
 
