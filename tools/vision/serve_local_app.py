@@ -1,13 +1,21 @@
 """Serve the complete Flutter app and its local CV backend on one origin."""
 from pathlib import Path
 import sys,os
-from http.server import HTTPServer,SimpleHTTPRequestHandler
+from http.server import ThreadingHTTPServer,SimpleHTTPRequestHandler
+from threading import Lock
 from urllib.parse import urlsplit,unquote
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'tools/vision/demo'))
 import server
 from recognizer import Recognizer
 class AppHandler(server.Handler):
+    recognition_lock=Lock()
+    def do_POST(self):
+        with self.recognition_lock:
+            return super().do_POST()
+    def end_headers(self):
+        self.send_header("Cache-Control","no-store")
+        super().end_headers()
     def translate_path(self,path):
         clean=unquote(urlsplit(path).path)
         if clean.startswith('/data/POI'):
@@ -33,4 +41,4 @@ if __name__=='__main__':
     print('Menyiapkan CV untuk aplikasi JejakPos...',flush=True)
     server.model=Recognizer()
     print('Aplikasi lengkap: http://127.0.0.1:8787',flush=True)
-    HTTPServer(('127.0.0.1',8787),AppHandler).serve_forever()
+    ThreadingHTTPServer(('127.0.0.1',8787),AppHandler).serve_forever()
