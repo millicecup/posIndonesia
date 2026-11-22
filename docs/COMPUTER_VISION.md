@@ -52,3 +52,11 @@ Buka http://127.0.0.1:8787/. Bingkai HP memuat Flutter web aplikasi lengkap. Pad
 - Kamera Android fisik, latensi SIFT pada HP, dan akurasi museum belum diuji langsung. Emulator lokal tidak dapat dijalankan karena akselerasi virtualisasi tidak tersedia.
 
 Uji museum tetap diperlukan: ambil foto baru dari sudut/jarak pengunjung, sisihkan sesi pengambilan untuk evaluasi, ukur false accept/recall dan latensi, serta tambah referensi lokasi terutama pada POI yang masih memakai foto konten.
+
+## APK uji yang dibagikan
+
+Paket ARM64 memakai versionName 3.6.1-local-cv / versionCode 6 dan kunci debug proyek. Build distribusi uji mematikan shrinking (`-Pshrink=false`) serta tidak menjalankan lint vital; kompilasi Kotlin/Java/Dart dan pengemasan tetap dijalankan. Ini paket pengujian internal, bukan build untuk Play Store. Perintah tepatnya:
+
+```powershell
+android/gradlew.bat -p android assembleRelease --no-daemon -Ptarget-platform=android-arm64 -Ptarget=lib/main.dart -Ptree-shake-icons=true -Pdisable-abi-filtering=true -Pshrink=false -x lintVitalRelease -x lintVitalAnalyzeRelease -x lintVitalReportRelease
+```

@@ -1,3 +1,13 @@
+# JejakPOS computer vision — APK uji ARM64
+
+Unduh [JejakPOS-computer-vision-arm64.apk](JejakPOS-computer-vision-arm64.apk). Menggabungkan branch QR P01–P11/desain terbaru dengan SIFT offline pada Kenali. Kamera otomatis terbuka saat Kenali dipilih.
+
+Paket ditandatangani dengan kunci debug proyek; versionName 3.6.1-local-cv, versionCode 6. Paket ARM64 untuk uji internal, shrinking tidak diaktifkan. Kamera Android fisik dan akurasi museum belum diuji langsung. Lihat [panduan CV](../docs/COMPUTER_VISION.md).
+
+SHA-256: `468a40e3190b7f5096d54d951f39dd9ff8cc2992bb058353cac76f6cfb8255ed`
+
+---
+
 # JejakPOS v3.6 — pemandu suara bahasa Indonesia
 
 `JejakPOS-maps-arm64-v3.6.apk` (versionName 3.6, versionCode 5) = seluruh perubahan di bawah ditambah perbaikan pemandu suara:
