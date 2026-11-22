@@ -1,7 +1,7 @@
 // lib/features/progress/presentation/progress_screen.dart
 // UI21 Progres & Rekomendasi (tab Progres, F07). Wireframe: PRD Gambar 5.7 kanan.
 // Progres tersimpan permanen (shared_preferences). "Akhiri kunjungan" menutup sesi trigger,
-// memberi cap kunjungan (A06), lalu membuka UI22 Ringkasan Kunjungan.
+// memberi cap kunjungan (A06), lalu membuka UI22 Ringkasan kunjungan.
 
 import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +44,7 @@ class ProgressScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: JejakAppBar(
-        title: const Text('Progres Kunjungan'),
+        title: const Text('Progres kunjungan'),
         actions: [
           IconButton(
             tooltip: 'Ringkasan kunjungan',
@@ -56,7 +56,7 @@ class ProgressScreen extends ConsumerWidget {
             icon: const Icon(Icons.restart_alt),
             onPressed: () async {
               if (await _confirm(context, 'Hapus progres?',
-                  'Semua kunjungan, perangko, dan riwayat cap akan dihapus.', 'Hapus')) {
+                  'Semua kunjungan, prangko, dan riwayat cap akan dihapus.', 'Hapus')) {
                 await ref.read(progressProvider.notifier).reset();
                 ref.read(triggerEngineProvider).resetSession();
                 ref.invalidate(activityStatsProvider);
@@ -105,7 +105,7 @@ class ProgressScreen extends ConsumerWidget {
                       children: [
                         Text('POI dikunjungi',
                             style: Theme.of(context).textTheme.titleMedium),
-                        Text('${p.stampCount} perangko, ${stats.quizCompleted} kuis selesai,'
+                        Text('${p.stampCount} prangko, ${stats.quizCompleted} kuis selesai,'
                             ' dan ${stats.photoCount} foto'),
                         Text('${p.completionPercent}% koleksi dijelajahi',
                             style: const TextStyle(color: AppColors.grey, fontSize: 12)),
@@ -166,7 +166,7 @@ class ProgressScreen extends ConsumerWidget {
                 if (await _confirm(
                     context,
                     'Akhiri kunjungan?',
-                    'Progres dan perangko tetap tersimpan, dan kamu akan mendapat cap '
+                    'Progres dan prangko tetap tersimpan, dan kamu akan mendapat cap '
                         'kunjungan digital. Pada kunjungan berikutnya semua POI bisa '
                         'memicu informasi lagi.',
                     'Akhiri')) {

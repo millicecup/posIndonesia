@@ -124,7 +124,7 @@ class RouteGuidanceScreen extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: () =>
                           context.push(AppRoutes.poiDetail(poi.id)),
-                      child: const Text('Lihat Detail'),
+                      child: const Text('Lihat detail'),
                     ),
                   ],
                 ),

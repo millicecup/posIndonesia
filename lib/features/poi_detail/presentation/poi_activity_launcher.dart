@@ -12,7 +12,7 @@ import '../../../data/models/models.dart';
 import '../../../shared/widgets/media_image.dart';
 
 String poiActivityLabel(PoiActivity a) => switch (a) {
-      PoiActivity.timeline => 'Timeline interaktif',
+      PoiActivity.timeline => 'Linimasa interaktif',
       PoiActivity.gallery => 'Galeri',
       PoiActivity.quiz => 'Kuis',
       PoiActivity.mission => 'Jejak Misi',
@@ -118,44 +118,130 @@ void showPoiGallery(BuildContext context, Poi poi) {
   );
 }
 
+/// Chronological events come from the curated timeline, not unique facts.
+List<String> poiTimelineEntries(Poi poi) => [
+      for (final section in poi.sections)
+        if (section.title.toLowerCase().contains('linimasa'))
+          ...section.body
+              .split('\n')
+              .map((line) => line.replaceFirst(RegExp(r'^-\s*'), '').trim())
+              .where((line) => line.isNotEmpty),
+    ];
+
 void _showTimeline(BuildContext context, Poi poi) {
+  final entries = poiTimelineEntries(poi);
   showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
+    showDragHandle: true,
     builder: (ctx) => SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
+      child: SizedBox(
+        height: MediaQuery.sizeOf(ctx).height * 0.78,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Timeline: ${poi.name}',
-                style: Theme.of(ctx).textTheme.titleMedium),
-            const SizedBox(height: 12),
-            for (var i = 0; i < poi.keyFacts.length; i++)
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(children: [
-                    CircleAvatar(
-                        radius: 12,
-                        backgroundColor: AppColors.orange,
-                        child: Text('${i + 1}',
-                            style: const TextStyle(
-                                color: AppColors.white, fontSize: 12))),
-                    if (i < poi.keyFacts.length - 1)
-                      Container(
-                          width: 2, height: 32, color: AppColors.orangeLight),
-                  ]),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 2, bottom: 12),
-                      child: Text(poi.keyFacts[i]),
+            ListTile(
+              title: Text('Linimasa: ${poi.name}',
+                  style: Theme.of(ctx).textTheme.titleMedium),
+              trailing: IconButton(
+                  tooltip: 'Tutup linimasa',
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.pop(ctx)),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text(
+                  'Ikuti perjalanan sejarah dari atas ke bawah. Geser untuk melanjutkan.'),
+            ),
+            Expanded(
+              child: entries.isEmpty
+                  ? const Center(
+                      child: Text('Linimasa koleksi ini belum tersedia.'))
+                  : ListView.builder(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+                      itemCount: entries.length,
+                      itemBuilder: (context, index) {
+                        final entry = entries[index];
+                        final split = entry.indexOf(' — ');
+                        final period = split < 0
+                            ? 'Peristiwa ${index + 1}'
+                            : entry.substring(0, split);
+                        final story =
+                            split < 0 ? entry : entry.substring(split + 3);
+                        return IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              SizedBox(
+                                width: 32,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: 3,
+                                      height: 20,
+                                      color: index == 0
+                                          ? Colors.transparent
+                                          : AppColors.orange,
+                                    ),
+                                    Container(
+                                      width: 16,
+                                      height: 16,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.orange,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            color: Colors.white, width: 3),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              color: AppColors.orangeLight,
+                                              spreadRadius: 2)
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                        child: Container(
+                                      width: 3,
+                                      color: index == entries.length - 1
+                                          ? Colors.transparent
+                                          : AppColors.orange,
+                                    )),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 20),
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(
+                                        color: AppColors.orangeLight),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(period,
+                                          style: const TextStyle(
+                                            color: AppColors.orange,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          )),
+                                      const SizedBox(height: 8),
+                                      Text(story,
+                                          style: const TextStyle(height: 1.5)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
-                  ),
-                ],
-              ),
+            ),
           ],
         ),
       ),

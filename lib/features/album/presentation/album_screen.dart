@@ -1,6 +1,6 @@
 // lib/features/album/presentation/album_screen.dart
-// UI14 Album Perangko Digital (tab Album): koleksi tanpa duplikasi, progres, slot terkunci,
-// ketuk perangko untuk melihat cerita di baliknya (F08, PB13). Wireframe: PRD Gambar 5.5 tengah.
+// UI14 Album prangko Digital (tab Album): koleksi tanpa duplikasi, progres, slot terkunci,
+// ketuk prangko untuk melihat cerita di baliknya (F08, PB13). Wireframe: PRD Gambar 5.5 tengah.
 
 import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class AlbumScreen extends ConsumerWidget {
     final pois = ref.watch(poisProvider).valueOrNull ?? const <Poi>[];
 
     return Scaffold(
-      appBar: JejakAppBar(title: const Text('Album Perangko')),
+      appBar: JejakAppBar(title: const Text('Album prangko')),
       body: AsyncValueView<VisitProgress>(
         value: progress,
         data: (p) {
@@ -36,8 +36,9 @@ class AlbumScreen extends ConsumerWidget {
                   margin: const EdgeInsets.all(16),
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.lightGrey, width: 2),
-                    borderRadius: BorderRadius.circular(12),
+                    color: AppColors.white,
+                    border: Border.all(color: AppColors.lightGrey),
+                    borderRadius: BorderRadius.circular(22),
                   ),
                   child: Row(
                     children: [
@@ -45,14 +46,18 @@ class AlbumScreen extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('$owned / ${pois.length} terkumpul',
+                            Text('$owned / ${pois.length} prangko terkumpul',
                                 style: Theme.of(context).textTheme.titleMedium),
+                            const SizedBox(height: 4),
+                            Text('${p.visitedCount} POI dikunjungi',
+                                style: const TextStyle(
+                                    fontSize: 13, color: AppColors.grey)),
                             const SizedBox(height: 8),
                             LinearProgressIndicator(
                               value: ratio,
                               minHeight: 8,
                               borderRadius: BorderRadius.circular(4),
-                              color: AppColors.darkGrey,
+                              color: AppColors.teal,
                               backgroundColor: AppColors.lightGrey,
                             ),
                           ],
@@ -66,37 +71,59 @@ class AlbumScreen extends ConsumerWidget {
               ),
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                sliver: SliverGrid.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 12,
-                    childAspectRatio: 0.62,
-                  ),
-                  itemCount: pois.length,
-                  itemBuilder: (_, i) {
-                    final poi = pois[i];
-                    final has = p.hasStamp(poi.stamp.id);
-                    return InkWell(
-                      borderRadius: BorderRadius.circular(8),
-                      onTap: () => has
-                          ? _showStory(context, poi)
-                          : _showLocked(context, poi),
-                      child: StampFrame(
-                        image: poi.stamp.image,
-                        random: poi.stamp.isRandom,
-                        locked: !has,
-                        size: 92,
-                        label: has ? '${poi.id}: ${poi.stamp.title}' : poi.id,
-                      ),
+                sliver: SliverToBoxAdapter(
+                  child: LayoutBuilder(builder: (context, constraints) {
+                    final columns = constraints.maxWidth >= 600 ? 3 : 2;
+                    const gap = 16.0;
+                    final width =
+                        (constraints.maxWidth - gap * (columns - 1)) / columns;
+                    final stampSize = (width - 24).clamp(96.0, 170.0);
+                    return Wrap(
+                      spacing: gap,
+                      runSpacing: 20,
+                      children: [
+                        for (final poi in pois)
+                          SizedBox(
+                            width: width,
+                            child: Material(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(16),
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(16),
+                                onTap: () => p.hasStamp(poi.stamp.id)
+                                    ? _showStory(context, poi)
+                                    : p.isVisited(poi.id)
+                                        ? context
+                                            .push(AppRoutes.poiDetail(poi.id))
+                                        : _showLocked(context, poi),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 8),
+                                  child: StampFrame(
+                                    image: poi.stamp.image,
+                                    random: poi.stamp.isRandom,
+                                    locked: !p.hasStamp(poi.stamp.id),
+                                    size: stampSize,
+                                    label: p.hasStamp(poi.stamp.id)
+                                        ? '${poi.id}: ${poi.stamp.title}'
+                                        : p.isVisited(poi.id)
+                                            ? '${poi.id}: Belum diambil'
+                                            : poi.id,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
                     );
-                  },
+                  }),
                 ),
               ),
               const SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.all(16),
-                  child: Text('Ketuk perangko untuk melihat cerita di baliknya',
+                  child: Text(
+                      'Kunjungan dan prangko dihitung terpisah. Tekan “Selesai & ambil prangko” pada detail koleksi untuk menambah album.',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 12, color: AppColors.grey)),
                 ),
@@ -117,10 +144,14 @@ class AlbumScreen extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              StampFrame(image: poi.stamp.image, random: poi.stamp.isRandom, size: 110),
+              StampFrame(
+                  image: poi.stamp.image,
+                  random: poi.stamp.isRandom,
+                  size: 110),
               const SizedBox(height: 12),
               Text(poi.stamp.title, style: Theme.of(ctx).textTheme.titleMedium),
-              Text('${poi.id}: ${poi.name}', style: const TextStyle(color: AppColors.grey)),
+              Text('${poi.id}: ${poi.name}',
+                  style: const TextStyle(color: AppColors.grey)),
               const SizedBox(height: 8),
               Text(poi.stamp.trivia, textAlign: TextAlign.center),
               const SizedBox(height: 12),
@@ -142,9 +173,11 @@ class AlbumScreen extends ConsumerWidget {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
-        content: Text('Perangko ${poi.id} terkunci. Kunjungi "${poi.name}" untuk membukanya.'),
+        content: Text(
+            'Prangko ${poi.id} terkunci. Kunjungi "${poi.name}" untuk membukanya.'),
         action: SnackBarAction(
-            label: 'ARAH', onPressed: () => context.push(AppRoutes.navigateTo(poi.id))),
+            label: 'ARAH',
+            onPressed: () => context.push(AppRoutes.navigateTo(poi.id))),
       ));
   }
 }

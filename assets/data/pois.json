@@ -36,18 +36,13 @@
       },
       "beaconId": "BCN-P01",
       "qrCode": "QR-P01",
-      "shortDescription": "Pameran Surat Emas menampilkan lebih dari 4 abad hubungan sejarah dan diplomasi antara raja-raja Nusantara dengan penguasa Inggris.",
+      "shortDescription": "Pameran Surat Emas mengajak pengunjung menelusuri lebih dari empat abad hubungan sejarah dan diplomasi antara raja-raja Nusantara dengan penguasa Inggris. Dari Aceh, Banten, Palembang, hingga Surakarta, para penguasa mengirimkan surat yang dihiasi lembaran emas atau prada.\n\nKeindahannya tidak hanya terlihat pada hiasan. Surat dan naskah kuno ini juga memperlihatkan keragaman bahasa serta media tulis Nusantara, mulai dari bahasa Melayu, Jawa, Sunda, dan Bugis hingga lontar, bambu, dan kulit kayu.\n\nKini tersimpan di British Library, koleksi tersebut menjadi jejak tradisi tulis dan seni diplomasi Nusantara yang dapat dikenali melalui pameran ini.",
       "keyFacts": [
-        "Penguasa lokal dari Aceh, Banten, Palembang, hingga Surakarta mengirimkan epistel indah yang dihiasi lembaran emas (prada).",
-        "Naskah kuno ini ditulis dalam berbagai bahasa daerah, seperti Melayu, Jawa, Sunda, dan Bugis.",
-        "Media tulisnya adalah media tradisional seperti lontar, bambu, hingga kulit kayu.",
-        "Koleksi naskahnya kini tersimpan di British Library.",
-        "Surat Emas terpanjang (1,5 m) ditulis Sultan Iskandar Muda dari Aceh kepada Raja James I pada 1615 untuk mengajak berniaga hanya di Aceh."
+        "Surat Emas terpanjang memiliki panjang 1.5 m. Surat ini merupakan surat yang ditulis oleh Raja Iskandar Muda dari Aceh kepada Raja James 1 pada tahun 1615 untuk mengajak berniaga hanya di Aceh."
       ],
       "images": [
         "assets/images/pois/p01_01.jpg",
         "assets/images/pois/p01_02.jpg",
-        "assets/images/pois/p01_03.jpg",
         "assets/images/pois/p01_04.jpg",
         "assets/images/pois/p01_05.jpg"
       ],
@@ -83,21 +78,19 @@
       "contentValidated": true,
       "sections": [
         {
-          "title": "Pameran Surat Emas",
-          "body": "Pameran Surat Emas menampilkan lebih dari 4 abad hubungan sejarah dan diplomasi antara raja-raja Nusantara dengan penguasa Inggris. Para penguasa lokal seperti dari Aceh, Banten, Palembang, hingga Surakarta, mengirimkan epistel indah yang dihiasi lembaran emas (prada).\n\nNaskah kuno ini ditulis dalam berbagai bahasa daerah (seperti Melayu, Jawa, Sunda, dan Bugis) di atas media tradisional seperti lontar, bambu, hingga kulit kayu. Koleksi naskah yang kini tersimpan di British Library menjadi bukti keagungan tradisi keberaksaraan dan seni diplomasi Nusantara di masa lampau.",
+          "title": "Sejarah Komunikasi Tertulis di Nusantara",
+          "body": "Pameran Surat Emas mengajak pengunjung menelusuri lebih dari empat abad hubungan sejarah dan diplomasi antara raja-raja Nusantara dengan penguasa Inggris. Dari Aceh, Banten, Palembang, hingga Surakarta, para penguasa mengirimkan surat yang dihiasi lembaran emas atau prada.\n\nKeindahannya tidak hanya terlihat pada hiasan. Surat dan naskah kuno ini juga memperlihatkan keragaman bahasa serta media tulis Nusantara, mulai dari bahasa Melayu, Jawa, Sunda, dan Bugis hingga lontar, bambu, dan kulit kayu.\n\nKini tersimpan di British Library, koleksi tersebut menjadi jejak tradisi tulis dan seni diplomasi Nusantara yang dapat dikenali melalui pameran ini.",
           "images": [
             "assets/images/pois/p01_04.jpg",
             "assets/images/pois/p01_01.jpg",
-            "assets/images/pois/p01_02.jpg"
+            "assets/images/pois/p01_02.jpg",
+            "assets/images/pois/p01_05.jpg"
           ]
         },
         {
-          "title": "Surat Emas Terpanjang",
-          "body": "Surat Emas terpanjang memiliki panjang 1,5 m. Surat ini ditulis oleh Sultan Iskandar Muda dari Aceh kepada Raja James I pada tahun 1615 untuk mengajak berniaga hanya di Aceh.",
-          "images": [
-            "assets/images/pois/p01_05.jpg",
-            "assets/images/pois/p01_03.jpg"
-          ]
+          "title": "Linimasa Surat Emas",
+          "body": "- 1615 — Sultan Iskandar Muda dari Aceh mengirim surat kepada Raja James I untuk mengajak berniaga hanya di Aceh. Surat Emas ini memiliki panjang 1,5 meter.",
+          "images": []
         }
       ],
       "contentSource": "Repo content/poi-dataset (description.md, quiz.json, album_perangko), tim konten JejakPOS; sebelumnya Dokumen Sprint 2 (PB06)",
@@ -119,13 +112,10 @@
       },
       "beaconId": "BCN-P02",
       "qrCode": "QR-P02",
-      "shortDescription": "Sejarah perposan di Nusantara berkembang dari tradisi lisan hingga menjadi urat nadi komunikasi bangsa.",
+      "shortDescription": "Jauh sebelum layanan pos modern hadir, masyarakat Nusantara telah menemukan berbagai cara untuk menyampaikan pesan. Pada masa kerajaan, pesan jarak jauh disampaikan melalui pos teriak, sinyal asap, dan naskah lontar yang dibawa para caraka.\n\nMemasuki masa VOC, surat bergantung pada perjalanan kapal dagang yang dapat memakan waktu berbulan-bulan. Surat-surat juga dipajang di penginapan kota yang disebut Stadsherberg.\n\nPerjalanan surat menjadi lebih cepat pada masa Daendels, ketika Jalan Raya Pos Anyer–Panarukan dibangun pada 1808–1811. Waktu pengiriman yang sebelumnya sekitar dua minggu berkurang menjadi tiga sampai empat hari. Pada masa Raffles dan Hindia Belanda, layanan ini kemudian ditata melalui tarif resmi berdasarkan jarak.\n\n\nPada masa pendudukan Jepang, pengelolaan pos dibagi ke dalam tiga wilayah militer. Babak baru dimulai pada 27 September 1945, saat para pemuda PTT mengambil alih Kantor Pos Besar dari Jepang. Layanan pos terus berjalan, termasuk ketika ibu kota berpindah ke Yogyakarta.",
       "keyFacts": [
-        "Di era kerajaan, pesan jarak jauh disampaikan lewat pos teriak, sinyal asap, hingga naskah lontar oleh para caraka.",
-        "Pada masa VOC, pengiriman surat bergantung pada kapal dagang yang memakan waktu berbulan-bulan, dan surat dipajang di penginapan kota (Stadsherberg).",
-        "Jalan Raya Pos Anyer-Panarukan pada era Daendels (1808-1811) memangkas waktu kirim surat dari 2 minggu menjadi 3-4 hari.",
-        "Pada 27 September 1945, pemuda PTT mengambil alih Kantor Pos Besar dari Jepang.",
-        "Penyerahan Gedung PTT kepada Angkatan Muda PTT pada 27 September 1945 diperingati sebagai Hari Bakti Postel."
+        "Gedung PTT di sayap timur Gedung Sate menjadi saksi perjuangan bangsa Indonesia mengambil alih pengelolaan layanan komunikasi dari Jepang.  Dibangun sejak peletakan batu pertama pada 27 Juli 1920, gedung rancangan arsitek J. Herberg ini memiliki desain unik dengan posisi 45° terhadap Gedung Sate.",
+        "27 September diperingati sebagai Hari Bakti Postel"
       ],
       "images": [
         "assets/images/pois/p02_01.jpg",
@@ -174,7 +164,8 @@
       "contentValidated": true,
       "sections": [
         {
-          "title": "Sejarah Perposan di Nusantara",
+          "title": "Sejarah Pos Nusantara",
+          "body": "Jauh sebelum layanan pos modern hadir, masyarakat Nusantara telah menemukan berbagai cara untuk menyampaikan pesan. Pada masa kerajaan, pesan jarak jauh disampaikan melalui pos teriak, sinyal asap, dan naskah lontar yang dibawa para caraka.\n\nMemasuki masa VOC, surat bergantung pada perjalanan kapal dagang yang dapat memakan waktu berbulan-bulan. Surat-surat juga dipajang di penginapan kota yang disebut Stadsherberg.\n\nPerjalanan surat menjadi lebih cepat pada masa Daendels, ketika Jalan Raya Pos Anyer–Panarukan dibangun pada 1808–1811. Waktu pengiriman yang sebelumnya sekitar dua minggu berkurang menjadi tiga sampai empat hari. Pada masa Raffles dan Hindia Belanda, layanan ini kemudian ditata melalui tarif resmi berdasarkan jarak.\n\n\nPada masa pendudukan Jepang, pengelolaan pos dibagi ke dalam tiga wilayah militer. Babak baru dimulai pada 27 September 1945, saat para pemuda PTT mengambil alih Kantor Pos Besar dari Jepang. Layanan pos terus berjalan, termasuk ketika ibu kota berpindah ke Yogyakarta.",
           "images": [
             "assets/images/pois/p02_10.jpg",
             "assets/images/pois/p02_01.jpg",
@@ -182,18 +173,16 @@
             "assets/images/pois/p02_03.jpg",
             "assets/images/pois/p02_04.jpg",
             "assets/images/pois/p02_05.jpg",
-            "assets/images/pois/p02_06.jpg"
-          ],
-          "body": "Sejarah perposan di Nusantara berkembang dari tradisi lisan hingga menjadi urat nadi komunikasi bangsa. Di era kerajaan, pesan jarak jauh disampaikan lewat pos teriak, sinyal asap, hingga naskah lontar oleh para caraka.\n\nPada masa VOC, pengiriman surat bergantung pada kapal dagang yang memakan waktu berbulan-bulan, dan surat dipajang di penginapan kota (Stadsherberg).\n\nPerubahan besar terjadi pada era Daendels (1808-1811) lewat pembangunan Jalan Raya Pos Anyer-Panarukan yang memangkas waktu kirim surat dari 2 minggu menjadi 3-4 hari.\n\nSistem ini disempurnakan pada era Raffles dan Hindia Belanda melalui penataan tarif resmi berbasis jarak. Meski sempat dipecah ke dalam 3 wilayah militer pada era Jepang, puncaknya terjadi pada 27 September 1945 saat pemuda PTT (Post, Telegraaf, en Telefoon) mengambil alih Kantor Pos Besar dari Jepang dan mengawal layanan pos saat Ibu Kota berpindah ke Yogyakarta."
-        },
-        {
-          "title": "Gedung PTT",
-          "images": [
+            "assets/images/pois/p02_06.jpg",
             "assets/images/pois/p02_11.jpg",
             "assets/images/pois/p02_12.jpg",
             "assets/images/pois/p02_07.jpg"
-          ],
-          "body": "Gedung PTT di sayap timur Gedung Sate menjadi saksi perjuangan bangsa Indonesia mengambil alih pengelolaan layanan komunikasi dari Jepang. Dibangun sejak peletakan batu pertama pada 27 Juli 1920, gedung rancangan arsitek J. Herberg ini memiliki desain unik dengan posisi 45 derajat terhadap Gedung Sate.\n\nTanggal 27 September diperingati sebagai Hari Bakti Postel."
+          ]
+        },
+        {
+          "title": "Linimasa Pos Nusantara",
+          "body": "- Masa kerajaan — Pesan disampaikan melalui pos teriak, sinyal asap, dan naskah lontar yang dibawa para caraka.\n- Masa VOC — Pengiriman surat bergantung pada kapal dagang dan dapat memakan waktu berbulan-bulan.\n- 1808–1811 — Pembangunan Jalan Raya Pos Anyer–Panarukan pada masa Daendels mempercepat pengiriman surat menjadi tiga sampai empat hari.\n- Masa Raffles dan Hindia Belanda — Tarif resmi pengiriman ditata berdasarkan jarak.\n- Masa pendudukan Jepang — Pengelolaan layanan pos dibagi ke dalam tiga wilayah militer.\n- 27 September 1945 — Para pemuda PTT mengambil alih Kantor Pos Besar dari Jepang.",
+          "images": []
         }
       ],
       "contentSource": "Repo content/poi-dataset (description.md, quiz.json, album_perangko), tim konten JejakPOS; sebelumnya Dokumen Sprint 2 (PB06)",
@@ -272,17 +261,9 @@
       },
       "beaconId": "BCN-P03",
       "qrCode": "QR-P03",
-      "shortDescription": "Sejarah kepemimpinan Pos Indonesia mengikuti perubahan organisasi yang mengelola layanan pos, dari PTT masa Hindia Belanda hingga PT Pos Indonesia (Persero).",
-      "keyFacts": [
-        "Masa Hindia Belanda: Post, Telegraaf en Telefoondienst (PTT) mengelola layanan pos, telegraf, dan telepon.",
-        "1945: setelah kemerdekaan, pemerintah Indonesia mengambil alih pengelolaan melalui Jawatan Pos, Telegraf dan Telepon.",
-        "1961: jawatan berubah menjadi PN Pos dan Telekomunikasi; 1965: layanan pos dipisahkan dan dikelola PN Pos dan Giro.",
-        "1978: PN Pos dan Giro berubah menjadi Perum Pos dan Giro.",
-        "1995: Perum Pos dan Giro resmi menjadi PT Pos Indonesia (Persero)."
-      ],
+      "shortDescription": "Perjalanan kepemimpinan Pos Indonesia tidak terlepas dari perubahan lembaga yang mengelola layanan komunikasi. Pada masa Hindia Belanda, pos, telegraf, dan telepon berada dalam pengelolaan Post, Telegraaf en Telefoondienst atau PTT. Setelah kemerdekaan, pengelolaannya beralih ke pemerintah Indonesia.\n\nSeiring waktu, layanan pos dipisahkan dari telekomunikasi. Organisasinya terus berkembang hingga menjadi PT Pos Indonesia (Persero), dengan layanan yang mencakup kurir, logistik, dan jasa keuangan. Urutan perubahan ini dapat ditelusuri melalui linimasa interaktif.\n\nDi museum, kisah para pemimpinnya juga hadir melalui koleksi tera tangan direksi. Cap atau cetakan tangan ini mewakili tokoh-tokoh yang pernah menjabat, sehingga perjalanan organisasi tidak hanya dikenali melalui nama dan tahun, tetapi juga melalui jejak para pemimpinnya.",
+      "keyFacts": [],
       "images": [
-        "assets/images/pois/p03_01.jpg",
-        "assets/images/pois/p03_02.jpg",
         "assets/images/pois/p03_03.jpg",
         "assets/images/pois/p03_04.jpg"
       ],
@@ -318,20 +299,17 @@
       "contentValidated": true,
       "sections": [
         {
-          "title": "Pimpinan Pos Indonesia",
-          "body": "Sejarah kepemimpinan Pos Indonesia mengikuti perubahan organisasi yang mengelola layanan pos. Pada masa Hindia Belanda, layanan pos, telegraf, dan telepon dikelola oleh Post, Telegraaf en Telefoondienst (PTT). Setelah kemerdekaan, pengelolaannya beralih ke pemerintah Indonesia.\n\nDalam perkembangannya, layanan pos dipisahkan dari telekomunikasi, dan Pos Indonesia kemudian memperluas layanannya hingga mencakup kurir, logistik, dan jasa keuangan.",
+          "title": "Sejarah Kepemimpinan Pos Indonesia",
+          "body": "Perjalanan kepemimpinan Pos Indonesia tidak terlepas dari perubahan lembaga yang mengelola layanan komunikasi. Pada masa Hindia Belanda, pos, telegraf, dan telepon berada dalam pengelolaan Post, Telegraaf en Telefoondienst atau PTT. Setelah kemerdekaan, pengelolaannya beralih ke pemerintah Indonesia.\n\nSeiring waktu, layanan pos dipisahkan dari telekomunikasi. Organisasinya terus berkembang hingga menjadi PT Pos Indonesia (Persero), dengan layanan yang mencakup kurir, logistik, dan jasa keuangan. Urutan perubahan ini dapat ditelusuri melalui linimasa interaktif.\n\nDi museum, kisah para pemimpinnya juga hadir melalui koleksi tera tangan direksi. Cap atau cetakan tangan ini mewakili tokoh-tokoh yang pernah menjabat, sehingga perjalanan organisasi tidak hanya dikenali melalui nama dan tahun, tetapi juga melalui jejak para pemimpinnya.",
           "images": [
             "assets/images/pois/p03_03.jpg",
-            "assets/images/pois/p03_01.jpg"
+            "assets/images/pois/p03_04.jpg"
           ]
         },
         {
-          "title": "Tera Tangan Direksi Pos",
-          "body": "Di Museum Pos Indonesia, perjalanan kepemimpinan ini juga didokumentasikan melalui koleksi tera tangan direksi. Tera tangan adalah cap atau cetakan tangan dari pimpinan yang pernah menjabat.\n\nSetiap cetakan mewakili seorang tokoh pada masa jabatannya dan membantu pengunjung mengenal para pimpinan yang berperan dalam perkembangan layanan pos di Indonesia.",
-          "images": [
-            "assets/images/pois/p03_04.jpg",
-            "assets/images/pois/p03_02.jpg"
-          ]
+          "title": "Linimasa Pos Indonesia",
+          "body": "- Masa Hindia Belanda — PTT mengelola layanan pos, telegraf, dan telepon.\n- 1945 — Setelah kemerdekaan, pemerintah Indonesia mengambil alih pengelolaan layanan melalui Jawatan Pos, Telegraf dan Telepon.\n- 1961 — Jawatan tersebut berubah menjadi PN Pos dan Telekomunikasi.\n- 1965 — Layanan pos dipisahkan dari telekomunikasi dan mulai dikelola oleh PN Pos dan Giro.\n- 1978 — PN Pos dan Giro berubah menjadi Perum Pos dan Giro.\n- 1995 — Perum Pos dan Giro resmi menjadi PT Pos Indonesia (Persero).",
+          "images": []
         }
       ],
       "contentSource": "Repo content/poi-dataset (description.md, quiz.json, album_perangko), tim konten JejakPOS; sebelumnya Dokumen Sprint 2 (PB06)",
@@ -353,29 +331,25 @@
       },
       "beaconId": "BCN-P04",
       "qrCode": "QR-P04",
-      "shortDescription": "Sejak masa Hindia Belanda, pakaian dinas digunakan sebagai tanda pengenal resmi pengantar surat, dan bentuknya terus berubah dari masa ke masa.",
+      "shortDescription": "Seragam membantu masyarakat mengenali petugas yang mengantarkan surat. Sejak masa Hindia Belanda, pakaian dinas dan perlengkapannya menjadi tanda pengenal resmi, dengan bentuk yang terus berubah mengikuti zamannya.\n\n\nPada pertengahan abad ke-19, petugas menggunakan ban lengan kulit dengan pelat tembaga. Pada 1864, para pesuruh dinas menggantinya dengan selempang dan mengenakan pelat tembaga di dada.\n\nPerubahan berlanjut pada masa pendudukan Jepang dan setelah kemerdekaan. Museum menyimpan contoh pakaian pengantar surat dari akhir masa pendudukan Jepang, serta seragam yang memperlihatkan perkembangan organisasi Pos Indonesia, termasuk pakaian dinas lapangan yang mulai digunakan pada 1995.\n\nDi samping pakaian, topi dinas atau pet dan lencana menjadi bagian dari identitas petugas. Bentuk dan lambangnya mencerminkan organisasi pos pada tiap masa, sementara tas pengiriman membantu petugas membawa surat selama perjalanan.",
       "keyFacts": [
-        "1854: pengantar surat di Batavia, Semarang, dan Surabaya mendapat pakaian dinas sebagai tanda pengenal.",
-        "1864: para pesuruh dinas mengganti ban lengan dengan selempang biru tua bertepi kuning dan mengenakan pelat tembaga di dada.",
-        "1930: tas pengiriman surat dalam koleksi museum digunakan oleh pengantar pos pada masa Hindia Belanda.",
-        "Akhir masa pendudukan Jepang: museum menyimpan contoh pakaian yang dikenakan pengantar pos pada periode ini.",
-        "1970 dan 1995: salah satu seragam koleksi dipakai hingga 1970; pakaian dinas lapangan mulai digunakan pada 15 Agustus 1995."
+        "1854 — Pengantar surat di Batavia, Semarang, dan Surabaya mendapat pakaian dinas sebagai tanda pengenal.",
+        "1864 — Para pesuruh dinas mengganti ban lengan dengan selempang biru tua bertepi kuning dan mengenakan pelat tembaga di dada.",
+        "1930 — Tas pengiriman surat dalam koleksi museum digunakan oleh pengantar pos pada masa Hindia Belanda.",
+        "Akhir masa pendudukan Jepang — Museum menyimpan contoh pakaian yang dikenakan pengantar pos pada periode ini.",
+        "1970 dan 1995 — Salah satu seragam dalam koleksi dipakai hingga 1970. Pakaian dinas lapangan yang juga dipamerkan mulai digunakan pada 15 Agustus 1995."
       ],
       "images": [
         "assets/images/pois/p04_01.jpg",
-        "assets/images/pois/p04_02.jpg",
-        "assets/images/pois/p04_03.jpg",
-        "assets/images/pois/p04_04.jpg",
-        "assets/images/pois/p04_05.jpg",
+        "assets/images/pois/p04_11.jpg",
+        "assets/images/pois/p04_13.jpg",
+        "assets/images/pois/p04_14.jpg",
+        "assets/images/pois/p04_12.jpg",
         "assets/images/pois/p04_06.jpg",
         "assets/images/pois/p04_07.jpg",
         "assets/images/pois/p04_08.jpg",
         "assets/images/pois/p04_09.jpg",
-        "assets/images/pois/p04_10.jpg",
-        "assets/images/pois/p04_11.jpg",
-        "assets/images/pois/p04_12.jpg",
-        "assets/images/pois/p04_13.jpg",
-        "assets/images/pois/p04_14.jpg"
+        "assets/images/pois/p04_10.jpg"
       ],
       "audio": "assets/audio/p04_narasi.wav",
       "contentTypes": [
@@ -404,30 +378,19 @@
       "longitude": 107.620264,
       "coordinatesArePlaceholder": false,
       "activities": [
-        "photoStudio",
-        "timeline"
+        "photoStudio"
       ],
       "contentValidated": true,
       "sections": [
         {
-          "title": "Seragam Petugas Pos",
-          "body": "Sejak masa Hindia Belanda, pakaian dinas digunakan sebagai tanda pengenal resmi pengantar surat. Bentuk tanda pengenal itu berubah dari waktu ke waktu. Pada pertengahan abad ke-19, petugas memakai ban lengan kulit dengan pelat tembaga. Pada 1864, para pesuruh dinas mendapat selempang sebagai pengganti ban lengan dan mengenakan pelat tembaga di dada.\n\nPada masa pendudukan Jepang (1942-1945), pengelolaan layanan pos beralih ke pemerintahan Jepang. Museum Pos Indonesia menyimpan contoh pakaian pengantar surat dari akhir masa tersebut. Setelah kemerdekaan, seragam terus berkembang mengikuti perubahan organisasi Pos Indonesia, termasuk pakaian dinas lapangan yang mulai digunakan pada 1995.",
+          "title": "Sejarah Seragam Petugas Pos",
+          "body": "Seragam membantu masyarakat mengenali petugas yang mengantarkan surat. Sejak masa Hindia Belanda, pakaian dinas dan perlengkapannya menjadi tanda pengenal resmi, dengan bentuk yang terus berubah mengikuti zamannya.\n\n\nPada pertengahan abad ke-19, petugas menggunakan ban lengan kulit dengan pelat tembaga. Pada 1864, para pesuruh dinas menggantinya dengan selempang dan mengenakan pelat tembaga di dada.\n\nPerubahan berlanjut pada masa pendudukan Jepang dan setelah kemerdekaan. Museum menyimpan contoh pakaian pengantar surat dari akhir masa pendudukan Jepang, serta seragam yang memperlihatkan perkembangan organisasi Pos Indonesia, termasuk pakaian dinas lapangan yang mulai digunakan pada 1995.\n\nDi samping pakaian, topi dinas atau pet dan lencana menjadi bagian dari identitas petugas. Bentuk dan lambangnya mencerminkan organisasi pos pada tiap masa, sementara tas pengiriman membantu petugas membawa surat selama perjalanan.",
           "images": [
             "assets/images/pois/p04_13.jpg",
             "assets/images/pois/p04_14.jpg",
             "assets/images/pois/p04_01.jpg",
-            "assets/images/pois/p04_02.jpg",
-            "assets/images/pois/p04_03.jpg",
-            "assets/images/pois/p04_04.jpg"
-          ]
-        },
-        {
-          "title": "Topi, Lencana, dan Tas",
-          "body": "Koleksi museum juga memperlihatkan fungsi perlengkapan yang menyertai seragam. Topi dinas, yang pada label museum disebut pet, dan lencana menjadi bagian dari tanda pengenal petugas. Bentuk dan lambang lencana mencerminkan identitas organisasi pos pada tiap masa.\n\nSementara itu, tas pengiriman surat digunakan untuk menyimpan dan membawa kiriman selama pengantaran.",
-          "images": [
             "assets/images/pois/p04_11.jpg",
-            "assets/images/pois/p04_12.jpg",
-            "assets/images/pois/p04_05.jpg"
+            "assets/images/pois/p04_12.jpg"
           ]
         }
       ],
@@ -450,17 +413,12 @@
       },
       "beaconId": "BCN-P05",
       "qrCode": "QR-P05",
-      "shortDescription": "Pembuatan perangko melalui beberapa tahapan, dari perancangan desain hingga distribusi, sebelum siap digunakan sebagai tanda pembayaran biaya pengiriman surat.",
+      "shortDescription": "Sebelum abad ke-19, biaya pengiriman surat umumnya dibayar oleh penerima. Pada 1837, Sir Rowland Hill mengusulkan sistem pembayaran ongkos kirim di muka oleh pengirim. Usulan ini mendorong lahirnya Penny Black pada 1840, prangko pertama yang belum memiliki perforasi.\n\nPerforasi, yaitu deretan lubang kecil di antara keping-keping prangko untuk memudahkan pemisahannya, kemudian diperkenalkan pada 1854. Di Hindia Belanda, penggunaan prangko dimulai pada 1864 dengan tulisan Nederlandsch Indie.\n\nPembuatan perangko dimulai dari perancangan desain. Tema penerbitan menjadi dasar pemilihan gambar dan warna, sedangkan angka nominal menunjukkan nilai pembayaran ongkos kirim yang diwakili oleh perangko. Setelah desain disetujui, pelat cetak dibuat untuk memindahkan rancangan ke kertas khusus. Dalam satu lembar, desain perangko dicetak berulang kali dalam susunan baris dan kolom.\nLembaran yang sudah dicetak kemudian melalui tahap perforasi. Pada tahap ini, deretan lubang kecil dibuat di antara keping-keping perangko sebagai garis sobek. Lubang-lubang tersebut memudahkan setiap keping dipisahkan dari lembarannya dan menghasilkan tepi bergerigi yang biasa terlihat pada perangko.\nSebelum dikemas, hasil cetakan diperiksa untuk memastikan gambar tercetak jelas, angka nominal mudah dibaca, dan garis perforasi berada di antara keping-keping perangko. Lembaran yang lolos pemeriksaan kemudian dipotong sesuai ukuran, dikemas, dan didistribusikan agar dapat digunakan untuk membayar biaya pengiriman surat.",
       "keyFacts": [
-        "Tahap 1 - Desain: perancangan desain yang mencakup penentuan tema, gambar, warna, dan nilai nominal perangko.",
-        "Tahap 2 - Persiapan cetak: setelah desain disetujui, dibuat pelat cetak untuk proses pencetakan.",
-        "Tahap 3 - Pencetakan: perangko dicetak pada lembaran kertas khusus.",
-        "Tahap 4 - Perforasi: pembuatan lubang-lubang kecil agar perangko mudah dipisahkan.",
-        "Tahap 5 - Hasil akhir: hasil cetakan diperiksa kualitasnya, lalu dipotong, dikemas, dan didistribusikan kepada masyarakat."
+        "Pada lembaran yang masih utuh, perforasi tampak sebagai deretan lubang di antara dua perangko. Ketika keduanya dipisahkan, lubang-lubang itu terbagi menjadi lekukan pada tepi masing-masing keping."
       ],
       "images": [
         "assets/images/pois/p05_01.jpg",
-        "assets/images/pois/p05_02.jpg",
         "assets/images/pois/p05_03.jpg"
       ],
       "audio": "assets/audio/p05_narasi.wav",
@@ -503,16 +461,10 @@
         },
         {
           "title": "Proses Pembuatan Prangko",
-          "body": "Pembuatan perangko dimulai dari perancangan desain. Tema penerbitan menjadi dasar pemilihan gambar dan warna, sedangkan angka nominal menunjukkan nilai pembayaran ongkos kirim yang diwakili oleh perangko. Setelah desain disetujui, pelat cetak dibuat untuk memindahkan rancangan ke kertas khusus. Dalam satu lembar, desain perangko dicetak berulang kali dalam susunan baris dan kolom.\n\nLembaran yang sudah dicetak kemudian melalui tahap perforasi. Pada tahap ini, deretan lubang kecil dibuat di antara keping-keping perangko sebagai garis sobek. Lubang-lubang tersebut memudahkan setiap keping dipisahkan dari lembarannya dan menghasilkan tepi bergerigi yang biasa terlihat pada perangko.\n\nSebelum dikemas, hasil cetakan diperiksa untuk memastikan gambar tercetak jelas, angka nominal mudah dibaca, dan garis perforasi berada di antara keping-keping perangko. Lembaran yang lolos pemeriksaan kemudian dipotong sesuai ukuran, dikemas, dan didistribusikan agar dapat digunakan untuk membayar biaya pengiriman surat.",
+          "body": "Pembuatan perangko dimulai dari perancangan desain. Tema penerbitan menjadi dasar pemilihan gambar dan warna, sedangkan angka nominal menunjukkan nilai pembayaran ongkos kirim yang diwakili oleh perangko. Setelah desain disetujui, pelat cetak dibuat untuk memindahkan rancangan ke kertas khusus. Dalam satu lembar, desain perangko dicetak berulang kali dalam susunan baris dan kolom.\nLembaran yang sudah dicetak kemudian melalui tahap perforasi. Pada tahap ini, deretan lubang kecil dibuat di antara keping-keping perangko sebagai garis sobek. Lubang-lubang tersebut memudahkan setiap keping dipisahkan dari lembarannya dan menghasilkan tepi bergerigi yang biasa terlihat pada perangko.\nSebelum dikemas, hasil cetakan diperiksa untuk memastikan gambar tercetak jelas, angka nominal mudah dibaca, dan garis perforasi berada di antara keping-keping perangko. Lembaran yang lolos pemeriksaan kemudian dipotong sesuai ukuran, dikemas, dan didistribusikan agar dapat digunakan untuk membayar biaya pengiriman surat.",
           "images": [
-            "assets/images/pois/p05_03.jpg",
-            "assets/images/pois/p05_02.jpg"
+            "assets/images/pois/p05_03.jpg"
           ]
-        },
-        {
-          "title": "Fakta Unik: Perforasi",
-          "body": "Pada lembaran yang masih utuh, perforasi tampak sebagai deretan lubang di antara dua perangko. Ketika keduanya dipisahkan, lubang-lubang itu terbagi menjadi lekukan pada tepi masing-masing keping.",
-          "images": []
         }
       ],
       "contentSource": "Repo content/poi-dataset (description.md, quiz.json, album_perangko), tim konten JejakPOS; sebelumnya Dokumen Sprint 2 (PB06)",
@@ -534,13 +486,9 @@
       },
       "beaconId": "BCN-P06",
       "qrCode": "QR-P06",
-      "shortDescription": "Kode pos adalah kode lima angka yang ditambahkan pada alamat surat dan paket untuk memudahkan penyortiran.",
+      "shortDescription": "Kode pos adalah kode yang ditambahkan pada alamat surat dan paket untuk memudahkan penyortiran. Di Indonesia, kode pos terdiri dari lima angka. Angka pertama menunjukkan kelompok wilayah tujuan, sedangkan angka berikutnya membantu memperinci lokasi kiriman.\n\nSistem kode pos Indonesia dicetuskan oleh Ir. Marsoedi Mohamad Paham saat memimpin Perum Pos dan Giro. Gagasan ini muncul karena banyaknya surat yang harus disortir. Dengan memberi kode pada setiap wilayah, petugas pos dapat mengelompokkan kiriman sebelum meneruskannya ke tujuan masing-masing.\n\nPerum Pos dan Giro mulai menggunakan kode pos untuk keperluan internal pada 27 September 1982. Tepat setahun kemudian, pada 27 September 1983, sistem ini resmi diperkenalkan kepada masyarakat.\n\nPeta di museum memperlihatkan pengelompokan wilayah berdasarkan angka pertama kode pos.\n\n1: DKI Jakarta serta sebagian Jawa Barat dan Banten, seperti Bogor, Depok, Bekasi, dan Tangerang\n\n2: Aceh, Sumatera Utara, Sumatera Barat, Riau, dan Kepulauan Riau\n\n3: Jambi, Bengkulu, Sumatera Selatan, Kepulauan Bangka Belitung, dan Lampung\n\n4: Wilayah Jawa Barat dan Banten di luar kelompok angka 1\n\n5: Jawa Tengah dan Daerah Istimewa Yogyakarta\n\n6: Jawa Timur\n\n7: Kalimantan\n\n8: Bali, Nusa Tenggara Barat, dan Nusa Tenggara Timur\n\n9: Sulawesi, Maluku, dan Papua",
       "keyFacts": [
-        "Di Indonesia, kode pos terdiri dari lima angka; angka pertama menunjukkan kelompok wilayah tujuan.",
-        "Sistem kode pos Indonesia dicetuskan oleh Ir. Marsoedi Mohamad Paham saat memimpin Perum Pos dan Giro.",
-        "Perum Pos dan Giro mulai memakai kode pos untuk keperluan internal pada 27 September 1982.",
-        "Pada 27 September 1983, sistem kode pos resmi diperkenalkan kepada masyarakat.",
-        "Satu provinsi bisa memiliki lebih dari satu angka awal: kode pos Bandung diawali 4, sedangkan Bekasi diawali 1."
+        "Satu provinsi bisa memiliki lebih dari satu angka awal. Di Jawa Barat, misalnya, kode pos di Bandung diawali angka 4, sedangkan kode pos di Bekasi diawali angka 1."
       ],
       "images": [
         "assets/images/pois/p06_01.jpg",
@@ -579,22 +527,16 @@
       "contentValidated": true,
       "sections": [
         {
-          "title": "Kode Pos",
-          "body": "Kode pos adalah kode yang ditambahkan pada alamat surat dan paket untuk memudahkan penyortiran. Di Indonesia, kode pos terdiri dari lima angka. Angka pertama menunjukkan kelompok wilayah tujuan, sedangkan angka berikutnya membantu memperinci lokasi kiriman.",
+          "title": "Kode Pos di Indonesia",
+          "body": "Kode pos adalah kode yang ditambahkan pada alamat surat dan paket untuk memudahkan penyortiran. Di Indonesia, kode pos terdiri dari lima angka. Angka pertama menunjukkan kelompok wilayah tujuan, sedangkan angka berikutnya membantu memperinci lokasi kiriman.\n\nSistem kode pos Indonesia dicetuskan oleh Ir. Marsoedi Mohamad Paham saat memimpin Perum Pos dan Giro. Gagasan ini muncul karena banyaknya surat yang harus disortir. Dengan memberi kode pada setiap wilayah, petugas pos dapat mengelompokkan kiriman sebelum meneruskannya ke tujuan masing-masing.\n\nPerum Pos dan Giro mulai menggunakan kode pos untuk keperluan internal pada 27 September 1982. Tepat setahun kemudian, pada 27 September 1983, sistem ini resmi diperkenalkan kepada masyarakat.",
           "images": [
-            "assets/images/pois/p06_01.jpg"
-          ]
-        },
-        {
-          "title": "Pencetus Kode Pos",
-          "body": "Sistem kode pos Indonesia dicetuskan oleh Ir. Marsoedi Mohamad Paham saat memimpin Perum Pos dan Giro. Gagasan ini muncul karena banyaknya surat yang harus disortir. Dengan memberi kode pada setiap wilayah, petugas pos dapat mengelompokkan kiriman sebelum meneruskannya ke tujuan masing-masing.\n\nPerum Pos dan Giro mulai menggunakan kode pos untuk keperluan internal pada 27 September 1982. Tepat setahun kemudian, pada 27 September 1983, sistem ini resmi diperkenalkan kepada masyarakat.",
-          "images": [
+            "assets/images/pois/p06_01.jpg",
             "assets/images/pois/p06_02.jpg"
           ]
         },
         {
           "title": "Pembagian Wilayah Kode Pos",
-          "body": "Peta di museum memperlihatkan pengelompokan wilayah berdasarkan angka pertama kode pos:\n\n1 - DKI Jakarta serta sebagian Jawa Barat dan Banten, seperti Bogor, Depok, Bekasi, dan Tangerang.\n2 - Aceh, Sumatera Utara, Sumatera Barat, Riau, dan Kepulauan Riau.\n3 - Jambi, Bengkulu, Sumatera Selatan, Kepulauan Bangka Belitung, dan Lampung.\n4 - Wilayah Jawa Barat dan Banten di luar kelompok angka 1.\n5 - Jawa Tengah dan Daerah Istimewa Yogyakarta.\n6 - Jawa Timur.\n7 - Kalimantan.\n8 - Bali, Nusa Tenggara Barat, dan Nusa Tenggara Timur.\n9 - Sulawesi, Maluku, dan Papua.\n\nSatu provinsi bisa memiliki lebih dari satu angka awal. Di Jawa Barat, misalnya, kode pos di Bandung diawali angka 4, sedangkan kode pos di Bekasi diawali angka 1.",
+          "body": "Peta di museum memperlihatkan pengelompokan wilayah berdasarkan angka pertama kode pos.\n\n1: DKI Jakarta serta sebagian Jawa Barat dan Banten, seperti Bogor, Depok, Bekasi, dan Tangerang\n\n2: Aceh, Sumatera Utara, Sumatera Barat, Riau, dan Kepulauan Riau\n\n3: Jambi, Bengkulu, Sumatera Selatan, Kepulauan Bangka Belitung, dan Lampung\n\n4: Wilayah Jawa Barat dan Banten di luar kelompok angka 1\n\n5: Jawa Tengah dan Daerah Istimewa Yogyakarta\n\n6: Jawa Timur\n\n7: Kalimantan\n\n8: Bali, Nusa Tenggara Barat, dan Nusa Tenggara Timur\n\n9: Sulawesi, Maluku, dan Papua",
           "images": [
             "assets/images/pois/p06_03.jpg"
           ]
@@ -677,13 +619,10 @@
       },
       "beaconId": "BCN-P07",
       "qrCode": "QR-P07",
-      "shortDescription": "Lemari geser menyimpan berbagai koleksi prangko dari Indonesia maupun negara lain, dengan beragam desain, tema, dan periode penerbitan.",
+      "shortDescription": "Sir Rowland Hill (1795–1879) berperan penting dalam reformasi sistem perposan Inggris. Melalui proposalnya pada 1837, ia mengusulkan pembayaran ongkos kirim di muka yang mendorong penerbitan prangko pertama pada 1840.\n\nPenny Black merupakan prangko berperekat pertama yang digunakan dalam sistem pos umum. Prangko bergambar Ratu Victoria dengan nominal 1 penny ini diterbitkan di Inggris pada 1 Mei 1840 dan mulai digunakan secara resmi pada 6 Mei 1840.\n\nPrangko Emas diterbitkan pada 12 Agustus 2002 untuk memperingati satu abad kelahiran Mohammad Hatta. Koleksi ini menjadi wujud penghormatan terhadap salah satu tokoh perjuangan kemerdekaan Indonesia.\n\nLemari geser menyimpan berbagai koleksi prangko dari Indonesia maupun negara lain. Keragaman desain, tema, dan periode penerbitannya memperlihatkan perkembangan prangko dari berbagai masa.\n\nSeri Prangko Cerita Rakyat tahun 1999 dengan nominal 500 menampilkan berbagai kisah Nusantara, seperti Danau Toba dari Sumatera Utara, Banjarmasin dari Kalimantan Selatan, dan Buleleng dari Bali.",
       "keyFacts": [
-        "Sir Rowland Hill (1795-1879) mengusulkan sistem pembayaran ongkos kirim di muka pada 1837, yang mendorong penerbitan prangko pertama pada 1840.",
-        "Penny Black, prangko berperekat pertama bergambar Ratu Victoria, diterbitkan di Inggris pada 1 Mei 1840 dengan nominal 1 penny.",
-        "Prangko emas diterbitkan pada 12 Agustus 2002 untuk memperingati satu abad kelahiran Mohammad Hatta, dengan jumlah produksi hanya 500 lembar.",
-        "Prangko emas tersebut memiliki berat 3 gram dan ketebalan 0,1 milimeter.",
-        "Seri prangko cerita rakyat tahun 1999 bernominal 500 menampilkan kisah Danau Toba, Banjarmasin, dan Buleleng."
+        "Penny Black diterbitkan pada 1 Mei 1840, tetapi baru mulai digunakan secara resmi pada 6 Mei 1840.",
+        "Prangko Emas peringatan satu abad kelahiran Mohammad Hatta diproduksi terbatas sebanyak 500 lembar, dengan berat 3 gram dan ketebalan 0,1 milimeter."
       ],
       "images": [
         "assets/images/pois/p07_08.jpg",
@@ -724,40 +663,40 @@
       "contentValidated": true,
       "sections": [
         {
-          "title": "Koleksi Prangko Geser",
-          "images": [
-            "assets/images/pois/p07_08.jpg"
-          ],
-          "body": "Lemari geser menyimpan berbagai koleksi prangko dari Indonesia maupun negara lain. Keragaman desain, tema, dan periode penerbitannya memperlihatkan perkembangan prangko dari berbagai masa."
-        },
-        {
           "title": "Pencetus Prangko",
+          "body": "Sir Rowland Hill (1795–1879) berperan penting dalam reformasi sistem perposan Inggris. Melalui proposalnya pada 1837, ia mengusulkan pembayaran ongkos kirim di muka yang mendorong penerbitan prangko pertama pada 1840.",
           "images": [
             "assets/images/pois/p07_06.jpg"
-          ],
-          "body": "Sir Rowland Hill (1795-1879) merupakan tokoh yang berperan penting dalam reformasi sistem perposan Inggris. Melalui proposalnya pada 1837, ia mengusulkan sistem pembayaran ongkos kirim di muka yang mendorong penerbitan prangko pertama pada 1840."
+          ]
         },
         {
           "title": "Prangko Pertama di Dunia",
+          "body": "Penny Black merupakan prangko berperekat pertama yang digunakan dalam sistem pos umum. Prangko bergambar Ratu Victoria dengan nominal 1 penny ini diterbitkan di Inggris pada 1 Mei 1840 dan mulai digunakan secara resmi pada 6 Mei 1840.",
           "images": [
             "assets/images/pois/p07_07.jpg"
-          ],
-          "body": "Penny Black merupakan prangko berperekat pertama yang digunakan dalam sistem pos umum. Prangko bergambar Ratu Victoria ini diterbitkan di Inggris pada 1 Mei 1840 dan mulai digunakan secara resmi pada 6 Mei 1840, dengan nominal 1 penny."
+          ]
         },
         {
           "title": "Prangko Emas",
+          "body": "Prangko Emas diterbitkan pada 12 Agustus 2002 untuk memperingati satu abad kelahiran Mohammad Hatta. Koleksi ini menjadi wujud penghormatan terhadap salah satu tokoh perjuangan kemerdekaan Indonesia.",
           "images": [
             "assets/images/pois/p07_09.jpg"
-          ],
-          "body": "Prangko Emas diterbitkan pada 12 Agustus 2002 untuk memperingati satu abad kelahiran Mohammad Hatta. Koleksi ini menjadi wujud penghormatan terhadap salah satu tokoh perjuangan kemerdekaan Indonesia.\n\nPrangko ini diproduksi terbatas sebanyak 500 lembar, dengan berat 3 gram dan ketebalan 0,1 milimeter."
+          ]
+        },
+        {
+          "title": "Koleksi Prangko Geser",
+          "body": "Lemari geser menyimpan berbagai koleksi prangko dari Indonesia maupun negara lain. Keragaman desain, tema, dan periode penerbitannya memperlihatkan perkembangan prangko dari berbagai masa.",
+          "images": [
+            "assets/images/pois/p07_08.jpg"
+          ]
         },
         {
           "title": "Prangko Cerita Rakyat",
+          "body": "Seri Prangko Cerita Rakyat tahun 1999 dengan nominal 500 menampilkan berbagai kisah Nusantara, seperti Danau Toba dari Sumatera Utara, Banjarmasin dari Kalimantan Selatan, dan Buleleng dari Bali.",
           "images": [
             "assets/images/pois/p07_10.jpg",
             "assets/images/pois/p07_11.jpg"
-          ],
-          "body": "Seri prangko cerita rakyat tahun 1999 dengan nominal 500 menampilkan berbagai kisah Nusantara, seperti Danau Toba dari Sumatera Utara, Banjarmasin dari Kalimantan Selatan, dan Buleleng dari Bali."
+          ]
         }
       ],
       "contentSource": "Repo content/poi-dataset (description.md, quiz.json, album_perangko), tim konten JejakPOS; sebelumnya Dokumen Sprint 2 (PB06)",
@@ -780,25 +719,16 @@
       },
       "beaconId": "BCN-P08",
       "qrCode": "QR-P08",
-      "shortDescription": "Mas Soeharto (1901-1949) merupakan tokoh yang memimpin pengambilalihan kembali Kantor Pusat Pos, Telepon, dan Telegraf (PTT) dari kekuasaan Jepang pada 27 September 1945.",
+      "shortDescription": "Mas Soeharto (1901-1949) adalah tokoh yang memimpin pengambilalihan kembali Kantor Pusat Pos, Telepon, dan Telegraf (PTT) dari kekuasaan Jepang pada 27 September 1945. Ia lahir di Pasuruan pada 2 Mei 1901 dan memulai kariernya sebagai pegawai Kantor Pos Semarang pada tahun 1920. Ia kemudian pernah menjabat sebagai Kepala Kantor Pos Tasikmalaya.\n\nSelain berkarier di bidang pos, Mas Soeharto aktif dalam pergerakan kebangsaan sebagai Ketua Boedi Oetomo di Bandung pada tahun 1930.\n\nDalam perjuangan PTT, Mas Soeharto bersama R. Dijar dan para pemuda PTT berhasil mengambil alih Kantor Pusat PTT di Bandung dari Jepang. Setelah pengambilalihan tersebut, ia dipercaya memimpin jawatan PTT.",
       "keyFacts": [
-        "Mas Soeharto lahir di Pasuruan pada 2 Mei 1901.",
-        "Ia memulai karier sebagai pegawai Kantor Pos Semarang pada 1920 dan pernah menjabat sebagai Kepala Kantor Pos Tasikmalaya.",
-        "Ia aktif dalam pergerakan kebangsaan sebagai Ketua Boedi Oetomo di Bandung pada 1930.",
-        "Bersama R. Dijar dan para pemuda PTT, ia mengambil alih Kantor Pusat PTT di Bandung, kemudian dipercaya memimpin jawatan tersebut.",
-        "Peristiwa 27 September 1945 yang dipimpinnya diperingati setiap tahun sebagai Hari Bakti Postel."
+        "Peristiwa pengambilalihan yang dipimpin Mas Soeharto pada 27 September 1945 diperingati setiap tahun sebagai Hari Bakti Postel. Di Museum Pos Indonesia, sosoknya diabadikan dalam bentuk patung dan panel sejarah."
       ],
       "images": [
-        "assets/images/pois/p08_01.jpg",
-        "assets/images/pois/p08_02.jpg",
-        "assets/images/pois/p08_03.jpg",
-        "assets/images/pois/p08_04.jpg",
-        "assets/images/pois/p08_05.jpg",
         "assets/images/pois/p08_06.jpg",
         "assets/images/pois/p08_07.jpg",
         "assets/images/pois/p08_08.jpg",
-        "assets/images/pois/p08_09.jpg",
-        "assets/images/pois/p08_10.jpg"
+        "assets/images/pois/p08_10.jpg",
+        "assets/images/pois/p08_09.jpg"
       ],
       "audio": "assets/audio/p08_narasi.wav",
       "contentTypes": [
@@ -811,7 +741,7 @@
         "triggerOncePerSession": true,
         "radiusNeedsConfirmation": true
       },
-      "systemResponse": "Mystery clue dan cerita tokoh berdasarkan informasi yang telah divalidasi",
+      "systemResponse": "Mystery clue, kuis lima soal, dan cerita tokoh berdasarkan informasi koleksi",
       "stamp": {
         "id": "STP-P08",
         "title": "Perangko Mas Soeharto",
@@ -826,30 +756,26 @@
       "longitude": 107.620345,
       "coordinatesArePlaceholder": false,
       "activities": [
-        "mystery"
+        "mystery",
+        "quiz"
       ],
       "contentValidated": true,
       "sections": [
         {
-          "title": "Profil dan Perjalanan Karier",
+          "title": "Profil dan Perjalanan Karier Mas Soeharto",
           "body": "Mas Soeharto (1901-1949) adalah tokoh yang memimpin pengambilalihan kembali Kantor Pusat Pos, Telepon, dan Telegraf (PTT) dari kekuasaan Jepang pada 27 September 1945. Ia lahir di Pasuruan pada 2 Mei 1901 dan memulai kariernya sebagai pegawai Kantor Pos Semarang pada tahun 1920. Ia kemudian pernah menjabat sebagai Kepala Kantor Pos Tasikmalaya.\n\nSelain berkarier di bidang pos, Mas Soeharto aktif dalam pergerakan kebangsaan sebagai Ketua Boedi Oetomo di Bandung pada tahun 1930.",
           "images": [
             "assets/images/pois/p08_06.jpg",
             "assets/images/pois/p08_07.jpg",
-            "assets/images/pois/p08_08.jpg",
-            "assets/images/pois/p08_01.jpg",
-            "assets/images/pois/p08_02.jpg",
-            "assets/images/pois/p08_03.jpg"
+            "assets/images/pois/p08_08.jpg"
           ]
         },
         {
           "title": "Peran dalam Pengambilalihan Kantor Pusat PTT",
-          "body": "Dalam perjuangan PTT, Mas Soeharto bersama R. Dijar dan para pemuda PTT berhasil mengambil alih Kantor Pusat PTT di Bandung dari Jepang. Setelah pengambilalihan tersebut, ia dipercaya memimpin jawatan PTT.\n\nPeristiwa pengambilalihan pada 27 September 1945 diperingati setiap tahun sebagai Hari Bakti Postel. Di Museum Pos Indonesia, sosoknya diabadikan dalam bentuk patung dan panel sejarah.",
+          "body": "Dalam perjuangan PTT, Mas Soeharto bersama R. Dijar dan para pemuda PTT berhasil mengambil alih Kantor Pusat PTT di Bandung dari Jepang. Setelah pengambilalihan tersebut, ia dipercaya memimpin jawatan PTT.",
           "images": [
             "assets/images/pois/p08_09.jpg",
-            "assets/images/pois/p08_10.jpg",
-            "assets/images/pois/p08_04.jpg",
-            "assets/images/pois/p08_05.jpg"
+            "assets/images/pois/p08_10.jpg"
           ]
         }
       ],
@@ -886,6 +812,28 @@
           ],
           "answerIndex": 0,
           "explanation": "Dalam perjuangan PTT, Mas Soeharto bersama R. Dijar dan para pemuda PTT berhasil mengambil alih Kantor Pusat PTT di Bandung dari Jepang."
+        },
+        {
+          "question": "Di kota mana Mas Soeharto lahir pada 2 Mei 1901?",
+          "options": [
+            "Semarang",
+            "Bandung",
+            "Pasuruan",
+            "Yogyakarta"
+          ],
+          "answerIndex": 2,
+          "explanation": "Mas Soeharto lahir di Pasuruan pada 2 Mei 1901, sebagaimana dijelaskan dalam profilnya."
+        },
+        {
+          "question": "Kapan Mas Soeharto memimpin pengambilalihan Kantor Pusat PTT dari kekuasaan Jepang?",
+          "options": [
+            "17 Agustus 1945",
+            "27 September 1945",
+            "2 Mei 1901",
+            "27 Juli 1920"
+          ],
+          "answerIndex": 1,
+          "explanation": "Pengambilalihan Kantor Pusat PTT berlangsung pada 27 September 1945. Peristiwa ini diperingati sebagai Hari Bakti Postel."
         }
       ],
       "mysteryClues": [
@@ -913,13 +861,9 @@
       },
       "beaconId": "BCN-P09",
       "qrCode": "QR-P09",
-      "shortDescription": "Brievenbus merupakan kotak surat yang telah digunakan sejak 1890 di Batavia (sekarang Jakarta), pada masa Hindia Belanda.",
+      "shortDescription": "Brievenbus adalah kotak surat yang telah digunakan sejak 1890 di Batavia (sekarang Jakarta) pada masa Hindia Belanda. Kotak pos berwarna merah ini terbuat dari pelat baja yang diproduksi di Ulft, Belanda, dengan berat mencapai sekitar 400 kg.\n\nMeskipun berukuran besar dan berat, kotak ini memungkinkan masyarakat mengirim surat tanpa harus datang ke kantor pos.\n\nPetugas menggunakan alat khusus bernama Knikker Inrichting untuk mengosongkan kotak tanpa menyentuh surat secara langsung. Kotak pos ini dikosongkan sebanyak tiga kali sehari agar surat-surat dapat segera diproses dan dikirimkan kepada penerimanya.",
       "keyFacts": [
-        "Kotak pos berwarna merah ini terbuat dari pelat baja yang diproduksi di Ulft, Belanda.",
-        "Beratnya mencapai sekitar 400 kg.",
-        "Kotak ini memungkinkan masyarakat mengirim surat tanpa harus datang ke kantor pos.",
-        "Petugas menggunakan alat khusus bernama Knikker Inrichting untuk mengosongkan kotak tanpa menyentuh surat secara langsung.",
-        "Kotak pos ini dikosongkan sebanyak tiga kali sehari."
+        "Brievenbus memiliki berat sekitar 400 kg, dan isinya dikosongkan tiga kali sehari menggunakan alat khusus bernama Knikker Inrichting."
       ],
       "images": [
         "assets/images/pois/p09_01.jpg",
@@ -993,18 +937,13 @@
       },
       "beaconId": "BCN-P10",
       "qrCode": "QR-P10",
-      "shortDescription": "Mars Pos Indonesia adalah lagu mars yang menjadi bagian dari identitas Pos Indonesia. Lirik dan partiturnya dipajang di museum.",
+      "shortDescription": "Mars Pos Indonesia adalah lagu mars yang menjadi bagian dari identitas Pos Indonesia. Di Museum Pos Indonesia, lirik dan partitur lagu ini dipajang di area Lorong Akhir sehingga pengunjung dapat mengenal lagu kebanggaan insan pos secara langsung.\n\nPada panel Mars Pos Indonesia, pengunjung dapat melihat lirik lagu beserta partitur atau notasi musiknya. Partitur ini menunjukkan bagaimana lagu mars disusun dalam bentuk notasi, sehingga pengunjung tidak hanya mendengar tetapi juga dapat melihat susunan nadanya.",
       "keyFacts": [
-        "Mars Pos Indonesia adalah lagu mars yang menjadi bagian dari identitas Pos Indonesia.",
-        "Lirik dan partitur lagu ini dipajang di area Lorong Akhir Museum Pos Indonesia.",
-        "Pada panel Mars Pos Indonesia, pengunjung dapat melihat lirik lagu beserta partitur atau notasi musiknya.",
-        "Pengunjung dapat membandingkan notasi pada partitur dengan rekaman lagu yang diputar melalui aplikasi."
+        "Mars Pos Indonesia tersedia dalam bentuk partitur fisik yang dipajang di museum, lengkap dengan lirik lagunya. Pengunjung dapat membandingkan notasi pada partitur dengan rekaman lagu yang diputar melalui aplikasi."
       ],
       "images": [
         "assets/images/pois/p10_03.jpg",
-        "assets/images/pois/p10_04.jpg",
-        "assets/images/pois/p10_01.jpg",
-        "assets/images/pois/p10_02.jpg"
+        "assets/images/pois/p10_04.jpg"
       ],
       "audio": "assets/audio/p10_mars_pos_indonesia.mp3",
       "contentTypes": [
@@ -1041,16 +980,14 @@
           "title": "Mars Pos Indonesia",
           "body": "Mars Pos Indonesia adalah lagu mars yang menjadi bagian dari identitas Pos Indonesia. Di Museum Pos Indonesia, lirik dan partitur lagu ini dipajang di area Lorong Akhir sehingga pengunjung dapat mengenal lagu kebanggaan insan pos secara langsung.",
           "images": [
-            "assets/images/pois/p10_03.jpg",
-            "assets/images/pois/p10_01.jpg"
+            "assets/images/pois/p10_03.jpg"
           ]
         },
         {
           "title": "Lirik dan Partitur",
-          "body": "Pada panel Mars Pos Indonesia, pengunjung dapat melihat lirik lagu beserta partitur atau notasi musiknya. Partitur ini menunjukkan bagaimana lagu mars disusun dalam bentuk notasi, sehingga pengunjung tidak hanya mendengar tetapi juga dapat melihat susunan nadanya.\n\nMars Pos Indonesia tersedia dalam bentuk partitur fisik yang dipajang di museum, lengkap dengan lirik lagunya. Bandingkan notasi pada partitur dengan rekaman lagu yang diputar melalui aplikasi.",
+          "body": "Pada panel Mars Pos Indonesia, pengunjung dapat melihat lirik lagu beserta partitur atau notasi musiknya. Partitur ini menunjukkan bagaimana lagu mars disusun dalam bentuk notasi, sehingga pengunjung tidak hanya mendengar tetapi juga dapat melihat susunan nadanya.",
           "images": [
-            "assets/images/pois/p10_04.jpg",
-            "assets/images/pois/p10_02.jpg"
+            "assets/images/pois/p10_04.jpg"
           ]
         }
       ]
@@ -1071,13 +1008,8 @@
       },
       "beaconId": "BCN-P11",
       "qrCode": "QR-P11",
-      "shortDescription": "Postmark menandai bahwa surat telah melewati seluruh alur perjalanan pos. Di sini pengunjung menandai akhir penjelajahan dengan stempel pengesahan kunjungan.",
-      "keyFacts": [
-        "Desain stempel dan perangko digital di POI ini adalah kreasi tim JejakPOS.",
-        "Warna, motif, dan nominal perangko dipilih secara acak, sehingga setiap pengunjung bisa mendapat desain berbeda.",
-        "Perangko acak yang sudah didapat tersimpan di album dan tidak berubah atau terduplikasi.",
-        "Saat kunjungan diakhiri, pengunjung juga mendapat cap kunjungan digital (postmark) bertanggal."
-      ],
+      "shortDescription": "Selembar surat tidak hanya membawa pesan, tetapi juga jejak perjalanannya. Postmark atau cap pos menjadi penanda bahwa surat telah melewati alur layanan pos.\n\nDi akhir penjelajahan museum, pengunjung dapat menutup perjalanan dengan stempel pengesahan kunjungan. Seperti postmark pada surat, stempel ini menjadi penanda akhir perjalanan mengenal sejarah Pos Indonesia.",
+      "keyFacts": [],
       "images": [
         "assets/images/pois/p11_01.jpg"
       ],
@@ -1115,8 +1047,8 @@
       "audioPlaceholder": true,
       "sections": [
         {
-          "title": "Stempel Museum Digital",
-          "body": "Postmark merupakan penanda bahwa surat telah melewati seluruh alur perjalanan pos. Layaknya surat resmi yang dibubuhi perangko dan postmark penutup, pengunjung menandai akhir penjelajahan sejarah Pos Indonesia dengan mengabadikan stempel pengesahan kunjungan.\n\nDi aplikasi, pengunjung mendapat perangko digital dengan desain acak sebagai kenang-kenangan, serta cap kunjungan digital (postmark) bertanggal saat kunjungan diakhiri.",
+          "title": "Stempel Museum",
+          "body": "Selembar surat tidak hanya membawa pesan, tetapi juga jejak perjalanannya. Postmark atau cap pos menjadi penanda bahwa surat telah melewati alur layanan pos.\n\nDi akhir penjelajahan museum, pengunjung dapat menutup perjalanan dengan stempel pengesahan kunjungan. Seperti postmark pada surat, stempel ini menjadi penanda akhir perjalanan mengenal sejarah Pos Indonesia.",
           "images": [
             "assets/images/pois/p11_01.jpg"
           ]

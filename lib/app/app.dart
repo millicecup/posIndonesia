@@ -30,21 +30,28 @@ class JejakPosApp extends ConsumerWidget {
     // diatur TriggerEngine): UI08 dibuka langsung, plus banner bergaya notifikasi.
     ref.listen<AsyncValue<TriggerEvent>>(triggerEventsProvider, (_, next) {
       final event = next.valueOrNull;
-      if (event == null || event.type != TriggerEventType.triggered) return;
+      if (event == null ||
+          event.source == TriggerSource.qr ||
+          event.type != TriggerEventType.triggered) {
+        return;
+      }
       final target = AppRoutes.triggerAlert(event.poi.id);
       final current = router.routerDelegate.currentConfiguration.uri.toString();
-      final onboarding = current.startsWith(AppRoutes.onboarding) ||
+      final onboarding = current.startsWith(AppRoutes.splash) ||
+          current.startsWith(AppRoutes.onboarding) ||
           current.startsWith(AppRoutes.permission);
       if (current != target && !onboarding) router.push(target);
       rootScaffoldMessengerKey.currentState
         ?..hideCurrentSnackBar()
         ..showSnackBar(
           SnackBar(
-            content: Text('Kamu berada di zona ${event.poi.id}: ${event.poi.name}'),
+            content:
+                Text('Kamu berada di zona ${event.poi.id}: ${event.poi.name}'),
             duration: const Duration(seconds: 6),
             action: SnackBarAction(
               label: 'LIHAT',
-              onPressed: () => router.push(AppRoutes.triggerAlert(event.poi.id)),
+              onPressed: () =>
+                  router.push(AppRoutes.triggerAlert(event.poi.id)),
             ),
           ),
         );

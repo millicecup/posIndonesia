@@ -1,6 +1,6 @@
 // lib/features/map_navigation/presentation/trigger_alert_screen.dart
 // UI08 POI Trigger Notification (state 3): muncul sekali per kunjungan saat POI terpicu (F02, F07).
-// Wireframe PRD Gambar 5.3 kanan: "TRIGGER AKTIF" + Lihat Info / Dengarkan / Nanti.
+// Wireframe PRD Gambar 5.3 kanan: "TRIGGER AKTIF" + Lihat informasi / Dengarkan / Nanti.
 // TODO(Firda): jadikan bottom sheet di atas peta sesuai wireframe; ilustrasi petugas pos.
 
 import '../../../shared/widgets/jejak_app_bar.dart';
@@ -27,7 +27,7 @@ class TriggerAlertScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final poi = ref.watch(poiByIdProvider(poiId));
     return Scaffold(
-      appBar: JejakAppBar(title: const Text('Koleksi Terdeteksi')),
+      appBar: JejakAppBar(title: const Text('Koleksi terdeteksi')),
       body: AsyncValueView<Poi?>(
         value: poi,
         data: (p) => p == null
@@ -72,7 +72,7 @@ class TriggerAlertScreen extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: () =>
                           context.pushReplacement(AppRoutes.tourFor(p.id)),
-                      child: const Text('Lihat Info'),
+                      child: const Text('Lihat informasi'),
                     ),
                     const SizedBox(height: 8),
                     Row(

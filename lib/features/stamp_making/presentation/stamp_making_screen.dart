@@ -1,148 +1,175 @@
-// lib/features/stamp_making/presentation/stamp_making_screen.dart
-// UI19 Visualisasi Pembuatan Perangko (A04, POI P05 di PRD v2): lima tahap step-by-step
-// (desain, persiapan cetak, pencetakan, perforasi, hasil akhir) dengan Sebelumnya/Lanjut.
-// Nama tahap dari PRD A04; penjelasan tiap tahap diambil dari keyFacts POI (menunggu validasi).
-
-import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:go_router/go_router.dart';
+import '../../../app/routes.dart';
 import '../../../app/theme.dart';
-import '../../../providers/providers.dart';
+import '../../../shared/widgets/jejak_app_bar.dart';
 
-class StampMakingScreen extends ConsumerStatefulWidget {
+// Educational overview, independent of P05 keyFacts.
+// Provenance: assets/images/stamp_making/credits.json.
+const stampMakingSteps = [
+  (
+    title: 'Desain',
+    image: 'design.jpg',
+    text:
+        'Perjalanan prangko dimulai dari sebuah rancangan. Gambar, tulisan, dan nilai nominal disusun agar pesannya terbaca pada bidang yang kecil. Rancangan ini menjadi acuan untuk menyiapkan cetakan.',
+    caption:
+        'Contoh desain pada cetak uji prangko Benjamin Franklin, Amerika Serikat, 1870.',
+    credit: 'US Post Office / Wikimedia Commons.'
+  ),
+  (
+    title: 'Persiapan cetak',
+    image: 'proof.jpg',
+    text:
+        'Desain dipindahkan ke media cetak sesuai teknik yang digunakan, misalnya pelat pada cetak offset atau intaglio. Cetak uji membantu memeriksa detail dan warna sebelum pencetakan dalam jumlah besar.',
+    caption:
+        'Cetak uji prangko George Washington, 10 sen, Amerika Serikat, 1861. Hasil uji diperiksa sebelum pencetakan massal.',
+    credit:
+        'US Post Office / Smithsonian National Postal Museum, melalui Wikimedia Commons.'
+  ),
+  (
+    title: 'Pencetakan',
+    image: 'printing.jpg',
+    text:
+        'Mesin memindahkan tinta ke kertas sehingga desain muncul berulang dalam satu lembar. Tekniknya dapat berbeda; cetak offset memakai beberapa warna tinta, sedangkan intaglio memakai cetakan berukir. Hasil cetak kemudian diperiksa.',
+    caption:
+        'Pekerja mengambil lembar prangko dari mesin cetak di Bureau of Engraving and Printing, Amerika Serikat, 1889–1890.',
+    credit: 'Frances Benjamin Johnston / Library of Congress.'
+  ),
+  (
+    title: 'Perforasi',
+    image: 'perforation.jpg',
+    text:
+        'Pada prangko berperforasi, deretan lubang kecil dibuat di antara prangko agar setiap keping mudah dipisahkan. Prangko berperekat mandiri dapat memakai potongan pisau cetak, sehingga tidak semua prangko melalui perforasi yang sama.',
+    caption:
+        'Pekerja melubangi lembar prangko di Bureau of Engraving and Printing, Amerika Serikat, sekitar 1895.',
+    credit:
+        'Frances Benjamin Johnston / Library of Congress, melalui Wikimedia Commons.'
+  ),
+  (
+    title: 'Hasil akhir',
+    image: 'finished.jpg',
+    text:
+        'Lembaran yang sudah selesai diproses dipotong menjadi bagian yang lebih kecil untuk penjualan. Dari sebuah rancangan, prangko kini siap digunakan sebagai bukti pembayaran biaya pos atau disimpan sebagai koleksi.',
+    caption:
+        'Contoh prangko jadi: Abraham Lincoln, 4 sen, Amerika Serikat, terbitan 1890.',
+    credit: 'US Post Office / Wikimedia Commons.'
+  ),
+];
+
+class StampMakingScreen extends StatefulWidget {
   const StampMakingScreen({super.key, required this.poiId});
-
   final String poiId;
-
   @override
-  ConsumerState<StampMakingScreen> createState() => _StampMakingScreenState();
+  State<StampMakingScreen> createState() => _StampMakingScreenState();
 }
 
-class _StampMakingScreenState extends ConsumerState<StampMakingScreen> {
-  static const _steps = [
-    ('Desain', Icons.brush_outlined),
-    ('Persiapan', Icons.layers_outlined),
-    ('Cetak', Icons.print_outlined),
-    ('Perforasi', Icons.blur_on),
-    ('Hasil', Icons.local_post_office_outlined),
-  ];
-  static const _titles = [
-    'Desain',
-    'Persiapan cetak',
-    'Pencetakan',
-    'Perforasi',
-    'Hasil akhir',
-  ];
-
+class _StampMakingScreenState extends State<StampMakingScreen> {
   int _index = 0;
+  final _scroll = ScrollController();
+  void _finish() {
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go(AppRoutes.poiDetail(widget.poiId));
+    }
+  }
+
+  void _select(int index) {
+    setState(() => _index = index);
+    if (_scroll.hasClients) _scroll.jumpTo(0);
+  }
+
+  @override
+  void dispose() {
+    _scroll.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final poi = ref.watch(poiByIdProvider(widget.poiId)).valueOrNull;
-    final facts = poi?.keyFacts ?? const <String>[];
-    // keyFacts P05 berformat "Tahap n - Nama: penjelasan"; judul tahap sudah tampil terpisah.
-    final text = _index < facts.length
-        ? facts[_index].replaceFirst(RegExp(r'^Tahap \d+ - [^:]+:\s*'), '')
-        : 'Penjelasan tahap ini menunggu materi yang divalidasi museum.';
-
+    final step = stampMakingSteps[_index];
+    final theme = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: JejakAppBar(title: const Text('Pembuatan Perangko')),
+      appBar: JejakAppBar(title: const Text('Pembuatan prangko')),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  for (var i = 0; i < _steps.length; i++)
-                    GestureDetector(
-                      onTap: () => setState(() => _index = i),
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            radius: 16,
-                            backgroundColor:
-                                i == _index ? AppColors.darkGrey : AppColors.white,
-                            child: CircleAvatar(
-                              radius: 14,
-                              backgroundColor:
-                                  i == _index ? AppColors.darkGrey : AppColors.white,
-                              child: Text('${i + 1}',
-                                  style: TextStyle(
-                                      color: i == _index
-                                          ? AppColors.white
-                                          : AppColors.darkGrey,
-                                      fontWeight: FontWeight.bold)),
-                            ),
+          child: Column(children: [
+        Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+            child: Row(children: [
+              for (var i = 0; i < stampMakingSteps.length; i++)
+                Expanded(
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 3),
+                        child: Semantics(
+                          selected: i == _index,
+                          child: TextButton(
+                            onPressed: () => _select(i),
+                            style: TextButton.styleFrom(
+                                backgroundColor: i == _index
+                                    ? AppColors.teal
+                                    : AppColors.lightGrey,
+                                foregroundColor: i == _index
+                                    ? AppColors.white
+                                    : AppColors.darkGrey,
+                                minimumSize: const Size(44, 44),
+                                padding: EdgeInsets.zero),
+                            child: Text('${i + 1}',
+                                semanticsLabel:
+                                    'Tahap ${i + 1}: ${stampMakingSteps[i].title}'),
                           ),
-                          const SizedBox(height: 4),
-                          Text(_steps[i].$1,
-                              style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight:
-                                      i == _index ? FontWeight.bold : FontWeight.normal)),
-                        ],
-                      ),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 250),
-                  child: Container(
-                    key: ValueKey(_index),
-                    decoration: BoxDecoration(
-                      color: AppColors.lightGrey,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(_steps[_index].$2, size: 96, color: AppColors.orange),
-                          const SizedBox(height: 8),
-                          Text('Ilustrasi tahap ${_index + 1}',
-                              style: const TextStyle(color: AppColors.grey)),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text('Tahap ${_index + 1}: ${_titles[_index]}',
-                  style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 6),
-              Text(text),
-              const SizedBox(height: 16),
-              Row(
+                        ))),
+            ])),
+        Expanded(
+            child: SingleChildScrollView(
+          controller: _scroll,
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+          child: Center(
+              child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 640),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: _index == 0 ? null : () => setState(() => _index--),
-                      child: const Text('← Sebelumnya'),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: FilledButton(
-                      style: FilledButton.styleFrom(backgroundColor: AppColors.darkGrey),
-                      onPressed: _index == _steps.length - 1
-                          ? () => Navigator.of(context).maybePop()
-                          : () => setState(() => _index++),
-                      child: Text(_index == _steps.length - 1 ? 'Selesai' : 'Lanjut →'),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+                  Text('Tahap ${_index + 1} dari 5',
+                      style: theme.labelLarge?.copyWith(color: AppColors.teal)),
+                  const SizedBox(height: 4),
+                  Text(step.title, style: theme.headlineMedium),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                      height: MediaQuery.sizeOf(context).height * .34,
+                      child: Image.asset(
+                          'assets/images/stamp_making/${step.image}',
+                          fit: BoxFit.contain,
+                          semanticLabel: step.caption)),
+                  const SizedBox(height: 12),
+                  Text(step.caption, style: theme.bodySmall),
+                  const SizedBox(height: 20),
+                  Text(step.text, style: theme.bodyLarge),
+                  const SizedBox(height: 20),
+                  const Text(
+                      'Alur ini diringkas menjadi lima tahap untuk membantu belajar. Proses sebenarnya dapat berbeda menurut jenis prangko dan teknik cetaknya.'),
+                  const SizedBox(height: 16),
+                  Text(step.credit, style: theme.bodySmall),
+                ]),
+          )),
+        )),
+        Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(children: [
+              Expanded(
+                  child: OutlinedButton(
+                      onPressed: _index == 0 ? null : () => _select(_index - 1),
+                      child: const Text('Sebelumnya'))),
+              const SizedBox(width: 12),
+              Expanded(
+                  child: FilledButton(
+                      onPressed: _index == stampMakingSteps.length - 1
+                          ? _finish
+                          : () => _select(_index + 1),
+                      child: Text(_index == stampMakingSteps.length - 1
+                          ? 'Selesai'
+                          : 'Lanjut'))),
+            ])),
+      ])),
     );
   }
 }

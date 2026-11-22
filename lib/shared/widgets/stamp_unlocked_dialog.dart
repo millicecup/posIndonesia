@@ -1,5 +1,5 @@
 // lib/shared/widgets/stamp_unlocked_dialog.dart
-// UI13 Perangko Digital Terbuka (F08): popup setelah aktivitas POI selesai.
+// UI13 Prangko Digital Terbuka (F08): popup setelah aktivitas POI selesai.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +11,7 @@ import '../../data/models/models.dart';
 import '../../providers/providers.dart';
 import 'random_stamp_art.dart';
 
-/// Tampilkan popup perangko baru. [isNew] false = perangko sudah ada (tidak diduplikasi).
+/// Tampilkan popup prangko baru. [isNew] false = prangko sudah ada (tidak diduplikasi).
 Future<void> showStampUnlockedDialog(BuildContext context,
     {required Poi poi, required bool isNew}) {
   return showDialog<void>(
@@ -30,7 +30,7 @@ Future<void> showStampUnlockedDialog(BuildContext context,
             decoration: BoxDecoration(
                 color: isNew ? AppColors.orange : AppColors.grey,
                 borderRadius: BorderRadius.circular(4)),
-            child: Text(isNew ? 'PERANGKO BARU!' : 'SUDAH ADA DI ALBUM',
+            child: Text(isNew ? 'Prangko baru' : 'Sudah ada di album',
                 style: const TextStyle(
                     color: AppColors.white,
                     fontWeight: FontWeight.bold,
@@ -62,19 +62,27 @@ Future<void> showStampUnlockedDialog(BuildContext context,
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.pop(ctx);
-                  context.go(AppRoutes.album);
+                  context.go(AppRoutes.qrScanner);
                 },
-                icon: const Icon(Icons.collections_bookmark_outlined, size: 20),
-                label: const Text('Lihat Album'),
+                icon: const Icon(Icons.qr_code_scanner, size: 20),
+                label: const Text('Scan koleksi lain'),
               ),
               const SizedBox(height: 12),
               OutlinedButton.icon(
                 onPressed: () {
                   Navigator.pop(ctx);
-                  context.push(AppRoutes.tour);
+                  context.go(AppRoutes.album);
                 },
-                icon: const Icon(Icons.explore_outlined, size: 20),
-                label: const Text('Lanjut menjelajah'),
+                icon: const Icon(Icons.collections_bookmark_outlined, size: 20),
+                label: const Text('Lihat album'),
+              ),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  context.go(AppRoutes.explore);
+                },
+                child: const Text('Kembali ke jelajah'),
               ),
             ],
           ),
@@ -84,7 +92,7 @@ Future<void> showStampUnlockedDialog(BuildContext context,
   );
 }
 
-/// Bingkai perangko bergerigi sederhana (garis putus) di sekitar gambar perangko.
+/// Bingkai prangko bergerigi sederhana (garis putus) di sekitar gambar prangko.
 class StampFrame extends ConsumerWidget {
   const StampFrame(
       {super.key,
@@ -99,7 +107,7 @@ class StampFrame extends ConsumerWidget {
   final double size;
   final bool locked;
 
-  /// true = perangko acak P11; desain dari seed yang tersimpan.
+  /// true = prangko acak P11; desain dari seed yang tersimpan.
   final bool random;
 
   @override
@@ -139,7 +147,12 @@ class StampFrame extends ConsumerWidget {
               : seed != null
                   ? RandomStampArt(seed: seed)
                   : (image != null
-                      ? Image.asset(image!, fit: BoxFit.cover)
+                      ? Image.asset(
+                          image!,
+                          fit: image == 'assets/images/stamps/stamp_p09.jpg'
+                              ? BoxFit.contain
+                              : BoxFit.cover,
+                        )
                       : const Icon(Icons.local_post_office, size: 48)),
         ),
         if (label != null) ...[
@@ -149,7 +162,7 @@ class StampFrame extends ConsumerWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style:
-                  const TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
+                  const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
         ],
       ],
     );

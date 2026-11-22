@@ -1,5 +1,5 @@
 // lib/features/qr_scanner/presentation/qr_scanner_screen.dart
-// UI12 QR Scanner: kamera (mobile_scanner) + input manual untuk emulator.
+// UI12 QR Scanner: pemindaian kamera (mobile_scanner).
 // TODO(Firda): bingkai pemindai sesuai wireframe, senter, catatan PoC PB05.
 
 import '../../../shared/widgets/jejak_app_bar.dart';
@@ -21,13 +21,11 @@ class QrScannerScreen extends ConsumerStatefulWidget {
 }
 
 class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
-  final _manualController = TextEditingController();
   MobileScannerController? _cameraController;
   bool _cameraOn = false;
 
   @override
   void dispose() {
-    _manualController.dispose();
     _cameraController?.dispose();
     super.dispose();
   }
@@ -54,7 +52,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
       case QrValid(:final poi):
         context.pushReplacement(AppRoutes.poiDetail(poi.id));
       case QrInvalidFormat():
-        _showMessage('Format QR tidak dikenali. Contoh: QR-P01');
+        _showMessage('QR tidak dikenali. Pindai QR pada penanda koleksi museum.');
       case QrNotFound():
         _showMessage('QR tidak terdaftar di koleksi museum.');
     }
@@ -67,7 +65,16 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: JejakAppBar(title: const Text('Pindai QR Koleksi')),
+      appBar: JejakAppBar(
+        title: const Text('Pindai QR koleksi'),
+        leading: BackButton(onPressed: () {
+          if (context.canPop()) {
+            context.pop();
+          } else {
+            context.go(AppRoutes.explore);
+          }
+        }),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -89,7 +96,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
                       color: AppColors.darkGrey,
                       alignment: Alignment.center,
                       child: const Text(
-                        'Kamera nonaktif.\nAktifkan kamera atau masukkan kode koleksi di bawah.',
+                        'Kamera nonaktif.\nAktifkan kamera untuk memindai QR koleksi.',
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white),
                       ),
@@ -102,23 +109,10 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
             icon: Icon(_cameraOn ? Icons.videocam_off : Icons.videocam),
             label: Text(_cameraOn ? 'Matikan kamera' : 'Aktifkan kamera'),
           ),
-          const Divider(height: 32),
-          Text('Masukkan kode koleksi',
-              style: Theme.of(context).textTheme.titleMedium),
-          const SizedBox(height: 8),
-          TextField(
-            controller: _manualController,
-            textCapitalization: TextCapitalization.characters,
-            decoration: const InputDecoration(
-              hintText: 'Contoh: QR-P01',
-              border: OutlineInputBorder(),
-            ),
-            onSubmitted: _submit,
-          ),
-          const SizedBox(height: 8),
-          ElevatedButton(
-            onPressed: () => _submit(_manualController.text),
-            child: const Text('Cek Kode'),
+          const SizedBox(height: 16),
+          const Text(
+            'Arahkan kamera ke QR pada penanda koleksi. Informasi koleksi akan terbuka otomatis. Pemindaian dapat dilakukan tanpa koneksi internet.',
+            textAlign: TextAlign.center,
           ),
         ],
       ),

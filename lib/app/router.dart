@@ -6,6 +6,7 @@
 
 import '../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,6 +31,7 @@ import '../features/stamp_making/presentation/stamp_making_screen.dart';
 import '../features/visit_summary/presentation/visit_summary_screen.dart';
 import '../features/vision_tour/presentation/vision_tour_screen.dart';
 import '../features/visual_tour_guide/presentation/visual_tour_guide_screen.dart';
+import '../features/splash/presentation/splash_screen.dart';
 import 'main_shell.dart';
 import 'routes.dart';
 
@@ -41,9 +43,16 @@ final routerProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: onboardingSeen ? AppRoutes.explore : AppRoutes.onboarding,
+    initialLocation: onboardingSeen ? AppRoutes.explore : AppRoutes.splash,
     debugLogDiagnostics: true,
     routes: [
+      GoRoute(
+        path: AppRoutes.splash,
+        builder: (context, state) => SplashScreen(
+            autoContinue:
+                !(kDebugMode && state.uri.queryParameters['preview'] == '1'),
+            onFinished: () => context.go(AppRoutes.onboarding)),
+      ),
       GoRoute(
         path: AppRoutes.onboarding,
         builder: (context, state) => const OnboardingScreen(),
@@ -114,7 +123,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/quiz/:poiId',
-        builder: (context, state) => QuizScreen(poiId: state.pathParameters['poiId']!),
+        builder: (context, state) =>
+            QuizScreen(poiId: state.pathParameters['poiId']!),
       ),
       GoRoute(
         path: '/mystery/:poiId',

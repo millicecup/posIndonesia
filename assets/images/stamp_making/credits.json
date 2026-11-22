@@ -1,0 +1,33 @@
+[
+  {
+    "asset": "design.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Franklin_1870_die_proof2-1c.jpg",
+    "original": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Franklin_1870_die_proof2-1c.jpg/250px-Franklin_1870_die_proof2-1c.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+    "license": "Public domain (see source file page)"
+  },
+  {
+    "asset": "proof.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Washington_Die_Proof2_1861-10c.jpg",
+    "original": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Washington_Die_Proof2_1861-10c.jpg/250px-Washington_Die_Proof2_1861-10c.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+    "license": "Public domain (see source file page)"
+  },
+  {
+    "asset": "perforation.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Women_perforating_sheets_of_stamps_in_the_Stamp_Division_at_the_Bureau_of_Engraving_%26_Printing_3c37142v.jpg",
+    "original": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Women_perforating_sheets_of_stamps_in_the_Stamp_Division_at_the_Bureau_of_Engraving_%26_Printing_3c37142v.jpg/500px-Women_perforating_sheets_of_stamps_in_the_Stamp_Division_at_the_Bureau_of_Engraving_%26_Printing_3c37142v.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+    "license": "Public domain (see source file page)"
+  },
+  {
+    "asset": "finished.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Abraham_Lincoln_1890_Issue-4c.jpg",
+    "original": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/Abraham_Lincoln_1890_Issue-4c.jpg/250px-Abraham_Lincoln_1890_Issue-4c.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+    "license": "Public domain (see source file page)"
+  },
+  {
+    "asset": "printing.jpg",
+    "source": "https://blogs.loc.gov/picturethis/2019/05/frances-benjamin-johnston-puts-her-stamp-on-documenting-work-at-the-bureau-of-engraving-and-printing/",
+    "original": "https://blogs.loc.gov/picturethis/files/2019/05/SheetsOffPresses-788x1024.jpg",
+    "author": "Frances Benjamin Johnston, 1889–1890; Library of Congress",
+    "license": "Public domain, historical US photograph published in 1895"
+  }
+]

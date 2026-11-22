@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../providers/providers.dart';
 import '../../../services/qr_service.dart';
 import '../../../services/trigger_engine.dart';
+import '../../voice_guide/state/voice_guide_controller.dart';
 
 class QrScannerController extends AutoDisposeNotifier<QrResult?> {
   bool _busy = false;
@@ -20,6 +21,7 @@ class QrScannerController extends AutoDisposeNotifier<QrResult?> {
     try {
       final result = await ref.read(qrServiceProvider).validate(raw);
       if (result is QrValid) {
+        await ref.read(voiceGuideProvider.notifier).stop();
         // Catat sebagai identifikasi POI (sekali per sesi diatur engine).
         ref.read(triggerEngineProvider).reportIdentification(result.poi, TriggerSource.qr);
         await ref.read(progressProvider.notifier).markVisited(result.poi.id);

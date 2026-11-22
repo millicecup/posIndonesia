@@ -1,5 +1,5 @@
 // lib/features/vision_tour/presentation/vision_tour_screen.dart
-// "Kenali Pameran": arahkan kamera ke pameran -> POI dikenali otomatis.
+// "Kenali pameran": arahkan kamera ke pameran -> POI dikenali otomatis.
 // Pengenal utama saat tur (GPS di dalam gedung terlalu kasar, POI hanya 1-10 m).
 // Layar tetap terbuka selama tur; tiap POI baru membuka UI08 lewat app.dart.
 
@@ -169,7 +169,7 @@ class _VisionTourScreenState extends ConsumerState<VisionTourScreen>
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: JejakAppBar(
-        title: const Text('Kenali Pameran'),
+        title: const Text('Kenali pameran'),
         actions: [
           IconButton(
             tooltip: 'Pindai QR (cadangan)',

@@ -1,5 +1,5 @@
 // lib/features/poi_list_search/presentation/poi_list_screen.dart
-// UI04 Museum Explorer & Pencarian POI.
+// UI04 Cari koleksi & Pencarian POI.
 // TODO(Denaya): kelompokkan daftar per kategori (section header), empty state sesuai wireframe.
 
 import '../../../shared/widgets/jejak_app_bar.dart';
@@ -46,7 +46,7 @@ class _PoiListScreenState extends ConsumerState<PoiListScreen> {
         ref.watch(progressProvider).valueOrNull?.visitedPoiIds ?? const <String>[];
 
     return Scaffold(
-      appBar: JejakAppBar(title: const Text('Museum Explorer')),
+      appBar: JejakAppBar(title: const Text('Cari koleksi')),
       body: Column(
         children: [
           SearchBarField(

@@ -11,7 +11,7 @@ class PostmanGuide extends StatelessWidget {
         width: size,
         height: size * 1.15,
         child: Image.asset(
-          'assets/images/maskot_prangko.jpg',
+          'assets/images/maskot_prangko_transparent.png',
           fit: BoxFit.contain,
           semanticLabel:
               'Maskot prangko JejakPOS memakai topi dan tas petugas pos',

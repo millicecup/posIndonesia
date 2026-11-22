@@ -36,7 +36,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     (
       'Collect',
       Icons.local_post_office_outlined,
-      'Kumpulkan perangko digital, berfoto dengan seragam petugas pos, dan dapatkan cap kunjunganmu.'
+      'Kumpulkan prangko digital, berfoto dengan seragam petugas pos, dan dapatkan cap kunjunganmu.'
     ),
   ];
 
@@ -62,6 +62,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             children: [
               Expanded(
                 child: PageView(
+                  physics: const PageScrollPhysics(),
                   controller: _controller,
                   onPageChanged: (i) => setState(() => _page = i),
                   children: [
@@ -80,7 +81,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       width: i == _page ? 18 : 8,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: i == _page ? AppColors.darkGrey : AppColors.lightGrey,
+                        color: i == _page
+                            ? AppColors.darkGrey
+                            : AppColors.lightGrey,
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
@@ -88,14 +91,21 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: AppColors.darkGrey),
+                style:
+                    ElevatedButton.styleFrom(backgroundColor: AppColors.orange),
                 onPressed: last
                     ? _finish
                     : () => _controller.nextPage(
-                        duration: const Duration(milliseconds: 300), curve: Curves.easeOut),
-                child: Text(last ? 'Mulai Menjelajah' : 'Lanjut'),
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeOut),
+                child: SizedBox(
+                    width: double.infinity,
+                    child: Text(last ? 'Mulai menjelajah' : 'Lanjut',
+                        textAlign: TextAlign.center)),
               ),
-              TextButton(onPressed: _finish, child: const Text('Lewati pengantar')),
+              if (!last)
+                TextButton(
+                    onPressed: _finish, child: const Text('Lewati pengantar')),
             ],
           ),
         ),
@@ -103,41 +113,69 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     );
   }
 
-  Widget _welcome(BuildContext context) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.asset(AppConstants.onboardingImage, width: 96),
+  Widget _readingPage(Widget child) => LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: Center(
+                child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: child)),
           ),
-          const SizedBox(height: 16),
-          Text('Jejak Pos',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: AppColors.darkGrey, fontWeight: FontWeight.bold)),
-          const Text('Museum Pos Indonesia', style: TextStyle(color: AppColors.grey)),
-          const SizedBox(height: 8),
-          const Chip(label: Text(AppConstants.tagline)),
-          const SizedBox(height: 24),
-          const PostmanGuide(size: 150),
-        ],
+        ),
       );
 
-  Widget _slide(BuildContext context, String title, IconData icon, String text) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+  Widget _welcome(BuildContext context) => _readingPage(Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          CircleAvatar(
-            radius: 64,
-            backgroundColor: AppColors.orangeLight,
-            child: Icon(icon, size: 64, color: AppColors.orange),
+          Image.asset('assets/images/logo_jejakpos.png',
+              width: 240,
+              height: 82,
+              fit: BoxFit.contain,
+              semanticLabel: 'Logo JejakPOS'),
+          SizedBox(height: MediaQuery.sizeOf(context).height < 700 ? 12 : 22),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: PostmanGuide(
+                size: MediaQuery.sizeOf(context).height < 700 ? 130 : 180),
           ),
           const SizedBox(height: 24),
-          Text(title,
+          Text('Museum Pos Indonesia',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headlineMedium),
+          const SizedBox(height: 10),
+          Text(AppConstants.tagline,
+              textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
-                  .headlineMedium
-                  ?.copyWith(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 12),
-          Text(text, textAlign: TextAlign.center, style: const TextStyle(fontSize: 16)),
+                  .bodyLarge
+                  ?.copyWith(color: AppColors.grey)),
         ],
-      );
+      ));
+
+  Widget _slide(
+          BuildContext context, String title, IconData icon, String text) =>
+      _readingPage(Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset('assets/images/logo_jejakpos.png',
+              width: 150, height: 52, fit: BoxFit.contain),
+          const SizedBox(height: 32),
+          SizedBox(
+            height: MediaQuery.sizeOf(context).height < 700 ? 130 : 200,
+            child: Center(
+                child: Icon(icon,
+                    size: 100,
+                    color: title == 'Discover'
+                        ? AppColors.teal
+                        : AppColors.orange)),
+          ),
+          const SizedBox(height: 28),
+          Text(title, style: Theme.of(context).textTheme.headlineLarge),
+          const SizedBox(height: 12),
+          Text(text,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyLarge),
+        ],
+      ));
 }
