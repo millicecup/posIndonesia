@@ -1,3 +1,17 @@
+# JejakPOS CV dari assets aplikasi
+
+Unduh [JejakPOS-computer-vision-arm64.apk](JejakPOS-computer-vision-arm64.apk). Versi **3.6.3-cv**, nomor build **8**, ARM64. Sumber CV langsung dari **assets/images/pois/**: seluruh 70 foto koleksi P01–P11 menjadi referensi, sedangkan 13 placeholder dikecualikan. Label mengikuti data aplikasi dan awalan nama file pNN.
+
+Tanda tangan sama dengan APK CV sebelumnya (nomor 6 dan 7), sehingga dapat memperbarui pemasangan versi CV tersebut. Kuncinya berbeda dari APK v3.6 asli. Jangan menghapus data kunjungan untuk memaksa pembaruan.
+
+70/70 referensi lolos uji sintetis perspektif/pencahayaan; 3 negatif sintetis ditolak. Enam tes pemetaan assets dan format indeks juga lulus. Kamera museum belum diuji langsung. Indeks JPSIFT02 menyimpan descriptor secara lossless agar ukuran paket tetap ringkas. Metode pengenalan tetap SIFT dan verifikasi geometri.
+
+APK ini untuk uji internal, shrinking dimatikan dan lint vital dilewati pada build distribusi uji. Ukuran 100976614 byte. SHA-256: `e6e4f1076ca1ae2067e38c91c9cefb16607c9f55413814038eeac435d66441b6`.
+
+Lihat [panduan CV](../docs/COMPUTER_VISION.md) dan [panduan menambah foto assets](../docs/PANDUAN_TAMBAH_REFERENSI_CV.md).
+
+---
+
 # JejakPOS v3.6 — pemandu suara bahasa Indonesia
 
 `JejakPOS-maps-arm64-v3.6.apk` (versionName 3.6, versionCode 5) = seluruh perubahan di bawah ditambah perbaikan pemandu suara:

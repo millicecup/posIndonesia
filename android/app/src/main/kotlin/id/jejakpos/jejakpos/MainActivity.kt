@@ -13,6 +13,7 @@ import java.io.File
 class MainActivity : FlutterActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        SiftVision.register(this, flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "id.jejakpos/photo_gallery")
             .setMethodCallHandler { call, result ->
                 if (call.method != "savePng") {

@@ -232,6 +232,7 @@ void main() {
       final pois = loadDataset();
       engine = TriggerEngine()..setPois(pois);
       container = ProviderContainer(overrides: [
+        siftRecognizerProvider.overrideWithValue(null),
         poisProvider.overrideWith((ref) async => pois),
         visionIndexProvider.overrideWith((ref) async => index),
         imageEmbedderProvider.overrideWith((ref) async => embedder),

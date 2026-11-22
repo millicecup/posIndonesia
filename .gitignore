@@ -36,3 +36,7 @@ android/.kotlin/
 
 # Python venv untuk tools/vision
 .venv-vision/
+
+# Cache Python untuk tools CV
+__pycache__/
+*.pyc

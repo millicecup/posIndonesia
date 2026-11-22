@@ -9,7 +9,7 @@ import '../helpers/test_data.dart';
 void main() {
   final qr = QrService(buildRepository());
 
-  for (var number = 1; number <= 6; number++) {
+  for (var number = 1; number <= 11; number++) {
     final id = 'P${number.toString().padLeft(2, '0')}';
     test('QR cetak $id membuka koleksi $id tanpa lokasi', () async {
       final result = await qr.validate('QR-$id');

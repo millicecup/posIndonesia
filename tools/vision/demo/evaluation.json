@@ -1,0 +1,514 @@
+{
+  "kind": "synthetic transforms of reference images, NOT held-out real camera accuracy",
+  "references": 70,
+  "passed": 70,
+  "negatives": [
+    {
+      "name": "blank",
+      "status": "unknown",
+      "passed": true
+    },
+    {
+      "name": "noise",
+      "status": "unknown",
+      "passed": true
+    },
+    {
+      "name": "gradient",
+      "status": "unknown",
+      "passed": true
+    }
+  ],
+  "results": [
+    {
+      "reference": "assets/images/pois/p01_01.jpg",
+      "expected": "POI001",
+      "predicted": "POI001",
+      "passed": true,
+      "elapsed_ms": 7498
+    },
+    {
+      "reference": "assets/images/pois/p01_02.jpg",
+      "expected": "POI001",
+      "predicted": "POI001",
+      "passed": true,
+      "elapsed_ms": 3791
+    },
+    {
+      "reference": "assets/images/pois/p01_03.jpg",
+      "expected": "POI001",
+      "predicted": "POI001",
+      "passed": true,
+      "elapsed_ms": 3867
+    },
+    {
+      "reference": "assets/images/pois/p01_04.jpg",
+      "expected": "POI001",
+      "predicted": "POI001",
+      "passed": true,
+      "elapsed_ms": 2905
+    },
+    {
+      "reference": "assets/images/pois/p01_05.jpg",
+      "expected": "POI001",
+      "predicted": "POI001",
+      "passed": true,
+      "elapsed_ms": 2232
+    },
+    {
+      "reference": "assets/images/pois/p02_01.jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 3713
+    },
+    {
+      "reference": "assets/images/pois/p02_02.jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 4222
+    },
+    {
+      "reference": "assets/images/pois/p02_03.jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 4033
+    },
+    {
+      "reference": "assets/images/pois/p02_04.jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 2928
+    },
+    {
+      "reference": "assets/images/pois/p02_05.jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 4623
+    },
+    {
+      "reference": "assets/images/pois/p02_06.jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 4135
+    },
+    {
+      "reference": "assets/images/pois/p02_07.jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 4949
+    },
+    {
+      "reference": "assets/images/pois/p02_08.jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 4524
+    },
+    {
+      "reference": "assets/images/pois/p02_09.jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 4721
+    },
+    {
+      "reference": "assets/images/pois/p02_10.jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 5957
+    },
+    {
+      "reference": "assets/images/pois/p02_11.jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 11237
+    },
+    {
+      "reference": "assets/images/pois/p02_12.jpg",
+      "expected": "POI002",
+      "predicted": "POI002",
+      "passed": true,
+      "elapsed_ms": 14672
+    },
+    {
+      "reference": "assets/images/pois/p03_03.jpg",
+      "expected": "POI003",
+      "predicted": "POI003",
+      "passed": true,
+      "elapsed_ms": 16205
+    },
+    {
+      "reference": "assets/images/pois/p03_01.jpg",
+      "expected": "POI003",
+      "predicted": "POI003",
+      "passed": true,
+      "elapsed_ms": 15898
+    },
+    {
+      "reference": "assets/images/pois/p03_02.jpg",
+      "expected": "POI003",
+      "predicted": "POI003",
+      "passed": true,
+      "elapsed_ms": 4655
+    },
+    {
+      "reference": "assets/images/pois/p03_04.jpg",
+      "expected": "POI003",
+      "predicted": "POI003",
+      "passed": true,
+      "elapsed_ms": 5323
+    },
+    {
+      "reference": "assets/images/pois/p04_01.jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 3887
+    },
+    {
+      "reference": "assets/images/pois/p04_02.jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 11744
+    },
+    {
+      "reference": "assets/images/pois/p04_03.jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 3478
+    },
+    {
+      "reference": "assets/images/pois/p04_04.jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 4761
+    },
+    {
+      "reference": "assets/images/pois/p04_05.jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 4374
+    },
+    {
+      "reference": "assets/images/pois/p04_06.jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 3998
+    },
+    {
+      "reference": "assets/images/pois/p04_07.jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 10143
+    },
+    {
+      "reference": "assets/images/pois/p04_08.jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 6384
+    },
+    {
+      "reference": "assets/images/pois/p04_09.jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 12990
+    },
+    {
+      "reference": "assets/images/pois/p04_10.jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 9536
+    },
+    {
+      "reference": "assets/images/pois/p04_11.jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 2962
+    },
+    {
+      "reference": "assets/images/pois/p04_12.jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 3384
+    },
+    {
+      "reference": "assets/images/pois/p04_13.jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 2383
+    },
+    {
+      "reference": "assets/images/pois/p04_14.jpg",
+      "expected": "POI004",
+      "predicted": "POI004",
+      "passed": true,
+      "elapsed_ms": 2529
+    },
+    {
+      "reference": "assets/images/pois/p05_01.jpg",
+      "expected": "POI005",
+      "predicted": "POI005",
+      "passed": true,
+      "elapsed_ms": 4742
+    },
+    {
+      "reference": "assets/images/pois/p05_02.jpg",
+      "expected": "POI005",
+      "predicted": "POI005",
+      "passed": true,
+      "elapsed_ms": 4176
+    },
+    {
+      "reference": "assets/images/pois/p05_03.jpg",
+      "expected": "POI005",
+      "predicted": "POI005",
+      "passed": true,
+      "elapsed_ms": 3298
+    },
+    {
+      "reference": "assets/images/pois/p06_01.jpg",
+      "expected": "POI006",
+      "predicted": "POI006",
+      "passed": true,
+      "elapsed_ms": 5556
+    },
+    {
+      "reference": "assets/images/pois/p06_02.jpg",
+      "expected": "POI006",
+      "predicted": "POI006",
+      "passed": true,
+      "elapsed_ms": 9663
+    },
+    {
+      "reference": "assets/images/pois/p06_03.jpg",
+      "expected": "POI006",
+      "predicted": "POI006",
+      "passed": true,
+      "elapsed_ms": 9521
+    },
+    {
+      "reference": "assets/images/pois/p07_08.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 18667
+    },
+    {
+      "reference": "assets/images/pois/p07_01.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 14305
+    },
+    {
+      "reference": "assets/images/pois/p07_02.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 15510
+    },
+    {
+      "reference": "assets/images/pois/p07_03.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 8456
+    },
+    {
+      "reference": "assets/images/pois/p07_04.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 5569
+    },
+    {
+      "reference": "assets/images/pois/p07_05.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 2169
+    },
+    {
+      "reference": "assets/images/pois/p07_06.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 3586
+    },
+    {
+      "reference": "assets/images/pois/p07_07.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 4432
+    },
+    {
+      "reference": "assets/images/pois/p07_09.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 2573
+    },
+    {
+      "reference": "assets/images/pois/p07_10.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 5615
+    },
+    {
+      "reference": "assets/images/pois/p07_11.jpg",
+      "expected": "POI007",
+      "predicted": "POI007",
+      "passed": true,
+      "elapsed_ms": 3998
+    },
+    {
+      "reference": "assets/images/pois/p08_06.jpg",
+      "expected": "POI008",
+      "predicted": "POI008",
+      "passed": true,
+      "elapsed_ms": 4537
+    },
+    {
+      "reference": "assets/images/pois/p08_01.jpg",
+      "expected": "POI008",
+      "predicted": "POI008",
+      "passed": true,
+      "elapsed_ms": 9507
+    },
+    {
+      "reference": "assets/images/pois/p08_02.jpg",
+      "expected": "POI008",
+      "predicted": "POI008",
+      "passed": true,
+      "elapsed_ms": 3788
+    },
+    {
+      "reference": "assets/images/pois/p08_03.jpg",
+      "expected": "POI008",
+      "predicted": "POI008",
+      "passed": true,
+      "elapsed_ms": 3744
+    },
+    {
+      "reference": "assets/images/pois/p08_04.jpg",
+      "expected": "POI008",
+      "predicted": "POI008",
+      "passed": true,
+      "elapsed_ms": 3991
+    },
+    {
+      "reference": "assets/images/pois/p08_05.jpg",
+      "expected": "POI008",
+      "predicted": "POI008",
+      "passed": true,
+      "elapsed_ms": 5423
+    },
+    {
+      "reference": "assets/images/pois/p08_07.jpg",
+      "expected": "POI008",
+      "predicted": "POI008",
+      "passed": true,
+      "elapsed_ms": 2999
+    },
+    {
+      "reference": "assets/images/pois/p08_08.jpg",
+      "expected": "POI008",
+      "predicted": "POI008",
+      "passed": true,
+      "elapsed_ms": 3530
+    },
+    {
+      "reference": "assets/images/pois/p08_09.jpg",
+      "expected": "POI008",
+      "predicted": "POI008",
+      "passed": true,
+      "elapsed_ms": 3661
+    },
+    {
+      "reference": "assets/images/pois/p08_10.jpg",
+      "expected": "POI008",
+      "predicted": "POI008",
+      "passed": true,
+      "elapsed_ms": 4133
+    },
+    {
+      "reference": "assets/images/pois/p09_01.jpg",
+      "expected": "POI009",
+      "predicted": "POI009",
+      "passed": true,
+      "elapsed_ms": 2957
+    },
+    {
+      "reference": "assets/images/pois/p09_02.jpg",
+      "expected": "POI009",
+      "predicted": "POI009",
+      "passed": true,
+      "elapsed_ms": 3585
+    },
+    {
+      "reference": "assets/images/pois/p09_03.jpg",
+      "expected": "POI009",
+      "predicted": "POI009",
+      "passed": true,
+      "elapsed_ms": 3648
+    },
+    {
+      "reference": "assets/images/pois/p10_03.jpg",
+      "expected": "POI010",
+      "predicted": "POI010",
+      "passed": true,
+      "elapsed_ms": 4432
+    },
+    {
+      "reference": "assets/images/pois/p10_01.jpg",
+      "expected": "POI010",
+      "predicted": "POI010",
+      "passed": true,
+      "elapsed_ms": 3595
+    },
+    {
+      "reference": "assets/images/pois/p10_02.jpg",
+      "expected": "POI010",
+      "predicted": "POI010",
+      "passed": true,
+      "elapsed_ms": 3429
+    },
+    {
+      "reference": "assets/images/pois/p10_04.jpg",
+      "expected": "POI010",
+      "predicted": "POI010",
+      "passed": true,
+      "elapsed_ms": 3549
+    },
+    {
+      "reference": "assets/images/pois/p11_01.jpg",
+      "expected": "POI011",
+      "predicted": "POI011",
+      "passed": true,
+      "elapsed_ms": 3291
+    }
+  ]
+}

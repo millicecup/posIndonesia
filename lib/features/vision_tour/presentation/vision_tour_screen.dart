@@ -19,6 +19,7 @@ import '../../../providers/providers.dart';
 import '../../../services/vision/frame_converter.dart';
 import '../../../services/vision/vision_matcher.dart';
 import '../state/vision_tour_controller.dart';
+import 'web_vision_tour_screen.dart';
 
 class VisionTourScreen extends ConsumerStatefulWidget {
   const VisionTourScreen({super.key});
@@ -37,7 +38,7 @@ class _VisionTourScreenState extends ConsumerState<VisionTourScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _startCamera();
+    if (!kIsWeb) _startCamera();
   }
 
   @override
@@ -49,7 +50,8 @@ class _VisionTourScreenState extends ConsumerState<VisionTourScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.inactive || state == AppLifecycleState.paused) {
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.paused) {
       _stopCamera();
     } else if (state == AppLifecycleState.resumed && _camera == null) {
       _startCamera();
@@ -59,15 +61,19 @@ class _VisionTourScreenState extends ConsumerState<VisionTourScreen>
   Future<void> _startCamera() async {
     try {
       final cameras = await availableCameras();
-      final back = cameras.where((c) => c.lensDirection == CameraLensDirection.back);
-      if (cameras.isEmpty) throw CameraException('NoCamera', 'Kamera tidak ditemukan');
+      final back =
+          cameras.where((c) => c.lensDirection == CameraLensDirection.back);
+      if (cameras.isEmpty) {
+        throw CameraException('NoCamera', 'Kamera tidak ditemukan');
+      }
       final description = back.isEmpty ? cameras.first : back.first;
       final controller = CameraController(
         description,
         ResolutionPreset.medium,
         enableAudio: false,
-        imageFormatGroup:
-            Platform.isIOS ? ImageFormatGroup.bgra8888 : ImageFormatGroup.yuv420,
+        imageFormatGroup: Platform.isIOS
+            ? ImageFormatGroup.bgra8888
+            : ImageFormatGroup.yuv420,
       );
       await controller.initialize();
       await controller.lockCaptureOrientation(DeviceOrientation.portraitUp);
@@ -108,13 +114,30 @@ class _VisionTourScreenState extends ConsumerState<VisionTourScreen>
     if (controller.isBusy) return;
     _lastFrame = now;
 
+    if (controller.usesSift) {
+      if (image.format.group != ImageFormatGroup.yuv420 ||
+          image.planes.isEmpty) {
+        return;
+      }
+      final y = image.planes.first;
+      controller.processSiftFrame(
+          bytes: Uint8List.fromList(y.bytes),
+          width: image.width,
+          height: image.height,
+          stride: y.bytesPerRow,
+          pixelStride: y.bytesPerPixel ?? 1,
+          rotation: sensorOrientation);
+      return;
+    }
     final input = _toModelInput(image, sensorOrientation);
     if (input != null) controller.processFrame(input);
   }
 
   Float32List? _toModelInput(CameraImage image, int rotation) {
     FramePlane plane(Plane p) => FramePlane(
-        bytes: p.bytes, bytesPerRow: p.bytesPerRow, bytesPerPixel: p.bytesPerPixel ?? 1);
+        bytes: p.bytes,
+        bytesPerRow: p.bytesPerRow,
+        bytesPerPixel: p.bytesPerPixel ?? 1);
     switch (image.format.group) {
       case ImageFormatGroup.yuv420 when image.planes.length >= 3:
         return yuv420ToModelInput(
@@ -139,6 +162,7 @@ class _VisionTourScreenState extends ConsumerState<VisionTourScreen>
 
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb) return const WebVisionTourScreen();
     final state = ref.watch(visionTourControllerProvider);
     final camera = _camera;
 
@@ -201,7 +225,7 @@ class _CameraView extends StatelessWidget {
   }
 }
 
-/// Bingkai persegi di tengah = area yang dianalisis model.
+/// Panduan membidik panel. SIFT Android menganalisis seluruh frame.
 class _GuideFrame extends StatelessWidget {
   const _GuideFrame({this.phase});
   final VisionPhase? phase;
@@ -265,13 +289,17 @@ class _StatusPanel extends ConsumerWidget {
             'Kurang yakin. Dekatkan kamera ke papan informasi pameran.'
           ),
         VisionPhase.confirmed => (Icons.check_circle, 'Pameran dikenali!'),
-        _ => (Icons.photo_camera, 'Arahkan kamera ke pameran di dalam bingkai.'),
+        _ => (
+            Icons.photo_camera,
+            'Arahkan kamera ke pameran di dalam bingkai.'
+          ),
       };
       body = Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ListTile(leading: Icon(icon, color: AppColors.orange), title: Text(text)),
+          ListTile(
+              leading: Icon(icon, color: AppColors.orange), title: Text(text)),
           if (decision?.phase == VisionPhase.recognizing)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -291,7 +319,9 @@ class _StatusPanel extends ConsumerWidget {
                 onTap: () => context.push(AppRoutes.poiDetail(recognized.id)),
               ),
             ),
-          if (kDebugMode && decision?.top != null)
+          if (kDebugMode &&
+              decision?.top != null &&
+              ref.read(siftRecognizerProvider) == null)
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
               child: Text(

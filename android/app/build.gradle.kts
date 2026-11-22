@@ -27,6 +27,11 @@ android {
         // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        // This test distribution targets the same ARM64 phones as the v3.6 APK.
+        ndk {
+            abiFilters.clear()
+            abiFilters.add("arm64-v8a")
+        }
     }
 
     buildTypes {
@@ -46,4 +51,9 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+// Local Kenali integration: official OpenCV Android runtime.
+dependencies {
+    implementation("org.opencv:opencv:4.12.0")
 }
