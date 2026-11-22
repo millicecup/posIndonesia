@@ -1,3 +1,22 @@
+# JejakPOS v3.7 — gabungan semua branch
+
+`JejakPOS-arm64-v3.7.apk` (versionName 3.7, versionCode 9, ARM64) dibangun dari `main` setelah semua branch digabung: `computer-vision`, `codex/fix-map-zoom`, `codex/add-qr-poi-7-11`, `firebase`, dan `content/poi-dataset`. Isinya fitur CV (SIFT), QR POI 7–11, perbaikan peta/Photo Studio, pemandu suara bahasa Indonesia, dan aset dataset POI.
+
+Konflik `museumMapImage` diselesaikan dengan tetap memakai `assets/map/denah_museum.jpg` (denah asli 1737x2413, sama dengan `Denah2D_Real.jpg`).
+
+Tanda tangan **sama dengan APK v3.6** (debug key repo, SHA-256 sertifikat `1a5bfe38…ff3a2`), jadi bisa dipasang sebagai pembaruan di atas v3.6. Kuncinya **berbeda** dari `JejakPOS-computer-vision-arm64.apk`, jadi tidak bisa memperbarui pemasangan APK CV secara langsung.
+
+Build (JDK 21, karena JDK 25 tidak kompatibel dengan Gradle 8.14.3):
+
+```powershell
+flutter build apk --config-only --release --target-platform android-arm64 --build-name=3.7 --build-number=9
+.\android\gradlew.bat -p android :app:assembleRelease --no-daemon "-Ptarget-platform=android-arm64" "-Ptarget=lib/main.dart" "-Ptree-shake-icons=true" "-Pdisable-abi-filtering=true" "-Pshrink=false" -x lintVitalRelease -x lintVitalAnalyzeRelease -x lintVitalReportRelease
+```
+
+Validasi: `flutter analyze` tanpa error (5 info gaya kode), `flutter test` 148 tes lolos. Ukuran 101439785 byte. SHA-256: `37289b9e12bbf23fa21c1a0faa0beef0c3dcaa689d5ab9d39c11ee271a61764c`. Belum diuji langsung di perangkat fisik.
+
+---
+
 # JejakPOS CV dari assets aplikasi
 
 Unduh [JejakPOS-computer-vision-arm64.apk](JejakPOS-computer-vision-arm64.apk). Versi **3.6.3-cv**, nomor build **8**, ARM64. Sumber CV langsung dari **assets/images/pois/**: seluruh 70 foto koleksi P01–P11 menjadi referensi, sedangkan 13 placeholder dikecualikan. Label mengikuti data aplikasi dan awalan nama file pNN.
