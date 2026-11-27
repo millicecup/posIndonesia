@@ -13,11 +13,11 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:camera/camera.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../app/theme.dart';
 import '../../../core/utils/app_logger.dart';
 import '../../../providers/providers.dart';
+import '../../../services/permission_service.dart';
 import '../../../shared/widgets/postmark_stamp.dart';
 import '../widgets/uniform_overlay.dart';
 import '../studio_camera.dart';
@@ -44,13 +44,25 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
   String? _cameraError;
   bool _mirrorPhoto = false;
 
+  // DF-04: izin kamera ditolak -> tampilkan pesan + tombol minta izin ulang,
+  // bukan "Menyiapkan kamera..." selamanya.
+  bool _permissionDenied = false;
+  bool _permissionPermanentlyDenied = false;
+  bool _requestingPermission = false;
+  bool _permissionAskedAutomatically = false;
+
+  // DF-10: kanvas mengikuti rasio preview kamera (potret) agar tidak terpotong.
+  double _canvasAspect = 3 / 4;
+
   Uint8List? _photo;
   UniformTemplate _template = UniformTemplate.values.first;
 
   // Posisi & skala topi dan seragam (relatif terhadap ukuran kanvas).
-  Offset _capPos = const Offset(.5, .26);
+  static const _defaultCapPos = Offset(.5, .27);
+  static const _defaultBodyPos = Offset(.5, .78);
+  Offset _capPos = _defaultCapPos;
   double _capScale = 1;
-  Offset _bodyPos = const Offset(.5, .8);
+  Offset _bodyPos = _defaultBodyPos;
   double _bodyScale = 1;
 
   double _gestureStartScale = 1; // skala saat gesture cubit dimulai
@@ -78,8 +90,11 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Dialog izin sistem membuat aplikasi "inactive"; jangan anggap keluar app.
+    if (_requestingPermission) return;
     if (state == AppLifecycleState.resumed) {
       _appActive = true;
+      // Termasuk setelah kembali dari Pengaturan: cek ulang izin kamera.
       if (_photo == null && !_cameraReady && !_cameraStarting) {
         unawaited(_startCamera());
       }
@@ -103,34 +118,106 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
       _cameraStarting = true;
       _cameraError = null;
     });
-    final camera = ref.read(studioCameraFactoryProvider)();
+    StudioCamera? created;
     try {
       await _cameraCleanup;
       if (!mounted || generation != _cameraGeneration || !_appActive) return;
+      if (!await _ensurePermission()) return;
+      if (!mounted || generation != _cameraGeneration || !_appActive) return;
+      final camera = created = ref.read(studioCameraFactoryProvider)();
       await camera.initialize();
       if (!mounted || generation != _cameraGeneration || !_appActive) {
         await camera.dispose();
         return;
       }
       _camera = camera;
-      setState(() => _cameraReady = true);
+      setState(() {
+        _cameraReady = true;
+        _canvasAspect = camera.aspectRatio.clamp(.45, 1.0);
+      });
     } catch (e) {
-      await camera.dispose();
+      await created?.dispose();
       AppLogger.error('PHOTO', 'Gagal membuka preview kamera: $e');
-      if (mounted && generation == _cameraGeneration) {
-        setState(() => _cameraError = e is CameraException
-            ? 'Kamera belum bisa dibuka (${e.code}). '
-                'Periksa izin kamera dan tutup aplikasi kamera lain.'
-            : 'Kamera belum bisa dibuka. Coba lagi.');
+      final denied = e is CameraException && _isPermissionError(e.code);
+      // Error izin selalu ditampilkan, walau generasi berubah karena dialog izin.
+      if (mounted && (denied || generation == _cameraGeneration)) {
+        setState(() {
+          if (denied) {
+            _permissionDenied = true;
+            _cameraError = null;
+          } else {
+            _cameraError = e is CameraException
+                ? 'Kamera belum bisa dibuka (${e.code}). '
+                    'Tutup aplikasi kamera lain lalu coba lagi.'
+                : 'Kamera belum bisa dibuka. Coba lagi.';
+          }
+        });
       }
     } finally {
       _cameraStarting = false;
       if (mounted) {
         setState(() {});
-        if (_appActive && generation != _cameraGeneration && _photo == null) {
+        if (_appActive &&
+            generation != _cameraGeneration &&
+            _photo == null &&
+            !_permissionDenied) {
           unawaited(_startCamera());
         }
       }
+    }
+  }
+
+  static bool _isPermissionError(String code) => const {
+        'CameraAccessDenied',
+        'CameraAccessDeniedWithoutPrompt',
+        'CameraAccessRestricted',
+        'cameraPermission',
+        'permissionDenied',
+      }.contains(code);
+
+  /// Pastikan izin kamera ada. Dialog sistem hanya muncul otomatis sekali; setelah
+  /// itu pengguna memintanya lewat tombol "Izinkan kamera".
+  Future<bool> _ensurePermission({bool userInitiated = false}) async {
+    final gate = ref.read(studioCameraPermissionProvider);
+    var status = await gate.status();
+    if (!status.isGranted &&
+        status != AppPermissionStatus.permanentlyDenied &&
+        status != AppPermissionStatus.restricted &&
+        (userInitiated || !_permissionAskedAutomatically)) {
+      _permissionAskedAutomatically = true;
+      _requestingPermission = true;
+      try {
+        status = await gate.request();
+      } finally {
+        _requestingPermission = false;
+      }
+    }
+    if (!mounted) return false;
+    final granted = status.isGranted;
+    setState(() {
+      _permissionDenied = !granted;
+      _permissionPermanentlyDenied =
+          status == AppPermissionStatus.permanentlyDenied ||
+              status == AppPermissionStatus.restricted;
+      if (!granted) _cameraError = null;
+    });
+    if (!granted) {
+      AppLogger.warning(
+          'PHOTO', 'Izin kamera belum diberikan (${status.label})');
+    }
+    return granted;
+  }
+
+  /// Tombol "Izinkan kamera": minta izin lagi, atau buka Pengaturan bila
+  /// izin ditolak permanen (Android tidak lagi menampilkan dialog).
+  Future<void> _requestPermissionAgain() async {
+    final gate = ref.read(studioCameraPermissionProvider);
+    if (_permissionPermanentlyDenied) {
+      await gate.openSettings();
+      return; // dicek ulang saat aplikasi aktif kembali (resumed)
+    }
+    if (await _ensurePermission(userInitiated: true)) {
+      unawaited(_startCamera());
     }
   }
 
@@ -252,7 +339,7 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
             padding: const EdgeInsets.all(16),
             child: Center(
               child: AspectRatio(
-                aspectRatio: 3 / 4,
+                aspectRatio: _canvasAspect,
                 child: LayoutBuilder(
                   builder: (context, c) => RepaintBoundary(
                     key: _boundaryKey,
@@ -270,6 +357,8 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
                   ? 'Sesuaikan posisi wajah dan tubuh dengan topi dan seragam, lalu jepret.'
                   : 'Geser atau cubit topi dan seragam agar pas, lalu pilih Lihat hasil.',
               textAlign: TextAlign.center,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontSize: 12)),
         ),
         Padding(
@@ -278,11 +367,13 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
             children: [
               const Expanded(
                   child: Text('Pilih template seragam',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontWeight: FontWeight.w600))),
               TextButton.icon(
                 onPressed: () => setState(() {
-                  _capPos = const Offset(.5, .26);
-                  _bodyPos = const Offset(.5, .8);
+                  _capPos = _defaultCapPos;
+                  _bodyPos = _defaultBodyPos;
                   _capScale = 1;
                   _bodyScale = 1;
                 }),
@@ -358,12 +449,16 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
                       )),
                 ),
                 const Spacer(),
-                FilledButton.icon(
-                  onPressed: !_photoReady || _takingPhoto || _rendering
-                      ? null
-                      : _capture,
-                  icon: const Icon(Icons.check),
-                  label: const Text('Lihat hasil'),
+                Flexible(
+                  flex: 3,
+                  child: FilledButton.icon(
+                    onPressed: !_photoReady || _takingPhoto || _rendering
+                        ? null
+                        : _capture,
+                    icon: const Icon(Icons.check),
+                    label: const Text('Lihat hasil',
+                        maxLines: 1, overflow: TextOverflow.ellipsis),
+                  ),
                 ),
               ],
             ),
@@ -374,8 +469,8 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
   }
 
   Widget _buildCanvas(Size size) {
-    final capW = size.width * .55 * _capScale;
-    final bodyW = size.width * .9 * _bodyScale;
+    final capW = size.width * .5 * _capScale;
+    final bodyW = size.width * .82 * _bodyScale;
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: Stack(
@@ -403,6 +498,11 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
                 ))
           else if (_cameraReady && _camera != null)
             _camera!.preview()
+          else if (_permissionDenied)
+            _CameraPermissionNeeded(
+              permanentlyDenied: _permissionPermanentlyDenied,
+              onRequest: _requestPermissionAgain,
+            )
           else
             ColoredBox(
               color: const Color(0xFF4A4F57),
@@ -419,9 +519,6 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
                         TextButton(
                             onPressed: _startCamera,
                             child: const Text('Coba lagi')),
-                        const TextButton(
-                            onPressed: openAppSettings,
-                            child: Text('Pengaturan kamera')),
                       ],
                     ],
                   ),
@@ -581,4 +678,57 @@ class _PhotoStudioScreenState extends ConsumerState<PhotoStudioScreen>
       ),
     );
   }
+}
+
+/// DF-04: kamera tidak bisa dipakai karena izin ditolak.
+class _CameraPermissionNeeded extends StatelessWidget {
+  const _CameraPermissionNeeded(
+      {required this.permanentlyDenied, required this.onRequest});
+
+  final bool permanentlyDenied;
+  final VoidCallback onRequest;
+
+  @override
+  Widget build(BuildContext context) => ColoredBox(
+        key: const Key('camera-permission-needed'),
+        color: const Color(0xFF4A4F57),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.no_photography_outlined,
+                    color: Colors.white, size: 44),
+                const SizedBox(height: 12),
+                const Text('Izin kamera dibutuhkan',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700)),
+                const SizedBox(height: 6),
+                Text(
+                  permanentlyDenied
+                      ? 'Izin kamera ditolak. Buka Pengaturan aplikasi, '
+                          'aktifkan Kamera, lalu kembali ke sini.'
+                      : 'Photo Studio memakai kamera depan untuk berfoto '
+                          'dengan seragam petugas pos.',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white, height: 1.4),
+                ),
+                const SizedBox(height: 14),
+                FilledButton.icon(
+                  onPressed: onRequest,
+                  icon: Icon(permanentlyDenied
+                      ? Icons.settings
+                      : Icons.photo_camera_outlined),
+                  label: Text(
+                      permanentlyDenied ? 'Buka Pengaturan' : 'Izinkan kamera'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 }

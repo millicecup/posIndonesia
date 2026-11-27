@@ -1,3 +1,17 @@
+# JejakPOS v3.8 — perbaikan defek DF-01 s.d. DF-11
+
+`JejakPOS-arm64-v3.8.apk` (versionName 3.8, versionCode 10, ARM64) berisi perbaikan semua defek dari "Rangkuman Defek dan Retest". Rincian akar masalah, solusi (RP-01 s.d. RP-11), dan skenario retest ada di [docs/PERBAIKAN_DEFEK.md](../docs/PERBAIKAN_DEFEK.md).
+
+Ringkas: sambutan otomatis saat masuk area museum (DF-01), pesan "koleksi belum dikenali" + Pindai QR di Kenali (DF-02), jeda/lanjutkan pemandu suara (DF-03), pesan & tombol minta izin kamera di Photo Studio (DF-04), riwayat & ringkasan tiap kunjungan tersimpan permanen (DF-05), tombol dialog prangko langsung merespons (DF-06), saran pemandu yang sama di semua layar + chat "Tanya pemandu" di Detail POI (DF-07), kartu paspor dengan animasi stempel karya Diva (DF-08), kamera QR langsung aktif (DF-09), kanvas Photo Studio mengikuti rasio kamera (DF-10), tombol "Petunjuk lain" yang menonjol (DF-11).
+
+Tanda tangan sama dengan v3.7 (debug key repo), jadi bisa dipasang sebagai pembaruan di atas v3.7 tanpa menghapus data kunjungan.
+
+Build dengan JDK 21 (perintah sama seperti v3.7, `--build-name=3.8 --build-number=10`).
+
+Validasi: `flutter analyze` tanpa error (4 info gaya kode lama), `flutter test` 186 tes lulus (termasuk 38 tes retest di `test/defect_retest_test.dart`), `flutter build web` sukses. Ukuran 101571593 byte. SHA-256: `aefaedd7fdfd707d5238ecb381a48562b76554f0edb0bb2158f82f295d50f4f3`. Belum diuji langsung di perangkat fisik.
+
+---
+
 # JejakPOS v3.7 — gabungan semua branch
 
 `JejakPOS-arm64-v3.7.apk` (versionName 3.7, versionCode 9, ARM64) dibangun dari `main` setelah semua branch digabung: `computer-vision`, `codex/fix-map-zoom`, `codex/add-qr-poi-7-11`, `firebase`, dan `content/poi-dataset`. Isinya fitur CV (SIFT), QR POI 7–11, perbaikan peta/Photo Studio, pemandu suara bahasa Indonesia, dan aset dataset POI.

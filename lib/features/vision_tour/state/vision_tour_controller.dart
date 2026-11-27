@@ -43,6 +43,8 @@ class VisionTourState {
     this.recognizedPoi,
     this.newlyTriggered = false,
     this.errorMessage,
+    this.noMatchFrames = 0,
+    this.noMatchHintFrames = 6,
   });
 
   final VisionTourStatus status;
@@ -55,12 +57,22 @@ class VisionTourState {
   final bool newlyTriggered;
   final String? errorMessage;
 
+  /// Jumlah frame berturut-turut tanpa POI yang dikenali.
+  final int noMatchFrames;
+  final int noMatchHintFrames;
+
+  /// true = objek di kamera kemungkinan bukan koleksi POI (DF-02):
+  /// tampilkan pesan + pilihan Pindai QR / coba koleksi lain.
+  bool get showNotRecognizedHelp =>
+      status == VisionTourStatus.ready && noMatchFrames >= noMatchHintFrames;
+
   VisionTourState copyWith({
     VisionTourStatus? status,
     VisionDecision? decision,
     Poi? recognizedPoi,
     bool? newlyTriggered,
     String? errorMessage,
+    int? noMatchFrames,
   }) =>
       VisionTourState(
         status: status ?? this.status,
@@ -68,6 +80,8 @@ class VisionTourState {
         recognizedPoi: recognizedPoi ?? this.recognizedPoi,
         newlyTriggered: newlyTriggered ?? this.newlyTriggered,
         errorMessage: errorMessage ?? this.errorMessage,
+        noMatchFrames: noMatchFrames ?? this.noMatchFrames,
+        noMatchHintFrames: noMatchHintFrames,
       );
 }
 
@@ -93,7 +107,9 @@ class VisionTourController extends AutoDisposeNotifier<VisionTourState> {
     // Jaga GPS tetap aktif selama layar kamera terbuka (petunjuk lokasi).
     ref.listen(positionStreamProvider, (_, __) {});
     _init();
-    return const VisionTourState();
+    return VisionTourState(
+        noMatchHintFrames:
+            ref.read(appConfigProvider).visionNoMatchHintFrames);
   }
 
   Future<void> _init() async {
@@ -147,7 +163,11 @@ class VisionTourController extends AutoDisposeNotifier<VisionTourState> {
 
       final poi = decision.confirmedPoi;
       if (poi == null) {
-        state = state.copyWith(decision: decision);
+        final noMatch = decision.phase == VisionPhase.searching ||
+            decision.phase == VisionPhase.ambiguous;
+        state = state.copyWith(
+            decision: decision,
+            noMatchFrames: noMatch ? state.noMatchFrames + 1 : 0);
         return decision;
       }
 
@@ -165,6 +185,7 @@ class VisionTourController extends AutoDisposeNotifier<VisionTourState> {
         decision: decision,
         recognizedPoi: poi,
         newlyTriggered: event != null,
+        noMatchHintFrames: state.noMatchHintFrames,
       );
       return decision;
     } catch (e) {
@@ -213,8 +234,11 @@ class VisionTourController extends AutoDisposeNotifier<VisionTourState> {
               : VisionPhase.searching,
           requiredFrames: need,
         );
-        state =
-            VisionTourState(status: VisionTourStatus.ready, decision: decision);
+        state = VisionTourState(
+            status: VisionTourStatus.ready,
+            decision: decision,
+            noMatchFrames: state.noMatchFrames + 1,
+            noMatchHintFrames: state.noMatchHintFrames);
         return decision;
       }
       final poi = matches.single;
@@ -238,10 +262,13 @@ class VisionTourController extends AutoDisposeNotifier<VisionTourState> {
             status: VisionTourStatus.ready,
             decision: decision,
             recognizedPoi: poi,
-            newlyTriggered: event != null);
+            newlyTriggered: event != null,
+            noMatchHintFrames: state.noMatchHintFrames);
       } else {
-        state =
-            VisionTourState(status: VisionTourStatus.ready, decision: decision);
+        state = VisionTourState(
+            status: VisionTourStatus.ready,
+            decision: decision,
+            noMatchHintFrames: state.noMatchHintFrames);
       }
       return decision;
     } catch (e) {
@@ -251,6 +278,7 @@ class VisionTourController extends AutoDisposeNotifier<VisionTourState> {
       AppLogger.error(_tag, 'Analisis SIFT gagal', e);
       state = VisionTourState(
           status: VisionTourStatus.error,
+          noMatchHintFrames: state.noMatchHintFrames,
           errorMessage:
               'Pengenalan kamera gagal. Buka ulang Kenali atau pakai QR.');
       return null;
@@ -264,8 +292,10 @@ class VisionTourController extends AutoDisposeNotifier<VisionTourState> {
     _stabilizer.reset();
     _siftCandidate = null;
     _siftStreak = 0;
-    state =
-        VisionTourState(status: state.status, errorMessage: state.errorMessage);
+    state = VisionTourState(
+        status: state.status,
+        errorMessage: state.errorMessage,
+        noMatchHintFrames: state.noMatchHintFrames);
   }
 }
 

@@ -1,9 +1,12 @@
 // lib/data/datasources/progress_local_datasource.dart
 // Simpan progres ke shared_preferences agar tetap ada setelah app ditutup (F07).
 
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/constants/app_constants.dart';
+import '../models/visit_record.dart';
 
 class ProgressLocalDataSource {
   ProgressLocalDataSource(this._prefs);
@@ -38,8 +41,16 @@ class ProgressLocalDataSource {
   Future<void> writeSessionTriggeredIds(List<String> ids) =>
       _prefs.setStringList(AppConstants.prefSessionTriggeredIds, ids);
 
-  Future<void> clearSession() =>
-      _prefs.remove(AppConstants.prefSessionTriggeredIds);
+  bool readSessionMuseumWelcomed() =>
+      _prefs.getBool(AppConstants.prefSessionMuseumWelcomed) ?? false;
+
+  Future<void> writeSessionMuseumWelcomed(bool value) =>
+      _prefs.setBool(AppConstants.prefSessionMuseumWelcomed, value);
+
+  Future<void> clearSession() async {
+    await _prefs.remove(AppConstants.prefSessionTriggeredIds);
+    await _prefs.remove(AppConstants.prefSessionMuseumWelcomed);
+  }
 
   // ---- Statistik aktivitas & postmark (UI22, A01, A06, F08) ----
 
@@ -63,6 +74,27 @@ class ProgressLocalDataSource {
   Future<void> writePostmarks(List<DateTime> dates) => _prefs.setStringList(
       AppConstants.prefPostmarks, dates.map((d) => d.toIso8601String()).toList());
 
+  // ---- Riwayat kunjungan (DF-05) ----
+
+  List<VisitRecord> readVisitHistory() =>
+      VisitRecord.decodeList(_prefs.getString(AppConstants.prefVisitHistory));
+
+  Future<void> writeVisitHistory(List<VisitRecord> records) => _prefs.setString(
+      AppConstants.prefVisitHistory, VisitRecord.encodeList(records));
+
+  ActivitySnapshot readVisitBaseline() {
+    final raw = _prefs.getString(AppConstants.prefVisitBaseline);
+    if (raw == null) return const ActivitySnapshot();
+    try {
+      return ActivitySnapshot.fromJson(jsonDecode(raw) as Map<String, dynamic>);
+    } catch (_) {
+      return const ActivitySnapshot();
+    }
+  }
+
+  Future<void> writeVisitBaseline(ActivitySnapshot snapshot) => _prefs.setString(
+      AppConstants.prefVisitBaseline, jsonEncode(snapshot.toJson()));
+
   int? readRandomStampSeed() => _prefs.getInt(AppConstants.prefRandomStampSeed);
 
   Future<void> writeRandomStampSeed(int seed) =>
@@ -73,6 +105,8 @@ class ProgressLocalDataSource {
     await _prefs.remove(AppConstants.prefQuizCompleted);
     await _prefs.remove(AppConstants.prefPhotoCount);
     await _prefs.remove(AppConstants.prefPostmarks);
+    await _prefs.remove(AppConstants.prefVisitHistory);
+    await _prefs.remove(AppConstants.prefVisitBaseline);
     await _prefs.remove(AppConstants.prefVisitedIds);
     await _prefs.remove(AppConstants.prefStampIds);
     await _prefs.remove(AppConstants.prefLastVisitedAt);

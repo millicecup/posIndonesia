@@ -14,6 +14,16 @@ import 'random_stamp_art.dart';
 /// Tampilkan popup prangko baru. [isNew] false = prangko sudah ada (tidak diduplikasi).
 Future<void> showStampUnlockedDialog(BuildContext context,
     {required Poi poi, required bool isNew}) {
+  // DF-06: ambil router SEKARANG. Setelah prangko disimpan, layar detail POI
+  // dibangun ulang sehingga [context] pemanggil bisa sudah tidak aktif saat
+  // tombol dialog ditekan; context.go() pada context itu gagal diam-diam dan
+  // pengguna hanya kembali ke detail POI (harus menekan dua kali).
+  final router = GoRouter.of(context);
+  void goTo(BuildContext dialogContext, String location) {
+    Navigator.of(dialogContext).pop();
+    router.go(location);
+  }
+
   return showDialog<void>(
     context: context,
     builder: (ctx) => AlertDialog(
@@ -60,28 +70,19 @@ Future<void> showStampUnlockedDialog(BuildContext context,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pop(ctx);
-                  context.go(AppRoutes.qrScanner);
-                },
+                onPressed: () => goTo(ctx, AppRoutes.qrScanner),
                 icon: const Icon(Icons.qr_code_scanner, size: 20),
                 label: const Text('Scan koleksi lain'),
               ),
               const SizedBox(height: 12),
               OutlinedButton.icon(
-                onPressed: () {
-                  Navigator.pop(ctx);
-                  context.go(AppRoutes.album);
-                },
+                onPressed: () => goTo(ctx, AppRoutes.album),
                 icon: const Icon(Icons.collections_bookmark_outlined, size: 20),
                 label: const Text('Lihat album'),
               ),
               const SizedBox(height: 8),
               TextButton(
-                onPressed: () {
-                  Navigator.pop(ctx);
-                  context.go(AppRoutes.explore);
-                },
+                onPressed: () => goTo(ctx, AppRoutes.explore),
                 child: const Text('Kembali ke jelajah'),
               ),
             ],

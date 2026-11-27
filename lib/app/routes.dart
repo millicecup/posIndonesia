@@ -40,6 +40,8 @@ class AppRoutes {
       '/stamp-making/$poiId'; // UI19 (A04)
   static const String summary =
       '/summary'; // UI22 Ringkasan Kunjungan + Postmark (A06)
+  static const String summaryAfterVisit =
+      '/summary?baru=1'; // UI22 tepat setelah "Akhiri kunjungan" (animasi stempel)
   static const String simulation =
       '/debug/simulation'; // panel emulator (bukan bagian PRD)
 }

@@ -16,14 +16,22 @@ class VoiceGuideBar extends ConsumerWidget {
             border: Border(top: BorderSide(color: AppColors.lightGrey))),
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Row(children: [
-          Icon(s.speaking ? Icons.graphic_eq : Icons.record_voice_over_outlined,
-              size: 18, color: AppColors.teal),
+          Icon(
+              s.speaking
+                  ? Icons.graphic_eq
+                  : s.paused
+                      ? Icons.pause
+                      : Icons.record_voice_over_outlined,
+              size: 18,
+              color: AppColors.teal),
           const SizedBox(width: 8),
           Expanded(
               child: Text(
                   s.speaking
                       ? (s.last?.title ?? 'Pemandu suara')
-                      : 'Pemandu suara',
+                      : s.paused
+                          ? 'Dijeda: ${s.last?.title ?? 'narasi'}'
+                          : 'Pemandu suara',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -35,7 +43,22 @@ class VoiceGuideBar extends ConsumerWidget {
                 visualDensity: VisualDensity.compact,
                 icon: const Icon(Icons.replay),
                 onPressed: c.replay),
+          // DF-03: jeda lalu lanjutkan dari kalimat terakhir, tanpa mengulang dari awal.
           if (s.speaking)
+            IconButton(
+                tooltip: 'Jeda narasi',
+                iconSize: 19,
+                visualDensity: VisualDensity.compact,
+                icon: const Icon(Icons.pause_circle_outline),
+                onPressed: c.pause)
+          else if (s.paused)
+            IconButton(
+                tooltip: 'Lanjutkan narasi',
+                iconSize: 19,
+                visualDensity: VisualDensity.compact,
+                icon: const Icon(Icons.play_circle_outline),
+                onPressed: c.resume),
+          if (s.speaking || s.paused)
             IconButton(
                 tooltip: 'Hentikan suara',
                 iconSize: 19,

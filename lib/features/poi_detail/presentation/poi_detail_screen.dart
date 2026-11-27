@@ -19,6 +19,8 @@ import '../../../shared/widgets/stamp_unlocked_dialog.dart';
 import '../state/poi_detail_state.dart';
 import '../../voice_guide/presentation/listen_to_poi.dart';
 import '../../voice_guide/presentation/voice_guide_bar.dart';
+import '../../visual_tour_guide/presentation/guide_chat_sheet.dart';
+import '../../../shared/widgets/postman_guide.dart';
 import 'poi_activity_launcher.dart';
 import '../../mystery_clue/presentation/mystery_clue_screen.dart';
 import '../../mystery_clue/state/mystery_state.dart';
@@ -68,6 +70,18 @@ class _PoiDetailScreenState extends ConsumerState<PoiDetailScreen> {
       ),
       bottomNavigationBar:
           detail.valueOrNull == null ? null : const VoiceGuideBar(),
+      // DF-07: pemandu (maskot) bisa diajak ngobrol langsung di Detail POI.
+      floatingActionButton: detail.valueOrNull == null
+          ? null
+          : FloatingActionButton.extended(
+              key: const Key('ask-guide'),
+              backgroundColor: AppColors.white,
+              foregroundColor: AppColors.darkGrey,
+              onPressed: () =>
+                  showGuideChat(context, detail.valueOrNull!.poi),
+              icon: const PostmanGuide(size: 30),
+              label: const Text('Tanya pemandu'),
+            ),
     );
   }
 }
@@ -228,7 +242,8 @@ class _PoiDetailBody extends ConsumerWidget {
           ),
         ),
         _CollectStampBar(data: data),
-        const SizedBox(height: 16),
+        // Ruang untuk tombol "Tanya pemandu" agar tidak menutupi tombol prangko.
+        const SizedBox(height: 88),
       ],
     );
   }

@@ -42,6 +42,30 @@ class TriggerEvent {
       '${distanceMeters != null ? ', ${distanceMeters!.toStringAsFixed(1)} m' : ''})';
 }
 
+/// Masuk/keluar area museum (geofence besar, DF-01).
+enum MuseumEventType { entered, exited }
+
+class MuseumEvent {
+  const MuseumEvent({
+    required this.type,
+    required this.distanceMeters,
+    required this.timestamp,
+    required this.firstThisSession,
+  });
+
+  final MuseumEventType type;
+  final double distanceMeters;
+  final DateTime timestamp;
+
+  /// true = pertama kali masuk museum pada sesi kunjungan ini (tampilkan sambutan).
+  final bool firstThisSession;
+
+  @override
+  String toString() =>
+      'MuseumEvent(${type.name}, ${distanceMeters.toStringAsFixed(0)} m'
+      '${firstThisSession ? ', pertama' : ''})';
+}
+
 /// Status terkini satu POI (untuk peta/daftar).
 class PoiProximityStatus {
   const PoiProximityStatus({
@@ -71,11 +95,13 @@ class TriggerEngine {
   final _eventController = StreamController<TriggerEvent>.broadcast();
   final _statusController =
       StreamController<Map<String, PoiProximityStatus>>.broadcast();
+  final _museumController = StreamController<MuseumEvent>.broadcast();
 
   List<Poi> _pois = const [];
   final Map<String, _PoiState> _states = {};
   final Set<String> _triggeredThisSession = {};
   bool _insideMuseum = false;
+  bool _museumWelcomedThisSession = false;
   bool _disposed = false;
 
   /// Event trigger untuk dikonsumsi UI.
@@ -85,7 +111,12 @@ class TriggerEngine {
   Stream<Map<String, PoiProximityStatus>> get statusStream =>
       _statusController.stream;
 
+  /// Masuk/keluar area museum. Sebelumnya hanya dicatat di log sehingga
+  /// pengguna tidak mendapat trigger apa pun saat tiba di museum (DF-01).
+  Stream<MuseumEvent> get museumEvents => _museumController.stream;
+
   bool get isInsideMuseum => _insideMuseum;
+  bool get museumWelcomedThisSession => _museumWelcomedThisSession;
   Set<String> get triggeredThisSession => Set.unmodifiable(_triggeredThisSession);
   bool hasTriggered(String poiId) => _triggeredThisSession.contains(poiId);
 
@@ -195,8 +226,10 @@ class TriggerEngine {
 
   /// Pulihkan POI yang sudah terpicu pada kunjungan yang sama
   /// (misal aplikasi ditutup lalu dibuka lagi sebelum "Akhiri kunjungan").
-  void restoreSession(Iterable<String> triggeredPoiIds) {
+  void restoreSession(Iterable<String> triggeredPoiIds,
+      {bool museumWelcomed = false}) {
     _triggeredThisSession.addAll(triggeredPoiIds);
+    _museumWelcomedThisSession = _museumWelcomedThisSession || museumWelcomed;
     if (_triggeredThisSession.isNotEmpty) {
       AppLogger.info(_tag, 'Sesi dipulihkan, sudah terpicu: ${_triggeredThisSession.join(', ')}');
     }
@@ -205,6 +238,9 @@ class TriggerEngine {
   /// Mulai sesi kunjungan baru (semua POI bisa terpicu lagi).
   void resetSession() {
     _triggeredThisSession.clear();
+    // _insideMuseum sengaja tidak direset: sambutan baru muncul lagi setelah
+    // pengguna keluar lalu masuk museum pada kunjungan berikutnya.
+    _museumWelcomedThisSession = false;
     for (final s in _states.values) {
       s
         ..proximity = PoiProximity.outside
@@ -219,6 +255,7 @@ class TriggerEngine {
     _disposed = true;
     _eventController.close();
     _statusController.close();
+    _museumController.close();
   }
 
   // ---------------- internal ----------------
@@ -281,7 +318,10 @@ class TriggerEngine {
   void _updateMuseumGeofence(UserPosition p) {
     final d = haversineDistanceMeters(p.latitude, p.longitude,
         config.museumCenterLatitude, config.museumCenterLongitude);
-    final inside = d <= config.museumGeofenceRadiusMeters;
+    // Hysteresis agar status tidak berkedip tepat di batas geofence.
+    final inside = _insideMuseum
+        ? d <= config.museumGeofenceRadiusMeters + config.hysteresisMeters * 10
+        : d <= config.museumGeofenceRadiusMeters;
     if (inside != _insideMuseum) {
       _insideMuseum = inside;
       AppLogger.info(
@@ -289,6 +329,16 @@ class TriggerEngine {
           inside
               ? 'Masuk area museum (${d.toStringAsFixed(0)} m dari pusat)'
               : 'Keluar area museum (${d.toStringAsFixed(0)} m dari pusat)');
+      final first = inside && !_museumWelcomedThisSession;
+      if (first) _museumWelcomedThisSession = true;
+      final event = MuseumEvent(
+        type: inside ? MuseumEventType.entered : MuseumEventType.exited,
+        distanceMeters: d,
+        timestamp: DateTime.now(),
+        firstThisSession: first,
+      );
+      AppLogger.info(_tag, event.toString());
+      if (!_museumController.isClosed) _museumController.add(event);
     }
   }
 

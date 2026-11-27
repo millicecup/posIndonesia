@@ -12,6 +12,7 @@ import 'package:jejakpos/features/photo_studio/widgets/uniform_overlay.dart';
 import 'package:jejakpos/features/photo_studio/studio_camera.dart';
 import 'package:jejakpos/features/photo_studio/studio_gallery.dart';
 import 'package:jejakpos/features/poi_detail/presentation/poi_activity_launcher.dart';
+import 'package:jejakpos/services/permission_service.dart';
 
 import 'helpers/test_data.dart';
 
@@ -22,6 +23,8 @@ class FakeStudioCamera implements StudioCamera {
   bool disposed = false;
   @override
   bool get mirrorPhoto => true;
+  @override
+  double get aspectRatio => 9 / 16;
   @override
   Future<void> initialize() async {}
   @override
@@ -36,6 +39,28 @@ class FakeStudioCamera implements StudioCamera {
   @override
   Future<void> dispose() async {
     disposed = true;
+  }
+}
+
+class FakeCameraPermission implements CameraPermissionGate {
+  FakeCameraPermission([this.current = AppPermissionStatus.granted]);
+  AppPermissionStatus current;
+  AppPermissionStatus? afterRequest;
+  int requests = 0;
+  int settingsOpened = 0;
+  @override
+  Future<AppPermissionStatus> status() async => current;
+  @override
+  Future<AppPermissionStatus> request() async {
+    requests++;
+    if (afterRequest != null) current = afterRequest!;
+    return current;
+  }
+
+  @override
+  Future<bool> openSettings() async {
+    settingsOpened++;
+    return true;
   }
 }
 
@@ -75,6 +100,7 @@ void main() {
     addTearDown(router.dispose);
     await tester.pumpWidget(ProviderScope(overrides: [
       studioCameraFactoryProvider.overrideWithValue(FakeStudioCamera.new),
+      studioCameraPermissionProvider.overrideWithValue(FakeCameraPermission()),
     ], child: MaterialApp.router(routerConfig: router)));
     await tester.tap(find.text('Coba Photo Studio'));
     await tester.pumpAndSettle();
@@ -99,6 +125,7 @@ void main() {
     final gallery = FakeStudioGallery()..fail = true;
     await tester.pumpWidget(ProviderScope(overrides: [
       studioCameraFactoryProvider.overrideWithValue(() => camera),
+      studioCameraPermissionProvider.overrideWithValue(FakeCameraPermission()),
       studioGalleryProvider.overrideWithValue(gallery),
     ], child: const MaterialApp(home: PhotoStudioScreen(poiId: 'P04'))));
     await tester.pumpAndSettle();

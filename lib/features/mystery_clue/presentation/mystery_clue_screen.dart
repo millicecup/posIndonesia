@@ -70,8 +70,10 @@ class _MysteryClueScreenState extends ConsumerState<MysteryClueScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Petunjuk $_revealed dari ${clues.length}',
-                  style: const TextStyle(color: AppColors.grey)),
+              Expanded(
+                child: Text('Petunjuk $_revealed dari ${clues.length}',
+                    style: const TextStyle(color: AppColors.grey)),
+              ),
               Chip(label: Text('POI ${poi.id}')),
             ],
           ),
@@ -93,6 +95,13 @@ class _MysteryClueScreenState extends ConsumerState<MysteryClueScreen> {
                   Text('"${clues[i]}"'),
                 ],
               ),
+            ),
+          // DF-11: petunjuk lain ditaruh tepat di bawah petunjuk (sebelum gambar &
+          // pilihan tebakan) dan dibuat mencolok agar tidak terlewat.
+          if (!solved && clues.isNotEmpty)
+            _MoreCluesPanel(
+              remaining: clues.length - _revealed,
+              onReveal: () => setState(() => _revealed++),
             ),
           const SizedBox(height: 12),
           if (solved && poi.coverImage != null)
@@ -138,19 +147,10 @@ class _MysteryClueScreenState extends ConsumerState<MysteryClueScreen> {
             if (_guess != null && !solved)
               const Padding(
                 padding: EdgeInsets.only(top: 8),
-                child: Text('Belum tepat. Buka petunjuk lain lalu coba lagi!',
+                child: Text(
+                    'Belum tepat. Buka petunjuk lain di atas lalu coba lagi!',
                     style: TextStyle(color: AppColors.danger)),
               ),
-            const SizedBox(height: 12),
-            OutlinedButton.icon(
-              onPressed: _revealed < clues.length
-                  ? () => setState(() => _revealed++)
-                  : null,
-              icon: const Icon(Icons.lightbulb_outline),
-              label: Text(_revealed < clues.length
-                  ? 'Petunjuk lain'
-                  : 'Semua petunjuk terbuka'),
-            ),
           ] else ...[
             Text('Benar, aku $answer!',
                 style: Theme.of(context)
@@ -176,6 +176,59 @@ class _MysteryClueScreenState extends ConsumerState<MysteryClueScreen> {
               },
               icon: const Icon(Icons.arrow_forward_rounded),
               label: const Text('Lihat detail koleksi'),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+/// Kotak ajakan membuka petunjuk berikutnya (DF-11).
+class _MoreCluesPanel extends StatelessWidget {
+  const _MoreCluesPanel({required this.remaining, required this.onReveal});
+
+  final int remaining;
+  final VoidCallback onReveal;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasMore = remaining > 0;
+    return Container(
+      key: const Key('more-clues-panel'),
+      margin: const EdgeInsets.only(top: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: hasMore ? AppColors.orangeLight : const Color(0xFFF2F2F2),
+        border: Border.all(
+            color: hasMore ? AppColors.orange : AppColors.lightGrey,
+            width: 1.5),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Icon(hasMore ? Icons.tips_and_updates : Icons.check_circle,
+                  color: hasMore ? AppColors.orange : AppColors.grey),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  hasMore
+                      ? 'Masih ada $remaining petunjuk lagi. Buka dulu sebelum menebak!'
+                      : 'Semua petunjuk sudah terbuka. Saatnya menebak!',
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ),
+            ],
+          ),
+          if (hasMore) ...[
+            const SizedBox(height: 8),
+            FilledButton.icon(
+              onPressed: onReveal,
+              icon: const Icon(Icons.lightbulb),
+              label: const Text('Petunjuk lain'),
             ),
           ],
         ],

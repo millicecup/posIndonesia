@@ -195,8 +195,9 @@ final positionStreamProvider = StreamProvider<UserPosition>((ref) {
 final triggerEngineProvider = Provider<TriggerEngine>((ref) {
   final engine = TriggerEngine(config: ref.watch(appConfigProvider));
   // Sesi kunjungan bertahan sampai "Akhiri kunjungan" (PRD 4.2, UI08 "sekali per kunjungan").
-  engine.restoreSession(
-      ref.read(progressLocalDataSourceProvider).readSessionTriggeredIds());
+  final local = ref.read(progressLocalDataSourceProvider);
+  engine.restoreSession(local.readSessionTriggeredIds(),
+      museumWelcomed: local.readSessionMuseumWelcomed());
   ref.listen<AsyncValue<List<Poi>>>(
     poisProvider,
     (_, next) => next.whenData(engine.setPois),
@@ -209,6 +210,11 @@ final triggerEngineProvider = Provider<TriggerEngine>((ref) {
 /// Stream event trigger (approaching/triggered/exited) untuk UI.
 final triggerEventsProvider = StreamProvider<TriggerEvent>(
   (ref) => ref.watch(triggerEngineProvider).events,
+);
+
+/// Masuk/keluar area museum (DF-01): dipakai app.dart untuk sambutan otomatis.
+final museumEventsProvider = StreamProvider<MuseumEvent>(
+  (ref) => ref.watch(triggerEngineProvider).museumEvents,
 );
 
 /// Status kedekatan semua POI (untuk peta & daftar).
@@ -245,9 +251,18 @@ final triggerCoordinatorProvider = Provider<void>((ref) {
     }
   });
 
+  final museumSub = engine.museumEvents.listen((event) {
+    if (event.firstThisSession) {
+      ref
+          .read(progressLocalDataSourceProvider)
+          .writeSessionMuseumWelcomed(true);
+    }
+  });
+
   ref.onDispose(() {
     beaconSub.cancel();
     eventSub.cancel();
+    museumSub.cancel();
     scanner.stop();
   });
 });
@@ -260,6 +275,7 @@ class ActivityStats {
     required this.quizCompleted,
     required this.photoCount,
     required this.postmarks,
+    this.visits = const [],
     this.randomStampSeed,
   });
 
@@ -273,6 +289,24 @@ class ActivityStats {
   final List<DateTime> postmarks;
 
   DateTime? get lastPostmark => postmarks.isEmpty ? null : postmarks.last;
+
+  /// Ringkasan tiap kunjungan yang sudah diakhiri, urut dari yang terlama (DF-05).
+  /// Cap dari versi lama yang belum punya rincian tampil sebagai tanggal saja.
+  final List<VisitRecord> visits;
+
+  VisitRecord? get lastVisit => visits.isEmpty ? null : visits.last;
+}
+
+/// Gabungkan rincian kunjungan dengan daftar cap (data versi lama hanya punya cap).
+List<VisitRecord> mergeVisitHistory(
+    List<DateTime> postmarks, List<VisitRecord> records) {
+  final byDate = {for (final r in records) r.endedAt.toIso8601String(): r};
+  final merged = <VisitRecord>[
+    for (final d in postmarks)
+      byDate.remove(d.toIso8601String()) ?? VisitRecord.legacy(d),
+    ...byDate.values,
+  ]..sort((a, b) => a.endedAt.compareTo(b.endedAt));
+  return merged;
 }
 
 class ActivityStatsController extends Notifier<ActivityStats> {
@@ -281,10 +315,12 @@ class ActivityStatsController extends Notifier<ActivityStats> {
   @override
   ActivityStats build() {
     final local = ref.watch(progressLocalDataSourceProvider);
+    final postmarks = local.readPostmarks();
     return ActivityStats(
       quizCompleted: local.readQuizCompleted(),
       photoCount: local.readPhotoCount(),
-      postmarks: local.readPostmarks(),
+      postmarks: postmarks,
+      visits: mergeVisitHistory(postmarks, local.readVisitHistory()),
       randomStampSeed: local.readRandomStampSeed(),
     );
   }
@@ -315,6 +351,25 @@ class ActivityStatsController extends Notifier<ActivityStats> {
     ref.invalidateSelf();
     return date;
   }
+
+  /// Simpan ringkasan kunjungan yang baru diakhiri: cap + rincian aktivitas
+  /// (selisih terhadap akhir kunjungan sebelumnya). Tersimpan permanen.
+  Future<VisitRecord> recordVisit([DateTime? at]) async {
+    final date = at ?? DateTime.now();
+    final current = ActivitySnapshot(
+      visitedPoiIds: _local.readVisitedIds(),
+      stampIds: _local.readStampIds(),
+      quizCompleted: _local.readQuizCompleted(),
+      photoCount: _local.readPhotoCount(),
+    );
+    final record = VisitRecord.between(
+        endedAt: date, before: _local.readVisitBaseline(), current: current);
+    await _local.writeVisitHistory([..._local.readVisitHistory(), record]);
+    await _local.writeVisitBaseline(current);
+    await _local.writePostmarks([..._local.readPostmarks(), date]);
+    ref.invalidateSelf();
+    return record;
+  }
 }
 
 final activityStatsProvider =
@@ -331,9 +386,11 @@ class VisitSessionController {
   Future<DateTime> endVisit() async {
     _ref.read(triggerEngineProvider).resetSession();
     await _ref.read(progressLocalDataSourceProvider).clearSession();
-    final date = await _ref.read(activityStatsProvider.notifier).addPostmark();
-    AppLogger.info('SESI', 'Kunjungan diakhiri, postmark $date');
-    return date;
+    final record =
+        await _ref.read(activityStatsProvider.notifier).recordVisit();
+    AppLogger.info('SESI',
+        'Kunjungan diakhiri, postmark ${record.endedAt} (${record.activityLine})');
+    return record.endedAt;
   }
 }
 

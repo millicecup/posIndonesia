@@ -28,6 +28,18 @@ class NarrationScript {
     return d.isEmpty ? '' : ', ${d[0].toLowerCase()}${d.substring(1)}';
   }
 
+  /// Pengunjung baru memasuki area museum (DF-01).
+  static Narration museumWelcome({Poi? next}) => Narration(
+        title: 'Selamat datang di museum',
+        parts: [
+          'Selamat datang di Museum Pos Indonesia!',
+          'Arahkan kamera ke pameran dengan fitur Kenali, atau pindai QR di '
+              'penanda koleksi untuk membuka ceritanya.',
+          if (next != null)
+            'Sebagai awal, kamu bisa mengunjungi ${next.name}${_where(next)}.',
+        ],
+      );
+
   /// State 2: pengunjung mendekati POI.
   static Narration approaching(Poi poi) => Narration(
         title: 'Mendekati ${poi.name}',

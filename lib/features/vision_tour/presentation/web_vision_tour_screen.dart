@@ -132,6 +132,9 @@ class _WebVisionTourScreenState extends ConsumerState<WebVisionTourScreen>
         ? 'Menyiapkan pengenal POI...'
         : state.status == VisionTourStatus.error
             ? state.errorMessage ?? 'Pengenal tidak tersedia'
+            : state.showNotRecognizedHelp
+                ? 'Koleksi ini belum dikenali, kemungkinan bukan POI. '
+                    'Coba koleksi lain atau pindai QR.'
             : phase == VisionPhase.recognizing
                 ? 'Mengenali ${state.decision!.top!.poi.name}... tahan sebentar'
                 : phase == VisionPhase.ambiguous

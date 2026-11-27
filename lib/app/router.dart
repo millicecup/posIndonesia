@@ -138,7 +138,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.summary,
-        builder: (context, state) => const VisitSummaryScreen(),
+        builder: (context, state) => VisitSummaryScreen(
+            justEnded: state.uri.queryParameters['baru'] == '1'),
       ),
       GoRoute(
         path: '/poi/:poiId',

@@ -11,6 +11,7 @@ import '../../../shared/widgets/poi_card.dart';
 import '../../../shared/widgets/postman_guide.dart';
 import '../../../shared/widgets/tutorial_navigation_scope.dart';
 import '../../media_download/presentation/media_download_card.dart';
+import '../../visual_tour_guide/presentation/guide_next_stop_card.dart';
 import '../state/home_state.dart';
 import '../widgets/quick_action_button.dart';
 import '../widgets/explore_tutorial.dart';
@@ -78,7 +79,7 @@ class _HomeExplorerScreenState extends ConsumerState<HomeExplorerScreen> {
   @override
   Widget build(BuildContext context) {
     final summary = ref.watch(homeSummaryProvider);
-    final recommended = ref.watch(recommendedNextPoiProvider).valueOrNull;
+    final recommendedAsync = ref.watch(recommendedNextPoiProvider);
     if (!_tutorialScheduled &&
         summary.hasValue &&
         GoRouterState.of(context).uri.path == AppRoutes.explore) {
@@ -214,14 +215,23 @@ class _HomeExplorerScreenState extends ConsumerState<HomeExplorerScreen> {
                       Text('${data.progress.stampCount} prangko terkumpul',
                           style: const TextStyle(
                               color: Color(0xFFCEE0DA), fontSize: 13)),
-                      const SizedBox(height: 18),
+                      // DF-07: saran pemandu menyatu dengan tombol tur (satu sumber
+                      // rekomendasi untuk Jelajah, Pemandu tur, dan Progres).
+                      if (recommendedAsync.hasValue) ...[
+                        const SizedBox(height: 16),
+                        GuideNextStopCard(next: recommendedAsync.value),
+                        const SizedBox(height: 12),
+                      ] else
+                        const SizedBox(height: 18),
                       SizedBox(
                           key: _tourTarget,
                           width: double.infinity,
                           child: ElevatedButton.icon(
                             onPressed: () => context.push(AppRoutes.tour),
                             icon: const Icon(Icons.route_outlined, size: 23),
-                            label: const Text('Mulai tur terpandu'),
+                            label: Text(data.progress.visitedCount == 0
+                                ? 'Mulai tur terpandu'
+                                : 'Lanjutkan tur terpandu'),
                           )),
                     ]),
               ),
@@ -268,52 +278,6 @@ class _HomeExplorerScreenState extends ConsumerState<HomeExplorerScreen> {
               ),
               const SizedBox(height: 12),
               const MediaDownloadCard(),
-              if (recommended != null)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 4),
-                  child: Material(
-                    color: const Color(0xFFEAF2EE),
-                    borderRadius: BorderRadius.circular(18),
-                    clipBehavior: Clip.antiAlias,
-                    child: InkWell(
-                      onTap: () =>
-                          context.push(AppRoutes.poiDetail(recommended.id)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(18),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.near_me_outlined,
-                                color: AppColors.teal),
-                            const SizedBox(width: 14),
-                            Expanded(
-                                child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text('Rekomendasi berikutnya',
-                                    style: TextStyle(
-                                        color: AppColors.teal,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                        height: 1.4)),
-                                const SizedBox(height: 4),
-                                Text('${recommended.id}: ${recommended.name}',
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        height: 1.4)),
-                              ],
-                            )),
-                            const SizedBox(width: 12),
-                            const Icon(Icons.arrow_forward_rounded,
-                                color: AppColors.teal, size: 20),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
                 child: Text('Semua koleksi (${data.pois.length})',

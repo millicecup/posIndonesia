@@ -22,6 +22,8 @@ import '../../voice_guide/presentation/listen_to_poi.dart';
 import '../../voice_guide/presentation/voice_guide_bar.dart';
 import '../../voice_guide/state/voice_guide_controller.dart';
 import '../state/tour_state.dart';
+import 'guide_chat_sheet.dart';
+import 'guide_next_stop_card.dart';
 
 class VisualTourGuideScreen extends ConsumerWidget {
   const VisualTourGuideScreen({super.key, this.poiId});
@@ -68,17 +70,9 @@ class VisualTourGuideScreen extends ConsumerWidget {
             else
               _GeneralDialog(next: t.next),
             const SizedBox(height: 16),
-            if (t.next != null && t.next!.id != poi?.id)
-              _NextCard(next: t.next!)
-            else if (t.next == null)
-              const Card(
-                child: ListTile(
-                  leading: Icon(Icons.emoji_events, color: AppColors.orange),
-                  title: Text('Semua koleksi sudah dikunjungi!'),
-                  subtitle: Text(
-                      'Akhiri kunjungan di tab Progres untuk mendapat cap kunjungan.'),
-                ),
-              ),
+            // DF-07: kartu saran yang sama dengan Jelajah & Progres.
+            if (t.next == null || t.next!.id != poi?.id)
+              GuideNextStopCard(next: t.next),
           ],
         ),
       ),
@@ -139,6 +133,12 @@ class _PoiDialogState extends ConsumerState<_PoiDialog> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  FilledButton.icon(
+                    onPressed: () => showGuideChat(context, poi),
+                    icon: const Icon(Icons.forum_outlined),
+                    label: const Text('Tanya pemandu'),
+                  ),
+                  const SizedBox(height: 8),
                   OutlinedButton.icon(
                     onPressed: () => context.push(AppRoutes.poiDetail(poi.id)),
                     icon: const Icon(Icons.article_outlined),
@@ -249,31 +249,4 @@ class _SpeechBubblePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _SpeechBubblePainter oldDelegate) =>
       oldDelegate.tailAlignment != tailAlignment;
-}
-
-class _NextCard extends StatelessWidget {
-  const _NextCard({required this.next});
-  final Poi next;
-
-  @override
-  Widget build(BuildContext context) => Card(
-        color: AppColors.orangeLight,
-        shape: RoundedRectangleBorder(
-          side: const BorderSide(color: AppColors.orange),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: ListTile(
-          title: const Text('Rekomendasi berikutnya',
-              style: TextStyle(fontSize: 12, color: AppColors.darkGrey)),
-          subtitle: Text('${next.id}: ${next.name}',
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold, color: AppColors.darkGrey)),
-          trailing: IconButton.filled(
-            tooltip: 'Tunjukkan arah',
-            icon: const Icon(Icons.arrow_forward),
-            onPressed: () => context.push(AppRoutes.navigateTo(next.id)),
-          ),
-          onTap: () => context.push(AppRoutes.poiDetail(next.id)),
-        ),
-      );
 }

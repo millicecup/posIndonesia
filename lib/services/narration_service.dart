@@ -33,11 +33,123 @@ Map<String, String>? pickIndonesianVoice(Object? voices) {
   return candidates.first;
 }
 
+enum NarrationStatus { idle, speaking, paused }
+
+/// Memecah naskah menjadi kalimat agar narasi bisa dijeda lalu dilanjutkan dari
+/// kalimat terakhir (DF-03), bukan diulang dari awal. Singkatan bergaya
+/// "R. Dijar" dan angka desimal "1.5" tidak dipotong.
+@visibleForTesting
+List<String> splitIntoSentences(List<String> parts) {
+  final boundary =
+      RegExp(r'(?<=[a-z0-9)À-ɏ][.!?])\s+(?=[A-Z"“])');
+  return [
+    for (final part in parts)
+      for (final sentence in part.trim().split(boundary))
+        if (sentence.trim().isNotEmpty) sentence.trim(),
+  ];
+}
+
+/// Antrean kalimat yang bisa dijeda/dilanjutkan. Terpisah dari plugin TTS agar
+/// mudah di-test. [speakOne] harus selesai saat kalimat selesai dibacakan
+/// (atau dihentikan lewat [stopEngine]).
+class ResumableSpeechQueue {
+  ResumableSpeechQueue({required this.speakOne, required this.stopEngine});
+
+  final Future<void> Function(String text) speakOne;
+  final Future<void> Function() stopEngine;
+
+  final _status = StreamController<NarrationStatus>.broadcast();
+  NarrationStatus _current = NarrationStatus.idle;
+  List<String> _queue = const [];
+  int _index = 0;
+  int _session = 0;
+
+  NarrationStatus get current => _current;
+  Stream<NarrationStatus> get status => _status.stream;
+
+  /// Kalimat yang sedang/akan dibacakan berikutnya (untuk test & UI).
+  int get position => _index;
+  int get length => _queue.length;
+
+  void _set(NarrationStatus s) {
+    _current = s;
+    if (!_status.isClosed) _status.add(s);
+  }
+
+  /// Mulai naskah baru. [prepare] (mis. menyiapkan bahasa Indonesia) dipanggil
+  /// setelah bacaan lama dihentikan; false = batal membaca.
+  Future<void> start(List<String> parts,
+      {Future<bool> Function()? prepare}) async {
+    final session = ++_session;
+    await stopEngine();
+    if (prepare != null && !await prepare()) {
+      if (session == _session) _set(NarrationStatus.idle);
+      return;
+    }
+    if (session != _session) return;
+    _queue = splitIntoSentences(parts);
+    _index = 0;
+    await _run(session);
+  }
+
+  Future<void> _run(int session) async {
+    _set(NarrationStatus.speaking);
+    while (_index < _queue.length) {
+      if (session != _session) return;
+      await speakOne(_queue[_index]);
+      // Dihentikan/dijeda di tengah kalimat: posisi tetap di kalimat ini.
+      if (session != _session) return;
+      _index++;
+    }
+    _queue = const [];
+    _index = 0;
+    _set(NarrationStatus.idle);
+  }
+
+  /// Jeda: hentikan suara, ingat kalimat yang sedang dibacakan.
+  Future<void> pause() async {
+    if (_current != NarrationStatus.speaking) return;
+    _session++;
+    _set(NarrationStatus.paused);
+    await stopEngine();
+  }
+
+  /// Lanjutkan dari kalimat yang terpotong saat dijeda.
+  Future<void> resume() async {
+    if (_current != NarrationStatus.paused || _index >= _queue.length) return;
+    await _run(++_session);
+  }
+
+  Future<void> stop() async {
+    _session++;
+    _queue = const [];
+    _index = 0;
+    _set(NarrationStatus.idle);
+    await stopEngine();
+  }
+
+  /// Engine melaporkan error: anggap bacaan berhenti.
+  void markIdle() {
+    _session++;
+    _set(NarrationStatus.idle);
+  }
+
+  void dispose() => _status.close();
+}
+
 abstract class NarrationService {
   /// Bacakan [parts] berurutan. Memanggil speak lagi menghentikan bacaan sebelumnya.
   Future<void> speak(List<String> parts);
 
+  /// Jeda bacaan; [resume] melanjutkan dari kalimat yang terpotong.
+  Future<void> pause();
+
+  Future<void> resume();
+
   Future<void> stop();
+
+  /// Status bacaan (idle / speaking / paused).
+  Stream<NarrationStatus> get status;
 
   /// true selama sedang membacakan.
   Stream<bool> get speaking;
@@ -47,20 +159,25 @@ abstract class NarrationService {
 
 class TtsNarrationService implements NarrationService {
   TtsNarrationService() {
-    _tts.setStartHandler(() => _speaking.add(true));
+    _queue = ResumableSpeechQueue(
+      speakOne: (text) async {
+        await _tts.speak(text);
+      },
+      stopEngine: () async {
+        await _tts.stop();
+      },
+    );
     _tts.setCompletionHandler(() {});
-    _tts.setCancelHandler(() => _speaking.add(false));
     _tts.setErrorHandler((msg) {
       AppLogger.error(_tag, 'TTS error: $msg');
-      _speaking.add(false);
+      _queue.markIdle();
     });
   }
 
   static const _tag = 'SUARA';
 
   final FlutterTts _tts = FlutterTts();
-  final _speaking = StreamController<bool>.broadcast();
-  int _session = 0;
+  late final ResumableSpeechQueue _queue;
 
   /// Satu Future bersama: pemanggil speak() yang datang bersamaan (mis. "mendekati" lalu
   /// "tiba") menunggu bahasa Indonesia selesai diset, tidak langsung bicara dengan suara
@@ -146,39 +263,28 @@ class TtsNarrationService implements NarrationService {
   }
 
   @override
-  Future<void> speak(List<String> parts) async {
-    final session = ++_session;
-    await _tts.stop();
-    final ready = await _ensureReady();
-    if (session != _session) return;
-    if (!ready) {
-      _speaking.add(false);
-      return;
-    }
-    _speaking.add(true);
-    // Dibacakan per paragraf: batas panjang teks TTS Android sekitar 4000 karakter.
-    for (final part in parts) {
-      if (session != _session) return; // dihentikan / diganti bacaan baru
-      final text = part.trim();
-      if (text.isEmpty) continue;
-      await _tts.speak(text);
-    }
-    if (session == _session) _speaking.add(false);
-  }
+  Future<void> speak(List<String> parts) =>
+      _queue.start(parts, prepare: _ensureReady);
 
   @override
-  Future<void> stop() async {
-    _session++;
-    await _tts.stop();
-    _speaking.add(false);
-  }
+  Future<void> pause() => _queue.pause();
 
   @override
-  Stream<bool> get speaking => _speaking.stream;
+  Future<void> resume() => _queue.resume();
+
+  @override
+  Future<void> stop() => _queue.stop();
+
+  @override
+  Stream<NarrationStatus> get status => _queue.status;
+
+  @override
+  Stream<bool> get speaking =>
+      _queue.status.map((s) => s == NarrationStatus.speaking);
 
   @override
   void dispose() {
     _tts.stop();
-    _speaking.close();
+    _queue.dispose();
   }
 }

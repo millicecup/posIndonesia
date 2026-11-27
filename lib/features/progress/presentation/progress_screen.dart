@@ -13,6 +13,8 @@ import '../../../app/theme.dart';
 import '../../../data/models/models.dart';
 import '../../../providers/providers.dart';
 import '../../../shared/widgets/async_value_view.dart';
+import '../../visit_summary/presentation/visit_summary_screen.dart';
+import '../../visual_tour_guide/presentation/guide_next_stop_card.dart';
 
 class ProgressScreen extends ConsumerWidget {
   const ProgressScreen({super.key});
@@ -40,7 +42,7 @@ class ProgressScreen extends ConsumerWidget {
     final progress = ref.watch(progressProvider);
     final stats = ref.watch(activityStatsProvider);
     final pois = ref.watch(poisProvider).valueOrNull ?? const <Poi>[];
-    final next = ref.watch(recommendedNextPoiProvider).valueOrNull;
+    final nextAsync = ref.watch(recommendedNextPoiProvider);
 
     return Scaffold(
       appBar: JejakAppBar(
@@ -116,30 +118,11 @@ class ProgressScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
-            Text('Rekomendasi berikutnya',
-                style: Theme.of(context).textTheme.titleMedium),
-            if (next == null)
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: Text('Semua koleksi sudah dikunjungi.'),
-              )
+            // DF-07: saran pemandu yang sama dengan Jelajah & Pemandu tur.
+            if (nextAsync.hasValue)
+              GuideNextStopCard(next: nextAsync.value)
             else
-              Card(
-                color: AppColors.orangeLight,
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: AppColors.orange),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: ListTile(
-                  title: Text(next.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('${next.category.label}, Zona ${next.zone.code}'),
-                  trailing: OutlinedButton(
-                    onPressed: () => context.push(AppRoutes.navigateTo(next.id)),
-                    child: const Text('Menuju'),
-                  ),
-                  onTap: () => context.push(AppRoutes.poiDetail(next.id)),
-                ),
-              ),
+              const LinearProgressIndicator(),
             const SizedBox(height: 16),
             Text('Sudah dikunjungi', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
@@ -159,6 +142,38 @@ class ProgressScreen extends ConsumerWidget {
                     ),
               ],
             ),
+            // DF-05: riwayat kunjungan tersimpan permanen, terlihat walau app dibuka ulang.
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  child: Text('Riwayat kunjungan',
+                      style: Theme.of(context).textTheme.titleMedium),
+                ),
+                if (stats.visits.isNotEmpty)
+                  Flexible(
+                    child: TextButton(
+                      onPressed: () => context.push(AppRoutes.summary),
+                      child: const Text('Lihat ringkasan',
+                          maxLines: 1, overflow: TextOverflow.ellipsis),
+                    ),
+                  ),
+              ],
+            ),
+            if (stats.visits.isEmpty)
+              const Text(
+                  'Belum ada. Tekan "Akhiri kunjungan" untuk menyimpan ringkasan '
+                  'dan mendapat cap kunjungan.',
+                  style: TextStyle(color: AppColors.grey))
+            else
+              for (var i = stats.visits.length - 1;
+                  i >= 0 && i >= stats.visits.length - 3;
+                  i--)
+                VisitHistoryTile(
+                  number: i + 1,
+                  record: stats.visits[i],
+                  poiNames: {for (final poi in pois) poi.id: poi.name},
+                ),
             const SizedBox(height: 24),
             OutlinedButton(
               style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
@@ -171,7 +186,9 @@ class ProgressScreen extends ConsumerWidget {
                         'memicu informasi lagi.',
                     'Akhiri')) {
                   await ref.read(visitSessionProvider).endVisit();
-                  if (context.mounted) context.push(AppRoutes.summary);
+                  if (context.mounted) {
+                    context.push(AppRoutes.summaryAfterVisit);
+                  }
                 }
               },
               child: const Text('Akhiri kunjungan'),

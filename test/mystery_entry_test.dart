@@ -39,12 +39,14 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Siapa aku?'), findsOneWidget);
     expect(find.text('Ringkasan cerita'), findsNothing);
-    await tester.ensureVisible(find.text('R. Dijar'));
+    await tester.scrollUntilVisible(find.text('R. Dijar'), 200,
+        scrollable: find.byType(Scrollable).first);
     await tester.pumpAndSettle();
     await tester.tap(find.text('R. Dijar'));
     await tester.pumpAndSettle();
     expect(find.textContaining('Belum tepat'), findsOneWidget);
-    await tester.ensureVisible(find.text('Mas Soeharto'));
+    await tester.scrollUntilVisible(find.text('Mas Soeharto'), 200,
+        scrollable: find.byType(Scrollable).first);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Mas Soeharto'));
     await tester.pumpAndSettle();

@@ -1,6 +1,7 @@
 // lib/features/qr_scanner/presentation/qr_scanner_screen.dart
 // UI12 QR Scanner: pemindaian kamera (mobile_scanner).
-// TODO(Firda): bingkai pemindai sesuai wireframe, senter, catatan PoC PB05.
+// DF-09: kamera langsung menyala saat layar dibuka (sama seperti "Kenali"),
+// tanpa harus menekan "Aktifkan kamera" lagi. Tombol tetap ada untuk mematikan.
 
 import '../../../shared/widgets/jejak_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,10 @@ import '../../../services/qr_service.dart';
 import '../state/qr_scanner_controller.dart';
 
 class QrScannerScreen extends ConsumerStatefulWidget {
-  const QrScannerScreen({super.key});
+  const QrScannerScreen({super.key, this.autoStartCamera = true});
+
+  /// true (default) = kamera langsung aktif saat layar dibuka.
+  final bool autoStartCamera;
 
   @override
   ConsumerState<QrScannerScreen> createState() => _QrScannerScreenState();
@@ -25,24 +29,30 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
   bool _cameraOn = false;
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.autoStartCamera) _setCamera(true);
+  }
+
+  @override
   void dispose() {
     _cameraController?.dispose();
     super.dispose();
   }
 
-  void _toggleCamera() {
-    setState(() {
-      _cameraOn = !_cameraOn;
-      if (_cameraOn) {
-        _cameraController = MobileScannerController(
-          detectionSpeed: DetectionSpeed.noDuplicates,
-        );
-      } else {
-        _cameraController?.dispose();
-        _cameraController = null;
-      }
-    });
+  void _setCamera(bool on) {
+    _cameraOn = on;
+    if (on) {
+      _cameraController ??= MobileScannerController(
+        detectionSpeed: DetectionSpeed.noDuplicates,
+      );
+    } else {
+      _cameraController?.dispose();
+      _cameraController = null;
+    }
   }
+
+  void _toggleCamera() => setState(() => _setCamera(!_cameraOn));
 
   Future<void> _submit(String raw) async {
     final result =
@@ -85,6 +95,10 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
               child: _cameraOn && _cameraController != null
                   ? MobileScanner(
                       controller: _cameraController,
+                      errorBuilder: (context, error, _) => _CameraError(
+                        permissionDenied: error.errorCode ==
+                            MobileScannerErrorCode.permissionDenied,
+                      ),
                       onDetect: (capture) {
                         final raw = capture.barcodes.isEmpty
                             ? null
@@ -118,4 +132,24 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
       ),
     );
   }
+}
+
+class _CameraError extends StatelessWidget {
+  const _CameraError({required this.permissionDenied});
+  final bool permissionDenied;
+
+  @override
+  Widget build(BuildContext context) => Container(
+        color: AppColors.darkGrey,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(20),
+        child: Text(
+          permissionDenied
+              ? 'Izin kamera dibutuhkan untuk memindai QR. '
+                  'Izinkan kamera di Pengaturan aplikasi.'
+              : 'Kamera belum bisa dibuka. Matikan lalu aktifkan kamera lagi.',
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.white),
+        ),
+      );
 }

@@ -89,9 +89,16 @@ class _VisionTourScreenState extends ConsumerState<VisionTourScreen>
       });
     } on CameraException catch (e) {
       if (mounted) {
-        setState(() => _cameraError = e.code == 'CameraAccessDenied'
+        setState(() => _cameraError = e.code.startsWith('CameraAccessDenied')
             ? 'Izin kamera ditolak. Aktifkan di Pengaturan, atau pakai QR.'
             : 'Kamera tidak bisa dibuka (${e.description ?? e.code}).');
+      }
+    } catch (e) {
+      // Error lain (mis. plugin kamera tidak tersedia): jangan biarkan spinner
+      // berputar selamanya.
+      if (mounted) {
+        setState(() => _cameraError =
+            'Kamera tidak bisa dibuka. Coba lagi atau pakai QR.');
       }
     }
   }
@@ -278,6 +285,8 @@ class _StatusPanel extends ConsumerWidget {
           child: const Text('Pakai QR'),
         ),
       );
+    } else if (state.showNotRecognizedHelp) {
+      body = const _NotRecognizedHelp();
     } else {
       final (icon, text) = switch (decision?.phase) {
         VisionPhase.recognizing => (
@@ -348,6 +357,72 @@ class _StatusPanel extends ConsumerWidget {
           borderRadius: BorderRadius.circular(16),
         ),
         child: body,
+      ),
+    );
+  }
+}
+
+/// DF-02: objek di kamera tidak cocok dengan koleksi POI mana pun selama
+/// beberapa frame. Beri tahu pengguna dan tawarkan jalan lain.
+class _NotRecognizedHelp extends ConsumerWidget {
+  const _NotRecognizedHelp();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      key: const Key('vision-not-recognized'),
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(Icons.help_outline, color: AppColors.orange),
+              SizedBox(width: 10),
+              Expanded(
+                child: Text('Koleksi ini belum dikenali',
+                    style:
+                        TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          const Text(
+            'Objek ini kemungkinan bukan koleksi POI JejakPOS. Arahkan kamera '
+            'ke koleksi lain yang punya papan informasi, atau pindai QR di '
+            'penanda koleksi.',
+            style: TextStyle(fontSize: 13, height: 1.4),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: FilledButton.icon(
+                  onPressed: () => context.push(AppRoutes.qrScanner),
+                  icon: const Icon(Icons.qr_code_scanner, size: 18),
+                  label: const Text('Pindai QR'),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () => context.push(AppRoutes.poiList),
+                  icon: const Icon(Icons.list_alt, size: 18),
+                  label: const Text('Daftar POI'),
+                ),
+              ),
+            ],
+          ),
+          TextButton.icon(
+            onPressed: () => ref
+                .read(visionTourControllerProvider.notifier)
+                .resetRecognition(),
+            icon: const Icon(Icons.refresh, size: 18),
+            label: const Text('Coba koleksi lain'),
+          ),
+        ],
       ),
     );
   }

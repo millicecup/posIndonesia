@@ -10,3 +10,4 @@ export 'poi_zone.dart';
 export 'stamp.dart';
 export 'trigger_rule.dart';
 export 'visit_progress.dart';
+export 'visit_record.dart';

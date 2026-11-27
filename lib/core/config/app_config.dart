@@ -23,6 +23,7 @@ class AppConfig {
     this.visionGpsSlackMeters = 8,
     this.visionGpsPenaltyPerMeter = 0.01,
     this.visionGpsMaxPenalty = 0.15,
+    this.visionNoMatchHintFrames = 6,
   });
 
   /// Radius trigger default. Koordinat asli (Koordinat POI.pdf) menunjukkan
@@ -85,6 +86,11 @@ class AppConfig {
   final double visionGpsSlackMeters;
   final double visionGpsPenaltyPerMeter;
   final double visionGpsMaxPenalty;
+
+  /// Setelah sekian frame berturut-turut tanpa POI yang dikenali, layar Kenali
+  /// memberi tahu bahwa objek mungkin bukan koleksi POI dan menawarkan QR /
+  /// koleksi lain (DF-02). 6 frame x jeda 0,5 dtk + waktu analisis = sekitar 4-6 dtk.
+  final int visionNoMatchHintFrames;
 
   /// Konfigurasi default membaca flag --dart-define.
   factory AppConfig.fromEnvironment() {

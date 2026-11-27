@@ -18,7 +18,11 @@ class AsyncValueView<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // skipLoadingOnReload: saat provider dihitung ulang (mis. progres berubah
+    // setelah ambil prangko) tetap tampilkan data lama, jangan spinner. Tanpa ini
+    // seluruh isi layar dibongkar dan tombol/dialog yang terbuka kehilangan context.
     return value.when(
+      skipLoadingOnReload: true,
       data: data,
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, _) => Center(
